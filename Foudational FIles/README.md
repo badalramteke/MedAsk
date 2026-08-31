@@ -89,7 +89,7 @@ Located in `tests/fixtures/synthetic_patient_personas.json`:
 ### 4.3 Phase 3 — FHIR R4 Integration Test Fixtures & Validation
 Located in `tests/fixtures/mock_fhir_bundles.json` & `tests/test_phase3_fhir.py`:
 * **FHIR Bundles:** 4 FHIR R4 collection bundles (`BUNDLE_001` through `BUNDLE_004`) covering `Patient`, `Encounter`, `Condition`, `Observation`, `MedicationStatement`, `DocumentReference`, and `Consent`.
-* **Automated Verification:** `python tests/test_phase3_fhir.py` runs a 5-point test suite validating 100% referential integrity, JSON schema structure, resource type conformity, and ID uniqueness.
+
 
 
 
