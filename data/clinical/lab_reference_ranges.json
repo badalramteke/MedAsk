@@ -1,0 +1,435 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0.0",
+  "dataset_id": "lab_reference_ranges_v1",
+  "description": "Structured reference range dataset for common clinical laboratory parameters. Designed to support baseline out-of-range detection while allowing laboratory-specific overrides.",
+  "disclaimer": "These generic reference ranges serve as baseline defaults. Laboratory-specific reference intervals take precedence. Out-of-range lab flags are clinical indicators for physician review, not automated disease diagnoses.",
+  "override_policy": "LABORATORY_PROVIDED_RANGE_OVERRIDE_ENABLED",
+  "tests": [
+    {
+      "test_code": "LAB_FBG_001",
+      "loinc_code": "1558-6",
+      "name": "Fasting Blood Glucose",
+      "aliases": ["FBG", "Fasting Blood Sugar", "FBS", "Fasting Plasma Glucose"],
+      "unit": "mg/dL",
+      "specimen": "venous_plasma",
+      "is_generic_default": true,
+      "override_allowed": true,
+      "reference_ranges": [
+        {
+          "population_context": "general_adult",
+          "fasting_required": true,
+          "normal_min": 70.0,
+          "normal_max": 99.0,
+          "borderline_high_min": 100.0,
+          "borderline_high_max": 125.0,
+          "high_threshold": 126.0,
+          "critical_low_threshold": 50.0,
+          "critical_high_threshold": 300.0
+        }
+      ],
+      "flags": {
+        "CRITICAL_LOW": "< 50.0 mg/dL",
+        "LOW": "< 70.0 mg/dL",
+        "NORMAL": "70.0 - 99.0 mg/dL",
+        "HIGH": "> 99.0 mg/dL (Prediabetes: 100-125, Diabetes: >= 126)",
+        "CRITICAL_HIGH": "> 300.0 mg/dL"
+      }
+    },
+    {
+      "test_code": "LAB_PPBG_002",
+      "loinc_code": "1521-4",
+      "name": "Post-Prandial Blood Glucose",
+      "aliases": ["PPBG", "2-Hour Post Glucose", "PPBS"],
+      "unit": "mg/dL",
+      "specimen": "venous_plasma",
+      "is_generic_default": true,
+      "override_allowed": true,
+      "reference_ranges": [
+        {
+          "population_context": "general_adult",
+          "fasting_required": false,
+          "time_after_meal_hours": 2,
+          "normal_min": 70.0,
+          "normal_max": 139.0,
+          "borderline_high_min": 140.0,
+          "borderline_high_max": 199.0,
+          "high_threshold": 200.0,
+          "critical_low_threshold": 50.0,
+          "critical_high_threshold": 350.0
+        }
+      ],
+      "flags": {
+        "CRITICAL_LOW": "< 50.0 mg/dL",
+        "LOW": "< 70.0 mg/dL",
+        "NORMAL": "70.0 - 139.0 mg/dL",
+        "HIGH": ">= 140.0 mg/dL",
+        "CRITICAL_HIGH": "> 350.0 mg/dL"
+      }
+    },
+    {
+      "test_code": "LAB_HBA1C_003",
+      "loinc_code": "4548-4",
+      "name": "HbA1c (Glycated Hemoglobin)",
+      "aliases": ["HbA1c", "Glycosylated Hemoglobin", "A1c"],
+      "unit": "%",
+      "specimen": "whole_blood",
+      "is_generic_default": true,
+      "override_allowed": true,
+      "reference_ranges": [
+        {
+          "population_context": "general_adult",
+          "normal_min": 4.0,
+          "normal_max": 5.6,
+          "borderline_high_min": 5.7,
+          "borderline_high_max": 6.4,
+          "high_threshold": 6.5,
+          "critical_high_threshold": 10.0
+        }
+      ],
+      "flags": {
+        "LOW": "< 4.0 %",
+        "NORMAL": "4.0 - 5.6 %",
+        "HIGH": ">= 5.7 % (Prediabetes: 5.7-6.4%, Diabetes: >= 6.5%)",
+        "CRITICAL_HIGH": ">= 10.0 %"
+      }
+    },
+    {
+      "test_code": "LAB_HB_004",
+      "loinc_code": "718-7",
+      "name": "Hemoglobin",
+      "aliases": ["Hb", "HGB", "Hemoglobin Count"],
+      "unit": "g/dL",
+      "specimen": "whole_blood",
+      "is_generic_default": true,
+      "override_allowed": true,
+      "reference_ranges": [
+        {
+          "population_context": "adult_male",
+          "gender": "male",
+          "normal_min": 13.0,
+          "normal_max": 17.0,
+          "low_threshold": 13.0,
+          "high_threshold": 17.0,
+          "critical_low_threshold": 7.0,
+          "critical_high_threshold": 20.0
+        },
+        {
+          "population_context": "adult_female",
+          "gender": "female",
+          "normal_min": 12.0,
+          "normal_max": 15.0,
+          "low_threshold": 12.0,
+          "high_threshold": 15.0,
+          "critical_low_threshold": 7.0,
+          "critical_high_threshold": 19.0
+        }
+      ],
+      "flags": {
+        "CRITICAL_LOW": "< 7.0 g/dL",
+        "LOW": "< 12.0 g/dL (Female) / < 13.0 g/dL (Male)",
+        "NORMAL": "12.0 - 15.0 g/dL (Female) / 13.0 - 17.0 g/dL (Male)",
+        "HIGH": "> 15.0 g/dL (Female) / > 17.0 g/dL (Male)",
+        "CRITICAL_HIGH": "> 20.0 g/dL"
+      }
+    },
+    {
+      "test_code": "LAB_CREATININE_005",
+      "loinc_code": "2160-0",
+      "name": "Serum Creatinine",
+      "aliases": ["Creatinine", "S. Creatinine", "Blood Creatinine"],
+      "unit": "mg/dL",
+      "specimen": "serum",
+      "is_generic_default": true,
+      "override_allowed": true,
+      "reference_ranges": [
+        {
+          "population_context": "adult_male",
+          "gender": "male",
+          "normal_min": 0.7,
+          "normal_max": 1.3,
+          "high_threshold": 1.3,
+          "critical_high_threshold": 4.0
+        },
+        {
+          "population_context": "adult_female",
+          "gender": "female",
+          "normal_min": 0.6,
+          "normal_max": 1.1,
+          "high_threshold": 1.1,
+          "critical_high_threshold": 4.0
+        }
+      ],
+      "flags": {
+        "LOW": "< 0.6 mg/dL",
+        "NORMAL": "0.6 - 1.1 mg/dL (Female) / 0.7 - 1.3 mg/dL (Male)",
+        "HIGH": "> 1.1 mg/dL (Female) / > 1.3 mg/dL (Male)",
+        "CRITICAL_HIGH": "> 4.0 mg/dL"
+      }
+    },
+    {
+      "test_code": "LAB_SGOT_AST_006",
+      "loinc_code": "1920-8",
+      "name": "SGOT / AST (Aspartate Aminotransferase)",
+      "aliases": ["SGOT", "AST", "Aspartate Transaminase"],
+      "unit": "U/L",
+      "specimen": "serum",
+      "is_generic_default": true,
+      "override_allowed": true,
+      "reference_ranges": [
+        {
+          "population_context": "general_adult",
+          "normal_min": 5.0,
+          "normal_max": 40.0,
+          "high_threshold": 41.0,
+          "critical_high_threshold": 500.0
+        }
+      ],
+      "flags": {
+        "LOW": "< 5.0 U/L",
+        "NORMAL": "5.0 - 40.0 U/L",
+        "HIGH": "> 40.0 U/L",
+        "CRITICAL_HIGH": "> 500.0 U/L"
+      }
+    },
+    {
+      "test_code": "LAB_SGPT_ALT_007",
+      "loinc_code": "1742-6",
+      "name": "SGPT / ALT (Alanine Aminotransferase)",
+      "aliases": ["SGPT", "ALT", "Alanine Transaminase"],
+      "unit": "U/L",
+      "specimen": "serum",
+      "is_generic_default": true,
+      "override_allowed": true,
+      "reference_ranges": [
+        {
+          "population_context": "general_adult",
+          "normal_min": 7.0,
+          "normal_max": 56.0,
+          "high_threshold": 57.0,
+          "critical_high_threshold": 500.0
+        }
+      ],
+      "flags": {
+        "LOW": "< 7.0 U/L",
+        "NORMAL": "7.0 - 56.0 U/L",
+        "HIGH": "> 56.0 U/L",
+        "CRITICAL_HIGH": "> 500.0 U/L"
+      }
+    },
+    {
+      "test_code": "LAB_BILIRUBIN_TOT_008",
+      "loinc_code": "1975-2",
+      "name": "Total Bilirubin",
+      "aliases": ["S. Bilirubin Total", "Bilirubin Total", "TBIL"],
+      "unit": "mg/dL",
+      "specimen": "serum",
+      "is_generic_default": true,
+      "override_allowed": true,
+      "reference_ranges": [
+        {
+          "population_context": "general_adult",
+          "normal_min": 0.2,
+          "normal_max": 1.2,
+          "high_threshold": 1.3,
+          "critical_high_threshold": 10.0
+        }
+      ],
+      "flags": {
+        "LOW": "< 0.2 mg/dL",
+        "NORMAL": "0.2 - 1.2 mg/dL",
+        "HIGH": "> 1.2 mg/dL",
+        "CRITICAL_HIGH": "> 10.0 mg/dL"
+      }
+    },
+    {
+      "test_code": "LAB_BILIRUBIN_DIR_009",
+      "loinc_code": "1968-7",
+      "name": "Direct Bilirubin",
+      "aliases": ["S. Bilirubin Direct", "Conjugated Bilirubin", "DBIL"],
+      "unit": "mg/dL",
+      "specimen": "serum",
+      "is_generic_default": true,
+      "override_allowed": true,
+      "reference_ranges": [
+        {
+          "population_context": "general_adult",
+          "normal_min": 0.0,
+          "normal_max": 0.3,
+          "high_threshold": 0.4,
+          "critical_high_threshold": 5.0
+        }
+      ],
+      "flags": {
+        "NORMAL": "0.0 - 0.3 mg/dL",
+        "HIGH": "> 0.3 mg/dL",
+        "CRITICAL_HIGH": "> 5.0 mg/dL"
+      }
+    },
+    {
+      "test_code": "LAB_CHOLESTEROL_TOT_010",
+      "loinc_code": "2093-3",
+      "name": "Total Serum Cholesterol",
+      "aliases": ["Total Cholesterol", "S. Cholesterol"],
+      "unit": "mg/dL",
+      "specimen": "serum",
+      "is_generic_default": true,
+      "override_allowed": true,
+      "reference_ranges": [
+        {
+          "population_context": "general_adult",
+          "normal_min": 125.0,
+          "normal_max": 199.0,
+          "borderline_high_min": 200.0,
+          "borderline_high_max": 239.0,
+          "high_threshold": 240.0
+        }
+      ],
+      "flags": {
+        "LOW": "< 125.0 mg/dL",
+        "NORMAL": "125.0 - 199.0 mg/dL",
+        "HIGH": ">= 200.0 mg/dL (Borderline High: 200-239, High: >= 240)"
+      }
+    },
+    {
+      "test_code": "LAB_POTASSIUM_011",
+      "loinc_code": "2823-3",
+      "name": "Serum Potassium",
+      "aliases": ["Potassium", "K+", "S. Potassium"],
+      "unit": "mmol/L",
+      "specimen": "serum",
+      "is_generic_default": true,
+      "override_allowed": true,
+      "reference_ranges": [
+        {
+          "population_context": "general_adult",
+          "normal_min": 3.5,
+          "normal_max": 5.1,
+          "low_threshold": 3.5,
+          "high_threshold": 5.1,
+          "critical_low_threshold": 2.8,
+          "critical_high_threshold": 6.2
+        }
+      ],
+      "flags": {
+        "CRITICAL_LOW": "< 2.8 mmol/L",
+        "LOW": "< 3.5 mmol/L",
+        "NORMAL": "3.5 - 5.1 mmol/L",
+        "HIGH": "> 5.1 mmol/L",
+        "CRITICAL_HIGH": "> 6.2 mmol/L"
+      }
+    },
+    {
+      "test_code": "LAB_SODIUM_012",
+      "loinc_code": "2951-2",
+      "name": "Serum Sodium",
+      "aliases": ["Sodium", "Na+", "S. Sodium"],
+      "unit": "mmol/L",
+      "specimen": "serum",
+      "is_generic_default": true,
+      "override_allowed": true,
+      "reference_ranges": [
+        {
+          "population_context": "general_adult",
+          "normal_min": 135.0,
+          "normal_max": 145.0,
+          "low_threshold": 135.0,
+          "high_threshold": 145.0,
+          "critical_low_threshold": 120.0,
+          "critical_high_threshold": 160.0
+        }
+      ],
+      "flags": {
+        "CRITICAL_LOW": "< 120.0 mmol/L",
+        "LOW": "< 135.0 mmol/L",
+        "NORMAL": "135.0 - 145.0 mmol/L",
+        "HIGH": "> 145.0 mmol/L",
+        "CRITICAL_HIGH": "> 160.0 mmol/L"
+      }
+    },
+    {
+      "test_code": "LAB_PLATELET_013",
+      "loinc_code": "777-3",
+      "name": "Platelet Count",
+      "aliases": ["Platelets", "PLT", "Thrombocyte Count"],
+      "unit": "x10^3/mcL",
+      "specimen": "whole_blood",
+      "is_generic_default": true,
+      "override_allowed": true,
+      "reference_ranges": [
+        {
+          "population_context": "general_adult",
+          "normal_min": 150.0,
+          "normal_max": 450.0,
+          "low_threshold": 150.0,
+          "high_threshold": 450.0,
+          "critical_low_threshold": 50.0,
+          "critical_high_threshold": 1000.0
+        }
+      ],
+      "flags": {
+        "CRITICAL_LOW": "< 50.0 x10^3/mcL",
+        "LOW": "< 150.0 x10^3/mcL",
+        "NORMAL": "150.0 - 450.0 x10^3/mcL",
+        "HIGH": "> 450.0 x10^3/mcL",
+        "CRITICAL_HIGH": "> 1000.0 x10^3/mcL"
+      }
+    },
+    {
+      "test_code": "LAB_WBC_014",
+      "loinc_code": "6690-2",
+      "name": "Total Leukocyte Count (WBC Count)",
+      "aliases": ["WBC", "TLC", "White Blood Cell Count"],
+      "unit": "x10^3/mcL",
+      "specimen": "whole_blood",
+      "is_generic_default": true,
+      "override_allowed": true,
+      "reference_ranges": [
+        {
+          "population_context": "general_adult",
+          "normal_min": 4.0,
+          "normal_max": 11.0,
+          "low_threshold": 4.0,
+          "high_threshold": 11.0,
+          "critical_low_threshold": 2.0,
+          "critical_high_threshold": 30.0
+        }
+      ],
+      "flags": {
+        "CRITICAL_LOW": "< 2.0 x10^3/mcL",
+        "LOW": "< 4.0 x10^3/mcL",
+        "NORMAL": "4.0 - 11.0 x10^3/mcL",
+        "HIGH": "> 11.0 x10^3/mcL",
+        "CRITICAL_HIGH": "> 30.0 x10^3/mcL"
+      }
+    },
+    {
+      "test_code": "LAB_TSH_015",
+      "loinc_code": "3016-3",
+      "name": "Thyroid Stimulating Hormone (TSH)",
+      "aliases": ["TSH", "Thyrotropin"],
+      "unit": "mIU/L",
+      "specimen": "serum",
+      "is_generic_default": true,
+      "override_allowed": true,
+      "reference_ranges": [
+        {
+          "population_context": "general_adult_non_pregnant",
+          "normal_min": 0.4,
+          "normal_max": 4.5,
+          "low_threshold": 0.4,
+          "high_threshold": 4.5,
+          "critical_low_threshold": 0.1,
+          "critical_high_threshold": 15.0
+        }
+      ],
+      "flags": {
+        "CRITICAL_LOW": "< 0.1 mIU/L",
+        "LOW": "< 0.4 mIU/L",
+        "NORMAL": "0.4 - 4.5 mIU/L",
+        "HIGH": "> 4.5 mIU/L",
+        "CRITICAL_HIGH": "> 15.0 mIU/L"
+      }
+    }
+  ]
+}
