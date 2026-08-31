@@ -71,5 +71,25 @@ MediKiosk is an AI-powered software platform that allows any patient to record a
 4. **Step 4 - Summarize & Route:** The AI generates a structured history summary, links it to the ABHA record, and pushes it directly to the physician's screen[cite: 1].
 5. **Step 5 - Consult:** The physician reviews the complete history in seconds, edits/confirms the information, and dedicates the full consultation to examination, reasoning, and counseling[cite: 1].
 
+---
 
-Hellow tesignt in the process and this is a testing purpuse only  hihihihi
+## 4. Clinical Datasets & Testing Fixtures
+
+### 4.1 Phase 1 — Clinical JSON Datasets
+Located in `data/clinical/`:
+* `questions_socrates.json`: Standardized SOCRATES symptom questionnaire framework across 6 Indian languages (en, hi, mr, bn, ta, te).
+* `ayush_dashavidha_pariksha.json`: Ayurvedic 10-parameter Dashavidha Pariksha clinical history framework.
+* `red_flags_rules.json`: High-priority emergency red-flag alert rules with multilingual keyword triggers and emergency action codes.
+* `lab_reference_ranges.json`: Standardized laboratory test reference ranges with LOINC mapping, adult/pediatric bounds, and critical flags.
+
+### 4.2 Phase 2 — Synthetic Patient Personas
+Located in `tests/fixtures/synthetic_patient_personas.json`:
+* 10 distinct, multilingual synthetic patient journeys (P01–P10) covering emergency red flags, chronic disease timelines (T2DM/HTN), AYUSH assessments, pediatric edge cases, laboratory out-of-bounds validation, and session lifecycle edge cases.
+
+### 4.3 Phase 3 — FHIR R4 Integration Test Fixtures & Validation
+Located in `tests/fixtures/mock_fhir_bundles.json` & `tests/test_phase3_fhir.py`:
+* **FHIR Bundles:** 4 FHIR R4 collection bundles (`BUNDLE_001` through `BUNDLE_004`) covering `Patient`, `Encounter`, `Condition`, `Observation`, `MedicationStatement`, `DocumentReference`, and `Consent`.
+
+
+
+
