@@ -10,20 +10,21 @@
 - The project context and operational rules are documented in .ai/CONTEXT.md and .ai/memory/
 - No application modules, routes, database layer, or AI workflow code are running yet
 
-## Locked-in tech stack
-- Frontend: Next.js
+## Locked-in tech stack & decisions
+- Frontend: Next.js (with mandatory element attribute schema and `PATHS.md` registry)
 - Backend: FastAPI
 - AI orchestration: LangGraph with LangChain integration layer
-- Model layer: MedGemma and/or provider abstraction via ModelService
-- Speech stack: Bhashini ASR/TTS and AI4Bharat fallback paths
-- Data and interoperability: PatientDataObject, FHIR R4, ABDM sandbox model
-- Storage and runtime patterns: project architecture docs define structure, but implementation is not started
+- Model layer: MedGemma served on Google Colab (vLLM/FastAPI) as primary, with Gemini/Grok API fallback via ModelService
+- Vision & OCR: Dual-path (Tesseract/PaddleOCR for text docs → MedGemma summary; direct multimodal MedGemma for medical images)
+- Speech stack: Bhashini ASR/TTS primary with `.env` key, cascading to Gemini audio and local speech engines; push-to-talk persistent listening until session end
+- Languages: English, Hindi, Marathi, Bengali, Tamil, Telugu
+- Clinical: Allopathic SOCRATES + Full Dashavidha Pariksha & AYUSH parameters
+- Data and interoperability: Cloud Supabase + local Docker, PatientDataObject, FHIR R4, ABDM sandbox model, ephemeral audio termination with persistent history
+- Demonstration: Separate dedicated portal for Clinician review (`/doctor`)
 
 ## Current status summary
-- The requested foundation documentation groups have been generated from `ps.md`, `docs/product/PRD.md`, and `docs/architecture/TECH_STACK.md` and presented for group-by-group review.
-- Root/AI context documentation is the final review group; no application code has been added.
-- Clinical, legal, provider, ABDM/HIS, and production details not approved by the user remain documented as open questions.
-- Implementation has not started; this is a Phase 0 baseline state
+- All 10 architecture specifications and prerequisites have been confirmed and integrated into `PRD.md`, `PATHS.md`, `RULES.md`, and `DECISIONS.md`.
+- Implementation is explicitly on hold waiting for user command ("dont start impletaion until i say and all the files are okay").
 
 ## Notes
 - Update this file at the end of every session with the actual state, not planned state

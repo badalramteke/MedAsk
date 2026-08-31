@@ -8,22 +8,25 @@ Purpose: Defines safe document digitization requirements for Module B; read befo
 - The pipeline extracts clinician-reviewable candidates; it does not diagnose from documents or interpret images as a final clinical opinion.
 - Document retention requires explicit consent and approved hospital policy.
 
-## Pipeline
+## Dual-Path Pipeline Architecture
 
-1. **Capture and validate:** accept permitted file/image formats, apply size/type limits, and create source metadata.
-2. **Preprocess:** improve legibility where configured while preserving the original/source reference.
-3. **Extract:** use the configured OCR/vision provider through ModelService.
-4. **Structure:** identify candidate diagnoses, medications/dosages, investigations/values/reference ranges, procedures/surgery history, document type, and possible date.
-5. **Validate:** attach confidence/uncertainty and source location; never silently invent unreadable content.
-6. **Timeline:** order records by supported dates; retain unknown/ambiguous dates for review rather than guessing.
-7. **Review and summary:** write validated candidates to PatientDataObject for clinician-editable summary generation.
+### Path 1: Text-Based Documents (Prescriptions, Lab Reports, Discharge Summaries)
+1. **Capture and validate:** Accept PDF/JPG/PNG file formats with size/type validation.
+2. **Text OCR Extraction:** Apply OCR engines (Tesseract / PaddleOCR / EasyOCR) to extract raw multilingual text coordinates and content.
+3. **Clinical Structuring via MedGemma:** Feed the extracted OCR text into MedGemma (served via Colab or Gemini fallback) to identify structured clinical entities: diagnoses, medications/dosages, lab investigation values with reference ranges, dates, and abnormal flags.
+4. **Timeline Synthesis:** Sequence validated clinical records chronologically into `PatientDataObject`.
+
+### Path 2: Medical Imaging (X-rays, CT Scans, Sonography, PET Scans)
+1. **Multimodal Analysis via MedGemma:** Medical imaging files are routed directly to multimodal MedGemma (or Gemini Multimodal fallback) for visual clinical finding extraction.
+2. **Candidate Summarization:** Generates descriptive candidate findings with uncertainty flags and links them to the clinician review summary.
 
 ## Model/provider boundary
 
-- MedGemma 4B is the primary multimodal document/image-understanding model selected in the technology stack.
-- Provider/model calls pass through ModelService.
-- Gemini/Grok fallback is permitted only if configured and must meet identical schema, safety, privacy, and provenance controls.
+- **Primary Serving:** MedGemma hosted on Google Colab (FastAPI / vLLM tunnel) accessed via `ModelService`.
+- **Fallback:** Google Gemini 1.5 Flash / Grok APIs configured as automatic fallbacks when Colab is offline.
+- **OCR Engine:** Tesseract / PaddleOCR / EasyOCR for first-pass optical character extraction on document text.
 - Optical extraction, entity structuring, abnormal-value display, and potential-interaction highlighting remain clinician-review aids, not treatment or diagnostic decisions.
+
 
 ## Required output provenance
 
