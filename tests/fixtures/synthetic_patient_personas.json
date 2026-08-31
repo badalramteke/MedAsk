@@ -1,0 +1,536 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0.0",
+  "dataset_id": "synthetic_patient_personas_v1",
+  "description": "Synthetic patient test personas and expected backend outcomes for testing SOCRATES questionnaire engine, AYUSH Dashavidha Pariksha assessment, Red Flag rules, Lab Range evaluation, and Document timelines.",
+  "disclaimer": "Strictly fictional synthetic test fixtures. Contains no real patient information or protected health information (PHI).",
+  "personas": [
+    {
+      "persona_id": "P01_HI_CHEST_PAIN_RED_FLAG",
+      "name": "Rajesh Sharma",
+      "language": "hi",
+      "clinical_scenario": "Hindi speaking male presenting with acute crushing chest pain radiating to left arm and jaw with profuse cold sweating.",
+      "patient": {
+        "patient_id": "SYN_PAT_001",
+        "name": "Rajesh Sharma",
+        "gender": "male",
+        "age_years": 58,
+        "date_of_birth": "1968-04-15"
+      },
+      "respondent": {
+        "respondent_id": "SYN_RESP_001",
+        "name": "Rajesh Sharma",
+        "relationship_to_patient": "self",
+        "is_patient": true
+      },
+      "conversation": {
+        "session_id": "SESS_HI_001",
+        "primary_symptom": "chest_pain",
+        "responses": [
+          {
+            "question_id": "SOC_CP_001_SITE",
+            "data_element": "hpi.chest_pain.site",
+            "selected_option_id": "OPT_CP_SITE_LEFT",
+            "value_code": "CHEST_LEFT_SUBSTERNAL",
+            "user_text_hi": "छाती के बाईं ओर सीने की हड्डी के पीछे दर्द है"
+          },
+          {
+            "question_id": "SOC_CP_002_ONSET",
+            "data_element": "hpi.chest_pain.onset",
+            "selected_option_id": "OPT_CP_ONSET_SUDDEN",
+            "value_code": "SUDDEN_ACUTE",
+            "user_text_hi": "अचानक दर्द शुरू हुआ"
+          },
+          {
+            "question_id": "SOC_CP_003_CHAR",
+            "data_element": "hpi.chest_pain.character",
+            "selected_option_id": "OPT_CP_CHAR_CRUSHING",
+            "value_code": "CRUSHING_HEAVY_PRESSURE",
+            "user_text_hi": "भारी दबाव और जकड़न जैसा दर्द"
+          },
+          {
+            "question_id": "SOC_CP_004_RADIATION",
+            "data_element": "hpi.chest_pain.radiation",
+            "selected_option_ids": ["OPT_CP_RAD_LEFT_ARM", "OPT_CP_RAD_JAW_NECK"],
+            "value_codes": ["RADIATION_LEFT_ARM_SHOULDER", "RADIATION_JAW_NECK"],
+            "user_text_hi": "दर्द बाएं हाथ और जबड़े तक फैल रहा है"
+          },
+          {
+            "question_id": "SOC_CP_005_ASSOC",
+            "data_element": "hpi.chest_pain.associated_symptoms",
+            "selected_option_ids": ["OPT_CP_ASSOC_SWEATING", "OPT_CP_ASSOC_BREATHLESS"],
+            "value_codes": ["DIAPHORESIS_SWEATING", "DYSPNOEA_SHORTNESS_BREATH"],
+            "user_text_hi": "बहुत ठंडा पसीना आ रहा है और सांस फूल रही है"
+          },
+          {
+            "question_id": "SOC_CP_009_DIAPHORESIS_FOLLOWUP",
+            "data_element": "hpi.chest_pain.diaphoresis_severity",
+            "selected_option_id": "OPT_CP_SWEAT_YES",
+            "value_code": "SUDDEN_DIAPHORESIS_CONFIRMED",
+            "user_text_hi": "दर्द के साथ अचानक ठंडा पसीना आया"
+          },
+          {
+            "question_id": "SOC_CP_006_TIMING",
+            "data_element": "hpi.chest_pain.time_course",
+            "selected_option_id": "OPT_CP_TIME_MINUTES",
+            "value_code": "LESS_THAN_30_MIN",
+            "user_text_hi": "30 मिनट से कम समय से दर्द है"
+          },
+          {
+            "question_id": "SOC_CP_007_EXAC_REL",
+            "data_element": "hpi.chest_pain.exacerbating_relieving",
+            "selected_option_ids": ["OPT_CP_EXAC_EXERTION"],
+            "value_codes": ["WORSE_WITH_EXERTION"],
+            "user_text_hi": "मेहनत करने से दर्द बढ़ता है"
+          },
+          {
+            "question_id": "SOC_CP_008_SEVERITY",
+            "data_element": "hpi.chest_pain.severity",
+            "selected_option_id": "OPT_CP_SEV_SEVERE",
+            "value_code": "SEVERITY_7_TO_10_SEVERE",
+            "user_text_hi": "दर्द 9/10 बहुत असहनीय है"
+          }
+        ]
+      },
+      "expected_outcomes": {
+        "red_flag_triggered": true,
+        "triggered_rule_ids": ["RF_CARD_001_CHEST_PAIN_RADIATION", "RF_CARD_002_DIAPHORESIS_CONCERNING"],
+        "urgency_level": "EMERGENCY_CRITICAL",
+        "action_code": "EMERGENCY_TRIAGE_NOTIFY_PHYSICIAN_IMMEDIATE",
+        "question_flow": [
+          "SOC_CP_001_SITE",
+          "SOC_CP_002_ONSET",
+          "SOC_CP_003_CHAR",
+          "SOC_CP_004_RADIATION",
+          "SOC_CP_005_ASSOC",
+          "SOC_CP_009_DIAPHORESIS_FOLLOWUP",
+          "SOC_CP_006_TIMING",
+          "SOC_CP_007_EXAC_REL",
+          "SOC_CP_008_SEVERITY"
+        ],
+        "assessment_completion": true
+      }
+    },
+    {
+      "persona_id": "P02_MR_CHRONIC_DM_HTN",
+      "name": "Sunita Deshmukh",
+      "language": "mr",
+      "clinical_scenario": "Marathi female with long-standing Type 2 Diabetes Mellitus and Essential Hypertension presenting multiple historical records.",
+      "patient": {
+        "patient_id": "SYN_PAT_002",
+        "name": "Sunita Deshmukh",
+        "gender": "female",
+        "age_years": 64,
+        "date_of_birth": "1962-08-20"
+      },
+      "respondent": {
+        "respondent_id": "SYN_RESP_002",
+        "name": "Sunita Deshmukh",
+        "relationship_to_patient": "self",
+        "is_patient": true
+      },
+      "documents": [
+        {
+          "document_id": "DOC_20251110_MR_01",
+          "title": "Dr. Kulkarni Clinic OPD Prescription",
+          "document_type": "prescription",
+          "date": "2025-11-10",
+          "summary_mr": "टाइप २ मधुमेह व उच्च रक्तदाब नियमित तपासणी - मेटफॉर्मिन ५०० मिग्रॅ, अम्लोडिपिन ५ मिग्रॅ",
+          "medications": [
+            {"drug_name": "Metformin", "dosage": "500 mg", "frequency": "twice_daily"},
+            {"drug_name": "Amlodipine", "dosage": "5 mg", "frequency": "once_daily"}
+          ]
+        },
+        {
+          "document_id": "DOC_20260315_MR_02",
+          "title": "Sahyadri Hospital Discharge Summary",
+          "document_type": "discharge_summary",
+          "date": "2026-03-15",
+          "summary_mr": "रक्तशर्करा अनियंत्रित राहिल्यामुळे ३ दिवस ॲडमिट - इन्शुलिन थेरपी सुरू",
+          "diagnosis": ["Uncontrolled Type 2 Diabetes Mellitus", "Essential Hypertension"]
+        },
+        {
+          "document_id": "DOC_20260720_MR_03",
+          "title": "City Care Clinic Follow-up Note",
+          "document_type": "prescription",
+          "date": "2026-07-20",
+          "summary_mr": "रक्तदाब वाढल्यामुळे औषधात बदल - टेलमिसार्टन ४० मिग्रॅ",
+          "medications": [
+            {"drug_name": "Telmisartan", "dosage": "40 mg", "frequency": "once_daily"}
+          ]
+        }
+      ],
+      "expected_outcomes": {
+        "document_count": 3,
+        "document_types": ["prescription", "discharge_summary", "prescription"],
+        "timeline_order": ["DOC_20251110_MR_01", "DOC_20260315_MR_02", "DOC_20260720_MR_03"],
+        "chronological_association_valid": true,
+        "active_conditions": ["type_2_diabetes_mellitus", "essential_hypertension"]
+      }
+    },
+    {
+      "persona_id": "P03_BN_AYUSH_OSTEOARTHRITIS",
+      "name": "Ananya Banerjee",
+      "language": "bn",
+      "clinical_scenario": "Bengali female presenting with Sandhigata Vata (Osteoarthritis of knees) undergoing complete Dashavidha Pariksha and AYUSH lifestyle evaluation.",
+      "patient": {
+        "patient_id": "SYN_PAT_003",
+        "name": "Ananya Banerjee",
+        "gender": "female",
+        "age_years": 55,
+        "date_of_birth": "1971-02-14"
+      },
+      "respondent": {
+        "respondent_id": "SYN_RESP_003",
+        "name": "Ananya Banerjee",
+        "relationship_to_patient": "self",
+        "is_patient": true
+      },
+      "ayush_assessment": {
+        "primary_dashavidha_parameters": [
+          {"parameter_id": "AYU_DASH_001_PRAKRITI", "selected_option_id": "OPT_PRAKRITI_VK", "value_code": "PRAKRITI_VATA_KAPHA"},
+          {"parameter_id": "AYU_DASH_002_VIKRITI", "selected_option_ids": ["OPT_VIKRITI_VATA_VRIDDHI"], "value_codes": ["VIKRITI_VATA_VRIDDHI"]},
+          {"parameter_id": "AYU_DASH_003_SARA", "selected_option_id": "OPT_SARA_MADHYAMA", "value_code": "SARA_MADHYAMA"},
+          {"parameter_id": "AYU_DASH_004_SAMHANANA", "selected_option_id": "OPT_SAMHANANA_MADHYAMA", "value_code": "SAMHANANA_MADHYAMA"},
+          {"parameter_id": "AYU_DASH_005_PRAMANA", "selected_option_id": "OPT_PRAMANA_PRAMANAYUKTA", "value_code": "PRAMANA_PRAMANAYUKTA"},
+          {"parameter_id": "AYU_DASH_006_SATMYA", "selected_option_id": "OPT_SATMYA_MADHYAMA", "value_code": "SATMYA_MADHYAMA"},
+          {"parameter_id": "AYU_DASH_007_SATTVA", "selected_option_id": "OPT_SATTVA_PRAVARA", "value_code": "SATTVA_PRAVARA_HIGH_ENDURANCE"},
+          {"parameter_id": "AYU_DASH_008_AHARA_SHAKTI", "selected_option_id": "OPT_AHARA_AVARA", "value_code": "AHARA_SHAKTI_AVARA"},
+          {"parameter_id": "AYU_DASH_009_VYAYAMA_SHAKTI", "selected_option_id": "OPT_VYAYAMA_AVARA", "value_code": "VYAYAMA_SHAKTI_AVARA"},
+          {"parameter_id": "AYU_DASH_010_VAYA", "selected_option_id": "OPT_VAYA_MADHYAMA", "value_code": "VAYA_MADHYAMA_ADULTHOOD"}
+        ],
+        "supporting_parameters": [
+          {"parameter_id": "AYU_SUPP_001_AGNI", "selected_option_id": "OPT_AGNI_VISHAMAGNI", "value_code": "AGNI_VISHAMAGNI"},
+          {"parameter_id": "AYU_SUPP_002_KOSHTHA", "selected_option_id": "OPT_KOSHTHA_KRURA", "value_code": "KOSHTHA_KRURA_CONSTIPATED"},
+          {"parameter_id": "AYU_SUPP_003_AHARA_VIHARA", "selected_option_ids": ["OPT_AHVI_RUKSHA_SHEETA"], "value_codes": ["PREFER_DRY_COLD_FOODS"]}
+        ]
+      },
+      "expected_outcomes": {
+        "dashavidha_completed": true,
+        "assessment_completion": true,
+        "total_parameters_evaluated": 13,
+        "ayush_dosha_imbalance": "VATA_VRIDDHI"
+      }
+    },
+    {
+      "persona_id": "P04_TA_PEDIATRIC_FEVER",
+      "name": "Aarav Sundaram",
+      "language": "ta",
+      "clinical_scenario": "Tamil pediatric patient presenting with acute fever; mother acts as surrogate respondent for intake questionnaire.",
+      "patient": {
+        "patient_id": "SYN_PAT_004",
+        "name": "Aarav Sundaram",
+        "gender": "male",
+        "age_years": 4,
+        "date_of_birth": "2022-04-12",
+        "is_pediatric": true
+      },
+      "respondent": {
+        "respondent_id": "SYN_RESP_004",
+        "name": "Meena Sundaram",
+        "relationship_to_patient": "mother",
+        "is_patient": false
+      },
+      "ayush_assessment": {
+        "primary_dashavidha_parameters": [
+          {"parameter_id": "AYU_DASH_010_VAYA", "selected_option_id": "OPT_VAYA_BALA", "value_code": "VAYA_BALA_CHILDHOOD"}
+        ]
+      },
+      "expected_outcomes": {
+        "patient_respondent_distinct": true,
+        "respondent_relationship": "mother",
+        "age_category": "pediatric",
+        "vaya_code": "VAYA_BALA_CHILDHOOD",
+        "pediatric_dosing_flag": "REQUIRES_WEIGHT_BASED_DOSING_CALCULATION"
+      }
+    },
+    {
+      "persona_id": "P05_TE_ABNORMAL_LAB_VALUES",
+      "name": "Venkat Rao",
+      "language": "te",
+      "clinical_scenario": "Telugu male presenting synthetic lab report with severely elevated HbA1c and Serum Creatinine requiring baseline flag detection without automated diagnostic conclusions.",
+      "patient": {
+        "patient_id": "SYN_PAT_005",
+        "name": "Venkat Rao",
+        "gender": "male",
+        "age_years": 50,
+        "date_of_birth": "1976-01-30"
+      },
+      "respondent": {
+        "respondent_id": "SYN_RESP_005",
+        "name": "Venkat Rao",
+        "relationship_to_patient": "self",
+        "is_patient": true
+      },
+      "lab_results": [
+        {
+          "test_code": "LAB_HBA1C_003",
+          "loinc_code": "4548-4",
+          "test_name": "HbA1c (Glycated Hemoglobin)",
+          "value": 10.5,
+          "unit": "%"
+        },
+        {
+          "test_code": "LAB_CREATININE_005",
+          "loinc_code": "2160-0",
+          "test_name": "Serum Creatinine",
+          "value": 2.1,
+          "unit": "mg/dL"
+        },
+        {
+          "test_code": "LAB_FBG_001",
+          "loinc_code": "1558-6",
+          "test_name": "Fasting Blood Glucose",
+          "value": 195.0,
+          "unit": "mg/dL"
+        }
+      ],
+      "expected_outcomes": {
+        "lab_flags": {
+          "LAB_HBA1C_003": "CRITICAL_HIGH",
+          "LAB_CREATININE_005": "HIGH",
+          "LAB_FBG_001": "HIGH"
+        },
+        "disease_diagnosis_generated": false,
+        "triage_recommendation": "PHYSICIAN_REVIEW_REQUIRED_OUT_OF_RANGE_LABS"
+      }
+    },
+    {
+      "persona_id": "P06_EN_MULTI_DOC_IMAGING",
+      "name": "Arthur Pendelton",
+      "language": "en",
+      "clinical_scenario": "English male with chronic lung condition presenting chest radiology report and discharge summary from the same hospital episode.",
+      "patient": {
+        "patient_id": "SYN_PAT_006",
+        "name": "Arthur Pendelton",
+        "gender": "male",
+        "age_years": 68,
+        "date_of_birth": "1958-09-11"
+      },
+      "respondent": {
+        "respondent_id": "SYN_RESP_006",
+        "name": "Arthur Pendelton",
+        "relationship_to_patient": "self",
+        "is_patient": true
+      },
+      "documents": [
+        {
+          "document_id": "DOC_20260115_EN_01",
+          "title": "Chest X-Ray PA View Radiology Report",
+          "document_type": "radiology_xray",
+          "date": "2026-01-15",
+          "findings_en": "Bilateral bibasilar hyperinflation and minor atelectasis. No focal consolidation."
+        },
+        {
+          "document_id": "DOC_20260118_EN_02",
+          "title": "Hospitalization Discharge Summary",
+          "document_type": "discharge_summary",
+          "date": "2026-01-18",
+          "findings_en": "Admitted for acute COPD exacerbation. Treated with IV corticosteroids and bronchodilators."
+        },
+        {
+          "document_id": "DOC_20260201_EN_03",
+          "title": "Pulmonology Outpatient Follow-up Note",
+          "document_type": "clinical_note",
+          "date": "2026-02-01",
+          "findings_en": "Patient reports improved exercise tolerance. Continue maintenance tiotropium inhaler."
+        }
+      ],
+      "expected_outcomes": {
+        "document_count": 3,
+        "document_types": ["radiology_xray", "discharge_summary", "clinical_note"],
+        "timeline_order": ["DOC_20260115_EN_01", "DOC_20260118_EN_02", "DOC_20260201_EN_03"],
+        "chronological_association_valid": true,
+        "same_patient_association_confirmed": true
+      }
+    },
+    {
+      "persona_id": "P07_HI_NON_EMERGENCY_HEADACHE",
+      "name": "Priya Verma",
+      "language": "hi",
+      "clinical_scenario": "Hindi female presenting with mild tension-type headache following screen work, without red-flag symptoms.",
+      "patient": {
+        "patient_id": "SYN_PAT_007",
+        "name": "Priya Verma",
+        "gender": "female",
+        "age_years": 29,
+        "date_of_birth": "1997-06-18"
+      },
+      "respondent": {
+        "respondent_id": "SYN_RESP_007",
+        "name": "Priya Verma",
+        "relationship_to_patient": "self",
+        "is_patient": true
+      },
+      "conversation": {
+        "session_id": "SESS_HI_007",
+        "primary_symptom": "headache",
+        "responses": [
+          {
+            "question_id": "SOC_HA_001_SITE",
+            "data_element": "hpi.headache.site",
+            "selected_option_id": "OPT_HA_SITE_FOREHEAD",
+            "value_code": "HEADACHE_FRONTAL_FOREHEAD",
+            "user_text_hi": "माथे और कनपटी में हल्का दर्द है"
+          },
+          {
+            "question_id": "SOC_HA_002_ONSET",
+            "data_element": "hpi.headache.onset",
+            "selected_option_id": "OPT_HA_ONSET_GRADUAL",
+            "value_code": "GRADUAL_ONSET",
+            "user_text_hi": "कंप्यूटर पर काम करते समय धीरे-धीरे बढ़ा"
+          },
+          {
+            "question_id": "SOC_HA_003_CHAR",
+            "data_element": "hpi.headache.character",
+            "selected_option_id": "OPT_HA_CHAR_BAND_TIGHT",
+            "value_code": "BAND_LIKE_PRESSURE",
+            "user_text_hi": "सिर में पट्टी से बंधे जैसा दर्द है"
+          }
+        ]
+      },
+      "expected_outcomes": {
+        "red_flag_triggered": false,
+        "urgency_level": "ROUTINE",
+        "action_code": "ROUTINE_OUTPATIENT_REGISTRATION"
+      }
+    },
+    {
+      "persona_id": "P08_EN_NEGATED_HISTORICAL_RED_FLAG",
+      "name": "David Miller",
+      "language": "en",
+      "clinical_scenario": "English male mentioning family cardiac history and historical chest trauma while explicitly negating current chest pain.",
+      "patient": {
+        "patient_id": "SYN_PAT_008",
+        "name": "David Miller",
+        "gender": "male",
+        "age_years": 42,
+        "date_of_birth": "1984-11-05"
+      },
+      "respondent": {
+        "respondent_id": "SYN_RESP_008",
+        "name": "David Miller",
+        "relationship_to_patient": "self",
+        "is_patient": true
+      },
+      "conversation": {
+        "session_id": "SESS_EN_008",
+        "primary_symptom": "routine_checkup",
+        "user_statement": "My father had a sudden collapse from cardiac arrest 5 years ago, but I currently have NO chest pain, NO shortness of breath, and NO cold sweating. I had a mild rib injury 3 years ago which fully resolved.",
+        "parsed_facts": {
+          "current_chest_pain": false,
+          "family_history_cardiac": true,
+          "historical_chest_trauma_resolved": true
+        }
+      },
+      "expected_outcomes": {
+        "red_flag_triggered": false,
+        "negation_detected": true,
+        "historical_context_isolated": true,
+        "urgency_level": "ROUTINE"
+      }
+    },
+    {
+      "persona_id": "P09_EN_LAB_BOUNDARY_INVALID_DATA",
+      "name": "Sarah Jenkins",
+      "language": "en",
+      "clinical_scenario": "English female test fixture with boundary lab values, missing units, and invalid negative numeric inputs for validation testing.",
+      "patient": {
+        "patient_id": "SYN_PAT_009",
+        "name": "Sarah Jenkins",
+        "gender": "female",
+        "age_years": 35,
+        "date_of_birth": "1991-03-22"
+      },
+      "respondent": {
+        "respondent_id": "SYN_RESP_009",
+        "name": "Sarah Jenkins",
+        "relationship_to_patient": "self",
+        "is_patient": true
+      },
+      "lab_results": [
+        {
+          "test_code": "LAB_FBG_001",
+          "test_name": "Fasting Blood Glucose (Upper Boundary Normal)",
+          "value": 99.0,
+          "unit": "mg/dL"
+        },
+        {
+          "test_code": "LAB_FBG_001",
+          "test_name": "Fasting Blood Glucose (Lower Boundary Borderline)",
+          "value": 100.0,
+          "unit": "mg/dL"
+        },
+        {
+          "test_code": "LAB_HB_004",
+          "test_name": "Hemoglobin (Lower Boundary Female Normal)",
+          "value": 12.0,
+          "unit": "g/dL"
+        },
+        {
+          "test_code": "LAB_CREATININE_005",
+          "test_name": "Serum Creatinine (Invalid Negative Value)",
+          "value": -0.5,
+          "unit": "mg/dL"
+        },
+        {
+          "test_code": "LAB_POTASSIUM_011",
+          "test_name": "Serum Potassium (Missing Unit)",
+          "value": 4.2,
+          "unit": ""
+        }
+      ],
+      "expected_outcomes": {
+        "validation_errors": ["INVALID_NEGATIVE_LAB_VALUE_CREATININE", "MISSING_REQUIRED_UNIT_POTASSIUM"],
+        "boundary_flag_map": {
+          "LAB_FBG_001_99": "NORMAL",
+          "LAB_FBG_001_100": "HIGH",
+          "LAB_HB_004_12": "NORMAL"
+        }
+      }
+    },
+    {
+      "persona_id": "P10_MR_INCOMPLETE_QUESTIONNAIRE",
+      "name": "Ramesh Shinde",
+      "language": "mr",
+      "clinical_scenario": "Marathi male abandoning SOCRATES headache questionnaire after answering only the first question.",
+      "patient": {
+        "patient_id": "SYN_PAT_010",
+        "name": "Ramesh Shinde",
+        "gender": "male",
+        "age_years": 47,
+        "date_of_birth": "1979-10-12"
+      },
+      "respondent": {
+        "respondent_id": "SYN_RESP_010",
+        "name": "Ramesh Shinde",
+        "relationship_to_patient": "self",
+        "is_patient": true
+      },
+      "conversation": {
+        "session_id": "SESS_MR_010",
+        "primary_symptom": "headache",
+        "session_status": "ABANDONED",
+        "responses": [
+          {
+            "question_id": "SOC_HA_001_SITE",
+            "data_element": "hpi.headache.site",
+            "selected_option_id": "OPT_HA_SITE_ONE_SIDE",
+            "value_code": "HEADACHE_UNILATERAL",
+            "user_text_mr": "डोक्याच्या एका बाजूला वेदना होत आहे"
+          }
+        ]
+      },
+      "expected_outcomes": {
+        "assessment_completion": false,
+        "completed_question_count": 1,
+        "total_required_questions": 8,
+        "missing_required_fields": [
+          "SOC_HA_002_ONSET",
+          "SOC_HA_003_CHAR"
+        ],
+        "triage_status": "INCOMPLETE_SESSION_SAVED"
+      }
+    }
+  ]
+}
