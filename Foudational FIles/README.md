@@ -70,3 +70,6 @@ MediKiosk is an AI-powered software platform that allows any patient to record a
 3. **Step 3 - Scan:** The patient uploads prior prescriptions and lab reports, which the AI digitizes, structures, and timelines[cite: 1].
 4. **Step 4 - Summarize & Route:** The AI generates a structured history summary, links it to the ABHA record, and pushes it directly to the physician's screen[cite: 1].
 5. **Step 5 - Consult:** The physician reviews the complete history in seconds, edits/confirms the information, and dedicates the full consultation to examination, reasoning, and counseling[cite: 1].
+
+
+Hellow tesignt in the process and this is a testing purpuse only  hihihihi
