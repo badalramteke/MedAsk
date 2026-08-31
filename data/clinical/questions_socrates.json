@@ -1,0 +1,1101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0.0",
+  "dataset_id": "clinical_socrates_question_bank",
+  "description": "Structured clinical question bank implementing the SOCRATES symptom evaluation framework across six major Indian languages.",
+  "supported_languages": ["en", "hi", "mr", "bn", "ta", "te"],
+  "socrates_dimensions": [
+    "site",
+    "onset",
+    "character",
+    "radiation",
+    "associated_symptoms",
+    "time_course",
+    "exacerbating_relieving",
+    "severity"
+  ],
+  "questions": [
+    {
+      "question_id": "SOC_CP_001_SITE",
+      "symptom_domain": "chest_pain",
+      "socrates_dimension": "site",
+      "text_by_language": {
+        "en": "Where exactly is your chest pain located?",
+        "hi": "आपको छाती में दर्द ठीक कहाँ महसूस हो रहा है?",
+        "mr": "तुम्हाला छातीत नक्की कुठे दुखत आहे?",
+        "bn": "আপনার বুকের ব্যথা ঠিক কোথায় হচ্ছে?",
+        "ta": "உங்கள் நெஞ்சு வலி சரியாக எங்கு உள்ளது?",
+        "te": "మీకు ఛాతీ నొప్పి సరిగ్గా ఎక్కడ ఉంది?"
+      },
+      "input_type": "single_select",
+      "options": [
+        {
+          "option_id": "OPT_CP_SITE_LEFT",
+          "value_code": "CHEST_LEFT_SUBSTERNAL",
+          "text_by_language": {
+            "en": "Left side of chest / Behind breastbone",
+            "hi": "छाती के बाईं ओर / सीने की हड्डी के पीछे",
+            "mr": "छातीच्या डाव्या बाजूला / छातीच्या हाडाच्या मागे",
+            "bn": "বুকের বাঁ দিকে / বুকের হাড়ের পেছনে",
+            "ta": "நெஞ்சின் இடது புறம் / நெஞ்செலும்பின் பின்னால்",
+            "te": "ఛాతీ ఎడమ వైపు / ఛాతీ ఎముక వెనుక"
+          }
+        },
+        {
+          "option_id": "OPT_CP_SITE_RIGHT",
+          "value_code": "CHEST_RIGHT",
+          "text_by_language": {
+            "en": "Right side of chest",
+            "hi": "छाती के दाईं ओर",
+            "mr": "छातीच्या उजव्या बाजूला",
+            "bn": "বুকের ডান দিকে",
+            "ta": "நெஞ்சின் வலது புறம்",
+            "te": "ఛాతీ కుడి వైపు"
+          }
+        },
+        {
+          "option_id": "OPT_CP_SITE_CENTER",
+          "value_code": "CHEST_CENTER",
+          "text_by_language": {
+            "en": "Center of chest",
+            "hi": "छाती के बीच में",
+            "mr": "छातीच्या मध्यभागी",
+            "bn": "বুকের মাঝে",
+            "ta": "நெஞ்சின் நடுவில்",
+            "te": "ఛాతీ మధ్యలో"
+          }
+        },
+        {
+          "option_id": "OPT_CP_SITE_DIFFUSE",
+          "value_code": "CHEST_DIFFUSE_ALL_OVER",
+          "text_by_language": {
+            "en": "All over the chest / Hard to pinpoint",
+            "hi": "पूरे सीने में / सटीक जगह बताना मुश्किल है",
+            "mr": "संपूर्ण छातीत / नक्की जागा सांगणे कठीण आहे",
+            "bn": "পুরো বুক জুড়ে / নির্দিষ্ট জায়গা বলা কঠিন",
+            "ta": "நெஞ்சு முழுவதும் / துல்லியமாக सांग முடிவதில்லை",
+            "te": "ఛాతీ అంతటా / కచ్చితంగా చెప్పడం కష్టం"
+          }
+        }
+      ],
+      "data_voice_action": "speak_and_listen",
+      "data_element": "hpi.chest_pain.site",
+      "followup_triggers": [
+        {
+          "trigger_id": "TRIG_CP_SITE_001",
+          "condition_type": "ALWAYS",
+          "target_value_codes": [],
+          "next_question_id": "SOC_CP_002_ONSET"
+        }
+      ]
+    },
+    {
+      "question_id": "SOC_CP_002_ONSET",
+      "symptom_domain": "chest_pain",
+      "socrates_dimension": "onset",
+      "text_by_language": {
+        "en": "How did the chest pain start?",
+        "hi": "छाती में दर्द कैसे शुरू हुआ?",
+        "mr": "छातीत दुखणे कसे सुरू झाले?",
+        "bn": "বুকের ব্যথা কীভাবে শুরু হয়েছিল?",
+        "ta": "நெஞ்சு வலி எவ்வாறு தொடங்கியது?",
+        "te": "ఛాతీ నొప్పి ఎలా ప్రారంభమైంది?"
+      },
+      "input_type": "single_select",
+      "options": [
+        {
+          "option_id": "OPT_CP_ONSET_SUDDEN",
+          "value_code": "SUDDEN_ACUTE",
+          "text_by_language": {
+            "en": "Suddenly (within seconds to minutes)",
+            "hi": "अचानक (कुछ सेकंड या मिनटों में)",
+            "mr": "अचानक (काही सेकंद किंवा मिनिटांत)",
+            "bn": "হঠাৎ করে (কয়েক সেকেন্ড বা মিনিটের মধ্যে)",
+            "ta": "திடீரென்று (சில வினாடிகள் அல்லது நிமிடங்களில்)",
+            "te": "అకస్మాత్తుగా (కొన్ని సెకన్లలో లేదా నిమిషాల్లో)"
+          }
+        },
+        {
+          "option_id": "OPT_CP_ONSET_GRADUAL",
+          "value_code": "GRADUAL_SLOW",
+          "text_by_language": {
+            "en": "Gradually (over hours or days)",
+            "hi": "धीरे-धीरे (घंटों या दिनों में)",
+            "mr": "हळूहळू (काही तास किंवा दिवसांत)",
+            "bn": "ধীরে ধীরে (কয়েক ঘণ্টা বা দিনের মধ্যে)",
+            "ta": "படிப்படியாக (சில மணிநேரங்கள் அல்லது நாட்களில்)",
+            "te": "క్రమంగా (కొన్ని గంటలు లేదా రోజులలో)"
+          }
+        },
+        {
+          "option_id": "OPT_CP_ONSET_EXERTION",
+          "value_code": "POST_EXERTIONAL",
+          "text_by_language": {
+            "en": "After physical activity or heavy work",
+            "hi": "शारीरिक गतिविधि या भारी काम के बाद",
+            "mr": "शारीरिक कष्टाचे काम केल्यानंतर",
+            "bn": "শারীরিক পরিশ্রম বা ভারী কাজের পর",
+            "ta": "உடற்பயிற்சி அல்லது கடின உழைப்பிற்கு பிறகு",
+            "te": "శారీరక శ్రమ లేదా బరువైన పని తర్వాత"
+          }
+        }
+      ],
+      "data_voice_action": "speak_and_listen",
+      "data_element": "hpi.chest_pain.onset",
+      "followup_triggers": [
+        {
+          "trigger_id": "TRIG_CP_ONSET_001",
+          "condition_type": "ALWAYS",
+          "target_value_codes": [],
+          "next_question_id": "SOC_CP_003_CHAR"
+        }
+      ]
+    },
+    {
+      "question_id": "SOC_CP_003_CHAR",
+      "symptom_domain": "chest_pain",
+      "socrates_dimension": "character",
+      "text_by_language": {
+        "en": "What does the chest pain feel like?",
+        "hi": "छाती का दर्द किस तरह का महसूस होता है?",
+        "mr": "छातीतील वेदना नक्की कशा प्रकारची वाटते?",
+        "bn": "বুকের ব্যথাটি দেখতে বা অনুভব করতে কেমন?",
+        "ta": "நெஞ்சு வலி என்ன மாதிரியான உணர்வை தருகிறது?",
+        "te": "ఛాతీ నొప్పి ఏ రకంగా అనిపిస్తోంది?"
+      },
+      "input_type": "single_select",
+      "options": [
+        {
+          "option_id": "OPT_CP_CHAR_CRUSHING",
+          "value_code": "CRUSHING_HEAVY_PRESSURE",
+          "text_by_language": {
+            "en": "Heavy pressure, squeezing or crushing tightness",
+            "hi": "भारी दबाव, जकड़न या छाती दबने जैसा दर्द",
+            "mr": "जड दाब, आवळल्यासारखे किंवा दाबल्यासारखे वाटणे",
+            "bn": "ভারী চাপ, চেপে ধরার মতো বা পিষে যাওয়ার অনুভূতি",
+            "ta": "கனமான அழுத்தம், பிழிவது போன்ற உணர்வு",
+            "te": "బరువైన ఒత్తిడి, పిండివేస్తున్నట్లుగా ఉండే నొప్పి"
+          }
+        },
+        {
+          "option_id": "OPT_CP_CHAR_SHARP",
+          "value_code": "SHARP_STABBING",
+          "text_by_language": {
+            "en": "Sharp or stabbing pain",
+            "hi": "तेज या सुई चुभने जैसा दर्द",
+            "mr": "तीव्र किंवा टोचल्यासारखी वेदना",
+            "bn": "তীব্র বা ছোরার মতো বিঁধে যাওয়া ব্যথা",
+            "ta": "கூர்மையான அல்லது குத்துவது போன்ற வலி",
+            "te": "చాలా తీవ్రమైన లేదా గుచ్చుకుంటున్నట్లుండే నొప్పి"
+          }
+        },
+        {
+          "option_id": "OPT_CP_CHAR_BURNING",
+          "value_code": "BURNING_HEARTBURN",
+          "text_by_language": {
+            "en": "Burning sensation / Acid reflux style",
+            "hi": "जलन का अहसास / एसिडिटी जैसा दर्द",
+            "mr": "जळजळ होणे / ॲसिडिटीसारखी वेदना",
+            "bn": "জ্বালাপোড়া অনুভূতি / এসিডিটির মতো",
+            "ta": "எரிச்சல் உணர்வு / அசிடிட்டி போன்ற வலி",
+            "te": "మంటగా అనిపించడం / అసిడిటీ తరహా నొప్పి"
+          }
+        },
+        {
+          "option_id": "OPT_CP_CHAR_DULL",
+          "value_code": "DULL_ACHING",
+          "text_by_language": {
+            "en": "Dull ache",
+            "hi": "हल्का धीमा दर्द",
+            "mr": "मंद मंद दुखणे",
+            "bn": "হালকা একঘেয়ে ব্যথা",
+            "ta": "மந்தமான வலி",
+            "te": "సన్నటి నొప్పి"
+          }
+        }
+      ],
+      "data_voice_action": "speak_and_listen",
+      "data_element": "hpi.chest_pain.character",
+      "followup_triggers": [
+        {
+          "trigger_id": "TRIG_CP_CHAR_001",
+          "condition_type": "ALWAYS",
+          "target_value_codes": [],
+          "next_question_id": "SOC_CP_004_RADIATION"
+        }
+      ]
+    },
+    {
+      "question_id": "SOC_CP_004_RADIATION",
+      "symptom_domain": "chest_pain",
+      "socrates_dimension": "radiation",
+      "text_by_language": {
+        "en": "Does the pain spread or travel anywhere else?",
+        "hi": "क्या यह दर्द शरीर में कहीं और भी फैल रहा है?",
+        "mr": "हा त्रास शरीरात इतर कोठे पसरत आहे का?",
+        "bn": "এই ব্যথা কি শরীরের অন্য কোথাও ছড়িয়ে পড়ছে?",
+        "ta": "இந்த வலி உடலின் வேறு இடங்களுக்கு பரவுகிறதா?",
+        "te": "ఈ నొప్పి శరీరంలో మరి ఎక్కడికైనా వ్యాపిస్తోందా?"
+      },
+      "input_type": "multi_select",
+      "options": [
+        {
+          "option_id": "OPT_CP_RAD_LEFT_ARM",
+          "value_code": "RADIATION_LEFT_ARM_SHOULDER",
+          "text_by_language": {
+            "en": "Left arm or left shoulder",
+            "hi": "बायां हाथ या बायां कंधा",
+            "mr": "डावा हात किंवा डावा खांदा",
+            "bn": "বাঁ হাত বা বাঁ কাঁধ",
+            "ta": "இடது கை அல்லது இடது தோள்பட்டை",
+            "te": "ఎడమ చేయి లేదా ఎడమ భుజం"
+          }
+        },
+        {
+          "option_id": "OPT_CP_RAD_JAW_NECK",
+          "value_code": "RADIATION_JAW_NECK",
+          "text_by_language": {
+            "en": "Jaw, teeth or neck",
+            "hi": "जबड़ा, दांत या गर्दन",
+            "mr": "फिरता जबाडा, दात किंवा मान",
+            "bn": "চলয়াল, দাঁত বা ঘাড়",
+            "ta": "தாடை, பற்கள் அல்லது கழுத்து",
+            "te": "దవడ, పళ్లు లేదా మెడ"
+          }
+        },
+        {
+          "option_id": "OPT_CP_RAD_BACK",
+          "value_code": "RADIATION_BACK",
+          "text_by_language": {
+            "en": "Back or between shoulder blades",
+            "hi": "पीठ में या कंधों की हड्डियों के बीच",
+            "mr": "पाठीत किंवा पाठीच्या हाडांमध्ये",
+            "bn": "পিঠে বা কাঁধের হাড়ের মাঝে",
+            "ta": "முதுகு அல்லது தோள்பட்டை எலும்புகளுக்கு இடையில்",
+            "te": "వీపు లేదా భుజం ఎముకల మధ్య"
+          }
+        },
+        {
+          "option_id": "OPT_CP_RAD_EPIGASTRIUM",
+          "value_code": "RADIATION_UPPER_STOMACH",
+          "text_by_language": {
+            "en": "Upper stomach / Pit of stomach",
+            "hi": "पेट का ऊपरी हिस्सा",
+            "mr": "पोटाचा वरचा भाग",
+            "bn": "পেটের ওপরের অংশ",
+            "ta": "மேல் வயிறு",
+            "te": "పొత్తికడుపు పైభాగం"
+          }
+        },
+        {
+          "option_id": "OPT_CP_RAD_NONE",
+          "value_code": "RADIATION_NONE",
+          "text_by_language": {
+            "en": "No, it stays only in the chest",
+            "hi": "नहीं, यह केवल छाती तक ही सीमित है",
+            "mr": "नाही, वेदना फक्त छातीतच आहे",
+            "bn": "না, ব্যথা শুধুই বুকে সীমাবদ্ধ",
+            "ta": "இல்லை, வலி நெஞ்சில் மட்டுமே உள்ளது",
+            "te": "లేదు, నొప్పి ఛాతీకే పరిమితమై ఉంది"
+          }
+        }
+      ],
+      "data_voice_action": "speak_and_listen",
+      "data_element": "hpi.chest_pain.radiation",
+      "followup_triggers": [
+        {
+          "trigger_id": "TRIG_CP_RAD_001",
+          "condition_type": "ALWAYS",
+          "target_value_codes": [],
+          "next_question_id": "SOC_CP_005_ASSOC"
+        }
+      ]
+    },
+    {
+      "question_id": "SOC_CP_005_ASSOC",
+      "symptom_domain": "chest_pain",
+      "socrates_dimension": "associated_symptoms",
+      "text_by_language": {
+        "en": "Are you experiencing any other symptoms with this chest pain?",
+        "hi": "क्या इस छाती के दर्द के साथ आपको कोई और लक्षण भी महसूस हो रहे हैं?",
+        "mr": "छातीतील या वेदनेसोबत तुम्हाला इतर काही त्रास होत आहे का?",
+        "bn": "বুকের ব্যথার সাথে আপনার কি অন্য কোনো লক্ষণ অনুভব হচ্ছে?",
+        "ta": "இந்த நெஞ்சு வலியுடன் வேறு ஏதேனும் அறிகுறிகள் உள்ளதா?",
+        "te": "ఈ ఛాతీ నొప్పితో పాటు మీకు ఇతర లక్షణాలు ఏమైనా ఉన్నాయా?"
+      },
+      "input_type": "multi_select",
+      "options": [
+        {
+          "option_id": "OPT_CP_ASSOC_SWEATING",
+          "value_code": "DIAPHORESIS_SWEATING",
+          "text_by_language": {
+            "en": "Profuse cold sweating",
+            "hi": "ठंडा पसीना आना",
+            "mr": "प्रचंड घाम येणे",
+            "bn": "প্রচুর ঠান্ডা ঘাম হওয়া",
+            "ta": "அதிக குளிர்ந்த வேர்வை",
+            "te": "విపరీతంగా చల్లని చెమటలు పట్టడం"
+          }
+        },
+        {
+          "option_id": "OPT_CP_ASSOC_BREATHLESS",
+          "value_code": "DYSPNOEA_SHORTNESS_BREATH",
+          "text_by_language": {
+            "en": "Shortness of breath / Difficulty breathing",
+            "hi": "सांस लेने में तकलीफ या सांस फूलना",
+            "mr": "दम लागणे किंवा श्वास घेण्यास त्रास",
+            "bn": "শ্বাসকষ্ট বা শ্বাস নিতে অসুবিধা",
+            "ta": "மூச்சுத்திணறல் / மூச்சு விடுவதில் சிரமம்",
+            "te": "ఆయాసం / శ్వాస తీసుకోవడంలో ఇబ్బంది"
+          }
+        },
+        {
+          "option_id": "OPT_CP_ASSOC_NAUSEA",
+          "value_code": "NAUSEA_VOMITING",
+          "text_by_language": {
+            "en": "Nausea or vomiting",
+            "hi": "जी मिचलाना या उल्टी होना",
+            "mr": "मळमळ किंवा उलट्या होणे",
+            "bn": "বমি বমি ভাব বা বমি",
+            "ta": "குமட்டல் அல்லது வாந்தி",
+            "te": "వికారం లేదా వాంతులు"
+          }
+        },
+        {
+          "option_id": "OPT_CP_ASSOC_PALPITATIONS",
+          "value_code": "PALPITATIONS_RACING_HEART",
+          "text_by_language": {
+            "en": "Rapid or irregular heartbeat (Palpitations)",
+            "hi": "दिल की धड़कन तेज या अनियंत्रित होना",
+            "mr": "हृदयाचे ठोके जलद होणे",
+            "bn": "বুক ধড়ফড় করা",
+            "ta": "வேகமான நெஞ்சு படபடப்பு",
+            "te": "గుండె వేగంగా లేదా అసమానంగా కొట్టుకోవడం"
+          }
+        },
+        {
+          "option_id": "OPT_CP_ASSOC_DIZZINESS",
+          "value_code": "DIZZINESS_LIGHTHEADEDNESS",
+          "text_by_language": {
+            "en": "Dizziness or feeling faint",
+            "hi": "चक्कर आना या बेहोशी जैसा लगना",
+            "mr": "चक्कर येणे किंवा चक्कर आल्यासारखे वाटणे",
+            "bn": "মাথা ঘোরা বা জ্ঞান হারানোর ভাব",
+            "ta": "தலைச்சுற்றல் அல்லது மயக்கம் வருவது போன்ற உணர்வு",
+            "te": "కళ్లు తిరగడం లేదా స్పృహ తప్పిపోయేలా ఉండటం"
+          }
+        }
+      ],
+      "data_voice_action": "speak_and_listen",
+      "data_element": "hpi.chest_pain.associated_symptoms",
+      "followup_triggers": [
+        {
+          "trigger_id": "TRIG_CP_ASSOC_SWEAT",
+          "condition_type": "OPTION_CONTAINS",
+          "target_value_codes": ["DIAPHORESIS_SWEATING"],
+          "next_question_id": "SOC_CP_009_DIAPHORESIS_FOLLOWUP"
+        },
+        {
+          "trigger_id": "TRIG_CP_ASSOC_DEFAULT",
+          "condition_type": "DEFAULT",
+          "target_value_codes": [],
+          "next_question_id": "SOC_CP_006_TIMING"
+        }
+      ]
+    },
+    {
+      "question_id": "SOC_CP_009_DIAPHORESIS_FOLLOWUP",
+      "symptom_domain": "chest_pain",
+      "socrates_dimension": "associated_symptoms",
+      "text_by_language": {
+        "en": "Did the sweating start suddenly along with the chest pain?",
+        "hi": "क्या पसीना छाती के दर्द के साथ ही अचानक शुरू हुआ था?",
+        "mr": "छातीतील वेदनेसोबतच घाम येणे अचानक सुरू झाले का?",
+        "bn": "বুকের ব্যথার সাথেই কি হঠাৎ ঘাম হওয়া শুরু হয়েছিল?",
+        "ta": "நெஞ்சு வலியுடன் வேர்வையும் திடீரென்று தொடங்கியதா?",
+        "te": "ఛాతీ నొప్పితో పాటే చెమటలు కూడా అకస్మాత్తుగా ప్రారంభమయ్యాయా?"
+      },
+      "input_type": "single_select",
+      "options": [
+        {
+          "option_id": "OPT_CP_SWEAT_YES",
+          "value_code": "SUDDEN_DIAPHORESIS_CONFIRMED",
+          "text_by_language": {
+            "en": "Yes, sudden cold sweat with chest pain",
+            "hi": "हाँ, दर्द के साथ अचानक ठंडा पसीना आया",
+            "mr": "होय, वेदनेसोबत अचानक घाम आला",
+            "bn": "হ্যাঁ, ব্যথার সাথে হঠাৎ ঠান্ডা ঘাম হয়েছিল",
+            "ta": "ஆம், வலியுடன் திடீர் குளிர்ந்த வேர்வை வந்தது",
+            "te": "అవును, నొప్పితో పాటు అకస్మాత్తుగా చల్లని చెమట పట్టింది"
+          }
+        },
+        {
+          "option_id": "OPT_CP_SWEAT_NO",
+          "value_code": "MILD_SWEAT_GRADUAL",
+          "text_by_language": {
+            "en": "No, just mild sweating due to heat or discomfort",
+            "hi": "नहीं, गर्मी या बेचैनी के कारण हल्का पसीना है",
+            "mr": "नाही, फक्त उष्णतेमुळे थोडा घाम आला",
+            "bn": "না, গরম বা অস্বস্তির কারণে হালকা ঘাম",
+            "ta": "இல்லை, வெப்பத்தால் ஏற்பட்ட லேசான வேர்வை",
+            "te": "లేదు, వేడి లేదా అసౌకర్యం వల్ల స్వల్ప చెమట మాత్రమే"
+          }
+        }
+      ],
+      "data_voice_action": "speak_and_listen",
+      "data_element": "hpi.chest_pain.diaphoresis_severity",
+      "followup_triggers": [
+        {
+          "trigger_id": "TRIG_CP_SWEAT_NEXT",
+          "condition_type": "ALWAYS",
+          "target_value_codes": [],
+          "next_question_id": "SOC_CP_006_TIMING"
+        }
+      ]
+    },
+    {
+      "question_id": "SOC_CP_006_TIMING",
+      "symptom_domain": "chest_pain",
+      "socrates_dimension": "time_course",
+      "text_by_language": {
+        "en": "How long has this pain been present?",
+        "hi": "यह दर्द आपको कितने समय से हो रहा है?",
+        "mr": "हा त्रास तुम्हाला किती वेळापासून होत आहे?",
+        "bn": "এই ব্যথাটি কতক্ষণ ধরে হচ্ছে?",
+        "ta": "இந்த வலி ఎంత நேரமாக உள்ளது?",
+        "te": "ఈ నొప్పి ఎంతసేపటి నుండి ఉంది?"
+      },
+      "input_type": "single_select",
+      "options": [
+        {
+          "option_id": "OPT_CP_TIME_MINUTES",
+          "value_code": "LESS_THAN_30_MIN",
+          "text_by_language": {
+            "en": "Less than 30 minutes",
+            "hi": "30 मिनट से कम समय से",
+            "mr": "३० मिनिटांपेक्षा कमी",
+            "bn": "৩০ মিনিটের কম সময় ধরে",
+            "ta": "30 நிமிடங்களுக்கும் குறைவாக",
+            "te": "30 నిమిషాల కంటే తక్కువ సమయం"
+          }
+        },
+        {
+          "option_id": "OPT_CP_TIME_HOURS",
+          "value_code": "HOURS_30MIN_TO_24HRS",
+          "text_by_language": {
+            "en": "Between 30 minutes and a few hours",
+            "hi": "30 मिनट से कुछ घंटों के बीच",
+            "mr": "३० मिनिटे ते काही तासांदरम्यान",
+            "bn": "৩০ মিনিট থেকে কয়েক ঘণ্টার মধ্যে",
+            "ta": "30 நிமிடங்கள் முதல் சில மணிநேரம் வரை",
+            "te": "30 నిమిషాల నుండి కొన్ని గంటల మధ్య"
+          }
+        },
+        {
+          "option_id": "OPT_CP_TIME_DAYS",
+          "value_code": "EPISODIC_DAYS_WEEKS",
+          "text_by_language": {
+            "en": "Intermittent pain over several days or weeks",
+            "hi": "कई दिनों या हफ्तों से रुक-रुक कर दर्द",
+            "mr": "काही दिवस किंवा आठवड्यांपासून अधूनमधून होणारी वेदना",
+            "bn": "কয়েক দিন বা সপ্তাহ ধরে থেকে থেকে ব্যথা",
+            "ta": "பல நாட்கள் அல்லது வாரங்களாக விட்டு விட்டு வரும் வலி",
+            "te": "కొన్ని రోజులు లేదా వారాలుగా మధ్యమధ్యలో వచ్చే నొప్పి"
+          }
+        }
+      ],
+      "data_voice_action": "speak_and_listen",
+      "data_element": "hpi.chest_pain.time_course",
+      "followup_triggers": [
+        {
+          "trigger_id": "TRIG_CP_TIME_001",
+          "condition_type": "ALWAYS",
+          "target_value_codes": [],
+          "next_question_id": "SOC_CP_007_EXAC_REL"
+        }
+      ]
+    },
+    {
+      "question_id": "SOC_CP_007_EXAC_REL",
+      "symptom_domain": "chest_pain",
+      "socrates_dimension": "exacerbating_relieving",
+      "text_by_language": {
+        "en": "What makes the pain worse or better?",
+        "hi": "किस चीज़ से दर्द बढ़ता है या आराम मिलता है?",
+        "mr": "कशामुळे वेदना वाढते किंवा कमी होते?",
+        "bn": "কিসে ব্যথা বাড়ে বা কমে?",
+        "ta": "எது வலியை அதிகப்படுத்துகிறது அல்லது குறைக்கிறது?",
+        "te": "దేని వల్ల నొప్పి పెరుగుతుంది లేదా తగ్గుతుంది?"
+      },
+      "input_type": "multi_select",
+      "options": [
+        {
+          "option_id": "OPT_CP_EXAC_EXERTION",
+          "value_code": "WORSE_WITH_EXERTION",
+          "text_by_language": {
+            "en": "Worse with walking / physical exertion",
+            "hi": "चलने या मेहनत करने से दर्द बढ़ता है",
+            "mr": "चालल्याने किंवा कष्टाने वेदना वाढते",
+            "bn": "হাঁটলে বা শারীরিক পরিশ্রমে ব্যথা বাড়ে",
+            "ta": "நடக்கும்போது அல்லது உழைக்கும்போது வலி அதிகமாகிறது",
+            "te": "నడవడం లేదా శ్రమించడం వల్ల నొప్పి పెరుగుతుంది"
+          }
+        },
+        {
+          "option_id": "OPT_CP_EXAC_BREATHING",
+          "value_code": "WORSE_WITH_DEEP_BREATH",
+          "text_by_language": {
+            "en": "Worse with deep breathing or coughing",
+            "hi": "गहरी सांस लेने या खांसने से बढ़ता है",
+            "mr": "दीर्घ श्वास घेतल्यास किंवा खोकल्यास वाढते",
+            "bn": "গভীর শ্বাস নিলে বা কাশলে ব্যথা বাড়ে",
+            "ta": "ஆழ்ந்த மூச்சு எடுக்கும்போது அல்லது இருமும்போது அதிகமாகிறது",
+            "te": "గట్టిగా శ్వాస తీసుకున్నప్పుడు లేదా దగ్గినప్పుడు పెరుగుతుంది"
+          }
+        },
+        {
+          "option_id": "OPT_CP_REL_REST",
+          "value_code": "BETTER_WITH_REST",
+          "text_by_language": {
+            "en": "Better with rest or sitting quietly",
+            "hi": "आराम करने या शांत बैठने से कम होता है",
+            "mr": "विश्रांती घेतल्याने किंवा शांत बसल्याने कमी होते",
+            "bn": "বসে বিশ্রাম নিলে ব্যথা কমে",
+            "ta": "ஓய்வு எடுக்கும்போது வலி குறைகிறது",
+            "te": "విశ్రాంతి తీసుకోవడం వల్ల నొప్పి తగ్గుతుంది"
+          }
+        },
+        {
+          "option_id": "OPT_CP_REL_ANTACID",
+          "value_code": "BETTER_WITH_ANTACIDS",
+          "text_by_language": {
+            "en": "Better with antacids or food",
+            "hi": "एसिडिटी की दवा या खाने से आराम मिलता है",
+            "mr": "ॲसिडिटीचे औषध किंवा जेवणानंतर कमी होते",
+            "bn": "এন্টাসিড বা খাবার খেলে কমে",
+            "ta": "அன்டாசிட் மருந்து அல்லது உணவுக்குப் பிறகு குறைகிறது",
+            "te": "అసిడిటీ మందులు లేదా ఆహారం తీసుకుంటే తగ్గుతుంది"
+          }
+        }
+      ],
+      "data_voice_action": "speak_and_listen",
+      "data_element": "hpi.chest_pain.exacerbating_relieving",
+      "followup_triggers": [
+        {
+          "trigger_id": "TRIG_CP_EXAC_001",
+          "condition_type": "ALWAYS",
+          "target_value_codes": [],
+          "next_question_id": "SOC_CP_008_SEVERITY"
+        }
+      ]
+    },
+    {
+      "question_id": "SOC_CP_008_SEVERITY",
+      "symptom_domain": "chest_pain",
+      "socrates_dimension": "severity",
+      "text_by_language": {
+        "en": "On a scale of 1 to 10, how severe is your chest pain?",
+        "hi": "1 से 10 के पैमाने पर, आपकी छाती का दर्द कितना तेज है?",
+        "mr": "१ ते १० च्या प्रमाणात, छातीतील वेदना किती तीव्र आहे?",
+        "bn": "১ থেকে ১০ স্কেলে, আপনার বুকের ব্যথা কতটা তীব্র?",
+        "ta": "1 முதல் 10 அளவுகோலில், உங்கள் நெஞ்சு வலி ఎంత தீவிரமானது?",
+        "te": "1 నుండి 10 స్కేలుపై, మీ ఛాతీ నొప్పి ఎంత తీవ్రంగా ఉంది?"
+      },
+      "input_type": "scale_numeric",
+      "options": [
+        {
+          "option_id": "OPT_CP_SEV_MILD",
+          "value_code": "SEVERITY_1_TO_3_MILD",
+          "text_by_language": {
+            "en": "1 - 3 (Mild discomfort)",
+            "hi": "1 - 3 (हल्की तकलीफ)",
+            "mr": "१ - ३ (सौम्य त्रास)",
+            "bn": "১ - ৩ (মৃদু অস্বস্তি)",
+            "ta": "1 - 3 (லேசான வலி)",
+            "te": "1 - 3 (లేలిపాటి నొప్పి)"
+          }
+        },
+        {
+          "option_id": "OPT_CP_SEV_MOD",
+          "value_code": "SEVERITY_4_TO_6_MODERATE",
+          "text_by_language": {
+            "en": "4 - 6 (Moderate pain)",
+            "hi": "4 - 6 (मध्यम दर्द)",
+            "mr": "४ - ६ (मध्यम वेदना)",
+            "bn": "৪ - ৬ (মাঝারি ব্যথা)",
+            "ta": "4 - 6 (மிதமான வலி)",
+            "te": "4 - 6 (మోస్తరు నొప్పి)"
+          }
+        },
+        {
+          "option_id": "OPT_CP_SEV_SEVERE",
+          "value_code": "SEVERITY_7_TO_10_SEVERE",
+          "text_by_language": {
+            "en": "7 - 10 (Severe / Worst pain ever felt)",
+            "hi": "7 - 10 (अत्यधिक तेज दर्द)",
+            "mr": "७ - १० (अत्यंत तीव्र वेदना)",
+            "bn": "৭ - ১০ (অত্যন্ত তীব্র ব্যথা)",
+            "ta": "7 - 10 (கடுமையான வலி)",
+            "te": "7 - 10 (చాలా తీవ్రమైన నొప్పి)"
+          }
+        }
+      ],
+      "data_voice_action": "speak_and_listen",
+      "data_element": "hpi.chest_pain.severity",
+      "followup_triggers": []
+    },
+    {
+      "question_id": "SOC_HA_001_SITE",
+      "symptom_domain": "headache",
+      "socrates_dimension": "site",
+      "text_by_language": {
+        "en": "Where in your head do you feel the pain?",
+        "hi": "सिर में किस जगह दर्द हो रहा है?",
+        "mr": "डोक्यात नक्की कुठे दुखत आहे?",
+        "bn": "মাথার ঠিক কোন জায়গায় ব্যথা হচ্ছে?",
+        "ta": "தலையில் எங்கு வலி ஏற்படுகிறது?",
+        "te": "తల నొప్పులు ఎక్కడ అనిపిస్తున్నాయి?"
+      },
+      "input_type": "single_select",
+      "options": [
+        {
+          "option_id": "OPT_HA_SITE_ONE_SIDE",
+          "value_code": "HEADACHE_UNILATERAL",
+          "text_by_language": {
+            "en": "One side of head (Left or Right)",
+            "hi": "सिर के एक तरफ (बाएं या दाएं)",
+            "mr": "डोक्याच्या एका बाजूला (डाव्या किंवा उजव्या)",
+            "bn": "মাথার যেকোনো একপাশে (বাঁ বা ডান)",
+            "ta": "தலையின் ஒரு பகுதியில் மட்டும் (இடது அல்லது வலது)",
+            "te": "తల ఒక వైపు మాత్రమే (ఎడమ లేదా కుడి)"
+          }
+        },
+        {
+          "option_id": "OPT_HA_SITE_FOREHEAD",
+          "value_code": "HEADACHE_FRONTAL_FOREHEAD",
+          "text_by_language": {
+            "en": "Forehead and temples",
+            "hi": "माथे और कनपटी में",
+            "mr": "कपाळ आणि कानशिलात",
+            "bn": "কপাল এবং রগ জুড়ে",
+            "ta": "நெற்றி மற்றும் பொட்டுப் பகுதி",
+            "te": "నుదురు మరియు నొసలు"
+          }
+        },
+        {
+          "option_id": "OPT_HA_SITE_BACK",
+          "value_code": "HEADACHE_OCCIPITAL_NECK",
+          "text_by_language": {
+            "en": "Back of head and neck",
+            "hi": "सिर के पीछे और गर्दन में",
+            "mr": "डोक्याच्या मागील भागात आणि मान",
+            "bn": "মাথার পেছনে ও ঘাড়ে",
+            "ta": "தலையின் பின்புறம் மற்றும் கழுத்து",
+            "te": "తల వెనుక భాగం మరియు మెడ"
+          }
+        },
+        {
+          "option_id": "OPT_HA_SITE_ALL_OVER",
+          "value_code": "HEADACHE_GENERALIZED",
+          "text_by_language": {
+            "en": "All over the head like a tight band",
+            "hi": "पूरे सिर में पट्टी से बंधे जैसा दर्द",
+            "mr": "संपूर्ण डोक्यात पट्टी बांधल्यासारखे",
+            "bn": "পুরো মাথায় ব্যান্ড বাঁধার মতো ব্যথা",
+            "ta": "தலை முழுவதும் இறுக்கமாகக் கட்டியது போல்",
+            "te": "తల అంతటా పట్టి బెట్టినట్లుగా"
+          }
+        }
+      ],
+      "data_voice_action": "speak_and_listen",
+      "data_element": "hpi.headache.site",
+      "followup_triggers": [
+        {
+          "trigger_id": "TRIG_HA_SITE_001",
+          "condition_type": "ALWAYS",
+          "target_value_codes": [],
+          "next_question_id": "SOC_HA_002_ONSET"
+        }
+      ]
+    },
+    {
+      "question_id": "SOC_HA_002_ONSET",
+      "symptom_domain": "headache",
+      "socrates_dimension": "onset",
+      "text_by_language": {
+        "en": "Did the headache come on suddenly like a thunderclap or build up slowly?",
+        "hi": "क्या सिरदर्द अचानक से बहुत तेज हुआ या धीरे-धीरे बढ़ा?",
+        "mr": "डोकेदुखी एकदम जोरात सुरू झाली की हळूहळू वाढली?",
+        "bn": "মাথাব্যথা কি হঠাৎ খুব তীব্রভাবে শুরু হয়েছিল নাকি ধীরে ধীরে বেড়েছে?",
+        "ta": "தலைவலி திடீரென்று இடி தாக்கியது போல் வந்ததா அல்லது மெதுவாகக் கூடிற்றா?",
+        "te": "తలనెప్పి అకస్మాత్తుగా తీవ్రంగా వచ్చిందా లేక మెల్లగా పెరిగిందా?"
+      },
+      "input_type": "single_select",
+      "options": [
+        {
+          "option_id": "OPT_HA_ONSET_THUNDERCLAP",
+          "value_code": "THUNDERCLAP_SUDDEN_MAXIMUM",
+          "text_by_language": {
+            "en": "Sudden severe (Thunderclap headache)",
+            "hi": "अचानक बहुत तेज (धमाके जैसा दर्द)",
+            "mr": "अचानक तीव्र (धमाक्यासारखी तीव्र डोकेदुखी)",
+            "bn": "হঠাৎ অত্যন্ত তীব্র (বজ্রপাতের মতো মাথাব্যথা)",
+            "ta": "திடீர் கடுமையான இடி போன்ற தலைவலி",
+            "te": "అకస్మాత్తుగా వచ్చిన పిడుగు లాంటి తీవ్రమైన నొప్పి"
+          }
+        },
+        {
+          "option_id": "OPT_HA_ONSET_GRADUAL",
+          "value_code": "GRADUAL_ONSET",
+          "text_by_language": {
+            "en": "Gradual buildup",
+            "hi": "धीरे-धीरे बढ़ना",
+            "mr": "हळूहळू वाढणे",
+            "bn": "ধীরে ধীরে বৃদ্ধি পাওয়া",
+            "ta": "மெதுவாகக் கூடுவது",
+            "te": "క్రమంగా పెరుగుతుంది"
+          }
+        }
+      ],
+      "data_voice_action": "speak_and_listen",
+      "data_element": "hpi.headache.onset",
+      "followup_triggers": [
+        {
+          "trigger_id": "TRIG_HA_ONSET_001",
+          "condition_type": "ALWAYS",
+          "target_value_codes": [],
+          "next_question_id": "SOC_HA_003_CHAR"
+        }
+      ]
+    },
+    {
+      "question_id": "SOC_HA_003_CHAR",
+      "symptom_domain": "headache",
+      "socrates_dimension": "character",
+      "text_by_language": {
+        "en": "How would you describe the headache pain?",
+        "hi": "आप सिरदर्द को किस प्रकार समझाएंगे?",
+        "mr": "तुम्ही या डोकेदुखीचे वर्णन कसे कराल?",
+        "bn": "মাথাব্যথার অনুভূতিটি কেমন?",
+        "ta": "தலைவலியை எப்படி விவரிப்பீர்கள்?",
+        "te": "తలనొప్పి స్వభావాన్ని మీరు ఎలా వివరిస్తారు?"
+      },
+      "input_type": "single_select",
+      "options": [
+        {
+          "option_id": "OPT_HA_CHAR_THROBBING",
+          "value_code": "THROBBING_PULSATING",
+          "text_by_language": {
+            "en": "Throbbing or pulsating (like a heartbeat)",
+            "hi": "कसकस होना या नसें फड़कने जैसा दर्द",
+            "mr": "ठणकणारी किंवा धडधडणारी वेदना",
+            "bn": "রগ ওঠার মতো বা দবডব করা ব্যথা",
+            "ta": "துடிப்பது போன்ற வலி",
+            "te": "నరం పీకుతున్నట్లుగా ఉండే నొప్పి"
+          }
+        },
+        {
+          "option_id": "OPT_HA_CHAR_BAND_TIGHT",
+          "value_code": "BAND_LIKE_PRESSURE",
+          "text_by_language": {
+            "en": "Constant tight pressure (band around head)",
+            "hi": "दबाव या खिंचाव महसूस होना",
+            "mr": "सतत दाब किंवा आवळल्यासारखे",
+            "bn": "অনবরত চাপ বা চেপে ধরার মতো",
+            "ta": "தொடர்ச்சியான அழுத்த உணர்வு",
+            "te": "తల చుట్టూ ఏదో గట్టిగా పిండేస్తున్నట్లుగా"
+          }
+        }
+      ],
+      "data_voice_action": "speak_and_listen",
+      "data_element": "hpi.headache.character",
+      "followup_triggers": [
+        {
+          "trigger_id": "TRIG_HA_CHAR_001",
+          "condition_type": "ALWAYS",
+          "target_value_codes": [],
+          "next_question_id": "SOC_HA_004_RADIATION"
+        }
+      ]
+    },
+    {
+      "question_id": "SOC_HA_004_RADIATION",
+      "symptom_domain": "headache",
+      "socrates_dimension": "radiation",
+      "text_by_language": {
+        "en": "Does the head pain radiate to your eyes, jaw, or neck?",
+        "hi": "क्या सिरदर्द आँखों, जबड़े या गर्दन की तरफ फैलता है?",
+        "mr": "डोकेदुखी डोळे, जबडा किंवा मानेकडे जाते का?",
+        "bn": "মাথাব্যথা কি চোখ, চোয়াল বা ঘাড়ে ছড়িয়ে পড়ে?",
+        "ta": "தலைவலி கண்கள், தாடை அல்லது கழுத்திற்குப் பரவுகிறதா?",
+        "te": "తలనొప్పి కళ్లు, దవడ లేదా మెడ భాగాలకు వ్యాపిస్తోందా?"
+      },
+      "input_type": "single_select",
+      "options": [
+        {
+          "option_id": "OPT_HA_RAD_EYE",
+          "value_code": "RADIATES_TO_EYE_ORBIT",
+          "text_by_language": {
+            "en": "Spreads to behind one eye",
+            "hi": "एक आंख के पीछे तक फैलता है",
+            "mr": "एका डोळ्याच्या मागे पसरते",
+            "bn": "এক চোখের পেছনে ছড়িয়ে পড়ে",
+            "ta": "ஒரு கண்ணின் பின்புறத்திற்கு பரவுகிறது",
+            "te": "ఒక కంటి వెనుక భాగం వరకు వ్యాపిస్తుంది"
+          }
+        },
+        {
+          "option_id": "OPT_HA_RAD_NECK",
+          "value_code": "RADIATES_TO_NECK_SHOULDER",
+          "text_by_language": {
+            "en": "Spreads down to neck and shoulders",
+            "hi": "गर्दन और कंधों तक जाता है",
+            "mr": "मान आणि खांद्यापर्यंत जाते",
+            "bn": "ঘাড় ও কাঁধের দিকে নেমে যায়",
+            "ta": "கழுத்து மற்றும் தோள்களுக்குக் கீழே பரவுகிறது",
+            "te": "మెడ మరియు భుజాల వైపు కిందకు వ్యాపిస్తుంది"
+          }
+        },
+        {
+          "option_id": "OPT_HA_RAD_NONE",
+          "value_code": "RADIATION_NONE",
+          "text_by_language": {
+            "en": "Stays in head only",
+            "hi": "केवल सिर में ही रहता है",
+            "mr": "फक्त डोक्यातच राहते",
+            "bn": "শুধু মাথাতেই থাকে",
+            "ta": "தலையிலேயே மட்டுமே உள்ளது",
+            "te": "తలలో మాత్రమే ఉంటుంది"
+          }
+        }
+      ],
+      "data_voice_action": "speak_and_listen",
+      "data_element": "hpi.headache.radiation",
+      "followup_triggers": [
+        {
+          "trigger_id": "TRIG_HA_RAD_001",
+          "condition_type": "ALWAYS",
+          "target_value_codes": [],
+          "next_question_id": "SOC_HA_005_ASSOC"
+        }
+      ]
+    },
+    {
+      "question_id": "SOC_HA_005_ASSOC",
+      "symptom_domain": "headache",
+      "socrates_dimension": "associated_symptoms",
+      "text_by_language": {
+        "en": "Do you have vomiting, vision changes, or sensitivity to light/sound?",
+        "hi": "क्या उल्टी, धुंधला दिखना या रोशनी/आवाज से परेशानी होती है?",
+        "mr": "उल्टी, दृष्टीतील बदल किंवा प्रकाश/आवाजाचा त्रास होतो का?",
+        "bn": "বমি, দৃষ্টিশক্তির পরিবর্তন বা আলো/শব্দে অস্বস্তি হচ্ছে কি?",
+        "ta": "வாந்தி, பார்வைக் கோளாறு அல்லது வெளிச்சம்/சப்தம் கூச்சம் உள்ளதா?",
+        "te": "వాంతులు, దృష్టిలో మార్పులు లేదా వెలుతురు/శబ్దాలు పడకపోవడం ఉందా?"
+      },
+      "input_type": "multi_select",
+      "options": [
+        {
+          "option_id": "OPT_HA_ASSOC_PHOTOPHOBIA",
+          "value_code": "PHOTOPHOBIA_PHONOPHOBIA",
+          "text_by_language": {
+            "en": "Sensitivity to light or sound",
+            "hi": "तेज रोशनी या आवाज सहन न होना",
+            "mr": "प्रकाश किंवा आवाज सहन न होणे",
+            "bn": "আলো বা শব্দ সহ্য করতে না পারা",
+            "ta": "வெளிச்சம் அல்லது சப்தம் தாங்க முடியாமை",
+            "te": "వెలుతురు లేదా శబ్దాలు భరించలేకపోవడం"
+          }
+        },
+        {
+          "option_id": "OPT_HA_ASSOC_VISION",
+          "value_code": "VISUAL_DISTURBANCE_AURA",
+          "text_by_language": {
+            "en": "Blurred vision / Flashing lights (Aura)",
+            "hi": "धुंधला दिखना / आँखों के आगे चमक आना",
+            "mr": "झोप किंवा अंधुक दिसणे",
+            "bn": "ঝাপসা দেখা বা আলোর ঝলকানি",
+            "ta": "மங்கலான பார்வை / ஒளிரும் புள்ளிகள்",
+            "te": "మసక బారిన దృష్టి / మెరుపులు కనిపిస్తుండటం"
+          }
+        },
+        {
+          "option_id": "OPT_HA_ASSOC_VOMITING",
+          "value_code": "NAUSEA_VOMITING_PRESENT",
+          "text_by_language": {
+            "en": "Nausea or vomiting",
+            "hi": "जी मिचलाना या उल्टी होना",
+            "mr": "मळमळ किंवा उलट्या",
+            "bn": "বমি ভাব বা বমি",
+            "ta": "குமட்டல் அல்லது வாந்தி",
+            "te": "వికారం లేదా వాంతులు"
+          }
+        }
+      ],
+      "data_voice_action": "speak_and_listen",
+      "data_element": "hpi.headache.associated_symptoms",
+      "followup_triggers": [
+        {
+          "trigger_id": "TRIG_HA_ASSOC_001",
+          "condition_type": "ALWAYS",
+          "target_value_codes": [],
+          "next_question_id": "SOC_HA_006_TIMING"
+        }
+      ]
+    },
+    {
+      "question_id": "SOC_HA_006_TIMING",
+      "symptom_domain": "headache",
+      "socrates_dimension": "time_course",
+      "text_by_language": {
+        "en": "How often or for how long does the headache last?",
+        "hi": "सिरदर्द कितनी बार या कितने समय तक रहता है?",
+        "mr": "डोकेदुखी किती वेळाने किंवा किती वेळ राहते?",
+        "bn": "মাথাব্যথা কতক্ষণ বা কতদিন পর পর হয়?",
+        "ta": "தலைவலி ఎంత সময় அல்லது ఎంత அடிக்கடி வருகிறது?",
+        "te": "తలనొప్పి ఎంత తరచుగా లేదా ఎంత సమయం ఉంటుంది?"
+      },
+      "input_type": "single_select",
+      "options": [
+        {
+          "option_id": "OPT_HA_TIME_ACUTE",
+          "value_code": "ACUTE_FIRST_EPISODE",
+          "text_by_language": {
+            "en": "First time getting such severe headache",
+            "hi": "पहली बार इतना तेज सिरदर्द हुआ है",
+            "mr": "पहिल्यांदाच एवढी तीव्र डोकेदुखी झाली आहे",
+            "bn": "প্রথমবার এত তীব্র মাথাব্যথা হচ্ছে",
+            "ta": "முதல்முறையாக இவ்வளவு கடுமையான தலைவலி",
+            "te": "మొదటిసారిగా ఇంత తీవ్రమైన తలనొప్పి వచ్చింది"
+          }
+        },
+        {
+          "option_id": "OPT_HA_TIME_EPISODIC",
+          "value_code": "EPISODIC_RECURRING",
+          "text_by_language": {
+            "en": "Recurrent episodes lasting 4 to 72 hours",
+            "hi": "बार-बार होने वाले दौरे (4 से 72 घंटे)",
+            "mr": "वारंवार होणारा त्रास (४ ते ७२ तास)",
+            "bn": "বারবার হওয়া ৪ থেকে ৭২ ঘণ্টার পর্ব",
+            "ta": "4 முதல் 72 மணி நேரம் வரை மீண்டும் மீண்டும் வரும் வலி",
+            "te": "4 నుండి 72 గంటల పాటు మళ్లీ మళ్లీ వచ్చే నొప్పి"
+          }
+        }
+      ],
+      "data_voice_action": "speak_and_listen",
+      "data_element": "hpi.headache.time_course",
+      "followup_triggers": [
+        {
+          "trigger_id": "TRIG_HA_TIME_001",
+          "condition_type": "ALWAYS",
+          "target_value_codes": [],
+          "next_question_id": "SOC_HA_007_EXAC_REL"
+        }
+      ]
+    },
+    {
+      "question_id": "SOC_HA_007_EXAC_REL",
+      "symptom_domain": "headache",
+      "socrates_dimension": "exacerbating_relieving",
+      "text_by_language": {
+        "en": "Does rest in a dark quiet room help reduce your headache?",
+        "hi": "क्या अंधेरे शांत कमरे में आराम करने से सिरदर्द में आराम मिलता है?",
+        "mr": "काळ्या शांत खोलीत विश्रांती घेतल्याने डोकेदुखी कमी होते का?",
+        "bn": "অন্ধকার শান্ত ঘরে বিশ্রাম নিলে কি মাথাব্যথা কমে?",
+        "ta": "இருண்ட அமைதியான அறையில் ஓய்வெடுத்தால் தலைவலி குறைகிறதா?",
+        "te": "చీకటి ప్రశాంతమైన గదిలో విశ్రాంతి తీసుకుంటే తలనొప్పి తగ్గుతుందా?"
+      },
+      "input_type": "single_select",
+      "options": [
+        {
+          "option_id": "OPT_HA_REL_DARK_ROOM",
+          "value_code": "RELIEVED_BY_DARKNESS_REST",
+          "text_by_language": {
+            "en": "Yes, resting in dark room relieves it",
+            "hi": "हाँ, अंधेरे में आराम करने से राहत मिलती है",
+            "mr": "होय, शांत खोलीत आराम केल्यास बरे वाटते",
+            "bn": "হ্যাঁ, অন্ধকার ঘরে বিশ্রাম নিলে উপশম হয়",
+            "ta": "ஆம், இருண்ட அறையில் ஓய்வெடுப்பது வலியை குறைக்கிறது",
+            "te": "అవును, చీకటి గదిలో ప్రశాంతంగా ఉంటే ఉపశమనం లభిస్తుంది"
+          }
+        },
+        {
+          "option_id": "OPT_HA_REL_NONE",
+          "value_code": "NO_CHANGE_WITH_REST",
+          "text_by_language": {
+            "en": "No significant relief with rest",
+            "hi": "नहीं, आराम से खास फर्क नहीं पड़ता",
+            "mr": "नाही, विश्रांतीचा फारसा फरक पडत नाही",
+            "bn": "না, বিশ্রামে বিশেষ কোনো তফাৎ হয় না",
+            "ta": "இல்லை, ஓய்வினால் பெரிய மாற்றம் இல்லை",
+            "te": "లేదు, విశ్రాంతి వల్ల పెద్దగా మార్పు లేదు"
+          }
+        }
+      ],
+      "data_voice_action": "speak_and_listen",
+      "data_element": "hpi.headache.exacerbating_relieving",
+      "followup_triggers": [
+        {
+          "trigger_id": "TRIG_HA_EXAC_001",
+          "condition_type": "ALWAYS",
+          "target_value_codes": [],
+          "next_question_id": "SOC_HA_008_SEVERITY"
+        }
+      ]
+    },
+    {
+      "question_id": "SOC_HA_008_SEVERITY",
+      "symptom_domain": "headache",
+      "socrates_dimension": "severity",
+      "text_by_language": {
+        "en": "On a scale of 1 to 10, how intense is your headache?",
+        "hi": "1 से 10 के पैमाने पर, आपका सिरदर्द कितना तेज है?",
+        "mr": "१ ते १० च्या प्रमाणात, तुमची डोकेदुखी किती तीव्र आहे?",
+        "bn": "১ থেকে ১০ স্কেলে, আপনার মাথাব্যথা কতটা তীব্র?",
+        "ta": "1 முதல் 10 அளவுகோலில், உங்கள் தலைவலி எவ்வளவு தீவிரமானது?",
+        "te": "1 నుండి 10 స్కేలుపై, మీ తలనొప్పి ఎంత తీవ్రంగా ఉంది?"
+      },
+      "input_type": "scale_numeric",
+      "options": [
+        {
+          "option_id": "OPT_HA_SEV_MILD",
+          "value_code": "SEVERITY_1_TO_3_MILD",
+          "text_by_language": {
+            "en": "1 - 3 (Mild)",
+            "hi": "1 - 3 (हल्का)",
+            "mr": "१ - ३ (सौम्य)",
+            "bn": "১ - ৩ (মৃদু)",
+            "ta": "1 - 3 (லேசானது)",
+            "te": "1 - 3 (లేలిపాటి)"
+          }
+        },
+        {
+          "option_id": "OPT_HA_SEV_MOD",
+          "value_code": "SEVERITY_4_TO_6_MODERATE",
+          "text_by_language": {
+            "en": "4 - 6 (Moderate)",
+            "hi": "4 - 6 (मध्यम)",
+            "mr": "४ - ६ (मध्यम)",
+            "bn": "৪ - ৬ (মাঝারি)",
+            "ta": "4 - 6 (மிதமானது)",
+            "te": "4 - 6 (మోస్తరు)"
+          }
+        },
+        {
+          "option_id": "OPT_HA_SEV_SEVERE",
+          "value_code": "SEVERITY_7_TO_10_SEVERE",
+          "text_by_language": {
+            "en": "7 - 10 (Severe / Worst ever)",
+            "hi": "7 - 10 (अत्यधिक तेज)",
+            "mr": "७ - १० (अत्यंत तीव्र)",
+            "bn": "৭ - ১০ (অত্যন্ত তীব্র)",
+            "ta": "7 - 10 (கடுமையான வலி)",
+            "te": "7 - 10 (చాలా తీవ్రమైనది)"
+          }
+        }
+      ],
+      "data_voice_action": "speak_and_listen",
+      "data_element": "hpi.headache.severity",
+      "followup_triggers": []
+    }
+  ]
+}
