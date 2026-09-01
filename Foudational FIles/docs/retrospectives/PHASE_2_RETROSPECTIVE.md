@@ -2,9 +2,9 @@
 
 ## 1. What Was Done
 - **Interview Flow Models:** Created `interview.py` with `InterviewState`, `QuestionResponse`, `AnswerSubmission`, `RedFlagAlert`, and `AnswerResult` — the complete data contract for the interview API.
-- **General Intake Dataset:** Created `questions_general_intake.json` with 12 questions across 6 clinical sections (past medical, surgical, medications, allergies, family, social history), all in 6 Indian languages, all with dynamic `followup_triggers` for conditional branching.
-- **QuestionBank Engine:** Loads and indexes both SOCRATES (17 Qs) and general intake (12 Qs) = **29 total questions** at startup. Provides localization, domain lookup, and trigger-based next-question routing.
-- **FlowController:** The core dynamic state machine — chief complaint determines SOCRATES routing (chest_pain, headache), then general history, with every step driven by `followup_triggers` from JSON data.
+- **General Intake Dataset:** Created `questions_general_intake.json` with 14 questions across 7 clinical sections (past medical, surgical, medications, allergies, family, social history, and gender-gated female menstrual/reproductive history), all in 6 Indian languages, all with dynamic `followup_triggers` for conditional branching.
+- **QuestionBank Engine:** Loads and indexes both SOCRATES (17 Qs) and general intake (14 Qs) = **31 total questions** at startup. Provides localization, domain lookup, gender-aware branching, and trigger-based next-question routing.
+- **FlowController:** The core dynamic state machine — chief complaint determines SOCRATES routing (chest_pain, headache), then general history (including female menstrual routing if applicable), with every step driven by `followup_triggers` from JSON data.
 - **AnswerValidator:** Validates all answer submissions against the allowed option codes in the JSON datasets. Rejects invalid codes.
 - **RedFlagScanner:** Evaluates 13 deterministic clinical rules (from `red_flags_rules.json`) against accumulated patient answers using `structured_fact_pattern` matching. Produces localized alerts without diagnosing.
 - **Session API Endpoints:** Added `GET /next-question`, `POST /answer`, and `GET /alerts` to the sessions router.

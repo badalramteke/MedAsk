@@ -33,4 +33,5 @@ class PatientHistory(BaseModel):
     allergies: List[str] = Field(default_factory=list)
     family_history: List[str] = Field(default_factory=list)
     social_history: List[str] = Field(default_factory=list)
+    menstrual_reproductive_history: Optional[Dict[str, str]] = Field(default=None, description="Menstrual & reproductive history for female patients (LMP, cycle regularity, pregnancy details)")
     review_of_systems: Dict[str, bool] = Field(default_factory=dict, description="Key: system/symptom, Value: presence (True/False)")

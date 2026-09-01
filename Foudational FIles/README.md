@@ -78,6 +78,7 @@ MediKiosk is an AI-powered software platform that allows any patient to record a
 ### 4.1 Phase 1 — Clinical JSON Datasets
 Located in `data/clinical/`:
 * `questions_socrates.json`: Standardized SOCRATES symptom questionnaire framework across 6 Indian languages (en, hi, mr, bn, ta, te).
+* `questions_general_intake.json`: General clinical intake framework across 6 Indian languages covering past medical/surgical history, medications, allergies, family, social history, and female-specific menstrual/reproductive history with conditional branching triggers.
 * `ayush_dashavidha_pariksha.json`: Ayurvedic 10-parameter Dashavidha Pariksha clinical history framework.
 * `red_flags_rules.json`: High-priority emergency red-flag alert rules with multilingual keyword triggers and emergency action codes.
 * `lab_reference_ranges.json`: Standardized laboratory test reference ranges with LOINC mapping, adult/pediatric bounds, and critical flags.

@@ -11,8 +11,9 @@ Purpose: Defines the ModelService contract that isolates AI providers from MediK
 
 | Capability | Primary path | Permitted fallback | Environment note |
 | --- | --- | --- | --- |
-| Multimodal document/image understanding | MedGemma 4B | Configured Gemini/Grok capability-equivalent provider | Validate outputs identically |
-| Text history/summarization | MedGemma 27B where hardware permits | Configured Gemini/Grok provider | Never bypass draft-only controls |
+| Clinical summary generation & synthesis (Module C) | MedGemma (27B/4B) ingesting structured history + OCR with source tags | Configured Gemini/Grok provider | Never bypass draft-only controls; must cite source provenance |
+| Medical image description (X-rays, sonography, CT) | MedGemma 4B (Multimodal) | Configured Gemini Multimodal provider | Candidate findings with uncertainty flags |
+| Physical document text/OCR extraction | Tesseract / PaddleOCR / EasyOCR | Local OCR fallback | Extracts text, lab ranges, handwriting before MedGemma summary |
 | Low-network hackathon demo | Local/Colab model serving | Online API only when selected for online demo | Provider selection is configuration only |
 | Production serving | Approved local vLLM/on-prem model service | Approved provider route under hospital policy | Hardware and data-governance approval required |
 

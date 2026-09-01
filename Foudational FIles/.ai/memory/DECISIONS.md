@@ -86,3 +86,18 @@
 - Why: A static flat questionnaire misses critical clinical details and wastes patient time with irrelevant questions. Dynamic branching mirrors how a real clinician conducts an interview.
 - Status: Approved and active.
 
+## 2026-09-01 — MedGemma vs OCR Pipeline Roles & Source-Attributed Summary Synthesis
+- Decision: 
+  1. **Text Documents (Prescriptions, Lab Reports, Discharge Summaries):** Raw text extraction, lab reference bounds, and handwritten prescription text are extracted using dedicated OCR/text-extraction engines (Tesseract / PaddleOCR / EasyOCR). 
+  2. **Structured & Sourced Feeding:** The extracted text and structured items (ranges, values, drugs, dosages) are annotated with exact source document references (e.g. `[Doc#1: Discharge Summary, 2024-05-10]`, `[Doc#2: CBC Lab Report]`).
+  3. **MedGemma Core Role:** MedGemma is used as the **primary synthesis and clinical summary generator (Module C)**, taking the structured patient interview data and the source-attributed OCR extracts, and synthesizing them into a cohesive clinical draft where every finding/investigation explicitly cites its source.
+  4. **Medical Image Analysis:** MedGemma Multimodal (4B) is used directly for **medical image descriptions & visual findings** (e.g., Chest X-rays, Sonography / Ultrasound, CT scans).
+- Why: Preserves high-precision deterministic OCR extraction for numbers/ranges while leveraging MedGemma's medical reasoning for clinical synthesis, source-provenance summaries, and image understanding.
+- Status: Approved and active.
+
+## 2026-09-01 — Gender-Gated Reproductive & Menstrual History Routing
+- Decision: When the patient gender is female (`gender == "FEMALE"`), the intake flow conditionally prompts applicable **Menstrual & Reproductive History** questions (LMP - Last Menstrual Period, cycle regularity, pregnancy status, obstetric history if applicable). If male or unspecified, this entire section is cleanly skipped.
+- Why: Standard clinical intake protocol mandates reproductive history for female patients while omitting irrelevant questions for male patients to maximize throughput and privacy.
+- Status: Approved and active.
+
+

@@ -10,3 +10,5 @@ class IdentityContext(BaseModel):
     external_identifier: Optional[str] = Field(None, description="External identity, like ABHA ID, if verified.")
     preferred_language: str = Field(default="en", description="Language code (e.g., 'en', 'hi', 'mr').")
     facility_id: str = Field(..., description="Identifier for the deployment location or hospital.")
+    gender: Optional[str] = Field(default=None, description="Patient gender (e.g., 'FEMALE', 'MALE', 'OTHER').")
+    age: Optional[int] = Field(default=None, description="Patient age in years.")

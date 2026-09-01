@@ -92,28 +92,41 @@ class QuestionBank:
 
         return localized
 
-    def get_next_question_id(self, question_id: str, selected_value_codes: List[str]) -> Optional[str]:
+    def get_next_question_id(self, question_id: str, selected_value_codes: List[str], gender: Optional[str] = None) -> Optional[str]:
         """
         Given the current question and the patient's answer, determine the next question
         by evaluating followup_triggers in order.
-        This is the core of dynamic branching.
+        If the next question has a gender restriction and patient doesn't match, skips appropriately.
         """
         q = self.get_question(question_id)
         if not q:
             return None
 
+        next_qid = None
         for trigger in q.get("followup_triggers", []):
             condition = trigger.get("condition_type", "ALWAYS")
-            next_qid = trigger.get("next_question_id")
+            candidate_qid = trigger.get("next_question_id")
 
             if condition == "ALWAYS":
-                return next_qid
+                next_qid = candidate_qid
+                break
             elif condition == "VALUE_MATCH":
                 target_codes = trigger.get("target_value_codes", [])
                 if any(code in selected_value_codes for code in target_codes):
-                    return next_qid
+                    next_qid = candidate_qid
+                    break
 
-        return None
+        # Check gender restriction if moving to a restricted question
+        if next_qid:
+            target_q = self.get_question(next_qid)
+            if target_q:
+                restriction = target_q.get("gender_restriction")
+                if restriction == "FEMALE" and gender and gender.upper() != "FEMALE":
+                    # Skip female-only question for male/other patients
+                    return None
+
+        return next_qid
+
 
 
 # Singleton instance

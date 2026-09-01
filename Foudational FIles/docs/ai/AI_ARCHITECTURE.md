@@ -29,12 +29,12 @@ Module/plugin -> ModelService -> capability/provider selection -> model provider
        `-> PatientDataObject validated patch or safe failure
 ```
 
-## Primary model roles
-
-- MedGemma 4B: primary multimodal model for document/image understanding.
-- MedGemma 27B: primary higher-capacity text model for text-heavy history and summary work where configured hardware supports it.
-- Bhashini/AI4Bharat: speech-provider adapters; they are not called directly from business logic.
-- Gemini or Grok: approved fallback providers only through ModelService and only when configuration permits.
+## Primary model & component roles
+- **OCR Engine (Tesseract / PaddleOCR / EasyOCR):** Extracts raw text, ranges, and handwritten prescription text from physical documents with source tagging.
+- **MedGemma (Summary Generation - Module C):** Primary clinical reasoning & synthesis model that ingests structured interview data + source-attributed OCR records to produce the physician-ready summary draft with explicit source provenance citations.
+- **MedGemma 4B Multimodal (Medical Imaging):** Direct multimodal reasoning for medical images (X-rays, sonography / ultrasound, CT scans) to generate candidate visual findings.
+- **Bhashini / AI4Bharat:** Speech-provider adapters for ASR/TTS.
+- **Gemini / Grok:** Approved fallback providers only through ModelService when Colab GPU is offline.
 
 ## Control layers
 

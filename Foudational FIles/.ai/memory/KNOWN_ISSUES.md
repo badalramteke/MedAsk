@@ -1,6 +1,6 @@
 # Known Issues & Blockers
 
-## Current Phase: Phase 2 Planning
+## Current Phase: Phase 3 Planning (MedGemma & ModelService Integration)
 
 ### Blocking Issues
 - None currently blocking Phase 2.

@@ -104,10 +104,12 @@ def submit_answer(session_id: str, answer: AnswerSubmission):
 
     lang = session.identity.preferred_language
 
+    gender = session.identity.gender
+
     # Handle UNKNOWN / REFUSED states — skip validation, move forward
     if answer.answer_state in ("UNKNOWN", "REFUSED"):
         next_q = flow_controller.process_answer(
-            state, answer.question_id, [], answer.free_text, lang
+            state, answer.question_id, [], answer.free_text, lang, gender=gender
         )
         return AnswerResult(
             success=True,
@@ -127,7 +129,7 @@ def submit_answer(session_id: str, answer: AnswerSubmission):
         next_q = flow_controller.process_chief_complaint(state, answer.free_text or "", lang)
     else:
         next_q = flow_controller.process_answer(
-            state, answer.question_id, answer.selected_value_codes, answer.free_text, lang
+            state, answer.question_id, answer.selected_value_codes, answer.free_text, lang, gender=gender
         )
 
     # Run red flag scan after every answer
@@ -155,3 +157,64 @@ def get_alerts(session_id: str):
     if not session_repo.get_session(session_id):
         raise HTTPException(status_code=404, detail="Session not found.")
     return _session_alerts.get(session_id, [])
+
+
+@router.post("/{session_id}/ai/structure-narration")
+async def structure_narration_endpoint(session_id: str, narration_text: str, language: str = "en"):
+    """
+    Structure unstructured patient spoken/free-text narration using ModelService.
+    """
+    session = session_repo.get_session(session_id)
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found.")
+    from app.services.model_service import model_service
+    res = await model_service.structure_narration(narration_text, language=language, session_id=session_id)
+    return res
+
+
+@router.post("/{session_id}/ai/generate-summary")
+async def generate_summary_endpoint(session_id: str):
+    """
+    Module C: Ingests structured interview facts + source-tagged OCR records
+    and synthesizes a physician-ready clinical draft summary with explicit source citations.
+    """
+    session = session_repo.get_session(session_id)
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found.")
+
+    state = _interview_states.get(session_id)
+    interview_facts = state.answer_history if state else {}
+
+    # Sample source-tagged OCR records (to be linked with Module B in Phase 8)
+    ocr_records = [
+        {
+            "document_id": "DOC_001",
+            "type": "DISCHARGE_SUMMARY",
+            "source_date": "2024-05-10",
+            "extracted_text": "Known Type 2 Diabetes Mellitus on Metformin 500mg BD. Hypertension on Telmisartan 40mg OD.",
+            "source_tag": "[Doc#1: Discharge Summary 2024-05-10]"
+        },
+        {
+            "document_id": "DOC_002",
+            "type": "LAB_REPORT",
+            "source_date": "2024-05-12",
+            "extracted_text": "Fasting Blood Sugar: 142 mg/dL (Ref: 70-100), HbA1c: 7.8% (Ref: <5.7).",
+            "source_tag": "[Doc#2: Lab Report 2024-05-12]"
+        }
+    ]
+
+    from app.services.model_service import model_service
+    res = await model_service.synthesize_clinical_summary(
+        interview_facts=interview_facts,
+        ocr_extracted_documents=ocr_records,
+        session_id=session_id,
+    )
+    return res
+
+
+@router.get("/ai/health")
+async def ai_health_status():
+    """Diagnostic health check across all AI model providers."""
+    from app.services.model_service import model_service
+    return await model_service.get_health_status()
+
