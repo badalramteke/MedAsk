@@ -51,15 +51,27 @@
           {
             "question_id": "SOC_CP_004_RADIATION",
             "data_element": "hpi.chest_pain.radiation",
-            "selected_option_ids": ["OPT_CP_RAD_LEFT_ARM", "OPT_CP_RAD_JAW_NECK"],
-            "value_codes": ["RADIATION_LEFT_ARM_SHOULDER", "RADIATION_JAW_NECK"],
+            "selected_option_ids": [
+              "OPT_CP_RAD_LEFT_ARM",
+              "OPT_CP_RAD_JAW_NECK"
+            ],
+            "value_codes": [
+              "RADIATION_LEFT_ARM_SHOULDER",
+              "RADIATION_JAW_NECK"
+            ],
             "user_text_hi": "दर्द बाएं हाथ और जबड़े तक फैल रहा है"
           },
           {
             "question_id": "SOC_CP_005_ASSOC",
             "data_element": "hpi.chest_pain.associated_symptoms",
-            "selected_option_ids": ["OPT_CP_ASSOC_SWEATING", "OPT_CP_ASSOC_BREATHLESS"],
-            "value_codes": ["DIAPHORESIS_SWEATING", "DYSPNOEA_SHORTNESS_BREATH"],
+            "selected_option_ids": [
+              "OPT_CP_ASSOC_SWEATING",
+              "OPT_CP_ASSOC_BREATHLESS"
+            ],
+            "value_codes": [
+              "DIAPHORESIS_SWEATING",
+              "DYSPNOEA_SHORTNESS_BREATH"
+            ],
             "user_text_hi": "बहुत ठंडा पसीना आ रहा है और सांस फूल रही है"
           },
           {
@@ -79,8 +91,12 @@
           {
             "question_id": "SOC_CP_007_EXAC_REL",
             "data_element": "hpi.chest_pain.exacerbating_relieving",
-            "selected_option_ids": ["OPT_CP_EXAC_EXERTION"],
-            "value_codes": ["WORSE_WITH_EXERTION"],
+            "selected_option_ids": [
+              "OPT_CP_EXAC_EXERTION"
+            ],
+            "value_codes": [
+              "WORSE_WITH_EXERTION"
+            ],
             "user_text_hi": "मेहनत करने से दर्द बढ़ता है"
           },
           {
@@ -94,7 +110,10 @@
       },
       "expected_outcomes": {
         "red_flag_triggered": true,
-        "triggered_rule_ids": ["RF_CARD_001_CHEST_PAIN_RADIATION", "RF_CARD_002_DIAPHORESIS_CONCERNING"],
+        "triggered_rule_ids": [
+          "RF_CARD_001_CHEST_PAIN_RADIATION",
+          "RF_CARD_002_DIAPHORESIS_CONCERNING"
+        ],
         "urgency_level": "EMERGENCY_CRITICAL",
         "action_code": "EMERGENCY_TRIAGE_NOTIFY_PHYSICIAN_IMMEDIATE",
         "question_flow": [
@@ -137,8 +156,16 @@
           "date": "2025-11-10",
           "summary_mr": "टाइप २ मधुमेह व उच्च रक्तदाब नियमित तपासणी - मेटफॉर्मिन ५०० मिग्रॅ, अम्लोडिपिन ५ मिग्रॅ",
           "medications": [
-            {"drug_name": "Metformin", "dosage": "500 mg", "frequency": "twice_daily"},
-            {"drug_name": "Amlodipine", "dosage": "5 mg", "frequency": "once_daily"}
+            {
+              "drug_name": "Metformin",
+              "dosage": "500 mg",
+              "frequency": "twice_daily"
+            },
+            {
+              "drug_name": "Amlodipine",
+              "dosage": "5 mg",
+              "frequency": "once_daily"
+            }
           ]
         },
         {
@@ -147,7 +174,10 @@
           "document_type": "discharge_summary",
           "date": "2026-03-15",
           "summary_mr": "रक्तशर्करा अनियंत्रित राहिल्यामुळे ३ दिवस ॲडमिट - इन्शुलिन थेरपी सुरू",
-          "diagnosis": ["Uncontrolled Type 2 Diabetes Mellitus", "Essential Hypertension"]
+          "diagnosis": [
+            "Uncontrolled Type 2 Diabetes Mellitus",
+            "Essential Hypertension"
+          ]
         },
         {
           "document_id": "DOC_20260720_MR_03",
@@ -156,16 +186,31 @@
           "date": "2026-07-20",
           "summary_mr": "रक्तदाब वाढल्यामुळे औषधात बदल - टेलमिसार्टन ४० मिग्रॅ",
           "medications": [
-            {"drug_name": "Telmisartan", "dosage": "40 mg", "frequency": "once_daily"}
+            {
+              "drug_name": "Telmisartan",
+              "dosage": "40 mg",
+              "frequency": "once_daily"
+            }
           ]
         }
       ],
       "expected_outcomes": {
         "document_count": 3,
-        "document_types": ["prescription", "discharge_summary", "prescription"],
-        "timeline_order": ["DOC_20251110_MR_01", "DOC_20260315_MR_02", "DOC_20260720_MR_03"],
+        "document_types": [
+          "prescription",
+          "discharge_summary",
+          "prescription"
+        ],
+        "timeline_order": [
+          "DOC_20251110_MR_01",
+          "DOC_20260315_MR_02",
+          "DOC_20260720_MR_03"
+        ],
         "chronological_association_valid": true,
-        "active_conditions": ["type_2_diabetes_mellitus", "essential_hypertension"]
+        "active_conditions": [
+          "type_2_diabetes_mellitus",
+          "essential_hypertension"
+        ]
       }
     },
     {
@@ -188,21 +233,81 @@
       },
       "ayush_assessment": {
         "primary_dashavidha_parameters": [
-          {"parameter_id": "AYU_DASH_001_PRAKRITI", "selected_option_id": "OPT_PRAKRITI_VK", "value_code": "PRAKRITI_VATA_KAPHA"},
-          {"parameter_id": "AYU_DASH_002_VIKRITI", "selected_option_ids": ["OPT_VIKRITI_VATA_VRIDDHI"], "value_codes": ["VIKRITI_VATA_VRIDDHI"]},
-          {"parameter_id": "AYU_DASH_003_SARA", "selected_option_id": "OPT_SARA_MADHYAMA", "value_code": "SARA_MADHYAMA"},
-          {"parameter_id": "AYU_DASH_004_SAMHANANA", "selected_option_id": "OPT_SAMHANANA_MADHYAMA", "value_code": "SAMHANANA_MADHYAMA"},
-          {"parameter_id": "AYU_DASH_005_PRAMANA", "selected_option_id": "OPT_PRAMANA_PRAMANAYUKTA", "value_code": "PRAMANA_PRAMANAYUKTA"},
-          {"parameter_id": "AYU_DASH_006_SATMYA", "selected_option_id": "OPT_SATMYA_MADHYAMA", "value_code": "SATMYA_MADHYAMA"},
-          {"parameter_id": "AYU_DASH_007_SATTVA", "selected_option_id": "OPT_SATTVA_PRAVARA", "value_code": "SATTVA_PRAVARA_HIGH_ENDURANCE"},
-          {"parameter_id": "AYU_DASH_008_AHARA_SHAKTI", "selected_option_id": "OPT_AHARA_AVARA", "value_code": "AHARA_SHAKTI_AVARA"},
-          {"parameter_id": "AYU_DASH_009_VYAYAMA_SHAKTI", "selected_option_id": "OPT_VYAYAMA_AVARA", "value_code": "VYAYAMA_SHAKTI_AVARA"},
-          {"parameter_id": "AYU_DASH_010_VAYA", "selected_option_id": "OPT_VAYA_MADHYAMA", "value_code": "VAYA_MADHYAMA_ADULTHOOD"}
+          {
+            "parameter_id": "AYU_DASH_001_PRAKRITI",
+            "selected_option_id": "OPT_PRAKRITI_VK",
+            "value_code": "PRAKRITI_VATA_KAPHA"
+          },
+          {
+            "parameter_id": "AYU_DASH_002_VIKRITI",
+            "selected_option_ids": [
+              "OPT_VIKRITI_VATA_VRIDDHI"
+            ],
+            "value_codes": [
+              "VIKRITI_VATA_VRIDDHI"
+            ]
+          },
+          {
+            "parameter_id": "AYU_DASH_003_SARA",
+            "selected_option_id": "OPT_SARA_MADHYAMA",
+            "value_code": "SARA_MADHYAMA"
+          },
+          {
+            "parameter_id": "AYU_DASH_004_SAMHANANA",
+            "selected_option_id": "OPT_SAMHANANA_MADHYAMA",
+            "value_code": "SAMHANANA_MADHYAMA"
+          },
+          {
+            "parameter_id": "AYU_DASH_005_PRAMANA",
+            "selected_option_id": "OPT_PRAMANA_PRAMANAYUKTA",
+            "value_code": "PRAMANA_PRAMANAYUKTA"
+          },
+          {
+            "parameter_id": "AYU_DASH_006_SATMYA",
+            "selected_option_id": "OPT_SATMYA_MADHYAMA",
+            "value_code": "SATMYA_MADHYAMA"
+          },
+          {
+            "parameter_id": "AYU_DASH_007_SATTVA",
+            "selected_option_id": "OPT_SATTVA_PRAVARA",
+            "value_code": "SATTVA_PRAVARA_HIGH_ENDURANCE"
+          },
+          {
+            "parameter_id": "AYU_DASH_008_AHARA_SHAKTI",
+            "selected_option_id": "OPT_AHARA_AVARA",
+            "value_code": "AHARA_SHAKTI_AVARA"
+          },
+          {
+            "parameter_id": "AYU_DASH_009_VYAYAMA_SHAKTI",
+            "selected_option_id": "OPT_VYAYAMA_AVARA",
+            "value_code": "VYAYAMA_SHAKTI_AVARA"
+          },
+          {
+            "parameter_id": "AYU_DASH_010_VAYA",
+            "selected_option_id": "OPT_VAYA_MADHYAMA",
+            "value_code": "VAYA_MADHYAMA_ADULTHOOD"
+          }
         ],
         "supporting_parameters": [
-          {"parameter_id": "AYU_SUPP_001_AGNI", "selected_option_id": "OPT_AGNI_VISHAMAGNI", "value_code": "AGNI_VISHAMAGNI"},
-          {"parameter_id": "AYU_SUPP_002_KOSHTHA", "selected_option_id": "OPT_KOSHTHA_KRURA", "value_code": "KOSHTHA_KRURA_CONSTIPATED"},
-          {"parameter_id": "AYU_SUPP_003_AHARA_VIHARA", "selected_option_ids": ["OPT_AHVI_RUKSHA_SHEETA"], "value_codes": ["PREFER_DRY_COLD_FOODS"]}
+          {
+            "parameter_id": "AYU_SUPP_001_AGNI",
+            "selected_option_id": "OPT_AGNI_VISHAMAGNI",
+            "value_code": "AGNI_VISHAMAGNI"
+          },
+          {
+            "parameter_id": "AYU_SUPP_002_KOSHTHA",
+            "selected_option_id": "OPT_KOSHTHA_KRURA",
+            "value_code": "KOSHTHA_KRURA_CONSTIPATED"
+          },
+          {
+            "parameter_id": "AYU_SUPP_003_AHARA_VIHARA",
+            "selected_option_ids": [
+              "OPT_AHVI_RUKSHA_SHEETA"
+            ],
+            "value_codes": [
+              "PREFER_DRY_COLD_FOODS"
+            ]
+          }
         ]
       },
       "expected_outcomes": {
@@ -233,7 +338,11 @@
       },
       "ayush_assessment": {
         "primary_dashavidha_parameters": [
-          {"parameter_id": "AYU_DASH_010_VAYA", "selected_option_id": "OPT_VAYA_BALA", "value_code": "VAYA_BALA_CHILDHOOD"}
+          {
+            "parameter_id": "AYU_DASH_010_VAYA",
+            "selected_option_id": "OPT_VAYA_BALA",
+            "value_code": "VAYA_BALA_CHILDHOOD"
+          }
         ]
       },
       "expected_outcomes": {
@@ -338,8 +447,16 @@
       ],
       "expected_outcomes": {
         "document_count": 3,
-        "document_types": ["radiology_xray", "discharge_summary", "clinical_note"],
-        "timeline_order": ["DOC_20260115_EN_01", "DOC_20260118_EN_02", "DOC_20260201_EN_03"],
+        "document_types": [
+          "radiology_xray",
+          "discharge_summary",
+          "clinical_note"
+        ],
+        "timeline_order": [
+          "DOC_20260115_EN_01",
+          "DOC_20260118_EN_02",
+          "DOC_20260201_EN_03"
+        ],
         "chronological_association_valid": true,
         "same_patient_association_confirmed": true
       }
@@ -481,7 +598,10 @@
         }
       ],
       "expected_outcomes": {
-        "validation_errors": ["INVALID_NEGATIVE_LAB_VALUE_CREATININE", "MISSING_REQUIRED_UNIT_POTASSIUM"],
+        "validation_errors": [
+          "INVALID_NEGATIVE_LAB_VALUE_CREATININE",
+          "MISSING_REQUIRED_UNIT_POTASSIUM"
+        ],
         "boundary_flag_map": {
           "LAB_FBG_001_99": "NORMAL",
           "LAB_FBG_001_100": "HIGH",

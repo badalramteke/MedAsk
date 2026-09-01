@@ -1,18 +1,13 @@
 # TODO
 
 ## Priority tasks
-- [ ] Review and approve the root/AI-context documentation group.
-- [ ] Confirm the complete Phase 0 foundation documentation baseline.
-- [ ] Define the first implementation milestone with owners, acceptance criteria, and approved clinical/integration dependencies.
-- [ ] Start implementation only after the milestone is approved.
-- [ ] Keep memory files updated at the end of each meaningful session.
+- [ ] Phase 2: Create the Question Engine mapping and flow logic.
+- [ ] Phase 2: Connect the frontend basic UI.
 
 ## Current priority order
-1. Complete final foundation review
-2. Lock the Phase 0 documentation baseline
-3. Decide the first implementation milestone
-4. Begin coding only after the milestone is approved and scoped
+1. Establish Phase 2 models and controllers.
+2. Bind mock database to real PostgreSQL in Phase 3.
 
 ## Notes
-- This list is intentionally short because the project is still in foundation mode
-- Update this file immediately when a task is completed or a new blocker is found
+- Phase 1 (Core data contract) is complete.
+- Update this file immediately when a task is completed or a new blocker is found.

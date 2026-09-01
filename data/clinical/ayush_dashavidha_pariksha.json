@@ -4,7 +4,14 @@
   "dataset_id": "ayush_dashavidha_pariksha_v1",
   "description": "Structured Ayurvedic intake dataset containing the ten primary Dashavidha Pariksha parameters and key supporting clinical parameters across six Indian languages.",
   "disclaimer": "This dataset defines structured data-capture parameters for Ayurvedic clinical history. It does not provide automated diagnostic scores or treatment recommendations.",
-  "supported_languages": ["en", "hi", "mr", "bn", "ta", "te"],
+  "supported_languages": [
+    "en",
+    "hi",
+    "mr",
+    "bn",
+    "ta",
+    "te"
+  ],
   "primary_dashavidha_parameters": [
     {
       "parameter_id": "AYU_DASH_001_PRAKRITI",

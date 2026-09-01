@@ -1,15 +1,12 @@
-# Failed Approaches
+# Failed and Rejected Approaches
 
-## Phase 0 record
-- No failed engineering approaches have been attempted yet because implementation has not started
-- No rejected technical direction has been validated in code or runtime
+## Phase 1: Core Data Contract
+- **Rejected: Loosely Typed JSON Dicts for Sessions** 
+  - *Attempted:* Initially considered keeping the `PatientDataObject` as a generic Python dictionary for flexibility before hitting the database.
+  - *Reason for Rejection:* AI modules need strict types to prevent hallucination. A loose dict allows an LLM to accidentally inject non-clinical fields. Enforcing it through strict Pydantic schemas guarantees safety.
 
-## Anti-patterns to avoid
-- Do not infer ABDM endpoint behavior without documentation
-- Do not bypass PatientDataObject or architecture layers
-- Do not assume a clinical rule exists without explicit source material
-- Do not implement route-level direct persistence
-
-## Notes
-- Add entries here immediately if a strategy fails or is later rejected
-- This file is meant to prevent repeated mistakes across sessions
+## Phase 0: Foundation
+- **Rejected: Direct Database Access from Frontend routes**
+  - *Reason for Rejection:* Security and HIPAA/DPDP compliance mandates an API middleware layer.
+- **Rejected: Multi-Tenant Architecture for MVP**
+  - *Reason for Rejection:* Adding hospital tenancy logic before the core intake module is verified adds unnecessary complexity. Reverted to a single-tenant baseline for MVP.

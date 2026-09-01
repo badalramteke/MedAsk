@@ -3,7 +3,14 @@
   "version": "1.0.0",
   "dataset_id": "clinical_socrates_question_bank",
   "description": "Structured clinical question bank implementing the SOCRATES symptom evaluation framework across six major Indian languages.",
-  "supported_languages": ["en", "hi", "mr", "bn", "ta", "te"],
+  "supported_languages": [
+    "en",
+    "hi",
+    "mr",
+    "bn",
+    "ta",
+    "te"
+  ],
   "socrates_dimensions": [
     "site",
     "onset",
@@ -392,7 +399,9 @@
         {
           "trigger_id": "TRIG_CP_ASSOC_SWEAT",
           "condition_type": "OPTION_CONTAINS",
-          "target_value_codes": ["DIAPHORESIS_SWEATING"],
+          "target_value_codes": [
+            "DIAPHORESIS_SWEATING"
+          ],
           "next_question_id": "SOC_CP_009_DIAPHORESIS_FOLLOWUP"
         },
         {

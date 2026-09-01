@@ -1,19 +1,6 @@
 # Roadmap
 
-## Hackathon
-- Rapid prototype
-- Core patient intake flow
-- Basic AI summarization
-- Safety guardrails
+For the detailed, authoritative 16-phase delivery roadmap, please refer to:
+→ [PHASES.md](file:///c:/Users/ASUS/OneDrive/Pictures/college%205th%20sem/SIH/Foudational%20FIles/docs/operations/PHASES.md)
 
-## MVP
-- Full intake workflows
-- Multilingual support
-- Document processing
-- Clinician dashboard
-
-## Production
-- Security hardening
-- Privacy compliance
-- Deployability and monitoring
-- Integration readiness
+*Note: This file is kept as a stub to point to the correct operational documentation.*

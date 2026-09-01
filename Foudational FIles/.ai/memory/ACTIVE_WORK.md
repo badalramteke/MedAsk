@@ -1,21 +1,22 @@
 # Active Work
 
 ## Current session focus
-- Complete and review the foundation documentation set, group by group.
-- Preserve the approved four-module scope and production-oriented safety boundaries.
+- Phase 2 execution COMPLETE.
+- Ready for Phase 3 (MedGemma and ModelService integration).
 
 ## File-level focus
-- Root agent/project files and `.env.example`.
-- `.ai/CONTEXT.md` and memory handoff/status files.
+- `backend/app/engine/` — Question bank, flow controller, answer validator, red flag scanner.
+- `backend/app/models/interview.py` — Interview state, question/answer models, red flag alerts.
+- `backend/app/api/endpoints/sessions.py` — Updated with /next-question, /answer, /alerts endpoints.
+- `data/clinical/questions_general_intake.json` — New general intake dataset.
 
 ## Current task status
-- [x] Review existing AI memory scaffold
-- [x] Confirm project phase and operating rules
-- [x] Generate foundation documentation groups through operations
-- [ ] Review root/agent-context group and confirm foundation documentation baseline
-- [ ] Begin implementation planning only after foundation review is complete
+- [x] Phase 0: Foundation Setup
+- [x] Phase 1: Core Data Contract
+- [x] Phase 2: Question Engine Skeleton (rule-based, no AI)
+- [ ] Phase 3: MedGemma and ModelService integration
 
 ## Next session should begin with
-- Reading HANDOFF.md first
-- Reviewing CURRENT_STATE.md, ACTIVE_WORK.md, DECISIONS.md, and RULES.md
-- Building the first concrete implementation plan only after the foundation baseline is approved
+- Reading `HANDOFF.md` first.
+- Reading `PS.md` and `docs/product/PRD.md` (mandatory per RULES.md).
+- Reviewing `CURRENT_STATE.md`, `DECISIONS.md`, and `RULES.md`.
