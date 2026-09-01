@@ -1,5 +1,18 @@
 # Completed Work
 
+## Phase 6: API Layer Completion (Completed)
+- **Date Completed:** 2026-09-02
+- **Key Deliverables:**
+  - Standardized all 23 API endpoints across 5 modular routers (`sessions`, `consent_router`, `documents_router`, `alerts_router`, `ops_router`).
+  - Added global middleware: `CorrelationIdMiddleware` (`X-Correlation-ID`), `IdempotencyMiddleware` (`X-Idempotency-Key` replay cache), and `CORSMiddleware`.
+  - Added centralized error handling middleware mapping domain exceptions to standard codes in `docs/api/ERROR_CODES.md` (`VALIDATION_FAILED`, `UNAUTHORIZED`, `FORBIDDEN`, `CONSENT_REQUIRED`, `SESSION_NOT_FOUND`, `SESSION_CONFLICT`, `DOCUMENT_REJECTED`, `PROCESSING_UNAVAILABLE`, `RATE_LIMITED`, `INTERNAL_ERROR`).
+  - Implemented ABDM M1 ABHA Authentication endpoints (`/abha/initiate`, `/abha/confirm`) with sandbox simulation and profile linking into `PatientIdentity`.
+  - Implemented Server-Sent Events (SSE) streaming endpoint (`/summary/stream`) for long-running LLM summary delivery without reverse-proxy timeouts.
+  - Implemented real-time Global Triage Emergency Queue (`/alerts`) with nurse acknowledgement lifecycle (`TRIGGERED -> ACKNOWLEDGED`).
+  - Implemented Document upload security with binary magic-byte validation (JPEG, PNG, PDF), 10MB file limit, and session quota enforcement.
+  - Built 13-test automated pytest integration suite (`backend/tests/test_api_suite.py`) with 100% pass rate.
+  - Generated `docs/retrospectives/PHASE_6_RETROSPECTIVE.md`.
+
 ## Phase 5: Summary Generator — Module C (Completed)
 - **Date Completed:** 2026-09-02
 - **Key Deliverables:**

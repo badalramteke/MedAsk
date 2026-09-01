@@ -110,5 +110,20 @@
 - Why: Satisfies national clinical AI safety regulations (PRD Section 11.4) and ensures complete medico-legal clinician authority over generated health records.
 - Status: Approved and active.
 
+## 2026-09-02 — Standardized Error Envelopes & Zero Information Leakage
+- Decision: All FastAPI exceptions are intercepted by global handlers and transformed into standard `ERROR_CODES.md` envelopes with stable machine-readable codes, correlation IDs, and safe messages. No SQL queries, stack traces, or internal model prompts are ever returned to HTTP clients.
+- Why: Mandated by `docs/api/ERROR_CODES.md` and cybersecurity zero-trust principles for hospital-grade deployments.
+- Status: Approved and active.
+
+## 2026-09-02 — Server-Sent Events (SSE) for Long-Running Clinical Synthesis
+- Decision: Provide `GET /api/v1/sessions/{id}/summary/stream` alongside synchronous REST calls to stream LLM synthesis status and tokens in real-time.
+- Why: MedGemma inference takes 15-35s on GPU; SSE streaming prevents reverse proxy 504 timeouts and provides live feedback to the patient/doctor.
+- Status: Approved and active.
+
+## 2026-09-02 — Binary Magic-Byte File Validation for Document Staging
+- Decision: Document uploads are validated against actual file header signatures (magic bytes for JPEG `\xff\xd8\xff`, PNG `\x89PNG`, PDF `%PDF-`) rather than trusting client-provided Content-Type headers or file extensions.
+- Why: Prevents malicious executable uploads (e.g. polyglot binaries disguised as `.jpg`) from entering the OCR pipeline.
+- Status: Approved and active.
+
 
 

@@ -215,10 +215,14 @@ class ClinicalWorkflowManager:
             }
             answered_questions["__CHIEF_COMPLAINT__"] = chief_complaint
             
-            # Perform domain routing here so the graph router sees it
             from app.engine.nodes.chief_complaint import CHIEF_COMPLAINT_TO_DOMAIN
             from app.engine.question_bank import question_bank
-            domain = CHIEF_COMPLAINT_TO_DOMAIN.get(chief_complaint.strip().lower())
+            cc_lower = chief_complaint.strip().lower()
+            domain = None
+            for pattern, matched_domain in CHIEF_COMPLAINT_TO_DOMAIN.items():
+                if pattern in cc_lower:
+                    domain = matched_domain
+                    break
             if domain and question_bank.has_socrates_domain(domain):
                 update["active_symptom_domain"] = domain
         else:

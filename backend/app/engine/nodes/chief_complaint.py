@@ -61,11 +61,13 @@ def chief_complaint_node(state: Dict[str, Any]) -> Dict[str, Any]:
     # Chief complaint already recorded — determine SOCRATES routing
     complaint_text = state.get("chief_complaint", "")
     complaint_lower = complaint_text.strip().lower() if complaint_text else ""
-    
-    domain = CHIEF_COMPLAINT_TO_DOMAIN.get(complaint_lower)
-    print("CHIEF COMPLAINT DOMAIN MATCHED:", domain)
+    domain = None
+    for pattern, matched_domain in CHIEF_COMPLAINT_TO_DOMAIN.items():
+        if pattern in complaint_lower:
+            domain = matched_domain
+            break
+
     if domain and question_bank.has_socrates_domain(domain):
-        print("RETURNING ACTIVE DOMAIN:", domain)
         return {
             "current_step": "chief_complaint",
             "active_symptom_domain": domain,

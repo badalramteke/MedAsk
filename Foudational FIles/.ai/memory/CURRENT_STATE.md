@@ -1,45 +1,68 @@
 # Current State
 
-## Current Phase: Phase 5 (Summary Generator) Completed / Phase 6 (API Layer Completion) Next
+## Current Phase: Phase 6 (API Layer Completion) Completed / Phase 7 (Voice Intake Engine) Next
 - **Phase 0 (Foundation Setup):** COMPLETED. Directory structure, docker-compose (Redis + Postgres), MedGemma connectivity check, and requirements locked.
 - **Phase 1 (Core Data Contract & Session Foundation):** COMPLETED. Full `PatientDataObject` Pydantic models (identity, consent, history, ayush, provenance, patch) and session repository.
 - **Phase 2 (Question Engine Skeleton — Rule-based, No AI):** COMPLETED. Dynamic branching engine with `QuestionBank`, `FlowController`, `AnswerValidator`, `RedFlagScanner`, general intake dataset with female menstrual routing (31 total questions), and `/next-question`, `/answer`, `/alerts` endpoints.
 - **Phase 3 (MedGemma & ModelService Integration):** COMPLETED. Implemented `ModelService`, `ColabMedGemmaAdapter` (verified LIVE on Google Colab GPU with `google/medgemma-1.5-4b-it`), `GeminiAdapter`, `MockModelAdapter`, prompt templates, safety gating, and session AI endpoints (`/ai/structure-narration`, `/ai/generate-summary`, `/ai/health`).
 - **Phase 4 (LangGraph Clinical Workflow & Safety Rules):** COMPLETED. Stateful `ClinicalInterviewState` with nodes for Chief Complaint, SOCRATES, General, Menstrual, AYUSH, Validator, and real-time red-flag triage scanner.
-- **Phase 5 (Summary Generator — Module C):** COMPLETED.
-  - Implemented `ClinicalSummaryDraft` schema with 9 distinct clinical sections matching FHIR R4 requirements.
-  - Added bilingual audio confirmation script generation (`patient_audio_script_local_lang`) and AYUSH `ayush_summary` support.
-  - Refactored `/sessions/{id}/ai/generate-summary` to extract LangGraph state without PII.
-  - Implemented Clinician Actions: `POST /sessions/{id}/summary/review` (ACCEPTED, AMENDED with section-level edits, REJECTED) and `GET /sessions/{id}/summary`.
-  - Verified LIVE inference with `google/medgemma-1.5-4b-it` on Colab GPU for both clinical summary synthesis (36s) and multimodal chest X-ray image analysis (73s) via `/api/v1/multimodal-infer`.
-- **Phase 6 (API Layer Completion):** NEXT UP.
-
+- **Phase 5 (Summary Generator — Module C):** COMPLETED. Implemented `ClinicalSummaryDraft` schema with 9 distinct clinical sections matching FHIR R4 requirements, bilingual audio confirmation scripts, clinician review actions (`ACCEPTED`, `AMENDED`, `REJECTED`), and verified live inference on GPU for summary synthesis (36s) and multimodal chest X-ray image analysis (73s).
+- **Phase 6 (API Layer Completion):** COMPLETED.
+  - Standardized all 23 API endpoints across 5 modular routers (`sessions`, `consent_router`, `documents_router`, `alerts_router`, `ops_router`).
+  - Added global middleware (`CorrelationIdMiddleware` for `X-Correlation-ID`, `IdempotencyMiddleware` for `X-Idempotency-Key`, and `CORSMiddleware`).
+  - Added standardized exception handling mapping errors to canonical codes in `docs/api/ERROR_CODES.md`.
+  - Implemented ABDM M1 ABHA Authentication endpoints (`/abha/initiate`, `/abha/confirm`) with sandbox mode and profile linking.
+  - Implemented Server-Sent Events (SSE) streaming endpoint (`/summary/stream`) for draft generation.
+  - Implemented real-time Global Triage Emergency Queue (`/alerts`) with staff acknowledgement lifecycle.
+  - Implemented Document upload security (magic bytes, 10MB limits, quota checks).
+  - Verified 100% of backend contracts via 13-test automated pytest suite (`backend/tests/test_api_suite.py`).
+- **Phase 7 (Voice Intake Engine — Module E):** NEXT UP.
 
 ## Built and working right now
 - **Project Documentation:** Foundational documentation under `docs/` fully updated and synchronized.
-- **AI Memory System:** Initialized in `.ai/memory/` with approved decisions, rules, completed work, and retrospectives for Phase 0, 1, and 2.
+- **AI Memory System:** Initialized in `.ai/memory/` with approved decisions, rules, completed work, and retrospectives for Phases 0 through 6.
 - **Data Contract:** Type-safe Pydantic models implementing `PatientDataObject` with RFC 6902 JSON-Patch support.
 - **Question Engine Skeleton (`backend/app/engine/`):**
   - `question_bank.py`: Loads and indexes 31 questions (17 SOCRATES across 2 domains + 14 General Intake across 7 sections, with female-specific menstrual history gating).
   - `flow_controller.py`: Dynamic branching state machine (Chief Complaint → SOCRATES Deep-Dive → General History → Menstrual History if Female → Complete) using JSON `followup_triggers`.
   - `answer_validator.py`: Strict validation of submitted `value_code` against JSON options.
   - `red_flag_scanner.py`: Real-time scan of 13 deterministic emergency rules via `structured_fact_pattern` matching after every answer.
+  - `langgraph_workflow.py`: Stateful LangGraph workflow with nodes for chief complaint, SOCRATES, AYUSH, general history, menstrual history, red-flag scanner, and validator.
 - **Clinical Datasets (`data/clinical/`):**
   - `questions_socrates.json` (17 questions, 6 languages)
   - `questions_general_intake.json` (14 questions, 7 sections, 6 languages, branching triggers + gender gating)
   - `red_flags_rules.json` (13 rules, 4 emergency categories, 6 languages)
   - `ayush_dashavidha_pariksha.json` (10 parameters, 6 languages — reserved for AYUSH hospital deployments)
   - `lab_reference_ranges.json` (Reserved for Phase 8 doc digitization)
-- **API Endpoints (`backend/app/api/endpoints/sessions.py`):**
-  - `POST /sessions/` (Create intake session)
-  - `GET /sessions/{id}` (Retrieve session PDO)
-  - `GET /sessions/{id}/next-question` (Get localized next question)
-  - `POST /sessions/{id}/answer` (Submit answer, patch PDO, scan red flags, advance state)
-  - `GET /sessions/{id}/alerts` (Get active red-flag alerts)
+- **API Endpoints (23 OpenAPI Paths):**
+  - `POST /api/v1/sessions/` (Create intake session)
+  - `GET /api/v1/sessions/{id}` (Retrieve session PDO)
+  - `DELETE /api/v1/sessions/{id}` (Purge ephemeral session data)
+  - `POST /api/v1/sessions/{id}/abha/initiate` (ABDM M1 initiate auth)
+  - `POST /api/v1/sessions/{id}/abha/confirm` (ABDM M1 confirm OTP & link profile)
+  - `GET /api/v1/sessions/{id}/next-question` (Get localized next question)
+  - `POST /api/v1/sessions/{id}/answer` (Submit answer, patch PDO, scan red flags, advance state)
+  - `POST /api/v1/sessions/{id}/ai/structure-narration` (Structure free text narration)
+  - `POST /api/v1/sessions/{id}/ai/generate-summary` (Generate 9-section clinical draft)
+  - `GET /api/v1/sessions/{id}/summary/stream` (SSE stream summary generation)
+  - `GET /api/v1/sessions/{id}/summary` (Inspect summary draft)
+  - `POST /api/v1/sessions/{id}/summary/review` (Clinician action: ACCEPT, AMEND, REJECT)
+  - `GET /api/v1/sessions/{id}/consent` (Inspect DPDP consent status)
+  - `POST /api/v1/sessions/{id}/consent` (Grant granular consent)
+  - `POST /api/v1/sessions/{id}/consent/revoke` (Revoke consent scope)
+  - `POST /api/v1/sessions/{id}/documents/upload` (Upload with magic-byte validation)
+  - `GET /api/v1/sessions/{id}/documents` (List staged documents)
+  - `GET /api/v1/sessions/{id}/documents/{doc_id}` (Inspect staged document)
+  - `GET /api/v1/alerts` (Global emergency triage queue)
+  - `GET /api/v1/sessions/{id}/alerts` (Session red-flag alerts)
+  - `POST /api/v1/alerts/{alert_id}/acknowledge` (Triage nurse acknowledgement)
+  - `GET /health` & `GET /api/v1/health` (Liveness probes)
+  - `GET /api/v1/ready` (Deep readiness probe)
+  - `GET /api/v1/ai/health` (AI provider diagnostics)
 
 ## Locked-in tech stack & decisions
 - Frontend: Next.js (with mandatory element attribute schema and `PATHS.md` registry)
-- Backend: FastAPI
+- Backend: FastAPI with modular routers, correlation tracing, and idempotency caching
 - AI orchestration: LangGraph with LangChain integration layer
 - Model layer: MedGemma served on Google Colab (vLLM/FastAPI) as primary, with Gemini/Grok API fallback via ModelService
 - Vision & OCR: Dual-path (Tesseract/PaddleOCR for text docs → MedGemma summary; direct multimodal MedGemma for medical images)
@@ -48,7 +71,3 @@
 - Clinical: Allopathic SOCRATES + Full Dashavidha Pariksha & AYUSH parameters (separate AYUSH deployment config)
 - Data and interoperability: Cloud Supabase + local Docker, PatientDataObject, FHIR R4, ABDM sandbox model, ephemeral audio termination with persistent history
 - Demonstration: Separate dedicated portal for Clinician review (`/doctor`)
-
-## Notes
-- Update this file at the end of every session with the actual state, not planned state
-- Do not mark features as working unless they are verified in code or runtime

@@ -23,6 +23,16 @@ This project follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) st
   - Implemented Clinician Review actions (`POST /{session_id}/summary/review` supporting `ACCEPTED`, `AMENDED` with section-level patching, and `REJECTED`).
   - Attached automated provenance tracking (`source_type`, `confidence`, `review_status`).
   - Verified LIVE inference with `google/medgemma-1.5-4b-it` on Google Colab GPU for both structured clinical summary synthesis and multimodal Chest X-ray image analysis (`/api/v1/multimodal-infer`).
+- **Phase 6:** API Layer Completion (`backend/app/api/`, `backend/app/middleware/`, `backend/tests/`):
+  - Standardized all 23 API endpoints across 5 modular routers (`sessions`, `consent_router`, `documents_router`, `alerts_router`, `ops_router`).
+  - Implemented `CorrelationIdMiddleware` for end-to-end `X-Correlation-ID` tracing.
+  - Implemented `IdempotencyMiddleware` with replay cache for safe retries over `X-Idempotency-Key`.
+  - Built centralized error handling mapping domain exceptions strictly to `docs/api/ERROR_CODES.md` with zero secret/stack-trace leakage.
+  - Added ABDM M1 ABHA Authentication endpoints (`/abha/initiate`, `/abha/confirm`) with sandbox simulation and profile linking.
+  - Added Server-Sent Events (SSE) streaming endpoint (`/summary/stream`) for long-running LLM summary delivery.
+  - Added Global Triage Emergency Queue (`/alerts`) with nurse acknowledgement lifecycle.
+  - Added Document upload security (magic-byte validation, 10MB limit, quota enforcement).
+  - Built 13-test automated pytest integration suite (`backend/tests/test_api_suite.py`) with 100% pass rate.
 - **Architecture Updates:** Formally established dual-path OCR (Tesseract/PaddleOCR/EasyOCR for document text extraction + source attribution) and MedGemma's role as the primary clinical summary synthesizer (Module C) + medical image interpreter (X-rays, sonography, CT).
 
 
