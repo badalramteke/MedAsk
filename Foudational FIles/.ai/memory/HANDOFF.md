@@ -1,28 +1,25 @@
 # Handoff
 
 ## Session status
-- Current phase: Ready to begin Phase 4 (LangGraph Clinical Workflow & Safety Rules).
-- Phase 0 (Foundation), Phase 1 (Core Data Contract), Phase 2 (Question Engine), and Phase 3 (MedGemma & ModelService Integration) are 100% completed and verified.
-- MedGemma 1.5 4B-IT verified LIVE and functional on Google Colab GPU.
+- Current phase: Ready to begin Phase 6 (API Layer Completion).
+- Phases 0–5 (Foundation, Core Data Contract, Question Engine, ModelService, LangGraph Workflow, and Summary Generator) are 100% completed, tested, and verified.
+- MedGemma 1.5 4B-IT verified LIVE and functional on Google Colab GPU for both clinical summary synthesis and multimodal chest X-ray image analysis.
 
-## What was done in the last session (Phase 2)
-- Created `backend/app/models/interview.py` (InterviewState, QuestionResponse, AnswerSubmission, RedFlagAlert, AnswerResult).
-- Authored `data/clinical/questions_general_intake.json` containing 14 structured questions across 7 clinical domains in 6 Indian languages with dynamic `followup_triggers` and gender-gated female menstrual/reproductive history (`GEN_MEN_001`, `GEN_MEN_002`).
-- Implemented `backend/app/engine/question_bank.py` indexing 31 total questions across SOCRATES and general intake with gender restriction awareness.
-- Implemented `backend/app/engine/flow_controller.py` providing dynamic branching (Chief Complaint → SOCRATES deep dive → General History → Menstrual History if Female).
-- Implemented `backend/app/engine/answer_validator.py` ensuring submitted options strictly match JSON specifications.
-- Implemented `backend/app/engine/red_flag_scanner.py` evaluating 13 deterministic emergency rules via `structured_fact_pattern` matching after every answer.
-- Updated `backend/app/api/endpoints/sessions.py` with `/next-question`, `/answer`, and `/alerts` endpoints with gender context.
-- Locked architectural separation: dedicated OCR engines (Tesseract/PaddleOCR/EasyOCR) for raw document text + ranges with source tagging; MedGemma for clinical summary synthesis with source provenance citations + medical image visual understanding (X-rays, sonography, CT).
-- Generated `docs/retrospectives/PHASE_2_RETROSPECTIVE.md` with complete implementation overview and presentation talking points.
-- Synchronized all `.ai/memory/` files and updated foundational documentation.
+## What was done in the last session (Phase 5)
+- Expanded `ClinicalSummaryDraft` in `backend/app/models/ai.py` with all 9 FHIR-aligned clinical sections, AYUSH summary, and clinician review governance fields.
+- Overhauled `SUMMARY_SYNTHESIS_SYSTEM_V1` in `backend/app/services/prompt_templates.py` with strict non-diagnostic medical scribe rules, pertinent negatives, and direct raw JSON enforcement.
+- Refactored `generate_summary_endpoint` in `backend/app/api/endpoints/sessions.py` to pull state from LangGraph, strip PII, attach automated provenance metadata, and persist draft to `PatientDataObject.summary`.
+- Built Clinician Review endpoints in `sessions.py`: `POST /{session_id}/summary/review` (handling `ACCEPTED`, `AMENDED` with section-level patching, and `REJECTED`) and `GET /{session_id}/summary`.
+- Calibrated `ColabMedGemmaAdapter` timeout and max token limits, and enhanced regex JSON block extraction.
+- Ran live end-to-end tests against MedGemma on Colab GPU for both structured clinical summary generation and multimodal Chest X-ray image analysis (`/api/v1/multimodal-infer`) with zero fallback.
+- Generated `docs/retrospectives/PHASE_5_RETROSPECTIVE.md`.
 
 ## State left behind
-- Verified, error-free Python files in `backend/app/` compiled successfully.
-- Active memory system tracking Phase 0–2 completed state.
-- Clear separation between general/allopathic and dedicated AYUSH hospital deployment models established in `DECISIONS.md`.
+- Verified, error-free Python backend files in `backend/app/`.
+- All 17 `ClinicalSummaryDraft` fields passing strict Pydantic validation.
+- Active memory system tracking Phase 0–5 completed state.
 
 ## What the next session should start with
-1. Read `RULES.md` and complete the mandatory Pre-Flight check: review `CURRENT_STATE.md`, `TODO.md`, `ACTIVE_WORK.md`, `DECISIONS.md`, `PS.md`, and `docs/product/PRD.md`.
-2. Review Phase 3 specifications in `docs/operations/PHASES.md` and `docs/ai/MODEL_ABSTRACTION.md`.
-3. Begin implementing `ModelService` and provider adapters (MedGemma via Colab GPU + Gemini/Grok fallbacks) in `backend/app/services/`.
+1. Read `RULES.md` and complete mandatory Pre-Flight check: review `CURRENT_STATE.md`, `TODO.md`, `ACTIVE_WORK.md`, `DECISIONS.md`, `PS.md`, and `docs/product/PRD.md`.
+2. Review Phase 6 specifications in `docs/operations/PHASES.md` and `docs/api/API_CONTRACTS.md`.
+3. Begin implementing Phase 6 API layer completion (typed REST/SSE contracts, consent management, standardized error codes, idempotency, and automated integration test suite).

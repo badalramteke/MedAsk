@@ -1,5 +1,26 @@
 # Completed Work
 
+## Phase 5: Summary Generator — Module C (Completed)
+- **Date Completed:** 2026-09-02
+- **Key Deliverables:**
+  - Expanded `ClinicalSummaryDraft` in `backend/app/models/ai.py` to include all 9 required clinical sections (`patient_chief_complaint`, `hpi_summary`, `past_medical_surgical_summary`, `medications_and_allergies`, `family_history_summary`, `personal_social_history_summary`, `review_of_systems_summary`, `investigations_and_lab_summary`, `imaging_findings_summary`, `menstrual_reproductive_summary`), plus `ayush_summary`, `clinician_review_flags`, `patient_audio_script_local_lang`, and `provenance`.
+  - Overhauled `SUMMARY_SYNTHESIS_SYSTEM_V1` in `backend/app/services/prompt_templates.py` with strict non-diagnostic medical scribe rules, pertinent negatives capture, source-citation tagging, and direct raw JSON enforcement.
+  - Refactored `/sessions/{session_id}/ai/generate-summary` in `backend/app/api/endpoints/sessions.py` to pull state from LangGraph, strip PII, attach automated provenance metadata, and persist draft to `PatientDataObject.summary`.
+  - Built Clinician Review endpoints in `sessions.py`: `POST /{session_id}/summary/review` (handling `ACCEPTED`, `AMENDED` with section-level patching, `REJECTED`) and `GET /{session_id}/summary`.
+  - Updated `MockModelAdapter` to produce fully compliant mock data across all 17 schema fields.
+  - Added strict Pydantic schema validation inside `ModelService._execute_cascade`.
+  - Verified LIVE inference with `google/medgemma-1.5-4b-it` on Google Colab GPU for both clinical summary synthesis (36s) and multimodal chest X-ray image analysis (73s) via `/api/v1/multimodal-infer`.
+
+## Phase 4: LangGraph Clinical Workflow & Safety Rules (Completed)
+- **Date Completed:** 2026-09-05
+- **Key Deliverables:**
+  - Migrated the procedural `FlowController` to a `StateGraph` using `langgraph==0.1.1`.
+  - Built state schema `ClinicalInterviewState` corresponding to PATIENT_DATA_OBJECT.md.
+  - Created workflow nodes representing clinical sub-tasks: `chief_complaint`, `socrates_node`, `general_history_node`, `menstrual_history_node`, `ayush_node`, `validator_node`.
+  - Managed dynamic routing logic resolving cyclic/recursive edge bugs by routing pending questions to `END` and injecting the next answer.
+  - Developed a non-blocking `wrap_with_red_flag` node that applies `RedFlagScanner` on node outputs to flag alerts immediately.
+  - Validated state correctness with automated tests confirming proper behavior in Allopathic and AYUSH workflows.
+
 ## Phase 3: MedGemma & ModelService Integration
 - **Date Completed:** 2026-09-01
 - **Key Deliverables:**

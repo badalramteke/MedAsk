@@ -1,5 +1,8 @@
-from fastapi import APIRouter, HTTPException, status
-from typing import List
+from fastapi import APIRouter, HTTPException, status, Body
+from typing import List, Optional, Dict, Any
+from datetime import datetime
+import os
+from pydantic import BaseModel, Field
 from app.models.core import PatientDataObject
 from app.models.patch import PatientDataPatch
 from app.models.interview import (
@@ -7,9 +10,8 @@ from app.models.interview import (
     QuestionResponse, RedFlagAlert,
 )
 from app.repositories.session_repository import session_repo
-from app.engine.flow_controller import flow_controller
 from app.engine.answer_validator import answer_validator
-from app.engine.red_flag_scanner import red_flag_scanner
+from app.engine.langgraph_workflow import workflow_manager
 
 router = APIRouter()
 
@@ -42,121 +44,125 @@ def get_session(session_id: str):
 @router.get("/{session_id}/next-question", response_model=QuestionResponse)
 def get_next_question(session_id: str):
     """
-    Get the next question for the patient based on their interview state.
-    If the interview hasn't started, returns the chief complaint prompt.
+    Get the next question for the patient based on their LangGraph interview state.
+    If the interview hasn't started, initializes the graph and returns the first prompt.
     """
     session = session_repo.get_session(session_id)
     if not session:
         raise HTTPException(status_code=404, detail="Session not found.")
 
-    state = _interview_states.get(session_id)
-    if not state:
-        state = InterviewState()
-        _interview_states[session_id] = state
-
-    lang = session.identity.preferred_language
-
-    if state.is_complete:
-        raise HTTPException(status_code=400, detail="Interview is already complete.")
-
-    # If no questions answered yet, return the first question
-    if not state.answered_question_ids:
-        question = flow_controller.get_first_question(state, lang)
-        return question
-
-    # Otherwise return the current question
-    if state.current_question_id:
-        from app.engine.question_bank import question_bank
-        localized = question_bank.localize_question(state.current_question_id, lang)
-        if localized:
-            from app.models.interview import QuestionOption
-            return QuestionResponse(
-                question_id=localized["question_id"],
-                question_text=localized["question_text"],
-                input_type=localized["input_type"],
-                options=[
-                    QuestionOption(option_id=o["option_id"], value_code=o["value_code"], text=o["text"])
-                    for o in localized["options"]
-                ],
-                data_element=localized.get("data_element"),
-                phase=state.current_phase,
-            )
-
-    raise HTTPException(status_code=400, detail="No more questions available.")
+    facility_type = os.getenv("MEDIKIOSK_FACILITY_ID", "GENERAL")
+    
+    try:
+        # Try to fetch existing state
+        state = workflow_manager.get_state(session_id, facility_type)
+        if state and state.get("is_completed"):
+            raise HTTPException(status_code=400, detail="Interview is already complete.")
+            
+        if state and state.get("pending_question_response"):
+            return state.get("pending_question_response")
+            
+        # If no state or no pending question, initialize workflow
+        lang = session.identity.preferred_language
+        gender = session.identity.gender
+        next_q, _ = workflow_manager.start_workflow(session_id, facility_type, gender, lang)
+        
+        if next_q:
+            return next_q
+            
+        raise HTTPException(status_code=400, detail="No more questions available.")
+    except Exception as e:
+        # Fallback if workflow not initialized
+        lang = session.identity.preferred_language
+        gender = session.identity.gender
+        next_q, _ = workflow_manager.start_workflow(session_id, facility_type, gender, lang)
+        if next_q:
+            return next_q
+        raise HTTPException(status_code=400, detail="Error starting workflow: " + str(e))
 
 
 @router.post("/{session_id}/answer", response_model=AnswerResult)
 def submit_answer(session_id: str, answer: AnswerSubmission):
     """
     Submit an answer to the current question.
-    Validates the answer, patches PDO, scans for red flags, advances state.
+    Advances the LangGraph state machine and returns the next step.
     """
     session = session_repo.get_session(session_id)
     if not session:
         raise HTTPException(status_code=404, detail="Session not found.")
 
-    state = _interview_states.get(session_id)
-    if not state:
+    facility_type = os.getenv("MEDIKIOSK_FACILITY_ID", "GENERAL")
+    
+    try:
+        state = workflow_manager.get_state(session_id, facility_type)
+        if not state:
+            raise HTTPException(status_code=400, detail="Interview not started. Call GET /next-question first.")
+        
+        if state.get("is_completed"):
+            raise HTTPException(status_code=400, detail="Interview is already complete.")
+            
+    except Exception:
         raise HTTPException(status_code=400, detail="Interview not started. Call GET /next-question first.")
 
-    if state.is_complete:
-        raise HTTPException(status_code=400, detail="Interview is already complete.")
-
-    lang = session.identity.preferred_language
-
-    gender = session.identity.gender
-
-    # Handle UNKNOWN / REFUSED states — skip validation, move forward
-    if answer.answer_state in ("UNKNOWN", "REFUSED"):
-        next_q = flow_controller.process_answer(
-            state, answer.question_id, [], answer.free_text, lang, gender=gender
+    # Handle UNKNOWN / REFUSED states — skip validation
+    if answer.answer_state not in ("UNKNOWN", "REFUSED"):
+        # Validate the answer
+        is_valid, error_msg = answer_validator.validate_answer(
+            answer.question_id, answer.selected_value_codes, answer.free_text
         )
-        return AnswerResult(
-            success=True,
-            next_question=next_q,
-            interview_complete=state.is_complete,
-        )
+        if not is_valid:
+            raise HTTPException(status_code=422, detail=error_msg)
 
-    # Validate the answer
-    is_valid, error_msg = answer_validator.validate_answer(
-        answer.question_id, answer.selected_value_codes, answer.free_text
-    )
-    if not is_valid:
-        raise HTTPException(status_code=422, detail=error_msg)
-
-    # Special handling for chief complaint
+    # Determine answer payload
     if answer.question_id == "__CHIEF_COMPLAINT__":
-        next_q = flow_controller.process_chief_complaint(state, answer.free_text or "", lang)
+        answer_payload = answer.free_text or ""
     else:
-        next_q = flow_controller.process_answer(
-            state, answer.question_id, answer.selected_value_codes, answer.free_text, lang, gender=gender
-        )
+        answer_payload = answer.selected_value_codes if answer.selected_value_codes else answer.free_text
 
-    # Run red flag scan after every answer
-    new_alerts = red_flag_scanner.scan(state.answer_history, lang)
+    # Advance the graph
+    next_q, new_state = workflow_manager.process_step(
+        session_id=session_id,
+        facility_type=facility_type,
+        answered_question_id=answer.question_id,
+        answer_value=answer_payload
+    )
 
-    # Store new alerts (deduplicate by rule_id)
-    existing_rule_ids = {a.rule_id for a in _session_alerts.get(session_id, [])}
-    for alert in new_alerts:
-        if alert.rule_id not in existing_rule_ids:
-            _session_alerts.setdefault(session_id, []).append(alert)
-
-    unique_new = [a for a in new_alerts if a.rule_id not in existing_rule_ids]
+    # Convert state active_red_flags to Response Models
+    # (In a real system, we'd compare before/after state to only return NEW alerts to the frontend)
+    # For now, we return all active alerts
+    alerts_data = new_state.get("active_red_flags", [])
+    alerts = []
+    for a in alerts_data:
+        try:
+            alerts.append(RedFlagAlert(**a))
+        except Exception:
+            pass # ignore invalid formatted alerts
+            
+    is_complete = new_state.get("is_completed", False)
 
     return AnswerResult(
         success=True,
         next_question=next_q,
-        new_alerts=unique_new,
-        interview_complete=state.is_complete,
+        new_alerts=alerts,
+        interview_complete=is_complete,
     )
 
 
 @router.get("/{session_id}/alerts", response_model=List[RedFlagAlert])
 def get_alerts(session_id: str):
-    """Get all active red-flag alerts for this session."""
-    if not session_repo.get_session(session_id):
+    """Get all active red-flag alerts for this session from LangGraph state."""
+    session = session_repo.get_session(session_id)
+    if not session:
         raise HTTPException(status_code=404, detail="Session not found.")
-    return _session_alerts.get(session_id, [])
+        
+    facility_type = os.getenv("MEDIKIOSK_FACILITY_ID", "GENERAL")
+    try:
+        state = workflow_manager.get_state(session_id, facility_type)
+        alerts_data = state.get("active_red_flags", [])
+        return [RedFlagAlert(**a) for a in alerts_data]
+    except Exception:
+        return []
+
 
 
 @router.post("/{session_id}/ai/structure-narration")
@@ -182,8 +188,33 @@ async def generate_summary_endpoint(session_id: str):
     if not session:
         raise HTTPException(status_code=404, detail="Session not found.")
 
-    state = _interview_states.get(session_id)
-    interview_facts = state.answer_history if state else {}
+    facility_type = os.getenv("MEDIKIOSK_FACILITY_ID", "GENERAL")
+    
+    try:
+        # Fetch the canonical interview state from the graph
+        state = workflow_manager.get_state(session_id, facility_type)
+        if not state:
+            raise HTTPException(status_code=400, detail="Interview not started.")
+    except Exception as e:
+        raise HTTPException(status_code=400, detail="Error fetching interview state: " + str(e))
+
+    # Strip PII. The model only needs the clinical facts, not the identity.
+    interview_facts = {
+        "answered_questions": state.get("answered_questions", {}),
+        "active_red_flags": state.get("active_red_flags", []),
+        "patient_demographics": {
+            "gender": session.identity.gender,
+            "age": session.identity.age,
+        },
+        "facility_type": facility_type
+    }
+
+    # If the user answered nothing (completely empty state)
+    if not interview_facts["answered_questions"] and not interview_facts["active_red_flags"]:
+        return {
+            "success": False,
+            "error_message": "Patient declined to provide history. No summary generated."
+        }
 
     # Sample source-tagged OCR records (to be linked with Module B in Phase 8)
     ocr_records = [
@@ -207,9 +238,94 @@ async def generate_summary_endpoint(session_id: str):
     res = await model_service.synthesize_clinical_summary(
         interview_facts=interview_facts,
         ocr_extracted_documents=ocr_records,
+        language=session.identity.preferred_language,
         session_id=session_id,
     )
+    
+    # Persist the draft in the backend session state for Phase 12 clinician review
+    if res.success and res.structured_payload:
+        # Attach provenance metadata to the draft
+        res.structured_payload["draft_status"] = "PENDING"
+        res.structured_payload["provenance"] = {
+            "source_type": "AI_GENERATED",
+            "source_id": res.provider_used,
+            "timestamp": datetime.utcnow().isoformat(),
+            "confidence": res.confidence_score,
+            "review_status": "PENDING",
+        }
+        session.summary = res.structured_payload
+        session_repo.save_session(session)
+        
     return res
+
+
+class SummaryActionRequest(BaseModel):
+    """Request body for clinician accept/amend/reject actions on the draft summary."""
+    action: str = Field(..., description="ACCEPTED | AMENDED | REJECTED")
+    amended_sections: Optional[Dict[str, Any]] = Field(default=None, description="Only required when action is AMENDED. Dict of section keys to new values.")
+    clinician_id: str = Field(..., description="ID of the reviewing clinician")
+    reason: Optional[str] = Field(default=None, description="Optional reason for rejection or amendment")
+
+
+@router.post("/{session_id}/summary/review")
+def review_summary(session_id: str, review: SummaryActionRequest):
+    """
+    Clinician action on the generated draft summary.
+    Supports accept, amend (with section-level edits), or reject.
+    The draft is never committed as a final clinical record without this explicit clinician action.
+    """
+    session = session_repo.get_session(session_id)
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found.")
+
+    if not session.summary:
+        raise HTTPException(status_code=400, detail="No draft summary exists for this session. Generate one first.")
+
+    if review.action not in ("ACCEPTED", "AMENDED", "REJECTED"):
+        raise HTTPException(status_code=422, detail="Invalid action. Must be ACCEPTED, AMENDED, or REJECTED.")
+
+    current_draft = session.summary
+
+    if review.action == "AMENDED":
+        if not review.amended_sections:
+            raise HTTPException(status_code=422, detail="amended_sections is required when action is AMENDED.")
+        # Apply section-level patches
+        for key, value in review.amended_sections.items():
+            if key in current_draft:
+                current_draft[key] = value
+
+    # Update draft status and provenance
+    current_draft["draft_status"] = review.action
+    current_draft["is_draft_for_clinician_review"] = review.action != "ACCEPTED"
+    current_draft["provenance"] = {
+        "source_type": "CLINICIAN_EDITED" if review.action == "AMENDED" else ("AI_GENERATED" if review.action == "ACCEPTED" else "AI_GENERATED"),
+        "source_id": review.clinician_id,
+        "timestamp": datetime.utcnow().isoformat(),
+        "confidence": None,
+        "review_status": "APPROVED" if review.action == "ACCEPTED" else ("APPROVED" if review.action == "AMENDED" else "REJECTED"),
+    }
+
+    session.summary = current_draft
+    session_repo.save_session(session)
+
+    return {
+        "success": True,
+        "session_id": session_id,
+        "draft_status": review.action,
+        "review_status": current_draft["provenance"]["review_status"],
+        "message": f"Draft summary has been {review.action.lower()} by clinician {review.clinician_id}."
+    }
+
+
+@router.get("/{session_id}/summary")
+def get_summary(session_id: str):
+    """Retrieve the current draft summary for a session, including its review status."""
+    session = session_repo.get_session(session_id)
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found.")
+    if not session.summary:
+        raise HTTPException(status_code=404, detail="No summary has been generated for this session.")
+    return session.summary
 
 
 @router.get("/ai/health")

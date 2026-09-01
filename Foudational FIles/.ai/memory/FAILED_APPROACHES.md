@@ -1,5 +1,17 @@
 # Failed and Rejected Approaches
 
+## Phase 5: Summary Generator & Model Orchestration
+- **Rejected: Monolithic "All History" String for Patient Summary**
+  - *Attempted:* Collapsing family, personal, and ROS sections into a single `past_history_summary` string.
+  - *Reason for Rejection:* Violates FHIR R4 `Composition.section` mapping criteria in ABDM specifications and prevents clinician section-level review and editing in the frontend UI. Decomposed into 9 distinct typed fields.
+- **Rejected: Autonomous Summary Finalization**
+  - *Attempted:* Committing the summary directly as a final record when generation finishes.
+  - *Reason for Rejection:* AI summaries must never be committed as final medical records without human clinician verification (PRD Section 11.4). Enforced `draft_status: PENDING` and explicit `POST /{session_id}/summary/review` action.
+- **Rejected: Permitting Unconstrained Thought Output on Edge/Colab Models**
+  - *Attempted:* Allowing the model to output free-form reasoning tokens before markdown blocks.
+  - *Reason for Rejection:* Exhausts token limits and creates unpredictable JSON boundaries. Replaced with explicit direct-JSON prompt constraints and regex block isolation.
+
+
 ## Phase 2: Question Engine & Flow Control
 - **Rejected: Hardcoded Procedural Question Ordering in Python Code**
   - *Attempted:* Considered defining the question sequence and branching logic as hardcoded Python `if/elif` statements inside the route handler or flow controller.

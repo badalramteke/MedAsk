@@ -100,4 +100,15 @@
 - Why: Standard clinical intake protocol mandates reproductive history for female patients while omitting irrelevant questions for male patients to maximize throughput and privacy.
 - Status: Approved and active.
 
+## 2026-09-02 — Explicit FHIR-Aligned Section Decomposition for ClinicalSummaryDraft
+- Decision: Decompose `ClinicalSummaryDraft` into distinct typed fields matching the 9 required sections of ABDM OPConsultRecord / FHIR R4 `Composition` (`patient_chief_complaint`, `hpi_summary`, `past_medical_surgical_summary`, `medications_and_allergies`, `family_history_summary`, `personal_social_history_summary`, `review_of_systems_summary`, `investigations_and_lab_summary`, `imaging_findings_summary`, `menstrual_reproductive_summary`), rather than collapsing family/personal/ROS into a single generic string.
+- Why: Prevents data loss during downstream FHIR serialization (Phase 9) and allows the physician UI (Phase 12) to render and edit each clinical section independently.
+- Status: Approved and active.
+
+## 2026-09-02 — Non-Autonomous Clinical Draft Governance (Accept/Amend/Reject Boundary)
+- Decision: The backend summary generator strictly produces a preliminary draft (`is_draft_for_clinician_review: true`, `draft_status: "PENDING"`) and NEVER commits an autonomous final record. The draft only transitions to `APPROVED` when an authorized clinician explicitly calls `POST /{session_id}/summary/review` with `action: ACCEPTED` or `action: AMENDED`.
+- Why: Satisfies national clinical AI safety regulations (PRD Section 11.4) and ensures complete medico-legal clinician authority over generated health records.
+- Status: Approved and active.
+
+
 

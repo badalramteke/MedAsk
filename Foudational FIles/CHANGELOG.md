@@ -16,6 +16,13 @@ This project follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) st
 - **Retrospectives:** Added auto-generating retrospective files for Phase 0 and Phase 1.
 - **Phase 2:** Dynamic rule-based question engine (`backend/app/engine/`), interview state machine with SOCRATES branching, red-flag scanner (13 rules), `questions_general_intake.json` (now 14 questions including female gender-gated Menstrual & Reproductive History in 6 languages), and session API endpoints (`/next-question`, `/answer`, `/alerts`).
 - **Phase 3:** Centralized `ModelService` orchestrator (`backend/app/services/model_service.py`), `ColabMedGemmaAdapter` verified LIVE with `google/medgemma-1.5-4b-it` on GPU, `GeminiAdapter`, `MockModelAdapter` fallback cascade, prompt versioning library (`PROMPT_LIBRARY.md`), non-diagnostic safety gating, and session AI endpoints (`/ai/structure-narration`, `/ai/generate-summary`, `/ai/health`).
+- **Phase 4:** Migrated clinical intake engine to LangGraph stateful interview graph (`StateGraph`), implemented `ClinicalInterviewState` with nodes for Chief Complaint, SOCRATES, General Intake, Menstrual/Reproductive, and AYUSH Dashavidha Pariksha, and wrapped nodes with automated `RedFlagScanner` triage rules.
+- **Phase 5:** Module C Summary Generator (`backend/app/services/prompt_templates.py`, `backend/app/models/ai.py`, `backend/app/api/endpoints/sessions.py`):
+  - Built physician-ready draft synthesis with 9 distinct clinical sections matching FHIR R4 `Composition` requirements.
+  - Added bilingual audio confirmation script generation (`patient_audio_script_local_lang`) and AYUSH `ayush_summary` support.
+  - Implemented Clinician Review actions (`POST /{session_id}/summary/review` supporting `ACCEPTED`, `AMENDED` with section-level patching, and `REJECTED`).
+  - Attached automated provenance tracking (`source_type`, `confidence`, `review_status`).
+  - Verified LIVE inference with `google/medgemma-1.5-4b-it` on Google Colab GPU for both structured clinical summary synthesis and multimodal Chest X-ray image analysis (`/api/v1/multimodal-infer`).
 - **Architecture Updates:** Formally established dual-path OCR (Tesseract/PaddleOCR/EasyOCR for document text extraction + source attribution) and MedGemma's role as the primary clinical summary synthesizer (Module C) + medical image interpreter (X-rays, sonography, CT).
 
 

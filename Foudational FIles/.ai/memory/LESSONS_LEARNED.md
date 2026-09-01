@@ -5,7 +5,24 @@
 - **Mock Repositories Speed Up Iteration:** Building a `SessionRepository` interface with an in-memory dictionary backing allowed us to test the FastAPI routes immediately in Phase 1 without having to wait for the Postgres schema migrations in Phase 3.
 - **followup_triggers are the branching backbone:** The `followup_triggers` mechanism in the clinical JSON datasets (e.g., VALUE_MATCH, ALWAYS) is the single source of branching truth for the question engine. The Python FlowController never hardcodes question ordering — it delegates entirely to the JSON data. This means adding new question sequences only requires editing JSON, not Python.
 
+## Phase 4: LangGraph Clinical Workflow & Safety Rules
+
+### 1. LangGraph Cyclic Edge Evaluation
+**Context:** The `StateGraph` requires explicit conditional logic to pause execution and wait for user input without causing an infinite loop.
+**Lesson Learned:** Returning `END` from conditional edges effectively halts execution. However, injecting `update_state` directly using the dictionary (without `as_node`) forces LangGraph to re-evaluate the conditional edge of the node that last executed rather than re-running the node itself.
+**Best Practice:** When bridging a REST API with LangGraph, perform input-dependent domain logic (like chief complaint domain mapping) in the API endpoint *before* `update_state`, or explicitly pass `as_node` if you want the node to re-run from the top.
+
+### 2. TypedDict Default Reducers
+**Context:** Returning a partial dictionary from a node update.
+**Lesson Learned:** Without an explicit `Annotated` reducer (like `operator.add`), LangGraph's default behavior for a standard `TypedDict` is to *replace* the key's value entirely. This cleanly works for state updates but requires care not to overwrite nested fields inadvertently.
+
+## Phase 5: Summary Generator & MedGemma 1.5 4B Tuning
+- **MedGemma Thinking Tokens vs Max Token Budget:** MedGemma 1.5 4B IT produces `<unused94>thought` scratchpad reasoning before outputting markdown or JSON. If `max_tokens` is configured too low (e.g., 500-600) on complex multi-section prompts, the model exhausts its generation budget during reasoning and gets truncated before closing its JSON block. Solution: Explicitly instruct the model `Respond ONLY with the valid raw JSON object starting with { and ending with }. Do not write thoughts, reasoning, or markdown explanations outside the JSON object`, and calibrate `max_tokens=650-750` with client timeout at 75s.
+- **Strict Pydantic Interception in ModelService Cascade:** By adding `ClinicalSummaryDraft(**response.structured_payload)` verification directly inside `_execute_cascade`, any malformed or hallucinated response from an upstream provider is intercepted and automatically routed to the next adapter (or deterministic mock) before it can cause a 500 internal server error on client endpoints.
+- **State Key Consistency Across Engine Boundaries:** During Phase 4 we named the graph state key `answered_questions`, but the legacy session endpoint had referenced `answer_history`. Rigorous end-to-end testing caught this key mismatch, preventing silent empty-payload generation.
+
 ## Workflow & Memory
 - **Rigid Documentation Pays Off:** The Phase 0 file-by-file audit caught minor mismatches between `ROADMAP.md` and `PHASES.md` early. Fixing these before writing code prevented future scope drift.
 - **Automated Memory Cycling:** The AI update cycle (Pre-Flight/Post-Flight) ensures that context is never lost across sessions, which is vital for long-running agentic tasks.
 - **Always read PS.md + PRD.md first:** In Phase 2 planning, we initially missed that the problem statement is FROM the Ministry of AYUSH/AIIA, which fundamentally changes the architectural understanding of AYUSH deployment. This was caught only after explicitly re-reading PS.md. The lesson: never start a phase without re-reading the original problem statement and PRD.
+

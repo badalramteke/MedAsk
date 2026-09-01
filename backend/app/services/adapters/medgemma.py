@@ -39,11 +39,11 @@ class ColabMedGemmaAdapter(BaseModelAdapter):
             "system_prompt": system_prompt,
             "user_prompt": request.untrusted_input,
             "temperature": 0.1,
-            "max_tokens": 1024,
+            "max_tokens": 650,
         }
 
         try:
-            async with httpx.AsyncClient(timeout=45.0) as client:
+            async with httpx.AsyncClient(timeout=75.0) as client:
                 res = await client.post(endpoint, json=payload, headers=self.headers)
                 latency = round((time.time() - start_time) * 1000, 2)
 
@@ -88,11 +88,11 @@ class ColabMedGemmaAdapter(BaseModelAdapter):
             "user_prompt": request.untrusted_input,
             "image_base64": request.image_base64 or "",
             "temperature": 0.1,
-            "max_tokens": 1024,
+            "max_tokens": 650,
         }
 
         try:
-            async with httpx.AsyncClient(timeout=60.0) as client:
+            async with httpx.AsyncClient(timeout=75.0) as client:
                 res = await client.post(endpoint, json=payload, headers=self.headers)
                 latency = round((time.time() - start_time) * 1000, 2)
 
@@ -139,7 +139,20 @@ class ColabMedGemmaAdapter(BaseModelAdapter):
         if cleaned.endswith("```"):
             cleaned = cleaned[:-3]
         cleaned = cleaned.strip()
+
+        # Direct parse attempt
         try:
             return json.loads(cleaned)
         except Exception:
-            return {"raw_text": text}
+            pass
+
+        # Regex fallback to extract outermost JSON object {...}
+        import re
+        match = re.search(r"(\{.*\})", cleaned, re.DOTALL)
+        if match:
+            try:
+                return json.loads(match.group(1))
+            except Exception:
+                pass
+
+        return {"raw_text": text}

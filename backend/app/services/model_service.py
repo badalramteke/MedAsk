@@ -84,6 +84,7 @@ class ModelService:
         self,
         interview_facts: Dict[str, Any],
         ocr_extracted_documents: List[Dict[str, Any]],
+        language: str = "en",
         session_id: Optional[str] = None,
     ) -> ModelTaskResponse:
         """
@@ -93,11 +94,13 @@ class ModelService:
         combined_payload = {
             "patient_interview_history": interview_facts,
             "source_tagged_ocr_documents": ocr_extracted_documents,
+            "requested_patient_language": language,
         }
         import json
         request = ModelTaskRequest(
             capability=ModelCapability.SUMMARY_SYNTHESIS,
             task_name="synthesize_clinical_summary",
+            language=language,
             untrusted_input=json.dumps(combined_payload, indent=2),
             document_sources=ocr_extracted_documents,
             session_id=session_id,
@@ -118,12 +121,22 @@ class ModelService:
                 if response.success and response.structured_payload:
                     # Run Safety Gate Filter
                     is_safe, violation = self._validate_safety(response)
-                    if is_safe:
-                        response.safety_validation_passed = True
-                        return response
-                    else:
+                    if not is_safe:
                         logger.warning(f"Safety violation on {adapter.name}: {violation}")
                         continue
+                        
+                    # Strict Pydantic Schema Validation
+                    try:
+                        if request.capability == ModelCapability.SUMMARY_SYNTHESIS:
+                            ClinicalSummaryDraft(**response.structured_payload)
+                        elif request.capability == ModelCapability.TEXT_NARRATION_STRUCTURING:
+                            StructuredNarrationResult(**response.structured_payload)
+                    except Exception as e:
+                        logger.warning(f"Schema validation failed on {adapter.name}: {e}")
+                        continue
+
+                    response.safety_validation_passed = True
+                    return response
             except Exception as e:
                 logger.error(f"Error calling {adapter.name}: {e}")
                 continue

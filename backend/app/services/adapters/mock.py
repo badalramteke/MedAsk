@@ -32,17 +32,23 @@ class MockModelAdapter(BaseModelAdapter):
             payload = {
                 "patient_chief_complaint": "Acute retrosternal chest pain with left arm radiation [Patient-Reported]",
                 "hpi_summary": "Patient presented with 2 hours of sudden-onset crushing chest pain radiating to left shoulder and arm [Patient-Reported].",
-                "past_history_summary": "Type 2 Diabetes Mellitus x 5 years, Hypertension [Doc#1: Discharge Summary 2024-05-10].",
+                "past_medical_surgical_summary": "Type 2 Diabetes Mellitus x 5 years, Hypertension [Doc#1: Discharge Summary 2024-05-10]. No prior surgeries [Patient-Reported].",
                 "medications_and_allergies": "Metformin 500mg BD, Telmisartan 40mg OD [Doc#2: Prescription Dr. Sharma]. No known drug allergies [Patient-Reported].",
+                "family_history_summary": "Father had myocardial infarction at age 55 [Patient-Reported]. Mother is diabetic [Patient-Reported].",
+                "personal_social_history_summary": "Non-smoker, occasional alcohol use. Sedentary occupation (desk job). Vegetarian diet [Patient-Reported].",
+                "review_of_systems_summary": "Cardiovascular: chest pain as described. Respiratory: denies cough, dyspnea at rest. GI: denies nausea, vomiting. Neurological: denies dizziness, syncope [Patient-Reported].",
                 "investigations_and_lab_summary": "Fasting Blood Sugar: 142 mg/dL (High) [Doc#3: Lab Report 2024-05-12], HbA1c: 7.8% (Borderline High) [Doc#3].",
                 "imaging_findings_summary": "Chest X-Ray PA View: Normal cardiothoracic ratio, no active consolidation [Doc#4: Imaging 2024-05-15].",
                 "menstrual_reproductive_summary": None,
+                "ayush_summary": None,
+                "clinician_review_flags": [],
                 "source_citations": [
                     {"finding_text": "Retrosternal chest pain", "source_tag": "[Patient-Reported]", "category": "HISTORY"},
                     {"finding_text": "T2DM & Hypertension", "source_tag": "[Doc#1: Discharge Summary 2024-05-10]", "category": "HISTORY"},
                     {"finding_text": "Metformin 500mg BD, Telmisartan 40mg", "source_tag": "[Doc#2: Prescription Dr. Sharma]", "category": "MEDICATION"},
                     {"finding_text": "FBS: 142 mg/dL, HbA1c: 7.8%", "source_tag": "[Doc#3: Lab Report 2024-05-12]", "category": "LAB_INVESTIGATION"}
                 ],
+                "patient_audio_script_local_lang": "Mock Audio: You reported chest pain for 2 hours. We have noted your medical history of diabetes and hypertension.",
                 "is_draft_for_clinician_review": True
             }
         else:

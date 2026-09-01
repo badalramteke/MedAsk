@@ -51,13 +51,22 @@ class SourceAttributedFinding(BaseModel):
 class ClinicalSummaryDraft(BaseModel):
     patient_chief_complaint: str
     hpi_summary: str
-    past_history_summary: Optional[str] = None
+    past_medical_surgical_summary: Optional[str] = Field(default=None, description="Past medical and surgical history")
     medications_and_allergies: Optional[str] = None
+    family_history_summary: Optional[str] = Field(default=None, description="Family history of diseases")
+    personal_social_history_summary: Optional[str] = Field(default=None, description="Personal and social history (smoking, alcohol, occupation, diet)")
+    review_of_systems_summary: Optional[str] = Field(default=None, description="Systematic ROS findings and pertinent negatives")
     investigations_and_lab_summary: Optional[str] = None
     imaging_findings_summary: Optional[str] = None
     menstrual_reproductive_summary: Optional[str] = None
+    ayush_summary: Optional[Dict[str, str]] = Field(default=None, description="Dashavidha Pariksha summaries for AYUSH OPDs")
+    clinician_review_flags: List[str] = Field(default_factory=list, description="Contradictions or missing data flagged for the doctor")
     source_citations: List[SourceAttributedFinding] = Field(default_factory=list)
+    patient_audio_script_local_lang: Optional[str] = Field(default=None, description="Bilingual audio script string for patient confirmation")
     is_draft_for_clinician_review: bool = Field(default=True)
+    # Clinician action fields (accept/amend/reject per PHASES.md)
+    draft_status: str = Field(default="PENDING", description="PENDING | ACCEPTED | AMENDED | REJECTED")
+    provenance: Optional[Provenance] = Field(default=None, description="Origin and review tracking for this draft")
 
 
 class ModelTaskResponse(BaseModel):

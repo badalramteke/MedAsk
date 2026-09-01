@@ -1,11 +1,18 @@
 # Current State
 
-## Project Phase
+## Current Phase: Phase 5 (Summary Generator) Completed / Phase 6 (API Layer Completion) Next
 - **Phase 0 (Foundation Setup):** COMPLETED. Directory structure, docker-compose (Redis + Postgres), MedGemma connectivity check, and requirements locked.
 - **Phase 1 (Core Data Contract & Session Foundation):** COMPLETED. Full `PatientDataObject` Pydantic models (identity, consent, history, ayush, provenance, patch) and session repository.
 - **Phase 2 (Question Engine Skeleton — Rule-based, No AI):** COMPLETED. Dynamic branching engine with `QuestionBank`, `FlowController`, `AnswerValidator`, `RedFlagScanner`, general intake dataset with female menstrual routing (31 total questions), and `/next-question`, `/answer`, `/alerts` endpoints.
 - **Phase 3 (MedGemma & ModelService Integration):** COMPLETED. Implemented `ModelService`, `ColabMedGemmaAdapter` (verified LIVE on Google Colab GPU with `google/medgemma-1.5-4b-it`), `GeminiAdapter`, `MockModelAdapter`, prompt templates, safety gating, and session AI endpoints (`/ai/structure-narration`, `/ai/generate-summary`, `/ai/health`).
-- **Phase 4 (LangGraph Clinical Workflow & Safety Rules):** NEXT UP.
+- **Phase 4 (LangGraph Clinical Workflow & Safety Rules):** COMPLETED. Stateful `ClinicalInterviewState` with nodes for Chief Complaint, SOCRATES, General, Menstrual, AYUSH, Validator, and real-time red-flag triage scanner.
+- **Phase 5 (Summary Generator — Module C):** COMPLETED.
+  - Implemented `ClinicalSummaryDraft` schema with 9 distinct clinical sections matching FHIR R4 requirements.
+  - Added bilingual audio confirmation script generation (`patient_audio_script_local_lang`) and AYUSH `ayush_summary` support.
+  - Refactored `/sessions/{id}/ai/generate-summary` to extract LangGraph state without PII.
+  - Implemented Clinician Actions: `POST /sessions/{id}/summary/review` (ACCEPTED, AMENDED with section-level edits, REJECTED) and `GET /sessions/{id}/summary`.
+  - Verified LIVE inference with `google/medgemma-1.5-4b-it` on Colab GPU for both clinical summary synthesis (36s) and multimodal chest X-ray image analysis (73s) via `/api/v1/multimodal-infer`.
+- **Phase 6 (API Layer Completion):** NEXT UP.
 
 
 ## Built and working right now
