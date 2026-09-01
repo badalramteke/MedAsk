@@ -75,4 +75,14 @@
 10. **ABDM Interoperability**: Standard FHIR R4 JSON bundle for health data exchange.
 - Status: Confirmed and approved by user.
 
+## 2026-09-01 — AYUSH hospitals are entirely separate deployments (sourced from PS.md + PRD.md)
+- Decision: AYUSH hospitals (e.g., AIIA New Delhi, NIS Chennai, NIUM Bengaluru, NIH Kolkata) are **completely separate institutions** under the Ministry of AYUSH. MediKiosk deployed at an AYUSH hospital is a separate deployment configuration — there is NO in-app toggle or switch. A general hospital deployment runs allopathic-only intake. An AYUSH hospital deployment runs AYUSH intake (Dashavidha Pariksha etc.). The deployment configuration determines this at setup time, not at runtime.
+- Critical context: The problem statement (SIH26047) is itself from the **Ministry of Ayush / All India Institute of Ayurveda (AIIA)** (PRD.md lines 9-10). AYUSH is not a secondary feature — it is the **primary deployment context** for the organization that issued the problem statement. PS.md line 91 explicitly says "for Ayurvedic OPDs, an extended interview". PRD.md Section 8.1 says "an extended interview setting for Ayurvedic OPDs". PRD.md Section 5.3 says "Doctors practicing traditional Indian medicine in AYUSH institutions" need "specialized software modes".
+- Why: AYUSH and allopathic are entirely different treatment systems run by different institutions with fundamentally different clinical workflows, question banks, and assessment frameworks.
+- Status: Approved and active.
+
+## 2026-09-01 — Question flow is dynamically sequenced based on previous answers
+- Decision: The question engine must be **conditional and branching**, not a flat sequential list. The next question shown to the patient depends on what they answered in the previous question. For example, if the patient selects "chest pain" as chief complaint, the engine routes into the chest_pain SOCRATES sequence; if they answer "pain radiates to left arm", the engine may trigger a red-flag scan AND adjust follow-up questions accordingly.
+- Why: A static flat questionnaire misses critical clinical details and wastes patient time with irrelevant questions. Dynamic branching mirrors how a real clinician conducts an interview.
+- Status: Approved and active.
 

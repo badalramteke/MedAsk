@@ -1,0 +1,22 @@
+# Core Web
+fastapi==0.111.0
+uvicorn[standard]==0.30.1
+pydantic==2.7.4
+
+# Data & Persistence
+psycopg2-binary==2.9.9
+redis==5.0.6
+
+# AI & Orchestration
+langchain==0.2.6
+langgraph==0.1.1
+langchain-community==0.2.6
+
+# Health Data Standards
+fhir.resources==7.1.0
+
+# Configuration & Env
+python-dotenv==1.0.1
+
+# HTTP Client
+httpx==0.27.0

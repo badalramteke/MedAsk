@@ -86,8 +86,8 @@ Located in `data/clinical/`:
 Located in `tests/fixtures/synthetic_patient_personas.json`:
 * 10 distinct, multilingual synthetic patient journeys (P01–P10) covering emergency red flags, chronic disease timelines (T2DM/HTN), AYUSH assessments, pediatric edge cases, laboratory out-of-bounds validation, and session lifecycle edge cases.
 
-### 4.3 Phase 3 — FHIR R4 Integration Test Fixtures & Validation
-Located in `tests/fixtures/mock_fhir_bundles.json` & `tests/test_phase3_fhir.py`:
+### 4.3 Phase 3 — FHIR R4 Integration Test Fixtures
+Located in `tests/fixtures/mock_fhir_bundles.json`:
 * **FHIR Bundles:** 4 FHIR R4 collection bundles (`BUNDLE_001` through `BUNDLE_004`) covering `Patient`, `Encounter`, `Condition`, `Observation`, `MedicationStatement`, `DocumentReference`, and `Consent`.
 
 

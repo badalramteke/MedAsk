@@ -1,18 +1,15 @@
-# Known Issues
+# Known Issues & Blockers
 
-## Phase 0 status
-- No implementation-code issues exist yet because the project has not started coding
-- The current limitation is that no runtime verification exists for application modules
+## Current Phase: Phase 2 Planning
 
-## Current blockers
-- Clinical terminology and medical safety must be confirmed before implementation of AI prompts or clinical logic
-- ABDM and external integration behavior must be validated against official documentation before assuming endpoint contracts
-- Missing implementation work means no user-facing workflow has been validated yet
+### Blocking Issues
+- None currently blocking Phase 2.
 
-## What has been tried
-- Memory scaffold initialization and baseline configuration were completed successfully
-- No broken implementation attempts were made in this phase
+### Active Issues
+- **ABDM Integration (Pending Phase 4):** We currently use `coronasafe.network` API specifications. This must be validated against the official NHA ABDM Developer Sandbox (`sandbox.abdm.gov.in`) before Phase 4 integration coding begins.
+- **Bhashini ASR Credentials:** Missing real endpoints and API keys for Bhashini streaming. Kept as `.env` placeholders.
+- **Clinical Validation:** The exact prompts for MedGemma and the mapping of SOCRATES/Dashavidha logic remain un-reviewed by a certified clinician. The framework is in place, but medical validation is an open external task.
 
-## Notes
-- This file should be updated when blockers or failed experiments appear
-- Do not treat architectural assumptions as solved without documentation or confirmation
+### Resolved Issues
+- `ROADMAP.md` stub conflict resolved in Phase 0.
+- Missing `backend/requirements.txt` and `.gitignore` resolved in Phase 0.
