@@ -11,6 +11,7 @@
    - `red_flags_rules.json`: Emergency red-flag rules with multilingual triggers and action codes.
    - `lab_reference_ranges.json`: Lab reference ranges with LOINC mapping and critical bounds.
 
+<<<<<<< HEAD
 2. **Phase 2 Synthetic Patient Personas (`tests/fixtures/`)**:
    - `synthetic_patient_personas.json`: 10 distinct, multilingual patient journeys (P01–P10) mapped strictly to Phase 1 IDs.
 
@@ -28,6 +29,23 @@
 - Clinical Engine: Python 3.10+ / Pydantic / pytest
 - Interoperability: FHIR R4, ABDM sandbox model
 - Storage & Rules: JSON Clinical Datasets (`data/clinical/`)
+=======
+## Locked-in tech stack & decisions
+- Frontend: Next.js (with mandatory element attribute schema and `PATHS.md` registry)
+- Backend: FastAPI
+- AI orchestration: LangGraph with LangChain integration layer
+- Model layer: MedGemma served on Google Colab (vLLM/FastAPI) as primary, with Gemini/Grok API fallback via ModelService
+- Vision & OCR: Dual-path (Tesseract/PaddleOCR for text docs → MedGemma summary; direct multimodal MedGemma for medical images)
+- Speech stack: Bhashini ASR/TTS primary with `.env` key, cascading to Gemini audio and local speech engines; push-to-talk persistent listening until session end
+- Languages: English, Hindi, Marathi, Bengali, Tamil, Telugu
+- Clinical: Allopathic SOCRATES + Full Dashavidha Pariksha & AYUSH parameters
+- Data and interoperability: Cloud Supabase + local Docker, PatientDataObject, FHIR R4, ABDM sandbox model, ephemeral audio termination with persistent history
+- Demonstration: Separate dedicated portal for Clinician review (`/doctor`)
+
+## Current status summary
+- All 10 architecture specifications and prerequisites have been confirmed and integrated into `PRD.md`, `PATHS.md`, `RULES.md`, and `DECISIONS.md`.
+- Implementation is explicitly on hold waiting for user command ("dont start impletaion until i say and all the files are okay").
+>>>>>>> 8f1b6f97229bc2817e82d5f7e0b06d3ee91cdafb
 
 ## Notes
 - All changes are committed and pushed to feature branch `feature-my-changes`.

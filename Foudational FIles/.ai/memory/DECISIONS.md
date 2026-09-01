@@ -50,7 +50,29 @@
 - Why: The user confirmed that the solution overview is the required completeness baseline for foundational planning.
 - Status: Approved and active.
 
-## 2026-08-31 — Voice UI navigation is future scope
-- Decision: Record voice-driven kiosk navigation as a future frontend accessibility plugin using allow-listed semantic UI actions, not arbitrary script injection.
-- Why: It can improve accessibility but is not part of the currently approved four-module solution scope.
-- Status: Idea recorded; not approved for implementation.
+## 2026-08-31 — Voice UI navigation is promoted to PRD.md (Module E)
+- Decision: Promoted voice-driven kiosk navigation from FUTURE.md to PRD.md (Module E) as an accessibility engine using allow-listed semantic UI actions (`data-voice-action`), preserving continuous touch fallback.
+- Why: Hands-free navigation directly advances zero-training accessibility for low-literacy and elderly patients.
+- Status: Approved and incorporated into PRD.md v1.1.
+
+## 2026-08-31 — Frontend mandatory element attributes and PATHS.md catalog
+- Decision: Every interactive/identifiable frontend element must include `data-element`, `data-voice-action`, `data-testid`, `id`, and `aria-label`. All screen paths, routes, and mapped elements must be tracked in `docs/architecture/PATHS.md`.
+- Why: Enables deterministic automated testing, accessibility compliance, and safe voice command mapping without DOM query vulnerabilities.
+- Status: Approved and active.
+
+## 2026-08-31 — 10 Approved Implementation Architecture Specifications
+1. **Model Deployment**: Primary deployment on Google Colab (FastAPI / vLLM / tunnel serving MedGemma) with Gemini / Grok API keys as runtime fallback when Colab is offline.
+2. **Document & Image Processing**: Dual pipeline:
+   - Text documents (Prescriptions, Lab reports, discharge summaries): Text OCR via Tesseract / PaddleOCR / EasyOCR → extracted text fed to MedGemma for structured clinical extraction & summarization.
+   - Medical Images (X-rays, CT scans, Sonography, PET scans): Direct multimodal reasoning via MedGemma (multimodal) into clinical history.
+3. **Speech & Audio Cascade**: Bhashini API configured as primary ASR/TTS with `.env` key, cascading to Gemini API audio transcription as first fallback, and local Web Speech / speech engine as secondary fallback.
+4. **Voice Navigation Activation**: Push-to-talk initiation; once triggered by patient, continuous voice listening stays active until session termination with 100% touch fallback parity.
+5. **Supported Languages**: Full 6-language support: English, Hindi, Marathi, Bengali, Tamil, and Telugu.
+6. **AYUSH History Scope**: Full Dashavidha Pariksha (10 parameters: Prakriti, Vikriti, Sara, Samhanana, Pramana, Satmya, Sattva, Ahara Shakti, Vyayama Shakti, Vaya) + Ahara-Vihara, Agni, Koshtha.
+7. **Database Infrastructure**: Cloud Supabase + Docker for local development.
+8. **DPDP Data Lifecycle**: Ephemeral temporary audio recordings and temp buffers purged immediately upon session completion; structured history, clinical draft, and digitized documents linked to ABHA / HIS record.
+9. **Clinician Portal**: Separate dedicated portal for demo (`/doctor/portal`).
+10. **ABDM Interoperability**: Standard FHIR R4 JSON bundle for health data exchange.
+- Status: Confirmed and approved by user.
+
+

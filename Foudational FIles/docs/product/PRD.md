@@ -220,6 +220,7 @@ An AI-powered software platform that lets patients record their full history and
 - **Red-Flag Triage System:** Automated detection of emergency symptoms to trigger immediate alerts to nursing staff.
 - **Structured Summary Generator:** An AI summarization module that outputs a physician-ready, editable clinical draft (English/Hindi) and a patient-facing audio confirmation.
 - **ABDM & Privacy Layer:** ABHA ID authentication, FHIR API payload generation for HIS integration, and DPDP Act 2023 compliant consent frameworks (including automated session termination).
+- **Voice UI Navigation (Accessibility Engine):** Patient navigation across permitted kiosk pages and controls via natural voice commands mapped to allow-listed element action identifiers (`data-voice-action`), preserving touch as a continuous fallback.
 
 #### 7.2 Out of Scope — What We Explicitly *Don't* Build
 
@@ -271,6 +272,12 @@ An AI-powered software platform that lets patients record their full history and
 - **Zero-Training Multimodal UI:** Offloading complex clinical data entry directly to non-tech-savvy users (the "first-mile" problem) by combining icon-driven touch interfaces with Indian-language speech recognition, requiring absolutely no digital literacy .
 - **Automated Triage Bypassing:** Utilizing the conversational AI not just for data entry, but as a live emergency filter that proactively pulls critical patients out of wait-lines based on spoken red-flag symptoms .
 - **Digital AYUSH Translation:** Digitizing extremely complex, previously manual Ayurvedic diagnostic frameworks (like Trividha and Dashavidha Pariksha) into an automated patient-facing flow, solving the unique OPD time constraints of traditional Indian medicine .
+
+#### 8.6 Module E — Voice UI Navigation & Accessibility Plugin
+
+- **Hands-Free Navigation:** Enables patients to navigate permitted kiosk views and trigger allowed actions via natural voice phrases (e.g., "start intake", "scan document", "change language to Hindi", "back", "next", "confirm consent").
+- **Semantic Allow-List Matching:** Spoken navigation commands map exclusively to allow-listed `data-voice-action` and `data-element` identifiers on approved UI controls. Arbitrary script execution, unrestricted DOM manipulation, or raw text evaluation is strictly prohibited.
+- **Continuous Touch Parity:** Every voice-navigable action must correspond 1-to-1 with a visible, tappable UI element with clear visual focus/feedback, maintaining seamless touch fallback.
 
 → docs/clinical/QUESTION_ENGINE_SPEC.md
 → docs/architecture/PLUGIN_INTERFACE.md
