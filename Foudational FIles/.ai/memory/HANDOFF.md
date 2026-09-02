@@ -1,26 +1,31 @@
 # Handoff
 
 ## Session status
-- Current phase: Ready to begin Phase 8 (Medical Document Digitization Module — Module B).
-- Phases 0–7 (Foundation, Core Data Contract, Question Engine, ModelService, LangGraph Workflow, Summary Generator, API Layer Completion, and Voice Intake Engine) are 100% completed, tested, and verified.
-- Complete backend test suite (`backend/tests/`) passes 23/23 tests with zero failures.
+- Current phase: Ready to begin Phase 9 (Consent, FHIR, ABDM, and HIS Integration — Module D).
+- Phases 0–8 (Foundation, Core Data Contract, Question Engine, ModelService, LangGraph Workflow, Summary Generator, API Layer Completion, Voice Intake Engine, and Document Digitization) are 100% completed, tested, and verified.
+- Complete backend test suite (`backend/tests/`) passes 36/36 tests with zero failures.
 
-## What was done in the last session (Phase 7)
-- Built modular `backend/app/services/speech/` package with 3-tier speech cascade: `BhashiniSpeechAdapter` (MeitY ULCA pipeline) -> `GeminiAudioAdapter` (Gemini 1.5 Flash Audio) -> `MockSpeechAdapter` (deterministic offline mock generating valid 16kHz WAV bytes and multilingual transcripts) across 6 Indian languages (`en`, `hi`, `mr`, `bn`, `ta`, `te`).
-- Implemented Module E `VoiceActionMatcher` recognizing allow-listed semantic UI navigation commands (`NAV_NEXT`, `NAV_PREVIOUS`, `NAV_REPEAT`, `LANG_HINDI`, `LANG_TAMIL`, `SELECT_OPTION_1`, `CONFIRM_AGREE`, `EMERGENCY_HELP`).
-- Added hybrid in-memory `TTSAudioCache` providing 0ms audio retrieval for static questions.
-- Mounted modular endpoints: `POST /api/v1/voice/transcribe` (multipart file or Base64 JSON), `POST /api/v1/voice/synthesize`, `GET /api/v1/voice/actions`, and `GET /api/v1/voice/health`.
-- Built unified sub-second voice answer endpoint (`POST /api/v1/sessions/{id}/voice/answer`) combining ASR + LangGraph progression + red-flag triage scanning + TTS next-question audio synthesis in a single round-trip.
-- Enforced DPDP Act ephemeral audio memory purge (zero raw audio persisted on disk).
-- Authored 10-test automated pytest voice suite (`backend/tests/test_voice_suite.py`), bringing total backend test count to 23/23 tests passing with 100% pass rate.
-- Generated `docs/retrospectives/PHASE_7_RETROSPECTIVE.md`.
+## What was done in the last session (Phase 8)
+- Built modular `backend/app/services/ocr/` package with three-path document processing:
+  - Path 1A: Printed text -> Tesseract OCR (`eng+hin`) -> MedGemma text clinical entity extraction.
+  - Path 1B: Handwritten -> Tesseract confidence gate (<60%) -> direct MedGemma 4B Multimodal Vision fallback.
+  - Path 2: Medical imaging (X-rays, CT, Ultrasound) -> direct MedGemma Multimodal (no OCR text step).
+- Implemented `ImagePreprocessor` with OpenCV denoising, deskewing, binarization, and multi-page PDF conversion.
+- Created versioned prompt contract `DOCUMENT_ENTITY_EXTRACTION_SYSTEM_V1` strictly treating OCR output as untrusted data block per OWASP LLM safety rules.
+- Implemented `DocumentEntityExtractor` with date-first priority parsing (Printed -> Contextual -> MedGemma Inferred).
+- Implemented `LabValueNormalizer` with comprehensive gender-adjusted reference ranges (`lab_reference_ranges.json`, 35+ tests) and three-tier severity flagging (`LOW`, `MODERATE`, `HIGH`).
+- Implemented `TimelineOrganizer` sorting patient medical history chronologically with explicit date uncertainty flags.
+- Extended `DocumentRepository` with DPDP-compliant ephemeral raw file byte buffer (purged immediately after processing) and extraction result CRUD.
+- Extended `documents_router.py` with synchronous-at-upload OCR processing (`POST /{id}/documents/upload`), timeline endpoint (`GET /{id}/documents/timeline`), extraction retrieval (`GET /{id}/documents/{doc_id}/extraction`), and clinician review endpoint (`POST /{id}/documents/{doc_id}/review`).
+- Authored 13-test automated pytest suite (`backend/tests/test_document_suite.py`), bringing total backend test suite to 36/36 tests passing with 100% pass rate.
 
 ## State left behind
-- Verified, fully testable FastAPI backend with 27 operational endpoints.
-- Automated pytest integration suite in `backend/tests/` covering 100% of API and Voice lifecycles (23 tests passing).
-- Synchronized memory system in `Foudational FIles/.ai/memory/`.
+- Verified, fully testable FastAPI backend with 30 operational endpoints across sessions, consent, voice, documents, alerts, and ops.
+- Automated pytest integration suite in `backend/tests/` covering 100% of API, Voice, and Document lifecycles (36 tests passing).
+- Synchronized memory system in `Foudational FIles/.ai/memory/` and updated `CHANGELOG.md`.
 
 ## What the next session should start with
 1. Read `RULES.md` and complete mandatory Pre-Flight check: review `CURRENT_STATE.md`, `TODO.md`, `ACTIVE_WORK.md`, `DECISIONS.md`, `ps.md`, and `docs/product/PRD.md`.
-2. Review Phase 8 specifications in `docs/operations/PHASES.md` and `docs/integrations/OCR_PIPELINE.md`.
-3. Begin Phase 8: Medical Document Digitization Module (Module B) with dual-path OCR (Tesseract / PaddleOCR), entity extraction (medications, lab values, abnormal bounds), and MedGemma Multimodal (4B) imaging findings.
+2. Review Phase 9 specifications in `docs/operations/PHASES.md`, `docs/integrations/ABDM_FHIR_SPEC.md`, and `docs/privacy/CONSENT_ARCHITECTURE.md`.
+3. Begin Phase 9: Consent, FHIR, ABDM, and HIS Integration (Module D) — building validated FHIR R4 Bundle generators (`Composition`, `Patient`, `Condition`, `Observation`, `DiagnosticReport`, `DocumentReference`, `Procedure`), ABDM M1/M2/M3 mock delivery adapters, and secure session clearing lifecycle.
+

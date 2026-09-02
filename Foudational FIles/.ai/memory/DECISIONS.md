@@ -130,11 +130,25 @@
 - Why: Enforces PRD Section 8.6 security and accessibility rules for zero-training kiosk navigation.
 - Status: Approved and active.
 
-## 2026-09-02 — Unified Sub-Second Voice Answer Endpoint
-- Decision: Combine speech transcription, LangGraph state advancement, red-flag triage scanning, and next-question TTS audio synthesis into a single `POST /api/v1/sessions/{id}/voice/answer` endpoint.
-- Why: Reduces frontend network round-trips from 3 to 1, delivering sub-second voice interactions on kiosk hardware.
+## 2026-09-02 — Three-Path Document Processing Architecture
+- Decision: Implement three distinct paths based on document type:
+  - Path 1A: Printed text -> Tesseract OCR (`eng+hin`) -> MedGemma text entity extraction.
+  - Path 1B: Handwritten -> Tesseract confidence gate (<60%) -> direct MedGemma 4B Multimodal Vision fallback.
+  - Path 2: Medical imaging (X-rays, CT, Ultrasound) -> direct MedGemma Multimodal (no OCR text step).
+- Why: Handwritten prescriptions produce poor character-level OCR; reading handwriting as visual images via multimodal LLMs is significantly more reliable. Medical imaging has no text to OCR and requires direct pixel-level reasoning.
 - Status: Approved and active.
 
+## 2026-09-02 — Date-First Extraction for Chronological Timelining
+- Decision: Extract document dates before clinical entity extraction using priority cascade: (1) Printed header/stamp date, (2) Contextual inline date, (3) MedGemma inferred date (with `date_uncertainty = true`), (4) Unknown (`date_uncertainty = true`).
+- Why: Enables chronological sorting of past medical documents on the doctor's review screen regardless of scan quality or document type.
+- Status: Approved and active.
 
+## 2026-09-02 — DPDP-Compliant Ephemeral Raw Document Storage
+- Decision: Original scanned images (JPEG/PNG/PDF) are held temporarily in ephemeral storage only during OCR/MedGemma processing, then immediately purged from local memory and repository buffers. Only structured extracted entities and minimal audit metadata survive in `PatientDataObject`. MediKiosk is a first-mile digitization tool, NOT a permanent HIP or Health Locker.
+- Why: Complies with DPDP Act 2023 data minimization and ps.md section 1.2 zero-trust session lifecycle.
+- Status: Approved and active.
 
-
+## 2026-09-02 — Synchronous-at-Upload Document Processing Trigger
+- Decision: Document OCR and entity extraction are triggered synchronously inside `POST /api/v1/sessions/{id}/documents/upload` rather than via a disconnected asynchronous worker.
+- Why: Provides immediate feedback on kiosk touchscreen hardware so patients see extraction status before proceeding to the next intake step.
+- Status: Approved and active.

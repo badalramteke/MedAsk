@@ -1,0 +1,135 @@
+{
+  "hemoglobin": {
+    "male": {"low": 13.0, "high": 17.0},
+    "female": {"low": 12.0, "high": 15.5},
+    "unit": "g/dL"
+  },
+  "rbc_count": {
+    "male": {"low": 4.5, "high": 5.5},
+    "female": {"low": 3.8, "high": 5.2},
+    "unit": "million/µL"
+  },
+  "wbc_count": {
+    "low": 4.0, "high": 11.0, "unit": "10^3/µL"
+  },
+  "platelet_count": {
+    "low": 150, "high": 400, "unit": "10^3/µL"
+  },
+  "blood_glucose_fasting": {
+    "low": 70, "high": 100, "unit": "mg/dL"
+  },
+  "blood_glucose_pp": {
+    "low": 70, "high": 140, "unit": "mg/dL"
+  },
+  "hba1c": {
+    "low": 0, "high": 5.7, "unit": "%"
+  },
+  "creatinine": {
+    "male": {"low": 0.74, "high": 1.35},
+    "female": {"low": 0.59, "high": 1.04},
+    "unit": "mg/dL"
+  },
+  "blood_urea_nitrogen": {
+    "low": 7, "high": 20, "unit": "mg/dL"
+  },
+  "sodium": {
+    "low": 136, "high": 145, "unit": "mEq/L"
+  },
+  "potassium": {
+    "low": 3.5, "high": 5.0, "unit": "mEq/L"
+  },
+  "chloride": {
+    "low": 98, "high": 106, "unit": "mEq/L"
+  },
+  "total_bilirubin": {
+    "low": 0.2, "high": 1.2, "unit": "mg/dL"
+  },
+  "direct_bilirubin": {
+    "low": 0.0, "high": 0.3, "unit": "mg/dL"
+  },
+  "alt": {
+    "low": 7, "high": 56, "unit": "U/L"
+  },
+  "ast": {
+    "low": 10, "high": 40, "unit": "U/L"
+  },
+  "alkaline_phosphatase": {
+    "low": 44, "high": 147, "unit": "U/L"
+  },
+  "total_protein": {
+    "low": 6.0, "high": 8.3, "unit": "g/dL"
+  },
+  "albumin": {
+    "low": 3.5, "high": 5.5, "unit": "g/dL"
+  },
+  "tsh": {
+    "low": 0.4, "high": 4.0, "unit": "mIU/L"
+  },
+  "free_t4": {
+    "low": 0.8, "high": 1.8, "unit": "ng/dL"
+  },
+  "free_t3": {
+    "low": 2.3, "high": 4.2, "unit": "pg/mL"
+  },
+  "total_cholesterol": {
+    "low": 0, "high": 200, "unit": "mg/dL"
+  },
+  "ldl": {
+    "low": 0, "high": 100, "unit": "mg/dL"
+  },
+  "hdl": {
+    "male": {"low": 40, "high": 999},
+    "female": {"low": 50, "high": 999},
+    "unit": "mg/dL"
+  },
+  "triglycerides": {
+    "low": 0, "high": 150, "unit": "mg/dL"
+  },
+  "uric_acid": {
+    "male": {"low": 3.4, "high": 7.0},
+    "female": {"low": 2.4, "high": 6.0},
+    "unit": "mg/dL"
+  },
+  "calcium": {
+    "low": 8.5, "high": 10.5, "unit": "mg/dL"
+  },
+  "phosphorus": {
+    "low": 2.5, "high": 4.5, "unit": "mg/dL"
+  },
+  "iron": {
+    "male": {"low": 65, "high": 175},
+    "female": {"low": 50, "high": 170},
+    "unit": "µg/dL"
+  },
+  "ferritin": {
+    "male": {"low": 20, "high": 250},
+    "female": {"low": 10, "high": 120},
+    "unit": "ng/mL"
+  },
+  "vitamin_d": {
+    "low": 30, "high": 100, "unit": "ng/mL"
+  },
+  "vitamin_b12": {
+    "low": 200, "high": 900, "unit": "pg/mL"
+  },
+  "esr": {
+    "male": {"low": 0, "high": 15},
+    "female": {"low": 0, "high": 20},
+    "unit": "mm/hr"
+  },
+  "crp": {
+    "low": 0, "high": 10, "unit": "mg/L"
+  },
+  "spo2": {
+    "low": 95, "high": 100, "unit": "%"
+  },
+  "systolic_bp": {
+    "low": 90, "high": 130, "unit": "mmHg"
+  },
+  "diastolic_bp": {
+    "low": 60, "high": 85, "unit": "mmHg"
+  },
+  "heart_rate": {
+    "low": 60, "high": 100, "unit": "bpm"
+  }
+}

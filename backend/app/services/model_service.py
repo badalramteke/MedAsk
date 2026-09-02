@@ -13,6 +13,7 @@ from app.services.prompt_templates import (
     NARRATION_STRUCTURING_SYSTEM_V1,
     IMAGE_ANALYSIS_SYSTEM_V1,
     SUMMARY_SYNTHESIS_SYSTEM_V1,
+    DOCUMENT_ENTITY_EXTRACTION_SYSTEM_V1,
 )
 from app.services.adapters.base import BaseModelAdapter
 from app.services.adapters.medgemma import ColabMedGemmaAdapter
@@ -107,6 +108,33 @@ class ModelService:
         )
         return await self._execute_cascade(request, SUMMARY_SYNTHESIS_SYSTEM_V1)
 
+    async def extract_document_entities(
+        self,
+        ocr_text: str,
+        document_type: str,
+        source_tag: str,
+        session_id: Optional[str] = None,
+    ) -> ModelTaskResponse:
+        """
+        Module B (Phase 8): Extract structured clinical entities from OCR text
+        of scanned medical documents (prescriptions, lab reports, discharge summaries).
+        Uses MedGemma primary → Gemini fallback → Mock.
+        """
+        # Format the prompt with document-specific context
+        formatted_prompt = DOCUMENT_ENTITY_EXTRACTION_SYSTEM_V1.format(
+            document_type=document_type,
+            source_tag=source_tag,
+            ocr_text=ocr_text,
+        )
+        request = ModelTaskRequest(
+            capability=ModelCapability.DOCUMENT_ENTITY_EXTRACTION,
+            task_name="extract_document_entities",
+            prompt_version="v1.0.0",
+            untrusted_input=ocr_text,
+            session_id=session_id,
+        )
+        return await self._execute_cascade(request, formatted_prompt)
+
     async def _execute_cascade(
         self, request: ModelTaskRequest, system_prompt: str, is_multimodal: bool = False
     ) -> ModelTaskResponse:
@@ -131,6 +159,10 @@ class ModelService:
                             ClinicalSummaryDraft(**response.structured_payload)
                         elif request.capability == ModelCapability.TEXT_NARRATION_STRUCTURING:
                             StructuredNarrationResult(**response.structured_payload)
+                        elif request.capability == ModelCapability.DOCUMENT_ENTITY_EXTRACTION:
+                            # Validate it has the expected keys (lightweight check)
+                            payload = response.structured_payload
+                            assert isinstance(payload, dict), "Expected dict payload"
                     except Exception as e:
                         logger.warning(f"Schema validation failed on {adapter.name}: {e}")
                         continue

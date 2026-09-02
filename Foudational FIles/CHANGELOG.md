@@ -41,6 +41,19 @@ This project follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) st
   - Built unified sub-second voice answer endpoint (`POST /api/v1/sessions/{id}/voice/answer`) advancing LangGraph and generating next-question TTS audio in a single round-trip.
   - Enforced DPDP Act ephemeral audio memory purge with zero raw audio stored on disk.
   - Authored 10-test automated pytest voice suite (`backend/tests/test_voice_suite.py`), bringing total backend test count to 23/23 tests passing with 100% pass rate.
+- **Phase 8:** Medical Document Digitization Module (Module B) (`backend/app/services/ocr/`, `backend/app/services/document/`, `backend/app/models/document.py`, `backend/app/api/endpoints/documents_router.py`, `backend/tests/test_document_suite.py`):
+  - Implemented modular `OCRService` package with three-path document processing:
+    - Path 1A: Printed text -> Tesseract OCR (`eng+hin`) -> MedGemma clinical entity extraction.
+    - Path 1B: Handwritten -> Tesseract confidence gate (<60%) -> direct MedGemma 4B Multimodal Vision fallback.
+    - Path 2: Medical imaging (X-rays, CT, Ultrasound) -> direct MedGemma Multimodal (no OCR text step).
+  - Built OpenCV image preprocessing pipeline (`ImagePreprocessor`) with denoising, deskewing, adaptive binarization, and multi-page PDF rasterization.
+  - Created versioned prompt contract `DOCUMENT_ENTITY_EXTRACTION_SYSTEM_V1` strictly treating OCR output as untrusted data block per OWASP LLM safety rules.
+  - Implemented `DocumentEntityExtractor` with date-first priority parsing (Printed -> Contextual -> MedGemma inferred).
+  - Implemented `LabValueNormalizer` with comprehensive gender-adjusted reference ranges (`lab_reference_ranges.json`, 35+ tests) and three-tier severity flagging (`LOW`, `MODERATE`, `HIGH`).
+  - Implemented `TimelineOrganizer` sorting patient medical history chronologically with explicit date uncertainty flags.
+  - Extended `DocumentRepository` with DPDP-compliant ephemeral raw file byte buffer (purged immediately after processing) and extraction result CRUD.
+  - Extended `documents_router.py` with synchronous-at-upload OCR processing (`POST /{id}/documents/upload`), timeline endpoint (`GET /{id}/documents/timeline`), extraction retrieval (`GET /{id}/documents/{doc_id}/extraction`), and clinician review endpoint (`POST /{id}/documents/{doc_id}/review`).
+  - Authored 13-test automated pytest suite (`backend/tests/test_document_suite.py`), bringing total backend test suite to 36/36 tests passing with 100% pass rate.
 - **Architecture Updates:** Formally established dual-path OCR (Tesseract/PaddleOCR/EasyOCR for document text extraction + source attribution) and MedGemma's role as the primary clinical summary synthesizer (Module C) + medical image interpreter (X-rays, sonography, CT).
 
 ### Changed

@@ -1,6 +1,6 @@
 # Current State
 
-## Current Phase: Phase 7 (Voice Intake Engine) Completed / Phase 8 (Document Digitization) Next
+## Current Phase: Phase 8 (Document Digitization) Completed / Phase 9 (Consent, FHIR & ABDM) Next
 - **Phase 0 (Foundation Setup):** COMPLETED. Directory structure, docker-compose (Redis + Postgres), MedGemma connectivity check, and requirements locked.
 - **Phase 1 (Core Data Contract & Session Foundation):** COMPLETED. Full `PatientDataObject` Pydantic models (identity, consent, history, ayush, provenance, patch) and session repository.
 - **Phase 2 (Question Engine Skeleton — Rule-based, No AI):** COMPLETED. Dynamic branching engine with `QuestionBank`, `FlowController`, `AnswerValidator`, `RedFlagScanner`, general intake dataset with female menstrual routing (31 total questions), and `/next-question`, `/answer`, `/alerts` endpoints.
@@ -15,7 +15,19 @@
   - Mounted modular `/api/v1/voice/transcribe`, `/api/v1/voice/synthesize`, `/api/v1/voice/actions`, `/api/v1/voice/health`.
   - Built unified sub-second voice answer endpoint (`POST /api/v1/sessions/{id}/voice/answer`) combining ASR + LangGraph + red flags + next-question TTS audio.
   - Verified 23/23 automated pytest tests passing with 100% pass rate.
-- **Phase 8 (Document Digitization Module):** NEXT UP.
+- **Phase 8 (Document Digitization Module — Module B):** COMPLETED.
+  - Built modular `backend/app/services/ocr/` with three-path document processing:
+    - Path 1A: Printed text -> Tesseract OCR (`eng+hin`) -> MedGemma text clinical entity extraction.
+    - Path 1B: Handwritten -> Tesseract confidence gate (<60%) -> MedGemma 4B Multimodal Vision fallback.
+    - Path 2: Medical imaging (X-rays, CT, Ultrasound) -> direct MedGemma Multimodal (no OCR text step).
+  - Built `ImagePreprocessor` with OpenCV denoising, deskewing, binarization, and multi-page PDF conversion.
+  - Implemented `DocumentEntityExtractor` with date-first extraction (Printed -> Contextual -> MedGemma Inferred).
+  - Implemented `LabValueNormalizer` with gender-adjusted reference ranges (`lab_reference_ranges.json`) and three-tier severity flagging (`LOW`, `MODERATE`, `HIGH`).
+  - Implemented `TimelineOrganizer` for chronological sequencing with date uncertainty flags.
+  - Extended `DocumentRepository` with DPDP-compliant ephemeral raw file byte buffer and extraction result CRUD.
+  - Extended `documents_router.py` with synchronous OCR at upload (`POST /upload`), timeline (`GET /timeline`), extraction (`GET /extraction`), and clinician review (`POST /review`).
+  - Total automated test suite expanded to 36/36 tests passing with 100% pass rate.
+- **Phase 9 (Consent, FHIR, ABDM & HIS Integration):** NEXT UP.
 
 ## Built and working right now
 - **Project Documentation:** Foundational documentation under `docs/` fully updated and synchronized.

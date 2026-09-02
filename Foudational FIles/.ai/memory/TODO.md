@@ -9,17 +9,18 @@
 - `[x]` Phase 5: Summary Generator
 - `[x]` Phase 6: API layer completion
 - `[x]` Phase 7: Voice Intake Engine (Module E)
+- `[x]` Phase 8: Medical Document Digitization (Module B)
 
-## Phase 8 Tasks (Next Up: Medical Document Digitization — Module B)
-- `[ ]` Review `docs/integrations/OCR_PIPELINE.md` and lab reference range bounds.
-- `[ ]` Implement dual-path OCR extraction engine for printed/handwritten prescriptions, lab reports, and discharge summaries.
-- `[ ]` Implement entity extractors for medications, dosages, lab tests, reference ranges, and abnormal value flagging.
-- `[ ]` Implement MedGemma Multimodal (4B) medical image finding extraction for Chest X-rays, Sonography, and CT scans.
-- `[ ]` Implement chronological timelining linking digitized documents to `PatientDataObject.documents`.
-- `[ ]` Add automated pytest suite for document parsing and entity extraction.
+## Phase 9 Tasks (Next Up: Consent, FHIR, ABDM, and HIS Integration — Module D)
+- `[ ]` Review `docs/integrations/ABDM_FHIR_SPEC.md` and NRCeS FHIR R4 profile specifications.
+- `[ ]` Implement validated FHIR R4 mapping from `PatientDataObject` (Composition, Patient, Encounter, Condition, MedicationStatement, Observation, DiagnosticReport, DocumentReference, Procedure).
+- `[ ]` Implement granular, revocable, audio-guided consent state machine and evidence capture.
+- `[ ]` Build mock ABDM / HIS delivery adapters (prepared, queued, accepted, rejected, failed states).
+- `[ ]` Implement secure session termination with automatic clearing of temporary data upon confirmed submission.
+- `[ ]` Add automated pytest suite for FHIR serialization and ABDM delivery lifecycle.
 
 ## Future Phases
-- `[ ]` Phase 8: Document digitization module (Dual-path OCR + MedGemma medical image reasoning)
+- `[ ]` Phase 9: Consent, FHIR, ABDM, and HIS integration (Module D)
 - `[ ]` Phase 9: Consent, FHIR, ABDM, and HIS integration (FHIR R4 Bundle `Composition` generator)
 - `[ ]` Phase 10: Backend integration testing
 - `[ ]` Phase 11: Frontend patient flow (Next.js Kiosk UI)

@@ -1,20 +1,21 @@
 # Active Work
 
 ## Current session focus
-- Phase 7 (Voice Intake Engine — Module E) is COMPLETED and 100% verified via automated pytest suite.
-- Ready for Phase 8 (Medical Document Digitization — Module B).
+- Phase 8 (Medical Document Digitization — Module B) is COMPLETED and 100% verified via automated pytest suite (36/36 tests passing).
+- Ready for Phase 9 (Consent, FHIR, ABDM, and HIS Integration — Module D).
 
 ## Active files
-- `backend/app/services/speech/` (Completed modular speech package)
-- `backend/app/api/endpoints/voice_router.py` (Completed)
-- `backend/app/api/endpoints/sessions.py` (Completed unified voice answer endpoint)
-- `backend/app/api/router.py` (Completed)
-- `backend/tests/test_voice_suite.py` (Completed - 10/10 tests passing)
+- `backend/app/services/ocr/` (Completed modular OCR package)
+- `backend/app/services/document/` (Completed document intelligence package)
+- `backend/app/models/document.py` (Completed extraction models)
+- `backend/app/api/endpoints/documents_router.py` (Completed inline processing, timeline, and review endpoints)
+- `backend/data/clinical/lab_reference_ranges.json` (Completed 35+ test reference ranges)
+- `backend/tests/test_document_suite.py` (Completed - 13/13 tests passing)
 
 ## Current objectives
-- Complete Phase 7 Voice Intake Engine implementation and verification (COMPLETED)
-- Author Phase 7 retrospective and synchronize memory files (COMPLETED)
-- Prepare research and prerequisites for Phase 8 (Medical Document Digitization / OCR Pipeline / MedGemma Multimodal)
+- Complete Phase 8 Document Digitization Module implementation and verification (COMPLETED)
+- Synchronize memory and foundational documentation (COMPLETED)
+- Prepare research and prerequisites for Phase 9 (Consent, FHIR R4 Bundle Mapping, ABDM M1/M2/M3, and HIS integration)
 
 ## Current task status
 - [x] Phase 0: Foundation Setup
@@ -25,7 +26,7 @@
 - [x] Phase 5: Summary Generator
 - [x] Phase 6: API Layer Completion
 - [x] Phase 7: Voice Intake Engine (Module E)
-- [ ] Phase 8: Medical Document Digitization (Module B)
+- [x] Phase 8: Medical Document Digitization (Module B)
 - [ ] Phase 9: Consent, Security & ABDM Integration (Module D)
 - [ ] Phase 10: End-to-End Backend Integration & Testing
 - [ ] Phase 11: Patient Kiosk UI (Module A & B Frontend)
@@ -34,5 +35,5 @@
 
 ## Next session should begin with
 - Reading `HANDOFF.md` first.
-- Reading `ps.md` and `docs/product/PRD.md` (mandatory per RULES.md).
-- Reviewing `docs/integrations/BHASHINI_ASR.md` before starting Phase 7.
+- Reading `ps.md`, `docs/product/PRD.md`, and `docs/integrations/ABDM_FHIR_SPEC.md` (mandatory per RULES.md).
+- Reviewing `docs/privacy/CONSENT_ARCHITECTURE.md` before starting Phase 9.
