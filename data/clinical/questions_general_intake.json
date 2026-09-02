@@ -390,7 +390,7 @@
           "trigger_id": "TRIG_SH_NO",
           "condition_type": "VALUE_MATCH",
           "target_value_codes": ["SH_NO"],
-          "next_question_id": null
+          "next_question_id": "GEN_MEN_001"
         }
       ]
     },
@@ -411,6 +411,121 @@
       "followup_triggers": [
         {
           "trigger_id": "TRIG_SH_DETAILS_DONE",
+          "condition_type": "ALWAYS",
+          "target_value_codes": [],
+          "next_question_id": "GEN_MEN_001"
+        }
+      ]
+    },
+    {
+      "question_id": "GEN_MEN_001",
+      "section": "menstrual_reproductive_history",
+      "gender_restriction": "FEMALE",
+      "text_by_language": {
+        "en": "For female patients: Are your menstrual cycles regular, and when was your Last Menstrual Period (LMP)?",
+        "hi": "महिला रोगियों के लिए: क्या आपका मासिक धर्म नियमित है, और आपका अंतिम मासिक धर्म (LMP) कब था?",
+        "mr": "महिला रुग्णांसाठी: तुमची मासिक पाळी नियमित आहे का आणि तुमची शेवटची मासिक पाळी (LMP) कधी आली होती?",
+        "bn": "মহিলা রোগীদের জন্য: আপনার মাসিক কি নিয়মিত, এবং আপনার শেষ মাসিকের তারিখ (LMP) কবে ছিল?",
+        "ta": "பெண் நோயாளிகளுக்கு: உங்கள் மாதவிடாய் சுழற்சி சீரானதா, உங்கள் கடைசி மாதவிடாய் (LMP) எப்போது இருந்தது?",
+        "te": "మహిళా రోగులకు: మీ ఋతు చక్రం క్రమంగా ఉందా, మరియు మీ చివరి ఋతుస్రావం (LMP) ఎప్పుడు జరిగింది?"
+      },
+      "input_type": "single_select",
+      "options": [
+        {
+          "option_id": "OPT_MEN_REGULAR",
+          "value_code": "MEN_CYCLE_REGULAR",
+          "text_by_language": {
+            "en": "Regular cycles",
+            "hi": "नियमित चक्र",
+            "mr": "नियमित पाळी",
+            "bn": "নিয়মিত চক্র",
+            "ta": "வழக்கமான சுழற்சி",
+            "te": "క్రమబద్ధమైన చక్రం"
+          }
+        },
+        {
+          "option_id": "OPT_MEN_IRREGULAR",
+          "value_code": "MEN_CYCLE_IRREGULAR",
+          "text_by_language": {
+            "en": "Irregular / Painful cycles",
+            "hi": "अनियमित / दर्दनाक चक्र",
+            "mr": "अनियमित / वेदनादायी पाळी",
+            "bn": "অনিয়মিত / বেদনাদায়ক চক্র",
+            "ta": "முறையற்ற / வலிமிகுந்த சுழற்சி",
+            "te": "అసాధారణమైన / బాధాకరమైన చక్రం"
+          }
+        },
+        {
+          "option_id": "OPT_MEN_MENOPAUSE",
+          "value_code": "MEN_MENOPAUSE",
+          "text_by_language": {
+            "en": "Menopause attained (No periods)",
+            "hi": "रजोनिवृत्ति (मासिक धर्म बंद)",
+            "mr": "रजोनिवृत्ती (पाळी बंद)",
+            "bn": "মেনোপজ হয়েছে (মাসিক বন্ধ)",
+            "ta": "மாதவிடாய் நின்றது",
+            "te": "మెనోపాజ్ వచ్చింది (పీరియడ్స్ ఆగిపోయాయి)"
+          }
+        },
+        {
+          "option_id": "OPT_MEN_PREGNANT",
+          "value_code": "MEN_CURRENTLY_PREGNANT",
+          "text_by_language": {
+            "en": "Currently pregnant",
+            "hi": "वर्तमान में गर्भवती",
+            "mr": "सध्या गरोदर",
+            "bn": "বর্তমানে গর্ভবতী",
+            "ta": "தற்போது கர்ப்பமாக உள்ளேன்",
+            "te": "ప్రస్తుతం గర్భవతి"
+          }
+        },
+        {
+          "option_id": "OPT_MEN_NA",
+          "value_code": "MEN_NOT_APPLICABLE",
+          "text_by_language": {
+            "en": "Not applicable / Male patient",
+            "hi": "लागू नहीं / पुरुष रोगी",
+            "mr": "लागू नाही / पुरुष रुग्ण",
+            "bn": "প্রযোজ্য নয় / পুরুষ রোগী",
+            "ta": "பொருந்தாது / ஆண் நோயாளி",
+            "te": "వర్తించదు / మగ రోగి"
+          }
+        }
+      ],
+      "data_element": "history.menstrual_history",
+      "followup_triggers": [
+        {
+          "trigger_id": "TRIG_MEN_DETAILS",
+          "condition_type": "VALUE_MATCH",
+          "target_value_codes": ["MEN_CYCLE_REGULAR", "MEN_CYCLE_IRREGULAR", "MEN_CURRENTLY_PREGNANT"],
+          "next_question_id": "GEN_MEN_002"
+        },
+        {
+          "trigger_id": "TRIG_MEN_SKIP",
+          "condition_type": "ALWAYS",
+          "target_value_codes": [],
+          "next_question_id": null
+        }
+      ]
+    },
+    {
+      "question_id": "GEN_MEN_002",
+      "section": "menstrual_reproductive_history",
+      "gender_restriction": "FEMALE",
+      "text_by_language": {
+        "en": "Please provide your LMP approximate date or any pregnancy / obstetric details (e.g. number of children, previous miscarriages).",
+        "hi": "कृपया अपने अंतिम मासिक धर्म (LMP) की अनुमानित तारीख या गर्भावस्था / प्रसूति संबंधी विवरण दें।",
+        "mr": "कृपया तुमच्या शेवटच्या पाळीची (LMP) अंदाजे तारीख किंवा गर्भधारणा / प्रसूती तपशील द्या.",
+        "bn": "অনুগ্রহ করে আপনার শেষ মাসিকের (LMP) আনুমানিক তারিখ বা গর্ভাবস্থা / প্রসূতি সংক্রান্ত বিবরণ দিন।",
+        "ta": "உங்கள் கடைசி மாதவிடாய் (LMP) தேதி அல்லது கர்ப்பம் பற்றிய விவரங்களை தெரிவிக்கவும்.",
+        "te": "దయచేసి మీ చివరి పీరియడ్ (LMP) సుమారు తేదీ లేదా గర్భధారణ వివరాలను తెలపండి."
+      },
+      "input_type": "free_text",
+      "options": [],
+      "data_element": "history.menstrual_history_details",
+      "followup_triggers": [
+        {
+          "trigger_id": "TRIG_MEN_DONE",
           "condition_type": "ALWAYS",
           "target_value_codes": [],
           "next_question_id": null

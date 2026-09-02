@@ -86,3 +86,55 @@
 - Why: A static flat questionnaire misses critical clinical details and wastes patient time with irrelevant questions. Dynamic branching mirrors how a real clinician conducts an interview.
 - Status: Approved and active.
 
+## 2026-09-01 — MedGemma vs OCR Pipeline Roles & Source-Attributed Summary Synthesis
+- Decision: 
+  1. **Text Documents (Prescriptions, Lab Reports, Discharge Summaries):** Raw text extraction, lab reference bounds, and handwritten prescription text are extracted using dedicated OCR/text-extraction engines (Tesseract / PaddleOCR / EasyOCR). 
+  2. **Structured & Sourced Feeding:** The extracted text and structured items (ranges, values, drugs, dosages) are annotated with exact source document references (e.g. `[Doc#1: Discharge Summary, 2024-05-10]`, `[Doc#2: CBC Lab Report]`).
+  3. **MedGemma Core Role:** MedGemma is used as the **primary synthesis and clinical summary generator (Module C)**, taking the structured patient interview data and the source-attributed OCR extracts, and synthesizing them into a cohesive clinical draft where every finding/investigation explicitly cites its source.
+  4. **Medical Image Analysis:** MedGemma Multimodal (4B) is used directly for **medical image descriptions & visual findings** (e.g., Chest X-rays, Sonography / Ultrasound, CT scans).
+- Why: Preserves high-precision deterministic OCR extraction for numbers/ranges while leveraging MedGemma's medical reasoning for clinical synthesis, source-provenance summaries, and image understanding.
+- Status: Approved and active.
+
+## 2026-09-01 — Gender-Gated Reproductive & Menstrual History Routing
+- Decision: When the patient gender is female (`gender == "FEMALE"`), the intake flow conditionally prompts applicable **Menstrual & Reproductive History** questions (LMP - Last Menstrual Period, cycle regularity, pregnancy status, obstetric history if applicable). If male or unspecified, this entire section is cleanly skipped.
+- Why: Standard clinical intake protocol mandates reproductive history for female patients while omitting irrelevant questions for male patients to maximize throughput and privacy.
+- Status: Approved and active.
+
+## 2026-09-02 — Explicit FHIR-Aligned Section Decomposition for ClinicalSummaryDraft
+- Decision: Decompose `ClinicalSummaryDraft` into distinct typed fields matching the 9 required sections of ABDM OPConsultRecord / FHIR R4 `Composition` (`patient_chief_complaint`, `hpi_summary`, `past_medical_surgical_summary`, `medications_and_allergies`, `family_history_summary`, `personal_social_history_summary`, `review_of_systems_summary`, `investigations_and_lab_summary`, `imaging_findings_summary`, `menstrual_reproductive_summary`), rather than collapsing family/personal/ROS into a single generic string.
+- Why: Prevents data loss during downstream FHIR serialization (Phase 9) and allows the physician UI (Phase 12) to render and edit each clinical section independently.
+- Status: Approved and active.
+
+## 2026-09-02 — Non-Autonomous Clinical Draft Governance (Accept/Amend/Reject Boundary)
+- Decision: The backend summary generator strictly produces a preliminary draft (`is_draft_for_clinician_review: true`, `draft_status: "PENDING"`) and NEVER commits an autonomous final record. The draft only transitions to `APPROVED` when an authorized clinician explicitly calls `POST /{session_id}/summary/review` with `action: ACCEPTED` or `action: AMENDED`.
+- Why: Satisfies national clinical AI safety regulations (PRD Section 11.4) and ensures complete medico-legal clinician authority over generated health records.
+- Status: Approved and active.
+
+## 2026-09-02 — Standardized Error Envelopes & Zero Information Leakage
+- Decision: All FastAPI exceptions are intercepted by global handlers and transformed into standard `ERROR_CODES.md` envelopes with stable machine-readable codes, correlation IDs, and safe messages. No SQL queries, stack traces, or internal model prompts are ever returned to HTTP clients.
+- Why: Mandated by `docs/api/ERROR_CODES.md` and cybersecurity zero-trust principles for hospital-grade deployments.
+- Status: Approved and active.
+
+## 2026-09-02 — Server-Sent Events (SSE) for Long-Running Clinical Synthesis
+- Decision: Provide `GET /api/v1/sessions/{id}/summary/stream` alongside synchronous REST calls to stream LLM synthesis status and tokens in real-time.
+- Why: MedGemma inference takes 15-35s on GPU; SSE streaming prevents reverse proxy 504 timeouts and provides live feedback to the patient/doctor.
+- Status: Approved and active.
+
+## 2026-09-02 — 3-Tier Speech Cascade (Bhashini -> Gemini Audio -> Mock)
+- Decision: Implement a multi-tier speech provider cascade in `SpeechService`. Bhashini ULCA API is primary. If Bhashini credentials are not configured or network fails, fallback to Gemini 1.5 Flash Audio. If offline or in isolated tests, fallback to local deterministic `MockSpeechAdapter`.
+- Why: Guarantees 100% test reliability and zero demo interruption while maintaining production Bhashini compliance.
+- Status: Approved and active.
+
+## 2026-09-02 — Module E Semantic Voice Navigation Mapping (`data-voice-action`)
+- Decision: Spoken navigation commands map strictly to allow-listed `VoiceActionEnum` identifiers matching `data-voice-action` across 6 languages (`en`, `hi`, `mr`, `bn`, `ta`, `te`). Arbitrary shell or unvalidated commands are impossible.
+- Why: Enforces PRD Section 8.6 security and accessibility rules for zero-training kiosk navigation.
+- Status: Approved and active.
+
+## 2026-09-02 — Unified Sub-Second Voice Answer Endpoint
+- Decision: Combine speech transcription, LangGraph state advancement, red-flag triage scanning, and next-question TTS audio synthesis into a single `POST /api/v1/sessions/{id}/voice/answer` endpoint.
+- Why: Reduces frontend network round-trips from 3 to 1, delivering sub-second voice interactions on kiosk hardware.
+- Status: Approved and active.
+
+
+
+

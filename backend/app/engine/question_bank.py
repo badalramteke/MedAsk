@@ -1,6 +1,6 @@
 """
 QuestionBank: Loads and indexes all clinical question JSON datasets at startup.
-Provides fast lookup by question_id, symptom_domain, and section.
+Provides fast lookup by question_id, symptom_domain, section, and AYUSH parameters.
 """
 import json
 import os
@@ -14,6 +14,7 @@ class QuestionBank:
         self._questions: Dict[str, dict] = {}  # question_id -> full question object
         self._socrates_domains: Dict[str, List[str]] = {}  # symptom_domain -> [question_ids in order]
         self._general_sections: Dict[str, List[str]] = {}  # section -> [question_ids in order]
+        self._ayush_parameters: List[dict] = []  # Ordered list of Dashavidha Pariksha parameter objects
         self._loaded = False
         self._data_dir = data_dir
         self._load()
@@ -45,6 +46,17 @@ class QuestionBank:
                     self._general_sections[section] = []
                 self._general_sections[section].append(qid)
 
+        # Load AYUSH Dashavidha Pariksha parameters
+        ayush_path = os.path.join(self._data_dir, "ayush_dashavidha_pariksha.json")
+        if os.path.exists(ayush_path):
+            with open(ayush_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            # Load primary Dashavidha parameters (the 10 core parameters)
+            for param in data.get("primary_dashavidha_parameters", []):
+                self._ayush_parameters.append(param)
+            # Sort by parameter_index if available
+            self._ayush_parameters.sort(key=lambda p: p.get("parameter_index", 999))
+
         self._loaded = True
 
     def get_question(self, question_id: str) -> Optional[dict]:
@@ -69,6 +81,16 @@ class QuestionBank:
     def get_available_socrates_domains(self) -> List[str]:
         return list(self._socrates_domains.keys())
 
+    def get_ayush_parameters(self) -> List[dict]:
+        """Return all loaded AYUSH Dashavidha Pariksha parameters in order."""
+        return self._ayush_parameters
+
+    def get_ayush_entry_question(self) -> Optional[str]:
+        """Get the first AYUSH parameter_id."""
+        if self._ayush_parameters:
+            return self._ayush_parameters[0].get("parameter_id")
+        return None
+
     def localize_question(self, question_id: str, language: str = "en") -> Optional[dict]:
         """Return a question with text localized to the given language."""
         q = self.get_question(question_id)
@@ -92,29 +114,43 @@ class QuestionBank:
 
         return localized
 
-    def get_next_question_id(self, question_id: str, selected_value_codes: List[str]) -> Optional[str]:
+    def get_next_question_id(self, question_id: str, selected_value_codes: List[str], gender: Optional[str] = None) -> Optional[str]:
         """
         Given the current question and the patient's answer, determine the next question
         by evaluating followup_triggers in order.
-        This is the core of dynamic branching.
+        If the next question has a gender restriction and patient doesn't match, skips appropriately.
         """
         q = self.get_question(question_id)
         if not q:
             return None
 
+        next_qid = None
         for trigger in q.get("followup_triggers", []):
             condition = trigger.get("condition_type", "ALWAYS")
-            next_qid = trigger.get("next_question_id")
+            candidate_qid = trigger.get("next_question_id")
 
             if condition == "ALWAYS":
-                return next_qid
+                next_qid = candidate_qid
+                break
             elif condition == "VALUE_MATCH":
                 target_codes = trigger.get("target_value_codes", [])
                 if any(code in selected_value_codes for code in target_codes):
-                    return next_qid
+                    next_qid = candidate_qid
+                    break
 
-        return None
+        # Check gender restriction if moving to a restricted question
+        if next_qid:
+            target_q = self.get_question(next_qid)
+            if target_q:
+                restriction = target_q.get("gender_restriction")
+                if restriction == "FEMALE" and gender and gender.upper() != "FEMALE":
+                    # Skip female-only question for male/other patients
+                    return None
+
+        return next_qid
+
 
 
 # Singleton instance
 question_bank = QuestionBank()
+

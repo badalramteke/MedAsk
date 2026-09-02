@@ -40,11 +40,30 @@ class RedFlagScanner:
             elif isinstance(val, str):
                 all_value_codes.add(val)
 
+        # Combine all answers into a searchable text string
+        all_text = " ".join([str(v).lower() for v in answer_history.values()])
+
         for rule in self._rules:
             trigger = rule.get("trigger", {})
             pattern = trigger.get("structured_fact_pattern", {})
+            keywords_by_lang = rule.get("trigger_keywords_by_lang", {})
 
-            if self._matches_pattern(pattern, all_value_codes, answer_history):
+            # 1. Check structured value codes
+            matched = self._matches_pattern(pattern, all_value_codes, answer_history)
+
+            # 2. Check multilingual spoken keyword phrases
+            if not matched and keywords_by_lang:
+                for lang_code, kw_list in keywords_by_lang.items():
+                    for kw in kw_list:
+                        # If keyword terms appear in free-text narration
+                        kw_terms = [t.strip().lower() for t in kw.split() if len(t.strip()) > 1]
+                        if kw_terms and all(term in all_text for term in kw_terms[:2]):
+                            matched = True
+                            break
+                    if matched:
+                        break
+
+            if matched:
                 alert_messages = rule.get("alert_message", {})
                 alert_msg = alert_messages.get(language, alert_messages.get("en", "Red flag triggered."))
 
@@ -55,7 +74,7 @@ class RedFlagScanner:
                     alert_message=alert_msg,
                     action_code=rule.get("action_code", "TRIAGE_NOTIFY"),
                     triggered_at=datetime.utcnow(),
-                    evidence_summary=f"Matched pattern in answers: {list(all_value_codes & self._get_pattern_codes(pattern))}",
+                    evidence_summary=f"Matched red-flag trigger in answers: {rule['rule_id']}",
                 ))
 
         return triggered

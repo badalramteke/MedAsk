@@ -69,16 +69,17 @@ class FlowController:
         selected_value_codes: List[str],
         free_text: Optional[str],
         language: str = "en",
+        gender: Optional[str] = None,
     ) -> Optional[QuestionResponse]:
         """
         Process an answer and return the next question.
-        Uses followup_triggers from the JSON data for dynamic branching.
+        Uses followup_triggers from the JSON data for dynamic branching, respecting gender restrictions.
         """
         state.answered_question_ids.append(question_id)
         state.answer_history[question_id] = selected_value_codes if selected_value_codes else free_text
 
-        # Use the question bank's trigger-based routing
-        next_qid = question_bank.get_next_question_id(question_id, selected_value_codes)
+        # Use the question bank's trigger-based routing (with gender filtering)
+        next_qid = question_bank.get_next_question_id(question_id, selected_value_codes, gender=gender)
 
         if next_qid:
             state.current_question_id = next_qid
