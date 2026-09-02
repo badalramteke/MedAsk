@@ -8,14 +8,15 @@
 - `[x]` Phase 4: LangGraph clinical workflow and safety rules
 - `[x]` Phase 5: Summary Generator
 - `[x]` Phase 6: API layer completion
+- `[x]` Phase 7: Voice Intake Engine (Module E)
 
-## Phase 7 Tasks (Next Up: Voice Intake Engine — Module E)
-- `[ ]` Read `docs/integrations/BHASHINI_ASR.md` and review Bhashini ULCA API specifications.
-- `[ ]` Implement Bhashini ASR client (Hindi, English, Marathi, Bengali, Tamil, Telugu) with `.env` credentials.
-- `[ ]` Implement local/browser speech recognition & Gemini Audio fallback for speech-to-text.
-- `[ ]` Implement Bhashini TTS client for localized patient audio guidance.
-- `[ ]` Build `/api/v1/voice/transcribe` and `/api/v1/voice/synthesize` endpoints.
-- `[ ]` Implement dual-mode voice + touch continuous fallback.
+## Phase 8 Tasks (Next Up: Medical Document Digitization — Module B)
+- `[ ]` Review `docs/integrations/OCR_PIPELINE.md` and lab reference range bounds.
+- `[ ]` Implement dual-path OCR extraction engine for printed/handwritten prescriptions, lab reports, and discharge summaries.
+- `[ ]` Implement entity extractors for medications, dosages, lab tests, reference ranges, and abnormal value flagging.
+- `[ ]` Implement MedGemma Multimodal (4B) medical image finding extraction for Chest X-rays, Sonography, and CT scans.
+- `[ ]` Implement chronological timelining linking digitized documents to `PatientDataObject.documents`.
+- `[ ]` Add automated pytest suite for document parsing and entity extraction.
 
 ## Future Phases
 - `[ ]` Phase 8: Document digitization module (Dual-path OCR + MedGemma medical image reasoning)

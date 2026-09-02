@@ -1,22 +1,21 @@
 # Current State
 
-## Current Phase: Phase 6 (API Layer Completion) Completed / Phase 7 (Voice Intake Engine) Next
+## Current Phase: Phase 7 (Voice Intake Engine) Completed / Phase 8 (Document Digitization) Next
 - **Phase 0 (Foundation Setup):** COMPLETED. Directory structure, docker-compose (Redis + Postgres), MedGemma connectivity check, and requirements locked.
 - **Phase 1 (Core Data Contract & Session Foundation):** COMPLETED. Full `PatientDataObject` Pydantic models (identity, consent, history, ayush, provenance, patch) and session repository.
 - **Phase 2 (Question Engine Skeleton — Rule-based, No AI):** COMPLETED. Dynamic branching engine with `QuestionBank`, `FlowController`, `AnswerValidator`, `RedFlagScanner`, general intake dataset with female menstrual routing (31 total questions), and `/next-question`, `/answer`, `/alerts` endpoints.
 - **Phase 3 (MedGemma & ModelService Integration):** COMPLETED. Implemented `ModelService`, `ColabMedGemmaAdapter` (verified LIVE on Google Colab GPU with `google/medgemma-1.5-4b-it`), `GeminiAdapter`, `MockModelAdapter`, prompt templates, safety gating, and session AI endpoints (`/ai/structure-narration`, `/ai/generate-summary`, `/ai/health`).
 - **Phase 4 (LangGraph Clinical Workflow & Safety Rules):** COMPLETED. Stateful `ClinicalInterviewState` with nodes for Chief Complaint, SOCRATES, General, Menstrual, AYUSH, Validator, and real-time red-flag triage scanner.
-- **Phase 5 (Summary Generator — Module C):** COMPLETED. Implemented `ClinicalSummaryDraft` schema with 9 distinct clinical sections matching FHIR R4 requirements, bilingual audio confirmation scripts, clinician review actions (`ACCEPTED`, `AMENDED`, `REJECTED`), and verified live inference on GPU for summary synthesis (36s) and multimodal chest X-ray image analysis (73s).
-- **Phase 6 (API Layer Completion):** COMPLETED.
-  - Standardized all 23 API endpoints across 5 modular routers (`sessions`, `consent_router`, `documents_router`, `alerts_router`, `ops_router`).
-  - Added global middleware (`CorrelationIdMiddleware` for `X-Correlation-ID`, `IdempotencyMiddleware` for `X-Idempotency-Key`, and `CORSMiddleware`).
-  - Added standardized exception handling mapping errors to canonical codes in `docs/api/ERROR_CODES.md`.
-  - Implemented ABDM M1 ABHA Authentication endpoints (`/abha/initiate`, `/abha/confirm`) with sandbox mode and profile linking.
-  - Implemented Server-Sent Events (SSE) streaming endpoint (`/summary/stream`) for draft generation.
-  - Implemented real-time Global Triage Emergency Queue (`/alerts`) with staff acknowledgement lifecycle.
-  - Implemented Document upload security (magic bytes, 10MB limits, quota checks).
-  - Verified 100% of backend contracts via 13-test automated pytest suite (`backend/tests/test_api_suite.py`).
-- **Phase 7 (Voice Intake Engine — Module E):** NEXT UP.
+- **Phase 5 (Summary Generator — Module C):** COMPLETED. Implemented `ClinicalSummaryDraft` schema with 9 distinct clinical sections matching FHIR R4 requirements, bilingual audio confirmation scripts, clinician review actions (`ACCEPTED`, `AMENDED`, `REJECTED`), and verified live inference on GPU for summary synthesis and multimodal chest X-ray image analysis.
+- **Phase 6 (API Layer Completion):** COMPLETED. 23 API endpoints, global middleware (correlation, idempotency, error handler), ABHA M1 auth, SSE summary streaming, triage alerts queue, and document staging security.
+- **Phase 7 (Voice Intake Engine — Module E):** COMPLETED.
+  - Built modular `backend/app/services/speech/` with 3-tier cascade (`BhashiniSpeechAdapter` -> `GeminiAudioAdapter` -> `MockSpeechAdapter`).
+  - Added Module E semantic voice action matcher (`VoiceActionMatcher`) recognizing allow-listed UI commands across 6 Indian languages.
+  - Added hybrid in-memory `TTSAudioCache` for instant 0ms audio retrieval for static questions.
+  - Mounted modular `/api/v1/voice/transcribe`, `/api/v1/voice/synthesize`, `/api/v1/voice/actions`, `/api/v1/voice/health`.
+  - Built unified sub-second voice answer endpoint (`POST /api/v1/sessions/{id}/voice/answer`) combining ASR + LangGraph + red flags + next-question TTS audio.
+  - Verified 23/23 automated pytest tests passing with 100% pass rate.
+- **Phase 8 (Document Digitization Module):** NEXT UP.
 
 ## Built and working right now
 - **Project Documentation:** Foundational documentation under `docs/` fully updated and synchronized.

@@ -9,12 +9,47 @@ from app.engine.question_bank import question_bank
 # Known chief complaint -> SOCRATES domain mappings
 # Reused from Phase 2 flow_controller.py for consistency
 CHIEF_COMPLAINT_TO_DOMAIN = {
+    # English
     "chest_pain": "chest_pain",
     "chest pain": "chest_pain",
+    "chest": "chest_pain",
     "headache": "headache",
     "head pain": "headache",
+    "head": "headache",
+    "fever": "fever",
+    "cough": "cough",
+    # Hindi (Transliterated & Devanagari)
     "sir dard": "headache",
     "seene mein dard": "chest_pain",
+    "seene": "chest_pain",
+    "सीने में तेज दर्द": "chest_pain",
+    "सीने में दर्द": "chest_pain",
+    "सीने": "chest_pain",
+    "छाती": "chest_pain",
+    "सिर दर्द": "headache",
+    "सिर": "headache",
+    "बुखार": "fever",
+    "खांसी": "cough",
+    # Marathi
+    "छातीत": "chest_pain",
+    "डोकेदुखी": "headache",
+    "ताप": "fever",
+    "खोकला": "cough",
+    # Bengali
+    "বুকে": "chest_pain",
+    "মাথা ব্যথা": "headache",
+    "জ্বর": "fever",
+    "কাশি": "cough",
+    # Tamil
+    "நெஞ்சு": "chest_pain",
+    "தலைவலி": "headache",
+    "காய்ச்சல்": "fever",
+    "இருமல்": "cough",
+    # Telugu
+    "ఛాతీ": "chest_pain",
+    "తలనొప్పి": "headache",
+    "జ్వరం": "fever",
+    "దగ్గు": "cough",
 }
 
 

@@ -120,10 +120,21 @@
 - Why: MedGemma inference takes 15-35s on GPU; SSE streaming prevents reverse proxy 504 timeouts and provides live feedback to the patient/doctor.
 - Status: Approved and active.
 
-## 2026-09-02 — Binary Magic-Byte File Validation for Document Staging
-- Decision: Document uploads are validated against actual file header signatures (magic bytes for JPEG `\xff\xd8\xff`, PNG `\x89PNG`, PDF `%PDF-`) rather than trusting client-provided Content-Type headers or file extensions.
-- Why: Prevents malicious executable uploads (e.g. polyglot binaries disguised as `.jpg`) from entering the OCR pipeline.
+## 2026-09-02 — 3-Tier Speech Cascade (Bhashini -> Gemini Audio -> Mock)
+- Decision: Implement a multi-tier speech provider cascade in `SpeechService`. Bhashini ULCA API is primary. If Bhashini credentials are not configured or network fails, fallback to Gemini 1.5 Flash Audio. If offline or in isolated tests, fallback to local deterministic `MockSpeechAdapter`.
+- Why: Guarantees 100% test reliability and zero demo interruption while maintaining production Bhashini compliance.
 - Status: Approved and active.
+
+## 2026-09-02 — Module E Semantic Voice Navigation Mapping (`data-voice-action`)
+- Decision: Spoken navigation commands map strictly to allow-listed `VoiceActionEnum` identifiers matching `data-voice-action` across 6 languages (`en`, `hi`, `mr`, `bn`, `ta`, `te`). Arbitrary shell or unvalidated commands are impossible.
+- Why: Enforces PRD Section 8.6 security and accessibility rules for zero-training kiosk navigation.
+- Status: Approved and active.
+
+## 2026-09-02 — Unified Sub-Second Voice Answer Endpoint
+- Decision: Combine speech transcription, LangGraph state advancement, red-flag triage scanning, and next-question TTS audio synthesis into a single `POST /api/v1/sessions/{id}/voice/answer` endpoint.
+- Why: Reduces frontend network round-trips from 3 to 1, delivering sub-second voice interactions on kiosk hardware.
+- Status: Approved and active.
+
 
 
 

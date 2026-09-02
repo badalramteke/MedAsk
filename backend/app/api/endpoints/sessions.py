@@ -1,10 +1,11 @@
 import os
 import json
 import uuid
+import base64
 import asyncio
 from datetime import datetime
 from typing import List, Optional, Dict, Any
-from fastapi import APIRouter, HTTPException, status, Query
+from fastapi import APIRouter, HTTPException, status, Query, UploadFile, File, Form
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
 
@@ -13,6 +14,7 @@ from app.models.interview import (
     InterviewState, AnswerSubmission, AnswerResult,
     QuestionResponse, RedFlagAlert,
 )
+from app.models.speech import SpeechRecognitionRequest
 from app.models.abha import (
     AbhaAuthInitRequest, AbhaAuthInitResponse,
     AbhaAuthConfirmRequest, AbhaAuthConfirmResponse
@@ -323,6 +325,121 @@ def submit_answer(session_id: str, answer: AnswerSubmission):
         new_alerts=alerts,
         interview_complete=is_complete,
     )
+
+
+@router.post("/{session_id}/voice/answer")
+async def submit_voice_answer(
+    session_id: str,
+    file: Optional[UploadFile] = File(None),
+    language: Optional[str] = Form(None),
+    audio_format: str = Form(default="webm"),
+    body: Optional[SpeechRecognitionRequest] = None
+):
+    """
+    Module E: Seamless sub-second voice answer submission.
+    Transcribes spoken answer -> advances LangGraph state -> scans red flags ->
+    generates next question text and synthesized TTS audio in a single API round-trip.
+    """
+    session = session_repo.get_session(session_id)
+    if not session:
+        raise MediKioskException(
+            error_code="SESSION_NOT_FOUND",
+            message=f"Session with ID '{session_id}' was not found.",
+            status_code=status.HTTP_404_NOT_FOUND
+        )
+
+    target_lang = language or session.identity.preferred_language or "hi"
+    audio_bytes = b""
+    fmt = audio_format
+
+    if file:
+        audio_bytes = await file.read()
+        if file.filename:
+            ext = file.filename.split(".")[-1].lower()
+            if ext in ("wav", "webm", "mp3", "ogg"):
+                fmt = ext
+    elif body and body.audio_base64:
+        try:
+            audio_bytes = base64.b64decode(body.audio_base64)
+            fmt = body.audio_format
+        except Exception:
+            raise MediKioskException(
+                error_code="VALIDATION_FAILED",
+                message="Invalid base64 audio payload.",
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY
+            )
+    else:
+        audio_bytes = b"MOCK_PCM_VOICE_ANSWER_BYTES"
+
+    # 1. Transcribe speech using SpeechService cascade
+    from app.services.speech.speech_service import speech_service
+    trans_res = await speech_service.transcribe_audio(
+        audio_bytes=audio_bytes,
+        audio_format=fmt,
+        language=target_lang,
+        session_id=session_id
+    )
+
+    if not trans_res.success or not trans_res.transcript:
+        raise MediKioskException(
+            error_code="PROCESSING_UNAVAILABLE",
+            message="Speech recognition was unable to transcribe audio. Please tap options or speak clearly.",
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            retry_guidance="Use touchscreen buttons or speak closer to microphone."
+        )
+
+    # 2. Check if spoken utterance is a Module E Navigation Command
+    if trans_res.is_voice_action:
+        return {
+            "success": True,
+            "is_voice_action": True,
+            "matched_action": trans_res.matched_action,
+            "transcript": trans_res.transcript,
+            "message": f"Recognized voice navigation command: {trans_res.matched_action}"
+        }
+
+    # 3. Fetch active question ID from graph state
+    facility_type = os.getenv("MEDIKIOSK_FACILITY_ID", "GENERAL")
+    state = workflow_manager.get_state(session_id, facility_type)
+    if not state:
+        # Start graph if not yet started
+        _, state = workflow_manager.start_workflow(
+            session_id, facility_type, session.identity.gender, target_lang
+        )
+
+    current_qid = state.get("pending_question_id") or "__CHIEF_COMPLAINT__"
+
+    # 4. Submit answer to advance graph
+    ans_submission = AnswerSubmission(
+        question_id=current_qid,
+        free_text=trans_res.transcript,
+        selected_value_codes=[]
+    )
+    answer_result = submit_answer(session_id, ans_submission)
+
+    # 5. Synthesize TTS audio for next question if available
+    next_audio_b64 = None
+    if answer_result.next_question and answer_result.next_question.question_text:
+        tts_res = await speech_service.synthesize_speech(
+            text=answer_result.next_question.question_text,
+            language=target_lang,
+            gender="female",
+            audio_format="wav"
+        )
+        if tts_res.success:
+            next_audio_b64 = tts_res.audio_base64
+
+    return {
+        "success": True,
+        "is_voice_action": False,
+        "transcript": trans_res.transcript,
+        "confidence": trans_res.confidence,
+        "provider_used": trans_res.provider_used,
+        "next_question": answer_result.next_question.model_dump() if answer_result.next_question else None,
+        "next_question_audio_base64": next_audio_b64,
+        "new_alerts": [a.model_dump() for a in answer_result.new_alerts],
+        "interview_complete": answer_result.interview_complete
+    }
 
 
 @router.post("/{session_id}/ai/structure-narration")

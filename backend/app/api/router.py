@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.api.endpoints import sessions, consent_router, documents_router, alerts_router, ops_router
+from app.api.endpoints import sessions, consent_router, documents_router, alerts_router, ops_router, voice_router
 
 api_router = APIRouter()
 
@@ -12,8 +12,12 @@ api_router.include_router(consent_router.router, prefix="/sessions", tags=["cons
 # 3. Medical Document Upload & Staging
 api_router.include_router(documents_router.router, prefix="/sessions", tags=["documents"])
 
-# 4. Emergency Red-Flag Triage Queue
+# 4. Voice Intake Engine & Accessibility Navigation (Module E)
+api_router.include_router(voice_router.router, prefix="/voice", tags=["voice"])
+
+# 5. Emergency Red-Flag Triage Queue
 api_router.include_router(alerts_router.router, prefix="", tags=["alerts"])
 
-# 5. System Operations, Liveness & Readiness Probes
+# 6. System Operations, Liveness & Readiness Probes
 api_router.include_router(ops_router.router, prefix="", tags=["operations"])
+

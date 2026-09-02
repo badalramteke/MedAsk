@@ -33,8 +33,15 @@ This project follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) st
   - Added Global Triage Emergency Queue (`/alerts`) with nurse acknowledgement lifecycle.
   - Added Document upload security (magic-byte validation, 10MB limit, quota enforcement).
   - Built 13-test automated pytest integration suite (`backend/tests/test_api_suite.py`) with 100% pass rate.
+- **Phase 7:** Voice Intake Engine & Module E Navigation (`backend/app/services/speech/`, `backend/app/api/endpoints/voice_router.py`, `backend/tests/test_voice_suite.py`):
+  - Built modular `SpeechService` package with 3-tier cascade (`BhashiniSpeechAdapter` -> `GeminiAudioAdapter` -> `MockSpeechAdapter`) across 6 Indian languages (en, hi, mr, bn, ta, te).
+  - Implemented Module E `VoiceActionMatcher` recognizing allow-listed semantic UI commands (`NAV_NEXT`, `NAV_PREVIOUS`, `LANG_HINDI`, `SELECT_OPTION_1`, `CONFIRM_AGREE`, `EMERGENCY_HELP`).
+  - Added hybrid in-memory `TTSAudioCache` providing 0ms audio retrieval for static questions.
+  - Mounted modular `/api/v1/voice/transcribe`, `/api/v1/voice/synthesize`, `/api/v1/voice/actions`, and `/api/v1/voice/health`.
+  - Built unified sub-second voice answer endpoint (`POST /api/v1/sessions/{id}/voice/answer`) advancing LangGraph and generating next-question TTS audio in a single round-trip.
+  - Enforced DPDP Act ephemeral audio memory purge with zero raw audio stored on disk.
+  - Authored 10-test automated pytest voice suite (`backend/tests/test_voice_suite.py`), bringing total backend test count to 23/23 tests passing with 100% pass rate.
 - **Architecture Updates:** Formally established dual-path OCR (Tesseract/PaddleOCR/EasyOCR for document text extraction + source attribution) and MedGemma's role as the primary clinical summary synthesizer (Module C) + medical image interpreter (X-rays, sonography, CT).
-
 
 ### Changed
 

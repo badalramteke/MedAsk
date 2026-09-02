@@ -1,27 +1,26 @@
 # Handoff
 
 ## Session status
-- Current phase: Ready to begin Phase 7 (Voice Intake Engine — Module E).
-- Phases 0–6 (Foundation, Core Data Contract, Question Engine, ModelService, LangGraph Workflow, Summary Generator, and API Layer Completion) are 100% completed, tested, and verified.
-- Complete backend API suite (`backend/tests/test_api_suite.py`) passes 13/13 tests with zero failures.
+- Current phase: Ready to begin Phase 8 (Medical Document Digitization Module — Module B).
+- Phases 0–7 (Foundation, Core Data Contract, Question Engine, ModelService, LangGraph Workflow, Summary Generator, API Layer Completion, and Voice Intake Engine) are 100% completed, tested, and verified.
+- Complete backend test suite (`backend/tests/`) passes 23/23 tests with zero failures.
 
-## What was done in the last session (Phase 6)
-- Designed and mounted 23 modular OpenAPI routes across 5 routers (`sessions`, `consent_router`, `documents_router`, `alerts_router`, `ops_router`).
-- Added global middleware: `CorrelationIdMiddleware` for end-to-end `X-Correlation-ID` tracing, `IdempotencyMiddleware` for `X-Idempotency-Key` replay protection, and `CORSMiddleware`.
-- Standardized error handling returning structured JSON envelopes conforming to `docs/api/ERROR_CODES.md`.
-- Implemented ABDM M1 ABHA Authentication endpoints (`/abha/initiate`, `/abha/confirm`) with sandbox simulation and identity profile linking.
-- Added Server-Sent Events (SSE) streaming endpoint (`/summary/stream`) for real-time LLM draft delivery.
-- Added real-time Global Triage Emergency Queue (`/alerts`) with nurse acknowledgement lifecycle.
-- Implemented Document upload security with binary magic-byte validation (JPEG, PNG, PDF), 10MB limits, and session quotas.
-- Improved LangGraph chief complaint routing with case-insensitive token/substring pattern matching.
-- Generated `docs/retrospectives/PHASE_6_RETROSPECTIVE.md`.
+## What was done in the last session (Phase 7)
+- Built modular `backend/app/services/speech/` package with 3-tier speech cascade: `BhashiniSpeechAdapter` (MeitY ULCA pipeline) -> `GeminiAudioAdapter` (Gemini 1.5 Flash Audio) -> `MockSpeechAdapter` (deterministic offline mock generating valid 16kHz WAV bytes and multilingual transcripts) across 6 Indian languages (`en`, `hi`, `mr`, `bn`, `ta`, `te`).
+- Implemented Module E `VoiceActionMatcher` recognizing allow-listed semantic UI navigation commands (`NAV_NEXT`, `NAV_PREVIOUS`, `NAV_REPEAT`, `LANG_HINDI`, `LANG_TAMIL`, `SELECT_OPTION_1`, `CONFIRM_AGREE`, `EMERGENCY_HELP`).
+- Added hybrid in-memory `TTSAudioCache` providing 0ms audio retrieval for static questions.
+- Mounted modular endpoints: `POST /api/v1/voice/transcribe` (multipart file or Base64 JSON), `POST /api/v1/voice/synthesize`, `GET /api/v1/voice/actions`, and `GET /api/v1/voice/health`.
+- Built unified sub-second voice answer endpoint (`POST /api/v1/sessions/{id}/voice/answer`) combining ASR + LangGraph progression + red-flag triage scanning + TTS next-question audio synthesis in a single round-trip.
+- Enforced DPDP Act ephemeral audio memory purge (zero raw audio persisted on disk).
+- Authored 10-test automated pytest voice suite (`backend/tests/test_voice_suite.py`), bringing total backend test count to 23/23 tests passing with 100% pass rate.
+- Generated `docs/retrospectives/PHASE_7_RETROSPECTIVE.md`.
 
 ## State left behind
-- Verified, fully testable FastAPI backend with 23 operational endpoints.
-- Automated pytest integration suite in `backend/tests/test_api_suite.py` covering 100% of API lifecycles.
+- Verified, fully testable FastAPI backend with 27 operational endpoints.
+- Automated pytest integration suite in `backend/tests/` covering 100% of API and Voice lifecycles (23 tests passing).
 - Synchronized memory system in `Foudational FIles/.ai/memory/`.
 
 ## What the next session should start with
 1. Read `RULES.md` and complete mandatory Pre-Flight check: review `CURRENT_STATE.md`, `TODO.md`, `ACTIVE_WORK.md`, `DECISIONS.md`, `ps.md`, and `docs/product/PRD.md`.
-2. Review Phase 7 specifications in `docs/operations/PHASES.md` and `docs/integrations/BHASHINI_ASR.md`.
-3. Begin Phase 7: Voice Intake Engine (Module E) with Bhashini ASR/TTS clients, Gemini Audio fallbacks, and continuous voice + touch dual-mode navigation.
+2. Review Phase 8 specifications in `docs/operations/PHASES.md` and `docs/integrations/OCR_PIPELINE.md`.
+3. Begin Phase 8: Medical Document Digitization Module (Module B) with dual-path OCR (Tesseract / PaddleOCR), entity extraction (medications, lab values, abnormal bounds), and MedGemma Multimodal (4B) imaging findings.

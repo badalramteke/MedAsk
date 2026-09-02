@@ -22,6 +22,11 @@
 - **Global Triage Alert Synchronicity:** When a red flag is triggered in the LangGraph state machine, it must be mapped immediately to the global `alert_repo` with proper field names (`rule_id` -> `flag_id`, `urgency_level` -> `severity`). Any field mismatches inside an unhandled exception block can cause alerts to silently disappear from the staff dashboard.
 - **SSE Stream Ingress Keep-Alive:** Streaming LLM tokens/events via `text/event-stream` completely bypasses edge proxy timeouts and provides instant visual progress feedback to users on slow mobile networks.
 
+## Phase 7: Voice Intake Engine & Module E Navigation
+- **Substring Semantic Action Matching:** Keyword triggers like `"आगे बढ़ें"` or `"हिंदी भाषा"` can be spoken as part of longer natural sentences (e.g. `"कृपया आगे बढ़ें"`). Using punctuation-stripped substring containment (`kw_clean in cleaned or kw_clean in cleaned_no_punct`) accurately identifies user intent without false negative rejections.
+- **Multilingual Chief Complaint Keywords:** Indian patients describe acute chest pain in native dialects (e.g. Devanagari `"सीने में तेज दर्द"`, Marathi `"छातीत"`, Bengali `"বুকে"`, Tamil `"நெஞ்சு"`, Telugu `"ఛాతీ"`). Expanding `CHIEF_COMPLAINT_TO_DOMAIN` to include vernacular substrings directly routes vernacular voice narrations into the appropriate SOCRATES deep-dive graph.
+- **Hybrid 0ms TTS Caching:** Generating neural TTS over cloud APIs takes 500-1500ms. Pre-caching standard static questionnaire audio prompts in an in-memory hash map (`TTSAudioCache`) allows instant 0ms audio playback on the kiosk while reserving external API calls for dynamic clinical summaries and follow-ups.
+
 ## Workflow & Memory
 - **Rigid Documentation Pays Off:** The Phase 0 file-by-file audit caught minor mismatches between `ROADMAP.md` and `PHASES.md` early. Fixing these before writing code prevented future scope drift.
 - **Automated Memory Cycling:** The AI update cycle (Pre-Flight/Post-Flight) ensures that context is never lost across sessions, which is vital for long-running agentic tasks.
