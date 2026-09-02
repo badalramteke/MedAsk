@@ -3,7 +3,7 @@
 ## 1. What Was Done
 - **Interview Flow Models:** Created `interview.py` with `InterviewState`, `QuestionResponse`, `AnswerSubmission`, `RedFlagAlert`, and `AnswerResult` — the complete data contract for the interview API.
 - **General Intake Dataset:** Created `questions_general_intake.json` with 12 questions across 6 clinical sections (past medical, surgical, medications, allergies, family, social history), all in 6 Indian languages, all with dynamic `followup_triggers` for conditional branching.
-- **QuestionBank Engine:** Loads and indexes both SOCRATES (17 Qs) and general intake (12 Qs) = **29 total questions** at startup. Provides localization, domain lookup, and trigger-based next-question routing.
+- **QuestionBank Engine:** Loads and indexes both SOCRATES (17 Qs) and general intake (12 Qs) = **29 total questions** at startup. Provides localization, domain lookup, and trigger-based next-question routing. 
 - **FlowController:** The core dynamic state machine — chief complaint determines SOCRATES routing (chest_pain, headache), then general history, with every step driven by `followup_triggers` from JSON data.
 - **AnswerValidator:** Validates all answer submissions against the allowed option codes in the JSON datasets. Rejects invalid codes.
 - **RedFlagScanner:** Evaluates 13 deterministic clinical rules (from `red_flags_rules.json`) against accumulated patient answers using `structured_fact_pattern` matching. Produces localized alerts without diagnosing.
@@ -11,7 +11,7 @@
 
 ## 2. Why It Was Done
 - **Dynamic Branching = Clinical Realism:** A real doctor doesn't ask the same questions to every patient. If someone says "chest pain", the doctor probes SOCRATES. If someone says "fever", the doctor takes a different path. Our engine mirrors this clinical reasoning by using `followup_triggers` to dynamically route questions based on previous answers.
-- **Red Flags Save Lives:** The deterministic red-flag scanner runs after EVERY answer, catching critical patterns (e.g., chest pain radiating to left arm → suspected ACS) and silently alerting triage staff. It never stops the interview or diagnoses — it just flags.
+- **Red Flags Save Lives:** The deterministic red-flag scanner runs after EVERY answer, catching critical patterns (e.g., chest pain radiating to left arm → suspected ACS) and silently alerting triage staff. It never stops the interview o r diagnoses — it just flags.
 - **AYUSH Separation:** Per PS.md (Ministry of AYUSH/AIIA), AYUSH hospitals are completely separate institutions. Phase 2 intentionally builds only the allopathic/general hospital engine.
 
 ## 3. What Technologies Were Used & Why

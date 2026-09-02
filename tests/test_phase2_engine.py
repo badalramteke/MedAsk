@@ -1,15 +1,28 @@
 import sys
 import os
+import uuid
 
-# Ensure backend directory is in sys.path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "backend")))
+# Set stdout encoding to UTF-8 for Windows console support (handles Hindi/Devnagari text)
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8')
+
+# Ensure both backend directory and project root directory are in sys.path
+root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+backend_dir = os.path.join(root_dir, "backend")
+
+if backend_dir not in sys.path:
+    sys.path.insert(0, backend_dir)
+if root_dir not in sys.path:
+    sys.path.insert(0, root_dir)
+
+# Import directly from backend.app package (resolves both IDE static linters like Pyrefly and runtime execution)
+from backend.app.main import app
+from backend.app.engine.question_bank import question_bank
+from backend.app.engine.flow_controller import flow_controller
+from backend.app.engine.answer_validator import answer_validator
+from backend.app.engine.red_flag_scanner import red_flag_scanner
 
 from fastapi.testclient import TestClient
-from app.main import app
-from app.engine.question_bank import question_bank
-from app.engine.flow_controller import flow_controller
-from app.engine.answer_validator import answer_validator
-from app.engine.red_flag_scanner import red_flag_scanner
 
 client = TestClient(app)
 
@@ -60,7 +73,7 @@ def test_red_flag_scanner():
 
 def test_full_session_api_flow():
     """Integration test for the full API session lifecycle."""
-    session_id = "test-session-phase2-001"
+    session_id = f"test-session-{uuid.uuid4().hex[:8]}"
 
     # 1. Create Session
     pdo_payload = {
