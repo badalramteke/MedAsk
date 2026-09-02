@@ -152,3 +152,18 @@
 - Decision: Document OCR and entity extraction are triggered synchronously inside `POST /api/v1/sessions/{id}/documents/upload` rather than via a disconnected asynchronous worker.
 - Why: Provides immediate feedback on kiosk touchscreen hardware so patients see extraction status before proceeding to the next intake step.
 - Status: Approved and active.
+
+## 2026-09-02 — Granular Multi-Scope Affirmative Consent Architecture
+- Decision: Model consent across 4 independent scopes (`INTAKE`, `DOCUMENTS`, `SUMMARY`, `HIS_SHARE`) with dedicated grant, revoke, and multilingual audio guidance scripts, while maintaining backward-compatible property facades for legacy tests.
+- Why: Satisfies Section 6 of DPDP Act 2023 requiring clear, specific, and revocable consent, and ABDM Chapter 33 rules for health data transmission.
+- Status: Approved and active.
+
+## 2026-09-02 — ABDM Chapter 33 Composition-First Document Bundle Mandate
+- Decision: The first resource in the generated FHIR R4 Bundle (`entry[0]`) must always be an `OPConsultRecord` `Composition` resource (SNOMED: `371530004`), with sections referencing all other bundle entries via internal URNs (`urn:uuid:...`).
+- Why: Mandated by ABDM NRCeS HL7 FHIR R4 Profile specifications for outpatient consultation health records.
+- Status: Approved and active.
+
+## 2026-09-02 — Truthful Delivery Reporting & Post-Submission DPDP Purge
+- Decision: External delivery adapters must report truthful states; simulated adapters always return `is_mock=True`. Upon confirmed `ACCEPTED` delivery by the recipient HIS/ABDM adapter, all ephemeral session history, questions, and staged document bytes are deleted from the kiosk machine.
+- Why: Mandated by PHASES.md line 111 and DPDP storage limitation principles for public hardware kiosks.
+- Status: Approved and active.

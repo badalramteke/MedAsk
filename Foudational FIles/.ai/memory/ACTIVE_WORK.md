@@ -1,21 +1,22 @@
 # Active Work
 
 ## Current session focus
-- Phase 8 (Medical Document Digitization — Module B) is COMPLETED and 100% verified via automated pytest suite (36/36 tests passing).
-- Ready for Phase 9 (Consent, FHIR, ABDM, and HIS Integration — Module D).
+- Phase 9 (Consent, FHIR R4, ABDM & HIS Integration — Module D) is COMPLETED and 100% verified via automated pytest suite (48/48 tests passing).
+- Ready for Phase 10 (End-to-End Backend Integration & Testing).
 
 ## Active files
-- `backend/app/services/ocr/` (Completed modular OCR package)
-- `backend/app/services/document/` (Completed document intelligence package)
-- `backend/app/models/document.py` (Completed extraction models)
-- `backend/app/api/endpoints/documents_router.py` (Completed inline processing, timeline, and review endpoints)
-- `backend/data/clinical/lab_reference_ranges.json` (Completed 35+ test reference ranges)
-- `backend/tests/test_document_suite.py` (Completed - 13/13 tests passing)
+- `backend/app/services/fhir/` (Completed FHIR R4 package: types, resource mapper, bundle builder, validator)
+- `backend/app/services/delivery/` (Completed delivery package: base, mock, abdm_sandbox, his adapters, delivery_service)
+- `backend/app/services/consent_engine.py` (Completed 4-scope consent engine with audio guidance)
+- `backend/app/models/consent.py` (Upgraded granular consent models)
+- `backend/app/models/delivery.py` (DeliveryState, DeliveryTarget, DeliveryRecord)
+- `backend/app/api/endpoints/integration_router.py` (Mounted /prepare, /submit, /status, /bundle)
+- `backend/tests/test_phase9_integration.py` (Completed - 12/12 tests passing)
 
 ## Current objectives
-- Complete Phase 8 Document Digitization Module implementation and verification (COMPLETED)
+- Complete Phase 9 Consent, FHIR, ABDM & HIS Integration implementation and verification (COMPLETED)
 - Synchronize memory and foundational documentation (COMPLETED)
-- Prepare research and prerequisites for Phase 9 (Consent, FHIR R4 Bundle Mapping, ABDM M1/M2/M3, and HIS integration)
+- Prepare cross-module test scenarios and concurrency validation for Phase 10 (End-to-End Backend Integration & Testing)
 
 ## Current task status
 - [x] Phase 0: Foundation Setup
@@ -27,7 +28,7 @@
 - [x] Phase 6: API Layer Completion
 - [x] Phase 7: Voice Intake Engine (Module E)
 - [x] Phase 8: Medical Document Digitization (Module B)
-- [ ] Phase 9: Consent, Security & ABDM Integration (Module D)
+- [x] Phase 9: Consent, Security & ABDM Integration (Module D)
 - [ ] Phase 10: End-to-End Backend Integration & Testing
 - [ ] Phase 11: Patient Kiosk UI (Module A & B Frontend)
 - [ ] Phase 12: Clinician Review UI (Module C Frontend)
@@ -35,5 +36,5 @@
 
 ## Next session should begin with
 - Reading `HANDOFF.md` first.
-- Reading `ps.md`, `docs/product/PRD.md`, and `docs/integrations/ABDM_FHIR_SPEC.md` (mandatory per RULES.md).
+- Reading `ps.md`, `docs/product/PRD.md`, and `docs/operations/PHASES.md` (mandatory per RULES.md).
 - Reviewing `docs/privacy/CONSENT_ARCHITECTURE.md` before starting Phase 9.

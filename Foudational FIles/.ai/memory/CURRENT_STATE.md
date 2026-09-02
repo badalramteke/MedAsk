@@ -1,6 +1,6 @@
 # Current State
 
-## Current Phase: Phase 8 (Document Digitization) Completed / Phase 9 (Consent, FHIR & ABDM) Next
+## Current Phase: Phase 9 (Consent, FHIR & ABDM) Completed / Phase 10 (End-to-End Integration) Next
 - **Phase 0 (Foundation Setup):** COMPLETED. Directory structure, docker-compose (Redis + Postgres), MedGemma connectivity check, and requirements locked.
 - **Phase 1 (Core Data Contract & Session Foundation):** COMPLETED. Full `PatientDataObject` Pydantic models (identity, consent, history, ayush, provenance, patch) and session repository.
 - **Phase 2 (Question Engine Skeleton — Rule-based, No AI):** COMPLETED. Dynamic branching engine with `QuestionBank`, `FlowController`, `AnswerValidator`, `RedFlagScanner`, general intake dataset with female menstrual routing (31 total questions), and `/next-question`, `/answer`, `/alerts` endpoints.
@@ -16,18 +16,24 @@
   - Built unified sub-second voice answer endpoint (`POST /api/v1/sessions/{id}/voice/answer`) combining ASR + LangGraph + red flags + next-question TTS audio.
   - Verified 23/23 automated pytest tests passing with 100% pass rate.
 - **Phase 8 (Document Digitization Module — Module B):** COMPLETED.
-  - Built modular `backend/app/services/ocr/` with three-path document processing:
-    - Path 1A: Printed text -> Tesseract OCR (`eng+hin`) -> MedGemma text clinical entity extraction.
-    - Path 1B: Handwritten -> Tesseract confidence gate (<60%) -> MedGemma 4B Multimodal Vision fallback.
-    - Path 2: Medical imaging (X-rays, CT, Ultrasound) -> direct MedGemma Multimodal (no OCR text step).
+  - Built modular `backend/app/services/ocr/` with three-path document processing.
   - Built `ImagePreprocessor` with OpenCV denoising, deskewing, binarization, and multi-page PDF conversion.
   - Implemented `DocumentEntityExtractor` with date-first extraction (Printed -> Contextual -> MedGemma Inferred).
   - Implemented `LabValueNormalizer` with gender-adjusted reference ranges (`lab_reference_ranges.json`) and three-tier severity flagging (`LOW`, `MODERATE`, `HIGH`).
   - Implemented `TimelineOrganizer` for chronological sequencing with date uncertainty flags.
   - Extended `DocumentRepository` with DPDP-compliant ephemeral raw file byte buffer and extraction result CRUD.
-  - Extended `documents_router.py` with synchronous OCR at upload (`POST /upload`), timeline (`GET /timeline`), extraction (`GET /extraction`), and clinician review (`POST /review`).
   - Total automated test suite expanded to 36/36 tests passing with 100% pass rate.
-- **Phase 9 (Consent, FHIR, ABDM & HIS Integration):** NEXT UP.
+- **Phase 9 (Consent, FHIR R4, ABDM & HIS Integration — Module D):** COMPLETED.
+  - Built granular multi-scope consent engine (`ConsentEngine`) with affirmative grant/revoke APIs and audio guidance in 6 Indian languages.
+  - Implemented self-contained, typed Pydantic FHIR R4 models conforming to ABDM NRCeS profiles.
+  - Implemented `FHIRBundleBuilder` guaranteeing strict ABDM Chapter 33 compliance with `Composition` as `entry[0]`.
+  - Implemented `FHIRValidator` checking referential integrity and document envelope rules.
+  - Implemented multi-adapter delivery architecture (`MockDeliveryAdapter` with truthful `is_mock=True`, `ABDMSandboxAdapter` with credential safety, and `HISAdapter` for direct hospital EMR webhooks).
+  - Built `DeliveryService` orchestrator enforcing active `HIS_SHARE` consent gate and clinician review gate (`ACCEPTED`/`AMENDED` required).
+  - Implemented DPDP Act post-submission data purge: ephemeral raw patient history and staged document bytes are deleted from the kiosk immediately upon confirmed `ACCEPTED` delivery.
+  - Mounted `/api/v1/sessions/{id}/integration/prepare`, `/submit`, `/status`, and `/bundle`.
+  - Total automated test suite expanded to 48/48 tests passing with 100% pass rate.
+- **Phase 10 (End-to-End Integration & Testing):** NEXT UP.
 
 ## Built and working right now
 - **Project Documentation:** Foundational documentation under `docs/` fully updated and synchronized.

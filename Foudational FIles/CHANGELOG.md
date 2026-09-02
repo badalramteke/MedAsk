@@ -54,6 +54,17 @@ This project follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) st
   - Extended `DocumentRepository` with DPDP-compliant ephemeral raw file byte buffer (purged immediately after processing) and extraction result CRUD.
   - Extended `documents_router.py` with synchronous-at-upload OCR processing (`POST /{id}/documents/upload`), timeline endpoint (`GET /{id}/documents/timeline`), extraction retrieval (`GET /{id}/documents/{doc_id}/extraction`), and clinician review endpoint (`POST /{id}/documents/{doc_id}/review`).
   - Authored 13-test automated pytest suite (`backend/tests/test_document_suite.py`), bringing total backend test suite to 36/36 tests passing with 100% pass rate.
+- **Phase 9:** Consent, FHIR R4, ABDM & HIS Integration (Module D) (`backend/app/services/fhir/`, `backend/app/services/delivery/`, `backend/app/services/consent_engine.py`, `backend/app/models/consent.py`, `backend/app/models/delivery.py`, `backend/app/api/endpoints/integration_router.py`, `backend/tests/test_phase9_integration.py`):
+  - Built granular multi-scope consent engine (`ConsentEngine`) supporting 4 explicit scopes (`INTAKE`, `DOCUMENTS`, `SUMMARY`, `HIS_SHARE`) with affirmative grant/revoke APIs and multilingual voice guidance scripts in 6 Indian languages (`en`, `hi`, `mr`, `bn`, `ta`, `te`).
+  - Implemented self-contained, strongly-typed Pydantic FHIR R4 models (`Bundle`, `Composition`, `Patient`, `Encounter`, `Condition`, `Observation`, `MedicationStatement`, `DiagnosticReport`, `DocumentReference`).
+  - Implemented `FHIRResourceMapper` transforming `PatientDataObject` into standard FHIR R4 resources.
+  - Implemented `FHIRBundleBuilder` guaranteeing strict ABDM Chapter 33 compliance with `Composition` as `entry[0]`.
+  - Implemented `FHIRValidator` checking bundle document envelope constraints and cross-resource referential integrity.
+  - Implemented multi-adapter delivery architecture (`MockDeliveryAdapter` with truthful `is_mock=True`, `ABDMSandboxAdapter` with credential gating, and `HISAdapter` for direct hospital EMR webhooks).
+  - Built `DeliveryService` orchestrator enforcing active `HIS_SHARE` consent gate and clinician review gate (`ACCEPTED` or `AMENDED` required).
+  - Implemented DPDP Act post-submission data purge: ephemeral raw patient history, questions, and staged document bytes are deleted from the kiosk immediately upon confirmed `ACCEPTED` delivery, retaining only minimal de-identified delivery receipts.
+  - Mounted `/api/v1/sessions/{id}/integration/prepare`, `/submit`, `/status`, and `/bundle`.
+  - Authored 12-test automated integration suite (`backend/tests/test_phase9_integration.py`), bringing total backend test suite to 48/48 tests passing with 100% pass rate.
 - **Architecture Updates:** Formally established dual-path OCR (Tesseract/PaddleOCR/EasyOCR for document text extraction + source attribution) and MedGemma's role as the primary clinical summary synthesizer (Module C) + medical image interpreter (X-rays, sonography, CT).
 
 ### Changed
