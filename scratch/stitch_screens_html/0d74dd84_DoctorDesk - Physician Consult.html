@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DoctorDesk - Clinical Summary</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Noto+Sans:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-tertiary-fixed": "#410003",
+                        "tertiary": "#aa0a17",
+                        "surface-bright": "#f8fafa",
+                        "on-secondary-container": "#00731e",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#eff1f1",
+                        "on-background": "#191c1d",
+                        "on-primary-fixed-variant": "#005046",
+                        "tertiary-fixed": "#ffdad6",
+                        "on-secondary-fixed-variant": "#005313",
+                        "outline-variant": "#bdc9c5",
+                        "outline": "#6e7976",
+                        "tertiary-container": "#ce2b2c",
+                        "on-primary-fixed": "#00201b",
+                        "on-primary": "#ffffff",
+                        "inverse-surface": "#2e3131",
+                        "surface-container": "#eceeee",
+                        "background": "#f8fafa",
+                        "secondary-fixed": "#94f990",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb3ac",
+                        "on-surface": "#191c1d",
+                        "inverse-primary": "#7dd6c4",
+                        "error-container": "#ffdad6",
+                        "primary-fixed-dim": "#7dd6c4",
+                        "surface-container-low": "#f2f4f4",
+                        "secondary": "#006e1c",
+                        "on-secondary": "#ffffff",
+                        "surface-dim": "#d8dada",
+                        "secondary-container": "#91f78e",
+                        "on-secondary-fixed": "#002204",
+                        "on-tertiary-fixed-variant": "#930010",
+                        "surface-variant": "#e1e3e3",
+                        "surface": "#f8fafa",
+                        "on-tertiary-container": "#ffeae8",
+                        "on-surface-variant": "#3e4946",
+                        "primary-fixed": "#99f3e0",
+                        "primary-container": "#0f7a6b",
+                        "surface-tint": "#006b5d",
+                        "error": "#ba1a1a",
+                        "surface-container-highest": "#e1e3e3",
+                        "secondary-fixed-dim": "#78dc77",
+                        "surface-container-high": "#e6e8e9",
+                        "on-error-container": "#93000a",
+                        "primary": "#005f53",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#abffed"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    },
+                    spacing: {
+                        "section-gap": "48px",
+                        "gutter-md": "24px",
+                        "stack-gap": "16px",
+                        "margin-edge": "32px",
+                        "touch-target-min": "64px"
+                    },
+                    fontFamily: {
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "button-text": ["Inter"],
+                        "display-lg-mobile": ["Inter"],
+                        "body-lg": ["Noto Sans"],
+                        "display-lg": ["Inter"],
+                        "body-md": ["Noto Sans"]
+                    },
+                    fontSize: {
+                        "headline-md": ["28px", { lineHeight: "36px", fontWeight: "600" }],
+                        "headline-lg": ["32px", { lineHeight: "44px", fontWeight: "600" }],
+                        "label-lg": ["18px", { lineHeight: "24px", letterSpacing: "0.02em", fontWeight: "600" }],
+                        "button-text": ["20px", { lineHeight: "24px", fontWeight: "600" }],
+                        "display-lg-mobile": ["32px", { lineHeight: "40px", fontWeight: "700" }],
+                        "body-lg": ["20px", { lineHeight: "32px", fontWeight: "400" }],
+                        "display-lg": ["48px", { lineHeight: "60px", fontWeight: "700" }],
+                        "body-md": ["18px", { lineHeight: "28px", fontWeight: "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="bg-surface text-primary font-headline-md docked full-width top-0 bg-surface-container-low shadow-sm flex justify-between items-center px-gutter-md w-full h-touch-target-min z-50 fixed">
+<div class="flex items-center gap-4">
+<span class="font-headline-md text-headline-md font-bold text-primary">ClinicalOS Dashboard</span>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-on-surface-variant hover:bg-surface-container-high transition-colors p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-container-high transition-colors p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">emergency</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-container-high transition-colors p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">sync</span>
+</button>
+<div class="h-8 w-px bg-outline-variant"></div>
+<div class="flex items-center gap-3">
+<img alt="Physician Profile Avatar" class="w-10 h-10 rounded-full object-cover border border-outline-variant" data-alt="A professional headshot of a physician in a modern medical setting. The doctor is wearing a pristine white coat over a teal scrub top, set against a clean, softly lit clinic background. The lighting is bright and inviting, reflecting a highly competent and reassuring presence in a high-tech healthcare environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOanGhMV2TO2xkoCbMQrrKAsFovfuIgwS7RS6MPnqlVpQTPpb5DENul7h3Lz68T580cdSV8dCbQGDG4YUM6E0gfdC05nGt0xVWbeQZam5yQ_N6GJr6pWXi9tDLB2ZZQMUvKKagIFP15o7zaQ34waGZqIqrY4g8m1t6jvrZY5dnvhUKkjCaVZgkFTKz1W8tL-KB2RsVKO4d9cnH54LpZfMv3XwYM2Z6dax0hjifhDHpyA6_w7MYjSSJcNtuyLX606U7jHaml0rQ2JBC"/>
+<button class="font-button-text text-button-text text-primary hover:bg-surface-container-high px-4 py-2 rounded-lg transition-colors">Sign Out</button>
+</div>
+</div>
+</header>
+<div class="flex flex-1 pt-touch-target-min">
+<!-- Left Sidebar: Patient Info Card -->
+<aside class="w-[320px] bg-surface-container-low border-r border-outline-variant p-gutter-md flex flex-col gap-stack-gap h-[calc(100vh-64px)] fixed left-0 overflow-y-auto">
+<div class="bg-surface rounded-xl p-6 border border-outline-variant shadow-sm flex flex-col items-center text-center">
+<img alt="Ramesh Sharma" class="w-24 h-24 rounded-full object-cover mb-4 border-2 border-surface-container-high" data-alt="A portrait of a 58-year-old Indian male patient named Ramesh Sharma. He appears slightly anxious but is sitting calmly. The lighting is soft and clinical, emphasizing a modern healthcare setting in India. The image conveys a sense of high-quality, patient-centered care with a neutral, reassuring background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0uc4xZJnV8uXA7d66O_M5EUTE8GkkIMOQLMiOIYeJcdhtcZyv9oPakijRWyyDbOACkpdRgwl5tojYcaplJ0abRigBWVXknHomG1COWwK6cuq7T-3g26tMNAiXk5JpgF0dhKMt5fPmW5ZxXIUHhlNuUdjOHkdrBp45xTsuNH917E6RUaNihlNk2QeQHXP-M9up0t7loj5ArMQNGVwbc8j7JwSxokk60hTbbSrkAI9O5Zil-zrciSEYM2DM9H2OkEnlvhZvqTpTr7nP"/>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-1">Ramesh Sharma</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">58 yrs • Male</p>
+<div class="w-full space-y-3 text-left">
+<div class="flex justify-between border-b border-outline-variant pb-2">
+<span class="text-on-surface-variant text-sm">Token</span>
+<span class="font-bold text-on-surface">#42</span>
+</div>
+<div class="flex justify-between border-b border-outline-variant pb-2">
+<span class="text-on-surface-variant text-sm">Dept</span>
+<span class="font-bold text-on-surface">Cardiology</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-on-surface-variant text-sm">ABHA ID</span>
+<span class="font-bold text-on-surface tracking-wide">91-4523-8891-1200</span>
+</div>
+</div>
+<button class="mt-6 w-full h-touch-target-min bg-surface border-2 border-primary text-primary font-button-text text-button-text rounded-lg hover:bg-surface-container-low flex items-center justify-center gap-2 transition-colors">
+<span class="material-symbols-outlined">history</span>
+                    View Full History
+                </button>
+</div>
+<div class="mt-auto pt-stack-gap border-t border-outline-variant">
+<button class="w-full h-touch-target-min bg-surface-container text-on-surface-variant font-button-text text-button-text rounded-lg hover:bg-surface-variant flex items-center justify-center gap-2 transition-colors">
+<span class="material-symbols-outlined">settings</span>
+                    Consultation Settings
+                </button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-[320px] flex-1 p-section-gap pb-32">
+<!-- Action Bar -->
+<div class="flex justify-between items-center mb-stack-gap">
+<div class="flex items-center gap-4">
+<h1 class="font-headline-lg text-headline-lg text-on-surface">AI Clinical Summary</h1>
+<button class="flex items-center gap-2 bg-surface-container px-4 py-2 rounded-full text-on-surface-variant hover:bg-surface-variant transition-colors border border-outline-variant shadow-sm h-[48px]">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">play_circle</span>
+<span class="font-label-lg text-sm">Listen to Patient</span>
+</button>
+</div>
+<div class="flex gap-4">
+<button class="h-touch-target-min px-6 border-2 border-primary text-primary font-button-text text-button-text rounded-lg hover:bg-surface-container-low transition-colors">
+                        Edit Summary
+                    </button>
+<button class="h-touch-target-min px-8 bg-secondary text-on-secondary font-button-text text-button-text rounded-lg hover:opacity-90 transition-opacity shadow-md flex items-center gap-2">
+<span class="material-symbols-outlined">check_circle</span>
+                        Confirm and Save
+                    </button>
+</div>
+</div>
+<!-- Bento Grid Layout for Summary -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter-md">
+<!-- Chief Complaint (Full Width, High Priority) -->
+<div class="col-span-1 lg:col-span-12 bg-primary-container text-on-primary-container rounded-xl p-6 border border-primary-fixed shadow-md relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-[120px]">monitor_heart</span>
+</div>
+<div class="flex items-center gap-3 mb-4 relative z-10">
+<h3 class="font-headline-md text-headline-md">Chief Complaint</h3>
+<span class="flex items-center gap-1 bg-error text-on-error px-3 py-1 rounded-full text-sm font-bold shadow-sm">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">flag</span>
+                            Urgent
+                        </span>
+</div>
+<p class="font-body-lg text-body-lg font-semibold relative z-10 text-2xl">Acute Chest Pain - 2 hours duration</p>
+</div>
+<!-- History of Present Illness (Spans 8 cols) -->
+<div class="col-span-1 lg:col-span-8 bg-surface rounded-xl p-6 border border-outline-variant shadow-sm">
+<h3 class="font-label-lg text-label-lg text-on-surface mb-4 flex items-center gap-2 border-b border-surface-container-high pb-2">
+<span class="material-symbols-outlined text-primary">clinical_notes</span>
+                        History of Present Illness
+                    </h3>
+<ul class="space-y-3 font-body-md text-body-md text-on-surface-variant list-none pl-2">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-1 text-[20px]">arrow_right</span>
+                            Sudden onset of retrosternal chest pain 2 hours prior to presentation.
+                        </li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-1 text-[20px]">arrow_right</span>
+                            Characterized as heavy and crushing in nature.
+                        </li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-1 text-[20px]">arrow_right</span>
+                            Pain radiates to the left arm and jaw.
+                        </li>
+</ul>
+</div>
+<!-- Review of Systems (Spans 4 cols) -->
+<div class="col-span-1 lg:col-span-4 bg-surface rounded-xl p-6 border border-outline-variant shadow-sm bg-surface-container-lowest">
+<h3 class="font-label-lg text-label-lg text-on-surface mb-4 flex items-center gap-2 border-b border-surface-container-high pb-2">
+<span class="material-symbols-outlined text-primary">accessibility_new</span>
+                        Review of Systems
+                    </h3>
+<ul class="space-y-3 font-body-md text-body-md text-on-surface-variant list-none pl-2">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-1 text-[20px]">check</span>
+                            Shortness of breath
+                        </li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-1 text-[20px]">check</span>
+                            Diaphoresis (profuse sweating)
+                        </li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-outline mt-1 text-[20px]">close</span>
+                            No nausea or vomiting
+                        </li>
+</ul>
+</div>
+<!-- Past Medical History (Spans 4 cols) -->
+<div class="col-span-1 lg:col-span-4 bg-surface rounded-xl p-6 border border-outline-variant shadow-sm">
+<h3 class="font-label-lg text-label-lg text-on-surface mb-4 flex items-center gap-2 border-b border-surface-container-high pb-2">
+<span class="material-symbols-outlined text-primary">medical_information</span>
+                        Past Medical History
+                    </h3>
+<ul class="space-y-3 font-body-md text-body-md text-on-surface-variant list-none pl-2">
+<li class="flex items-start gap-3">
+<span class="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
+                            Hypertension (Diagnosed 5 years ago)
+                        </li>
+<li class="flex items-start gap-3">
+<span class="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
+                            Type 2 Diabetes Mellitus
+                        </li>
+</ul>
+</div>
+<!-- Drug and Allergy History (Spans 4 cols) -->
+<div class="col-span-1 lg:col-span-4 bg-surface rounded-xl p-6 border border-outline-variant shadow-sm">
+<h3 class="font-label-lg text-label-lg text-on-surface mb-4 flex items-center gap-2 border-b border-surface-container-high pb-2">
+<span class="material-symbols-outlined text-primary">pill</span>
+                        Drug &amp; Allergy History
+                    </h3>
+<ul class="space-y-3 font-body-md text-body-md text-on-surface-variant list-none pl-2">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary mt-1 text-[20px]">medication</span>
+                            Metformin 500mg BD
+                        </li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary mt-1 text-[20px]">medication</span>
+                            Amlodipine 5mg OD
+                        </li>
+<li class="flex items-start gap-3 mt-4 pt-2 border-t border-surface-container-high">
+<span class="material-symbols-outlined text-outline mt-1 text-[20px]">health_and_safety</span>
+<span class="font-semibold">No Known Allergies</span>
+</li>
+</ul>
+</div>
+<!-- Family History (Spans 4 cols) -->
+<div class="col-span-1 lg:col-span-4 bg-surface rounded-xl p-6 border border-outline-variant shadow-sm">
+<h3 class="font-label-lg text-label-lg text-on-surface mb-4 flex items-center gap-2 border-b border-surface-container-high pb-2">
+<span class="material-symbols-outlined text-primary">family_history</span>
+                        Family History
+                    </h3>
+<ul class="space-y-3 font-body-md text-body-md text-on-surface-variant list-none pl-2">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-error mt-1 text-[20px]">warning</span>
+                            Paternal history of Myocardial Infarction (MI) at age 55.
+                        </li>
+</ul>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="bg-surface-container-high font-label-lg text-label-lg fixed bottom-0 right-0 w-[calc(100%-320px)] border-t border-outline-variant bg-surface-container-high flex justify-between items-center px-margin-edge h-20 z-40">
+<div class="flex items-center gap-6">
+<span class="font-label-lg text-label-lg text-secondary">HIS Integrated System v4.2.0</span>
+<div class="flex gap-4">
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Emergency Protocol</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Audit Log</a>
+</div>
+</div>
+<div>
+<button class="h-touch-target-min px-8 bg-primary text-on-primary font-button-text text-button-text rounded-lg hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined">send</span>
+                Send to HIS (FHIR)
+            </button>
+</div>
+</footer>
+</body></html>

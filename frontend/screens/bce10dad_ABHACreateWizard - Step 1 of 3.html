@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Create ABHA ID - MediKiosk</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Noto+Sans:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed-variant": "#930010",
+                        "on-primary-fixed-variant": "#005046",
+                        "inverse-surface": "#2e3131",
+                        "background": "#f8fafa",
+                        "surface-tint": "#006b5d",
+                        "error-container": "#ffdad6",
+                        "tertiary-container": "#ce2b2c",
+                        "on-surface": "#191c1d",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#eff1f1",
+                        "surface-dim": "#d8dada",
+                        "on-primary-fixed": "#00201b",
+                        "inverse-primary": "#7dd6c4",
+                        "on-background": "#191c1d",
+                        "surface-bright": "#f8fafa",
+                        "primary-fixed-dim": "#7dd6c4",
+                        "on-surface-variant": "#3e4946",
+                        "surface-container-low": "#f2f4f4",
+                        "primary-container": "#0f7a6b",
+                        "outline-variant": "#bdc9c5",
+                        "surface": "#f8fafa",
+                        "secondary": "#006e1c",
+                        "primary-fixed": "#99f3e0",
+                        "on-error-container": "#93000a",
+                        "secondary-container": "#91f78e",
+                        "surface-variant": "#e1e3e3",
+                        "on-secondary-fixed-variant": "#005313",
+                        "tertiary-fixed": "#ffdad6",
+                        "outline": "#6e7976",
+                        "on-tertiary-fixed": "#410003",
+                        "on-secondary-container": "#00731e",
+                        "on-error": "#ffffff",
+                        "tertiary": "#aa0a17",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb3ac",
+                        "surface-container-high": "#e6e8e9",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#94f990",
+                        "secondary-fixed-dim": "#78dc77",
+                        "surface-container": "#eceeee",
+                        "on-secondary-fixed": "#002204",
+                        "surface-container-highest": "#e1e3e3",
+                        "primary": "#005f53",
+                        "on-primary-container": "#abffed",
+                        "on-tertiary-container": "#ffeae8"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "margin-edge": "32px",
+                        "section-gap": "48px",
+                        "stack-gap": "16px",
+                        "gutter-md": "24px",
+                        "touch-target-min": "64px"
+                    },
+                    fontFamily: {
+                        "headline-lg": ["Inter"],
+                        "button-text": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "body-lg": ["Noto Sans"],
+                        "headline-md": ["Inter"],
+                        "display-lg-mobile": ["Inter"],
+                        "body-md": ["Noto Sans"],
+                        "display-lg": ["Inter"]
+                    },
+                    fontSize: {
+                        "headline-lg": ["32px", { lineHeight: "44px", fontWeight: "600" }],
+                        "button-text": ["20px", { lineHeight: "24px", fontWeight: "600" }],
+                        "label-lg": ["18px", { lineHeight: "24px", letterSpacing: "0.02em", fontWeight: "600" }],
+                        "body-lg": ["20px", { lineHeight: "32px", fontWeight: "400" }],
+                        "headline-md": ["28px", { lineHeight: "36px", fontWeight: "600" }],
+                        "display-lg-mobile": ["32px", { lineHeight: "40px", fontWeight: "700" }],
+                        "body-md": ["18px", { lineHeight: "28px", fontWeight: "400" }],
+                        "display-lg": ["48px", { lineHeight: "60px", fontWeight: "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background h-full font-body-md flex flex-col antialiased">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-edge h-touch-target-min bg-surface dark:bg-surface-dim shadow-sm">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary text-4xl" style="font-variation-settings: 'FILL' 1;">medical_services</span>
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">MediKiosk</span>
+</div>
+<div class="flex items-center gap-6">
+<button class="flex items-center gap-2 bg-error text-on-error px-6 py-3 rounded-full font-button-text text-button-text shadow-sm hover:opacity-90 active:scale-95 duration-150 ease-in-out transition-all">
+<span class="material-symbols-outlined">sos</span>
+                SOS Assist
+            </button>
+<span class="font-label-lg text-label-lg text-on-surface-variant font-medium">12:45 PM</span>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow flex flex-col items-center pt-[calc(64px+48px)] pb-32 px-margin-edge w-full max-w-5xl mx-auto gap-section-gap">
+<!-- Header & Progress -->
+<section class="w-full text-center space-y-4">
+<div class="flex justify-center items-center gap-3 mb-6">
+<div class="w-12 h-2 rounded-full bg-primary"></div>
+<div class="w-12 h-2 rounded-full bg-surface-variant"></div>
+<div class="w-12 h-2 rounded-full bg-surface-variant"></div>
+</div>
+<h1 class="font-display-lg text-display-lg text-on-surface">Create your Health Account</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">
+                Your ABHA (Ayushman Bharat Health Account) is your unique digital health ID in India.
+            </p>
+</section>
+<!-- Main Input Zone & Benefits -->
+<div class="w-full grid grid-cols-1 md:grid-cols-12 gap-gutter-md">
+<!-- Input Card -->
+<section class="md:col-span-7 bg-surface-container-lowest border border-surface-variant rounded-xl p-8 shadow-sm flex flex-col gap-6 relative">
+<div class="absolute inset-0 bg-primary/5 rounded-xl pointer-events-none"></div>
+<h2 class="font-headline-md text-headline-md text-on-surface z-10">Step 1: Mobile Verification</h2>
+<div class="space-y-2 z-10">
+<label class="font-label-lg text-label-lg text-on-surface" for="mobile">Mobile Number</label>
+<div class="flex gap-4">
+<div class="flex items-center bg-surface-container-low border border-outline-variant rounded-lg px-4 h-touch-target-min">
+<span class="font-body-lg text-body-lg text-on-surface">+91</span>
+</div>
+<input class="flex-grow bg-surface-container-lowest border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary rounded-lg px-4 h-touch-target-min font-body-lg text-body-lg text-on-surface placeholder:text-outline shadow-inner outline-none transition-all" id="mobile" placeholder="Enter 10-digit number" type="tel"/>
+<button class="bg-primary text-on-primary px-8 rounded-lg h-touch-target-min font-button-text text-button-text hover:bg-primary-container hover:text-on-primary-container active:scale-95 duration-150 ease-in-out transition-all">
+                            Verify
+                        </button>
+</div>
+</div>
+<div class="flex items-center gap-3 z-10 p-4 bg-surface-container-low rounded-lg border border-outline-variant">
+<input class="w-6 h-6 rounded border-outline text-primary focus:ring-primary bg-surface-container-lowest" id="aadhaar_link" type="checkbox"/>
+<label class="font-body-md text-body-md text-on-surface flex-grow flex items-center justify-between cursor-pointer" for="aadhaar_link">
+<span>Link with Aadhaar for faster verification</span>
+<span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-sm font-semibold">Recommended</span>
+</label>
+</div>
+<div class="flex items-start gap-3 mt-4 z-10">
+<input class="w-6 h-6 rounded border-outline text-primary focus:ring-primary bg-surface-container-lowest mt-1" id="terms" type="checkbox"/>
+<label class="font-body-md text-body-md text-on-surface-variant cursor-pointer" for="terms">
+                        I agree to the <a class="text-primary underline underline-offset-2" href="#">Terms and Conditions</a> and consent to create my ABHA ID.
+                    </label>
+</div>
+</section>
+<!-- Benefits -->
+<section class="md:col-span-5 flex flex-col gap-4">
+<div class="bg-surface-container-lowest border border-surface-variant rounded-xl p-6 flex items-start gap-4 shadow-sm hover:shadow-md transition-shadow">
+<div class="bg-primary-container text-on-primary-container p-3 rounded-full flex-shrink-0">
+<span class="material-symbols-outlined text-3xl">folder_shared</span>
+</div>
+<div>
+<h3 class="font-label-lg text-label-lg text-on-surface mb-1">Store medical records</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Keep all your prescriptions and lab reports in one secure place.</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-surface-variant rounded-xl p-6 flex items-start gap-4 shadow-sm hover:shadow-md transition-shadow">
+<div class="bg-primary-container text-on-primary-container p-3 rounded-full flex-shrink-0">
+<span class="material-symbols-outlined text-3xl">local_hospital</span>
+</div>
+<div>
+<h3 class="font-label-lg text-label-lg text-on-surface mb-1">Share with any doctor</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Easily share your health history with verified healthcare providers.</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-surface-variant rounded-xl p-6 flex items-start gap-4 shadow-sm hover:shadow-md transition-shadow">
+<div class="bg-primary-container text-on-primary-container p-3 rounded-full flex-shrink-0">
+<span class="material-symbols-outlined text-3xl">history</span>
+</div>
+<div>
+<h3 class="font-label-lg text-label-lg text-on-surface mb-1">Access anytime</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Your health records are available 24/7 across India.</p>
+</div>
+</div>
+</section>
+</div>
+<div class="mt-8 text-center">
+<a class="font-label-lg text-label-lg text-primary hover:underline underline-offset-4" href="#">Already have an ABHA? Login here</a>
+</div>
+</main>
+<!-- BottomNavBar (Suppressed as per rules: linear onboarding/transactional flow) -->
+<!-- However, we need actions for this specific screen. -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex justify-between items-center px-margin-edge py-6 bg-surface-container-low border-t border-outline-variant shadow-lg">
+<button class="flex flex-row items-center justify-center border-2 border-primary text-primary rounded-lg h-touch-target-min px-8 gap-stack-gap font-button-text text-button-text hover:bg-surface-container-high transition-colors active:scale-95 duration-150">
+<span class="material-symbols-outlined">arrow_back</span>
+            Back
+        </button>
+<button class="flex flex-row items-center justify-center bg-primary text-on-primary rounded-lg h-touch-target-min px-12 gap-stack-gap font-button-text text-button-text hover:opacity-90 transition-opacity active:scale-95 duration-150 shadow-md">
+            Create ABHA
+            <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</footer>
+</body></html>

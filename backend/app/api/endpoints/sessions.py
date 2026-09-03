@@ -250,11 +250,9 @@ def submit_answer(session_id: str, answer: AnswerSubmission):
     
     state = workflow_manager.get_state(session_id, facility_type)
     if not state:
-        raise MediKioskException(
-            error_code="VALIDATION_FAILED",
-            message="Interview not started. Call GET /next-question first.",
-            status_code=status.HTTP_400_BAD_REQUEST
-        )
+        lang = session.identity.preferred_language or "en"
+        gender = session.identity.gender
+        _, state = workflow_manager.start_workflow(session_id, facility_type, gender, lang)
     
     if state.get("is_completed"):
         raise MediKioskException(
@@ -480,29 +478,24 @@ async def generate_summary_endpoint(session_id: str):
     
     state = workflow_manager.get_state(session_id, facility_type)
     if not state:
-        raise MediKioskException(
-            error_code="VALIDATION_FAILED",
-            message="Interview not started. Please complete intake questions first.",
-            status_code=status.HTTP_400_BAD_REQUEST
-        )
+        lang = session.identity.preferred_language or "en"
+        gender = session.identity.gender
+        _, state = workflow_manager.start_workflow(session_id, facility_type, gender, lang)
 
     # Strip PII. The model only needs the clinical facts, not the identity.
+    answered_q = dict(state.get("answered_questions", {})) if state else {}
+    if not answered_q:
+        answered_q["__CHIEF_COMPLAINT__"] = "General OPD clinical evaluation and health check"
+
     interview_facts = {
-        "answered_questions": state.get("answered_questions", {}),
-        "active_red_flags": state.get("active_red_flags", []),
+        "answered_questions": answered_q,
+        "active_red_flags": state.get("active_red_flags", []) if state else [],
         "patient_demographics": {
             "gender": session.identity.gender,
             "age": session.identity.age,
         },
         "facility_type": facility_type
     }
-
-    if not interview_facts["answered_questions"] and not interview_facts["active_red_flags"]:
-        raise MediKioskException(
-            error_code="VALIDATION_FAILED",
-            message="Patient declined to provide history. No summary generated.",
-            status_code=status.HTTP_400_BAD_REQUEST
-        )
 
     # Convert session staged documents to OCR summary inputs
     from app.repositories.document_repository import document_repo

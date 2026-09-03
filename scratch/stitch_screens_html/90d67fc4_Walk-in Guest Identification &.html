@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MediKiosk - Walk-in Guest</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Noto+Sans:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#eceeee",
+                        "on-surface": "#191c1d",
+                        "inverse-on-surface": "#eff1f1",
+                        "tertiary-fixed-dim": "#ffb3ac",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-surface-variant": "#3e4946",
+                        "on-error-container": "#93000a",
+                        "outline-variant": "#bdc9c5",
+                        "on-tertiary-container": "#ffeae8",
+                        "on-background": "#191c1d",
+                        "surface-container-low": "#f2f4f4",
+                        "tertiary-container": "#ce2b2c",
+                        "surface-tint": "#006b5d",
+                        "surface-variant": "#e1e3e3",
+                        "on-primary-fixed": "#00201b",
+                        "primary-container": "#0f7a6b",
+                        "surface-container-highest": "#e1e3e3",
+                        "secondary": "#006e1c",
+                        "on-secondary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "primary-fixed": "#99f3e0",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed-variant": "#005046",
+                        "inverse-surface": "#2e3131",
+                        "on-tertiary-fixed-variant": "#930010",
+                        "on-tertiary-fixed": "#410003",
+                        "on-secondary-container": "#00731e",
+                        "primary": "#005f53",
+                        "tertiary-fixed": "#ffdad6",
+                        "secondary-fixed-dim": "#78dc77",
+                        "surface": "#f8fafa",
+                        "secondary-fixed": "#94f990",
+                        "on-secondary-fixed-variant": "#005313",
+                        "on-primary": "#ffffff",
+                        "background": "#f8fafa",
+                        "error-container": "#ffdad6",
+                        "primary-fixed-dim": "#7dd6c4",
+                        "outline": "#6e7976",
+                        "on-primary-container": "#abffed",
+                        "surface-dim": "#d8dada",
+                        "surface-container-high": "#e6e8e9",
+                        "inverse-primary": "#7dd6c4",
+                        "surface-bright": "#f8fafa",
+                        "secondary-container": "#91f78e",
+                        "tertiary": "#aa0a17",
+                        "on-secondary-fixed": "#002204"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1.25rem",
+                        "3xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-gap": "16px",
+                        "margin-edge": "32px",
+                        "gutter-md": "24px",
+                        "touch-target-min": "64px",
+                        "section-gap": "48px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Inter"],
+                        "button-text": ["Inter"],
+                        "body-md": ["Noto Sans"],
+                        "label-lg": ["Inter"],
+                        "display-lg-mobile": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Noto Sans"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "44px", "fontWeight": "600" }],
+                        "button-text": ["20px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "body-md": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "display-lg": ["48px", { "lineHeight": "60px", "fontWeight": "700" }],
+                        "headline-md": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "body-lg": ["20px", { "lineHeight": "32px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill-1 {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom styles for touch targets */
+        .touch-min {
+            min-height: 64px;
+        }
+        .touch-btn {
+            min-height: 72px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md h-screen w-full flex flex-col overflow-hidden">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface-dim shadow-sm docked full-width top-0 flex justify-between items-center h-[100px] px-margin-edge w-full shrink-0 z-50 relative">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary text-4xl icon-fill-1" data-icon="local_hospital">local_hospital</span>
+<h1 class="font-headline-lg text-headline-lg font-bold text-primary dark:text-primary-fixed-dim tracking-tight">MediKiosk</h1>
+</div>
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-2 text-on-surface-variant font-label-lg text-label-lg bg-surface-container-low px-6 py-3 rounded-full">
+<span class="material-symbols-outlined" data-icon="schedule">schedule</span>
+<span id="currentTime">10:45 AM</span>
+</div>
+<button class="bg-error text-on-error px-8 rounded-full font-button-text text-button-text touch-min flex items-center gap-3 hover:bg-error-container hover:text-on-error-container transition-colors shadow-sm active:scale-95 duration-100">
+<span class="material-symbols-outlined icon-fill-1" data-icon="emergency">emergency</span>
+                SOS ASSIST
+            </button>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden relative z-10">
+<!-- SideNavBar -->
+<nav class="bg-surface-container-low dark:bg-surface-container-lowest border-r border-outline-variant docked h-full left-0 w-80 flex flex-col gap-stack-gap py-8 shrink-0">
+<div class="px-6 mb-4">
+<h2 class="font-headline-md text-headline-md text-primary font-bold">Patient Login</h2>
+<p class="text-on-surface-variant mt-2 font-body-md text-body-md">Select Identification Method</p>
+</div>
+<div class="flex flex-col gap-2 px-4">
+<button class="text-on-surface-variant flex items-center gap-4 px-6 py-touch-target-min hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-all active:opacity-80 rounded-xl font-label-lg text-label-lg w-full text-left">
+<span class="material-symbols-outlined text-2xl" data-icon="fingerprint">fingerprint</span>
+                    ABHA Number
+                </button>
+<button class="text-on-surface-variant flex items-center gap-4 px-6 py-touch-target-min hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-all active:opacity-80 rounded-xl font-label-lg text-label-lg w-full text-left">
+<span class="material-symbols-outlined text-2xl" data-icon="qr_code_scanner">qr_code_scanner</span>
+                    Scan QR Code
+                </button>
+<button class="text-on-surface-variant flex items-center gap-4 px-6 py-touch-target-min hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-all active:opacity-80 rounded-xl font-label-lg text-label-lg w-full text-left">
+<span class="material-symbols-outlined text-2xl" data-icon="password">password</span>
+                    Aadhaar OTP
+                </button>
+<button class="bg-primary-container text-on-primary-container rounded-xl flex items-center gap-4 px-6 py-touch-target-min transition-all active:opacity-80 font-label-lg text-label-lg w-full text-left shadow-md">
+<span class="material-symbols-outlined text-2xl icon-fill-1" data-icon="person_add">person_add</span>
+                    Walk-in Guest
+                </button>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto p-margin-edge bg-background flex flex-col gap-section-gap">
+<!-- Page Header -->
+<div class="flex items-center gap-6">
+<button class="w-16 h-16 rounded-full bg-surface shadow-sm border border-outline-variant flex items-center justify-center text-on-surface hover:bg-surface-container transition-colors active:scale-95 shrink-0">
+<span class="material-symbols-outlined text-3xl" data-icon="arrow_back">arrow_back</span>
+</button>
+<div>
+<h2 class="font-display-lg text-display-lg text-on-surface">Identify Yourself / अपनी पहचान बताएं</h2>
+</div>
+</div>
+<!-- Form Card & Numpad Layout -->
+<div class="flex gap-8 max-w-[1200px] w-full">
+<!-- Main Form Card -->
+<div class="flex-1 bg-surface-container-lowest rounded-3xl shadow-sm border border-surface-variant p-8 flex flex-col gap-8 relative overflow-hidden">
+<!-- Form Fields -->
+<div class="flex flex-col gap-6">
+<!-- Full Name -->
+<div class="flex flex-col gap-2">
+<label class="font-label-lg text-label-lg text-on-surface">Full Name / पूरा नाम</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline" data-icon="person">person</span>
+<input class="w-full touch-min rounded-xl border-outline-variant bg-surface px-4 pl-14 text-on-surface focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition-all font-body-lg text-body-lg" placeholder="Enter full name" type="text"/>
+</div>
+</div>
+<!-- Age & Gender Row -->
+<div class="grid grid-cols-2 gap-8">
+<!-- Age -->
+<div class="flex flex-col gap-2">
+<label class="font-label-lg text-label-lg text-on-surface">Age / आयु</label>
+<div class="flex items-center gap-4 h-[64px]">
+<button class="w-16 h-full rounded-xl bg-surface-container-high border border-outline-variant flex items-center justify-center text-on-surface hover:bg-surface-variant transition-colors active:scale-95">
+<span class="material-symbols-outlined text-3xl" data-icon="remove">remove</span>
+</button>
+<div class="flex-1 h-full rounded-xl border border-outline-variant bg-surface flex items-center justify-center font-headline-md text-headline-md">
+                                        35
+                                    </div>
+<button class="w-16 h-full rounded-xl bg-surface-container-high border border-outline-variant flex items-center justify-center text-on-surface hover:bg-surface-variant transition-colors active:scale-95">
+<span class="material-symbols-outlined text-3xl" data-icon="add">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Gender -->
+<div class="flex flex-col gap-2 mt-2">
+<label class="font-label-lg text-label-lg text-on-surface">Gender / लिंग</label>
+<div class="grid grid-cols-3 gap-4">
+<button class="h-[100px] rounded-xl border-2 border-outline-variant bg-surface flex flex-col items-center justify-center gap-2 hover:bg-surface-container transition-colors active:scale-95 text-on-surface-variant">
+<span class="material-symbols-outlined text-3xl" data-icon="man">man</span>
+<span class="font-label-lg text-label-lg">Male / पुरुष</span>
+</button>
+<button class="h-[100px] rounded-xl border-2 border-primary bg-primary-container/10 flex flex-col items-center justify-center gap-2 text-primary shadow-sm relative overflow-hidden">
+<div class="absolute inset-0 bg-primary/5"></div>
+<span class="material-symbols-outlined text-3xl icon-fill-1 z-10" data-icon="woman">woman</span>
+<span class="font-label-lg text-label-lg font-bold z-10">Female / महिला</span>
+<span class="material-symbols-outlined absolute top-2 right-2 text-primary icon-fill-1" data-icon="check_circle">check_circle</span>
+</button>
+<button class="h-[100px] rounded-xl border-2 border-outline-variant bg-surface flex flex-col items-center justify-center gap-2 hover:bg-surface-container transition-colors active:scale-95 text-on-surface-variant">
+<span class="material-symbols-outlined text-3xl" data-icon="transgender">transgender</span>
+<span class="font-label-lg text-label-lg">Other / अन्य</span>
+</button>
+</div>
+</div>
+<!-- Mobile Number -->
+<div class="flex flex-col gap-2 mt-2">
+<label class="font-label-lg text-label-lg text-on-surface">Mobile Number / मोबाइल नंबर</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline" data-icon="call">call</span>
+<input class="w-full touch-min rounded-xl border-2 border-primary bg-surface px-4 pl-14 text-on-surface focus:outline-none transition-all font-headline-md text-headline-md tracking-wider shadow-sm" placeholder="10 digit number" type="tel" value="9876543"/>
+</div>
+</div>
+</div>
+<div class="mt-auto flex flex-col gap-6 pt-4 border-t border-surface-variant">
+<!-- Notice -->
+<div class="bg-secondary-container/30 border border-secondary-container rounded-xl p-4 flex gap-4 items-start">
+<span class="material-symbols-outlined text-secondary text-2xl icon-fill-1 mt-1 shrink-0" data-icon="info">info</span>
+<p class="font-body-md text-body-md text-on-surface">
+                                No ABHA? You can create your ABHA card after consultation / <br/>
+<span class="text-on-surface-variant">कोई आभा नहीं? चिंता न करें, आप बाद में बना सकते हैं</span>
+</p>
+</div>
+<!-- Primary Action -->
+<button class="w-full touch-btn bg-primary text-on-primary rounded-2xl font-button-text text-button-text flex items-center justify-center gap-3 hover:bg-on-primary-fixed-variant transition-colors shadow-md active:scale-[0.98]">
+                            Continue as Walk-in Guest / अतिथि के रूप में जारी रखें
+                            <span class="material-symbols-outlined icon-fill-1" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Virtual Numpad Panel -->
+<div class="w-[380px] bg-surface-container-low rounded-3xl shadow-sm border border-surface-variant p-6 flex flex-col shrink-0 h-fit">
+<h3 class="font-label-lg text-label-lg text-on-surface-variant mb-6 text-center">Enter Mobile Number</h3>
+<div class="grid grid-cols-3 gap-4">
+<button class="h-[80px] rounded-2xl bg-surface shadow-sm border border-outline-variant flex items-center justify-center font-headline-lg text-headline-lg text-on-surface hover:bg-surface-container active:scale-95 transition-all">1</button>
+<button class="h-[80px] rounded-2xl bg-surface shadow-sm border border-outline-variant flex items-center justify-center font-headline-lg text-headline-lg text-on-surface hover:bg-surface-container active:scale-95 transition-all">2</button>
+<button class="h-[80px] rounded-2xl bg-surface shadow-sm border border-outline-variant flex items-center justify-center font-headline-lg text-headline-lg text-on-surface hover:bg-surface-container active:scale-95 transition-all">3</button>
+<button class="h-[80px] rounded-2xl bg-surface shadow-sm border border-outline-variant flex items-center justify-center font-headline-lg text-headline-lg text-on-surface hover:bg-surface-container active:scale-95 transition-all">4</button>
+<button class="h-[80px] rounded-2xl bg-surface shadow-sm border border-outline-variant flex items-center justify-center font-headline-lg text-headline-lg text-on-surface hover:bg-surface-container active:scale-95 transition-all">5</button>
+<button class="h-[80px] rounded-2xl bg-surface shadow-sm border border-outline-variant flex items-center justify-center font-headline-lg text-headline-lg text-on-surface hover:bg-surface-container active:scale-95 transition-all">6</button>
+<button class="h-[80px] rounded-2xl bg-surface shadow-sm border border-outline-variant flex items-center justify-center font-headline-lg text-headline-lg text-on-surface hover:bg-surface-container active:scale-95 transition-all">7</button>
+<button class="h-[80px] rounded-2xl bg-surface shadow-sm border border-outline-variant flex items-center justify-center font-headline-lg text-headline-lg text-on-surface hover:bg-surface-container active:scale-95 transition-all">8</button>
+<button class="h-[80px] rounded-2xl bg-surface shadow-sm border border-outline-variant flex items-center justify-center font-headline-lg text-headline-lg text-on-surface hover:bg-surface-container active:scale-95 transition-all">9</button>
+<button class="h-[80px] rounded-2xl bg-surface-container-high border border-outline-variant flex items-center justify-center font-headline-md text-headline-md text-on-surface hover:bg-surface-variant active:scale-95 transition-all col-start-1">
+<span class="material-symbols-outlined text-3xl" data-icon="keyboard_return">keyboard_return</span>
+</button>
+<button class="h-[80px] rounded-2xl bg-surface shadow-sm border border-outline-variant flex items-center justify-center font-headline-lg text-headline-lg text-on-surface hover:bg-surface-container active:scale-95 transition-all">0</button>
+<button class="h-[80px] rounded-2xl bg-surface-container-high border border-outline-variant flex items-center justify-center font-headline-md text-headline-md text-error hover:bg-error-container hover:text-on-error-container active:scale-95 transition-all">
+<span class="material-symbols-outlined text-3xl" data-icon="backspace">backspace</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script>
+        // Simple script to update clock
+        function updateTime() {
+            const now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; 
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            const strTime = hours + ':' + minutes + ' ' + ampm;
+            document.getElementById('currentTime').innerText = strTime;
+        }
+        setInterval(updateTime, 60000);
+    </script>
+</body></html>

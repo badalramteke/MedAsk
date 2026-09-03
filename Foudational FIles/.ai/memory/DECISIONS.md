@@ -167,3 +167,13 @@
 - Decision: External delivery adapters must report truthful states; simulated adapters always return `is_mock=True`. Upon confirmed `ACCEPTED` delivery by the recipient HIS/ABDM adapter, all ephemeral session history, questions, and staged document bytes are deleted from the kiosk machine.
 - Why: Mandated by PHASES.md line 111 and DPDP storage limitation principles for public hardware kiosks.
 - Status: Approved and active.
+
+## 2026-09-02 — Multi-Persona End-to-End Verification Gate for Backend Exit
+- Decision: Backend phase completion requires exercising full-lifecycle clinical scenarios (walk-in, emergency triage, chronic document follow-up) entirely via public HTTP API routes without internal code mocks or direct state injection.
+- Why: Ensures frontend teams (Phases 11 & 12) have a guaranteed, stable, tested API contract with verified behavior across all edge conditions.
+- Status: Approved and active.
+
+## 2026-09-02 — Strict Literal-Before-Parameter Routing in FastAPI Endpoints
+- Decision: Literal routes like `/{session_id}/documents/timeline` must be declared before dynamic path parameter routes like `/{session_id}/documents/{document_id}` in router definitions.
+- Why: FastAPI/Starlette evaluates routes in registration order; dynamic path parameters match literal route segments if ordered first, returning 404s for sub-resource endpoints.
+- Status: Approved and active.

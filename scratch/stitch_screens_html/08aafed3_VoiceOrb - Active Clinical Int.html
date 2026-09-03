@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VoiceOrb - MediKiosk</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Noto+Sans:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#bdc9c5",
+                        "surface": "#f8fafa",
+                        "primary-fixed-dim": "#7dd6c4",
+                        "on-tertiary-container": "#ffeae8",
+                        "on-surface": "#191c1d",
+                        "inverse-on-surface": "#eff1f1",
+                        "surface-container-high": "#e6e8e9",
+                        "primary": "#005f53",
+                        "tertiary-container": "#ce2b2c",
+                        "on-primary-container": "#abffed",
+                        "surface-dim": "#d8dada",
+                        "on-primary": "#ffffff",
+                        "surface-variant": "#e1e3e3",
+                        "tertiary-fixed": "#ffdad6",
+                        "surface-tint": "#006b5d",
+                        "on-secondary-container": "#00731e",
+                        "surface-bright": "#f8fafa",
+                        "on-background": "#191c1d",
+                        "primary-fixed": "#99f3e0",
+                        "inverse-surface": "#2e3131",
+                        "secondary-fixed": "#94f990",
+                        "surface-container-low": "#f2f4f4",
+                        "primary-container": "#0f7a6b",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-highest": "#e1e3e3",
+                        "on-primary-fixed-variant": "#005046",
+                        "on-tertiary-fixed-variant": "#930010",
+                        "on-primary-fixed": "#00201b",
+                        "secondary-fixed-dim": "#78dc77",
+                        "outline": "#6e7976",
+                        "inverse-primary": "#7dd6c4",
+                        "on-tertiary-fixed": "#410003",
+                        "on-surface-variant": "#3e4946",
+                        "error-container": "#ffdad6",
+                        "secondary-container": "#91f78e",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "background": "#f8fafa",
+                        "tertiary": "#aa0a17",
+                        "secondary": "#006e1c",
+                        "on-secondary-fixed": "#002204",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed-variant": "#005313",
+                        "surface-container": "#eceeee",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed-dim": "#ffb3ac",
+                        "on-secondary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter-md": "24px",
+                        "section-gap": "48px",
+                        "stack-gap": "16px",
+                        "touch-target-min": "64px",
+                        "margin-edge": "32px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "body-md": ["Noto Sans"],
+                        "button-text": ["Inter"],
+                        "body-lg": ["Noto Sans"],
+                        "headline-lg": ["Inter"],
+                        "display-lg-mobile": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "display-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "body-md": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "button-text": ["20px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "body-lg": ["20px", { "lineHeight": "32px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "44px", "fontWeight": "600" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "label-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "60px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .audio-bar {
+            width: 8px;
+            background-color: rgba(255, 255, 255, 0.4);
+            border-radius: 4px;
+            transition: height 0.1s ease-in-out, background-color 0.2s;
+        }
+        .audio-bar.active {
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+    </style>
+</head>
+<body class="bg-primary h-screen w-full flex flex-col text-on-primary font-body-md overflow-hidden select-none">
+<!-- Top Header & Stepper -->
+<header class="flex justify-between items-center h-[100px] px-margin-edge w-full shrink-0 z-10 relative">
+<div class="flex items-center gap-4">
+<span class="font-headline-lg text-headline-lg font-bold text-on-primary">MediKiosk</span>
+</div>
+<div class="flex flex-col items-center flex-1">
+<span class="font-label-lg text-label-lg text-on-primary opacity-80 mb-2">Step 2 of 5: Tell Your Story</span>
+<div class="flex gap-2 w-48 h-2">
+<div class="h-full flex-1 rounded-full bg-on-primary opacity-30"></div>
+<div class="h-full flex-1 rounded-full bg-on-primary"></div>
+<div class="h-full flex-1 rounded-full bg-on-primary opacity-30"></div>
+<div class="h-full flex-1 rounded-full bg-on-primary opacity-30"></div>
+<div class="h-full flex-1 rounded-full bg-on-primary opacity-30"></div>
+</div>
+</div>
+<div class="flex items-center gap-2 px-4 py-2 bg-on-primary bg-opacity-10 rounded-full backdrop-blur-sm border border-white border-opacity-20">
+<div class="w-3 h-3 rounded-full bg-secondary-fixed animate-pulse"></div>
+<span class="font-label-lg text-label-lg text-on-primary">Microphone Active</span>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col items-center justify-center w-full px-margin-edge relative z-0">
+<!-- Center Orb & Flanking Audio Bars -->
+<div class="flex items-center justify-center gap-12 w-full max-w-4xl mb-12">
+<!-- Left Audio Bars -->
+<div class="flex gap-2 items-center h-48" id="left-audio">
+<div class="audio-bar h-8"></div>
+<div class="audio-bar h-12"></div>
+<div class="audio-bar h-24"></div>
+<div class="audio-bar h-16"></div>
+<div class="audio-bar h-10"></div>
+</div>
+<!-- Animated VoiceOrb -->
+<div class="relative w-80 h-80 rounded-full flex items-center justify-center shrink-0 shadow-[0_0_80px_rgba(255,255,255,0.15)] bg-surface-tint">
+<!-- STITCH_SVG_START:ANIMATION_50 class="absolute inset-0 w-full h-full rounded-full mix-blend-screen opacity-90" --><div class="absolute inset-0 w-full h-full rounded-full mix-blend-screen opacity-90" id="animated-svg-ANIMATION_50" style="display:block;">#voice-orb {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #2dd4bf, #0f7a6b);
+  box-shadow: 0 0 40px rgba(45, 212, 191, 0.4), inset 0 0 20px rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  animation: pulse-glow 3s infinite ease-in-out;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(45, 212, 191, 0.4); }
+  50% { transform: scale(1.08); box-shadow: 0 0 60px rgba(45, 212, 191, 0.6); }
+}
+
+.waveform-bar {
+  width: 8px;
+  background: white;
+  border-radius: 4px;
+  margin: 0 4px;
+  animation: wave 1.2s infinite ease-in-out;
+}
+
+@keyframes wave {
+  0%, 100% { height: 12px; opacity: 0.6; }
+  50% { height: 48px; opacity: 1; }
+}
+
+/* Specific delays for randomized feel */
+.waveform-bar:nth-child(1) { animation-delay: 0.1s; height: 20px; }
+.waveform-bar:nth-child(2) { animation-delay: 0.3s; height: 35px; }
+.waveform-bar:nth-child(3) { animation-delay: 0.5s; height: 45px; }
+.waveform-bar:nth-child(4) { animation-delay: 0.2s; height: 30px; }
+.waveform-bar:nth-child(5) { animation-delay: 0.4s; height: 25px; }
+</div><!-- STITCH_SVG_END:ANIMATION_50 -->
+</div>
+<!-- Right Audio Bars -->
+<div class="flex gap-2 items-center h-48" id="right-audio">
+<div class="audio-bar h-10"></div>
+<div class="audio-bar h-16"></div>
+<div class="audio-bar h-24"></div>
+<div class="audio-bar h-12"></div>
+<div class="audio-bar h-8"></div>
+</div>
+</div>
+<!-- Listening Text -->
+<h2 class="font-headline-lg text-headline-lg text-on-primary mb-8 tracking-wide animate-pulse">Listening...</h2>
+<!-- Transcription Card -->
+<div class="w-full max-w-2xl bg-surface text-on-surface rounded-xl p-8 shadow-lg min-h-[140px] flex items-start justify-start border border-outline-variant relative overflow-hidden">
+<p class="font-body-lg text-body-lg text-on-surface-variant relative z-10 w-full" id="transcription-text">
+                "I have been having chest pain for..." <span class="animate-pulse opacity-50 block w-2 h-6 bg-primary inline-block ml-1 align-middle"></span>
+</p>
+<!-- Soft inner shadow for depth -->
+<div class="absolute inset-0 shadow-[inset_0_2px_10px_rgba(0,0,0,0.05)] pointer-events-none rounded-xl"></div>
+</div>
+</main>
+<!-- Bottom Action Bar -->
+<footer class="flex justify-between items-end w-full px-margin-edge pb-margin-edge z-10 shrink-0">
+<!-- Stop Button -->
+<button class="h-touch-target-min min-w-[160px] bg-error hover:bg-on-error-container active:scale-95 transition-all duration-150 flex items-center justify-center gap-3 rounded-lg shadow-md px-6 border-2 border-error">
+<span class="material-symbols-outlined text-on-error text-3xl" style="font-variation-settings: 'FILL' 1;">square</span>
+<span class="font-button-text text-button-text text-on-error uppercase tracking-wider">Stop</span>
+</button>
+<!-- Instruction Text -->
+<div class="text-center pb-4 max-w-md mx-auto hidden md:block">
+<p class="font-body-lg text-body-lg text-on-primary opacity-90">Speak naturally. Tell us what brought you here today.</p>
+</div>
+<!-- Type Instead Button -->
+<button class="h-touch-target-min min-w-[160px] bg-transparent border-2 border-on-primary hover:bg-on-primary hover:bg-opacity-10 active:scale-95 transition-all duration-150 flex items-center justify-center gap-3 rounded-lg px-6">
+<span class="material-symbols-outlined text-on-primary">keyboard</span>
+<span class="font-button-text text-button-text text-on-primary">Type instead</span>
+</button>
+</footer>
+<!-- Background Atmospheric Overlay -->
+<div class="fixed inset-0 pointer-events-none z-[-1] opacity-20" style="background: radial-gradient(circle at center, rgba(153, 243, 224, 0.4) 0%, transparent 60%);"></div>
+<script>
+        // Simulate audio bar visualization
+        const updateAudioBars = (containerId) => {
+            const container = document.getElementById(containerId);
+            if(!container) return;
+            const bars = container.querySelectorAll('.audio-bar');
+            
+            setInterval(() => {
+                bars.forEach(bar => {
+                    // Random height between 20% and 100% of container (192px)
+                    const minHeight = 24;
+                    const maxHeight = 160;
+                    const randomHeight = Math.floor(Math.random() * (maxHeight - minHeight + 1)) + minHeight;
+                    
+                    bar.style.height = `${randomHeight}px`;
+                    
+                    if(randomHeight > 100) {
+                        bar.classList.add('active');
+                    } else {
+                        bar.classList.remove('active');
+                    }
+                });
+            }, 150); // Fast update for voice reactivity
+        };
+
+        // Initialize both sets of bars
+        updateAudioBars('left-audio');
+        updateAudioBars('right-audio');
+
+        // Simulate typing/transcription progression
+        const textElement = document.getElementById('transcription-text');
+        const fullText = '"I have been having chest pain for about two hours now, and it feels tight..."';
+        const currentText = '"I have been having chest pain for...';
+        
+        let i = currentText.length;
+        const typeWriter = () => {
+            if (i < fullText.length) {
+                // Keep the cursor span
+                textElement.innerHTML = fullText.substring(0, i+1) + '<span class="animate-pulse opacity-50 block w-2 h-6 bg-primary inline-block ml-1 align-middle"></span>';
+                i++;
+                setTimeout(typeWriter, Math.random() * 150 + 50);
+            }
+        };
+
+        // Start typing simulation after a brief delay
+        setTimeout(typeWriter, 1500);
+
+    </script>
+</body></html>

@@ -88,14 +88,44 @@ class ConsentEngine:
         ev_ref = evidence_reference or f"AUDIT_{interaction_mode}_{session.identity.session_id[:8]}_{norm_scope}"
 
         # Initialize or update granular scope
-        session.consent.scopes[norm_scope] = ScopeConsentDetail(
-            scope=norm_scope,
-            status=ConsentStatusEnum.GRANTED.value,
-            granted_at=now,
-            revoked_at=None,
-            interaction_mode=interaction_mode,
-            evidence_reference=ev_ref
-        )
+        if norm_scope == "FULL_HIS_SHARE":
+            for s in [ConsentScopeEnum.INTAKE.value, ConsentScopeEnum.DOCUMENTS.value, ConsentScopeEnum.SUMMARY.value, ConsentScopeEnum.HIS_SHARE.value]:
+                session.consent.scopes[s] = ScopeConsentDetail(
+                    scope=s,
+                    status=ConsentStatusEnum.GRANTED.value,
+                    granted_at=now,
+                    revoked_at=None,
+                    interaction_mode=interaction_mode,
+                    evidence_reference=ev_ref
+                )
+        elif norm_scope == "DOCUMENTS_PROCESSING":
+            session.consent.scopes[ConsentScopeEnum.DOCUMENTS.value] = ScopeConsentDetail(
+                scope=ConsentScopeEnum.DOCUMENTS.value,
+                status=ConsentStatusEnum.GRANTED.value,
+                granted_at=now,
+                revoked_at=None,
+                interaction_mode=interaction_mode,
+                evidence_reference=ev_ref
+            )
+        elif norm_scope == "INTAKE_AND_SUMMARY":
+            for s in [ConsentScopeEnum.INTAKE.value, ConsentScopeEnum.SUMMARY.value]:
+                session.consent.scopes[s] = ScopeConsentDetail(
+                    scope=s,
+                    status=ConsentStatusEnum.GRANTED.value,
+                    granted_at=now,
+                    revoked_at=None,
+                    interaction_mode=interaction_mode,
+                    evidence_reference=ev_ref
+                )
+        else:
+            session.consent.scopes[norm_scope] = ScopeConsentDetail(
+                scope=norm_scope,
+                status=ConsentStatusEnum.GRANTED.value,
+                granted_at=now,
+                revoked_at=None,
+                interaction_mode=interaction_mode,
+                evidence_reference=ev_ref
+            )
 
         # Sync top-level status
         session.consent.status = "GRANTED"

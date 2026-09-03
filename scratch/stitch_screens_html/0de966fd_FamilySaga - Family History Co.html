@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FamilySaga - Family History Collection</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Noto+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed-variant": "#005313",
+                    "on-error": "#ffffff",
+                    "surface": "#f8fafa",
+                    "tertiary-fixed": "#ffdad6",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-container": "#abffed",
+                    "on-primary": "#ffffff",
+                    "on-secondary-fixed": "#002204",
+                    "on-primary-fixed-variant": "#005046",
+                    "surface-container-low": "#f2f4f4",
+                    "primary-fixed": "#99f3e0",
+                    "primary": "#005f53",
+                    "on-tertiary-fixed-variant": "#930010",
+                    "on-error-container": "#93000a",
+                    "on-primary-fixed": "#00201b",
+                    "on-background": "#191c1d",
+                    "background": "#f8fafa",
+                    "primary-container": "#0f7a6b",
+                    "on-tertiary-fixed": "#410003",
+                    "on-secondary": "#ffffff",
+                    "surface-container": "#eceeee",
+                    "on-tertiary-container": "#ffeae8",
+                    "secondary-fixed-dim": "#78dc77",
+                    "outline": "#6e7976",
+                    "inverse-on-surface": "#eff1f1",
+                    "inverse-surface": "#2e3131",
+                    "tertiary": "#aa0a17",
+                    "surface-container-highest": "#e1e3e3",
+                    "secondary-container": "#91f78e",
+                    "on-surface": "#191c1d",
+                    "surface-container-high": "#e6e8e9",
+                    "secondary-fixed": "#94f990",
+                    "on-secondary-container": "#00731e",
+                    "error-container": "#ffdad6",
+                    "surface-dim": "#d8dada",
+                    "surface-variant": "#e1e3e3",
+                    "on-surface-variant": "#3e4946",
+                    "surface-bright": "#f8fafa",
+                    "surface-tint": "#006b5d",
+                    "primary-fixed-dim": "#7dd6c4",
+                    "inverse-primary": "#7dd6c4",
+                    "outline-variant": "#bdc9c5",
+                    "tertiary-fixed-dim": "#ffb3ac",
+                    "tertiary-container": "#ce2b2c",
+                    "secondary": "#006e1c",
+                    "on-tertiary": "#ffffff",
+                    "error": "#ba1a1a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter-md": "24px",
+                    "touch-target-min": "64px",
+                    "margin-edge": "32px",
+                    "stack-gap": "16px",
+                    "section-gap": "48px"
+            },
+            "fontFamily": {
+                    "button-text": [
+                            "Inter"
+                    ],
+                    "headline-lg": [
+                            "Inter"
+                    ],
+                    "display-lg-mobile": [
+                            "Inter"
+                    ],
+                    "headline-md": [
+                            "Inter"
+                    ],
+                    "body-md": [
+                            "Noto Sans"
+                    ],
+                    "body-lg": [
+                            "Noto Sans"
+                    ],
+                    "label-lg": [
+                            "Inter"
+                    ],
+                    "display-lg": [
+                            "Inter"
+                    ]
+            },
+            "fontSize": {
+                    "button-text": [
+                            "20px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "headline-lg": [
+                            "32px",
+                            {
+                                    "lineHeight": "44px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "display-lg-mobile": [
+                            "32px",
+                            {
+                                    "lineHeight": "40px",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-md": [
+                            "28px",
+                            {
+                                    "lineHeight": "36px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-md": [
+                            "18px",
+                            {
+                                    "lineHeight": "28px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "body-lg": [
+                            "20px",
+                            {
+                                    "lineHeight": "32px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "label-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "24px",
+                                    "letterSpacing": "0.02em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "display-lg": [
+                            "48px",
+                            {
+                                    "lineHeight": "60px",
+                                    "fontWeight": "700"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        .family-card:has(input:checked) {
+            border-color: #0f7a6b;
+            background-color: #f2f4f4;
+        }
+        .custom-checkbox:checked {
+            background-color: #0f7a6b;
+            border-color: #0f7a6b;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col font-body-md text-body-md pb-32">
+<!-- TopAppBar (Transactional - Nav hidden, SOS added based on prompt) -->
+<header class="bg-surface-bright border-b border-outline-variant shadow-sm w-full top-0 flex justify-between items-center h-20 px-margin-edge">
+<div class="font-headline-md text-headline-md text-primary tracking-tight">MediKiosk</div>
+<div class="flex gap-4">
+<button class="bg-error text-on-error px-6 py-3 rounded-full font-button-text text-button-text flex items-center gap-2 h-[64px]">
+<span class="material-symbols-outlined" data-icon="emergency">emergency</span>
+                SOS
+            </button>
+</div>
+</header>
+<main class="flex-grow px-margin-edge py-section-gap max-w-7xl mx-auto w-full">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-section-gap gap-6">
+<div>
+<p class="font-label-lg text-label-lg text-on-surface-variant mb-2">Step 2 of 5</p>
+<h1 class="font-display-lg text-display-lg text-on-surface max-w-3xl">Tell us about your family health history</h1>
+</div>
+<button class="bg-primary-container text-on-primary-container hover:bg-primary transition-colors px-6 py-4 rounded-xl flex items-center gap-3 h-touch-target-min min-w-[200px] shadow-sm">
+<span class="material-symbols-outlined text-3xl" data-icon="mic">mic</span>
+<span class="font-button-text text-button-text">Speak family history</span>
+</button>
+</div>
+<!-- 3-Column Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter-md">
+<!-- Father Card -->
+<div class="family-card bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm transition-all duration-200">
+<div class="flex items-center gap-4 mb-6 pb-4 border-b border-outline-variant">
+<div class="w-16 h-16 rounded-full bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-4xl" data-icon="person">person</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Father</h2>
+</div>
+<div class="space-y-4">
+<label class="flex items-center gap-4 p-2 hover:bg-surface-container-low rounded-lg cursor-pointer h-12">
+<input class="custom-checkbox w-6 h-6 rounded border-outline-variant text-primary-container focus:ring-primary-container" type="checkbox"/>
+<span class="font-body-lg text-body-lg">Diabetes</span>
+</label>
+<label class="flex items-center gap-4 p-2 hover:bg-surface-container-low rounded-lg cursor-pointer h-12">
+<input class="custom-checkbox w-6 h-6 rounded border-outline-variant text-primary-container focus:ring-primary-container" type="checkbox"/>
+<span class="font-body-lg text-body-lg">Hypertension</span>
+</label>
+<label class="flex items-center gap-4 p-2 hover:bg-surface-container-low rounded-lg cursor-pointer h-12">
+<input class="custom-checkbox w-6 h-6 rounded border-outline-variant text-primary-container focus:ring-primary-container" type="checkbox"/>
+<span class="font-body-lg text-body-lg">Heart Disease</span>
+</label>
+<label class="flex items-center gap-4 p-2 hover:bg-surface-container-low rounded-lg cursor-pointer h-12">
+<input class="custom-checkbox w-6 h-6 rounded border-outline-variant text-primary-container focus:ring-primary-container" type="checkbox"/>
+<span class="font-body-lg text-body-lg">Cancer</span>
+</label>
+<label class="flex items-center gap-4 p-2 hover:bg-surface-container-low rounded-lg cursor-pointer h-12">
+<input class="custom-checkbox w-6 h-6 rounded border-outline-variant text-primary-container focus:ring-primary-container" type="checkbox"/>
+<span class="font-body-lg text-body-lg">Kidney Disease</span>
+</label>
+</div>
+</div>
+<!-- Mother Card -->
+<div class="family-card bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm transition-all duration-200">
+<div class="flex items-center gap-4 mb-6 pb-4 border-b border-outline-variant">
+<div class="w-16 h-16 rounded-full bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-4xl" data-icon="person_3">person_3</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Mother</h2>
+</div>
+<div class="space-y-4">
+<label class="flex items-center gap-4 p-2 hover:bg-surface-container-low rounded-lg cursor-pointer h-12">
+<input class="custom-checkbox w-6 h-6 rounded border-outline-variant text-primary-container focus:ring-primary-container" type="checkbox"/>
+<span class="font-body-lg text-body-lg">Diabetes</span>
+</label>
+<label class="flex items-center gap-4 p-2 hover:bg-surface-container-low rounded-lg cursor-pointer h-12">
+<input class="custom-checkbox w-6 h-6 rounded border-outline-variant text-primary-container focus:ring-primary-container" type="checkbox"/>
+<span class="font-body-lg text-body-lg">Hypertension</span>
+</label>
+<label class="flex items-center gap-4 p-2 hover:bg-surface-container-low rounded-lg cursor-pointer h-12">
+<input class="custom-checkbox w-6 h-6 rounded border-outline-variant text-primary-container focus:ring-primary-container" type="checkbox"/>
+<span class="font-body-lg text-body-lg">Heart Disease</span>
+</label>
+<label class="flex items-center gap-4 p-2 hover:bg-surface-container-low rounded-lg cursor-pointer h-12">
+<input class="custom-checkbox w-6 h-6 rounded border-outline-variant text-primary-container focus:ring-primary-container" type="checkbox"/>
+<span class="font-body-lg text-body-lg">Cancer</span>
+</label>
+<label class="flex items-center gap-4 p-2 hover:bg-surface-container-low rounded-lg cursor-pointer h-12">
+<input class="custom-checkbox w-6 h-6 rounded border-outline-variant text-primary-container focus:ring-primary-container" type="checkbox"/>
+<span class="font-body-lg text-body-lg">Kidney Disease</span>
+</label>
+</div>
+</div>
+<!-- Paternal Grandfather Card -->
+<div class="family-card bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm transition-all duration-200">
+<div class="flex items-center gap-4 mb-6 pb-4 border-b border-outline-variant">
+<div class="w-16 h-16 rounded-full bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-4xl" data-icon="elderly">elderly</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Paternal Grandfather</h2>
+</div>
+<div class="space-y-4">
+<label class="flex items-center gap-4 p-2 hover:bg-surface-container-low rounded-lg cursor-pointer h-12">
+<input class="custom-checkbox w-6 h-6 rounded border-outline-variant text-primary-container focus:ring-primary-container" type="checkbox"/>
+<span class="font-body-lg text-body-lg">Diabetes</span>
+</label>
+<label class="flex items-center gap-4 p-2 hover:bg-surface-container-low rounded-lg cursor-pointer h-12">
+<input class="custom-checkbox w-6 h-6 rounded border-outline-variant text-primary-container focus:ring-primary-container" type="checkbox"/>
+<span class="font-body-lg text-body-lg">Hypertension</span>
+</label>
+<label class="flex items-center gap-4 p-2 hover:bg-surface-container-low rounded-lg cursor-pointer h-12">
+<input class="custom-checkbox w-6 h-6 rounded border-outline-variant text-primary-container focus:ring-primary-container" type="checkbox"/>
+<span class="font-body-lg text-body-lg">Heart Disease</span>
+</label>
+<label class="flex items-center gap-4 p-2 hover:bg-surface-container-low rounded-lg cursor-pointer h-12">
+<input class="custom-checkbox w-6 h-6 rounded border-outline-variant text-primary-container focus:ring-primary-container" type="checkbox"/>
+<span class="font-body-lg text-body-lg">Cancer</span>
+</label>
+<label class="flex items-center gap-4 p-2 hover:bg-surface-container-low rounded-lg cursor-pointer h-12">
+<input class="custom-checkbox w-6 h-6 rounded border-outline-variant text-primary-container focus:ring-primary-container" type="checkbox"/>
+<span class="font-body-lg text-body-lg">Kidney Disease</span>
+</label>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Action Bar (Reflow format) -->
+<div class="fixed bottom-0 w-full z-50 bg-surface-container-lowest border-t border-outline-variant shadow-lg p-margin-edge flex justify-between items-center">
+<div class="hidden md:flex items-center gap-3 bg-secondary-container text-on-secondary-container px-6 py-3 rounded-full font-label-lg text-label-lg">
+<span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
+            Selected: 0 conditions
+        </div>
+<div class="flex gap-4 w-full md:w-auto">
+<button class="flex-1 md:flex-none h-touch-target-min px-8 rounded-full border-2 border-primary text-primary font-button-text text-button-text hover:bg-surface-container-low transition-colors">
+                Back
+            </button>
+<button class="flex-1 md:flex-none h-touch-target-min px-8 rounded-full bg-primary text-on-primary font-button-text text-button-text hover:bg-primary-container transition-colors shadow-sm">
+                Continue
+            </button>
+</div>
+</div>
+<script>
+        // Simple script to update the selected conditions count
+        document.addEventListener('DOMContentLoaded', () => {
+            const checkboxes = document.querySelectorAll('.custom-checkbox');
+            const summaryChip = document.querySelector('.bg-secondary-container');
+            
+            checkboxes.forEach(cb => {
+                cb.addEventListener('change', () => {
+                    const checkedCount = document.querySelectorAll('.custom-checkbox:checked').length;
+                    if(summaryChip) {
+                        summaryChip.innerHTML = `<span class="material-symbols-outlined" data-icon="check_circle">check_circle</span> Selected: ${checkedCount} conditions`;
+                    }
+                });
+            });
+        });
+    </script>
+</body></html>

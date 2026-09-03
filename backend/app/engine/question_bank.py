@@ -54,8 +54,26 @@ class QuestionBank:
             # Load primary Dashavidha parameters (the 10 core parameters)
             for param in data.get("primary_dashavidha_parameters", []):
                 self._ayush_parameters.append(param)
-            # Sort by parameter_index if available
+                self._questions[param["parameter_id"]] = {
+                    "question_id": param["parameter_id"],
+                    "text_by_language": param.get("text_by_language", {}),
+                    "input_type": param.get("input_type", "single_select"),
+                    "options": param.get("options", []),
+                    "data_element": f"ayush.dashavidha.{param.get('sanskrit_name', '').lower()}",
+                }
+            # Sort by parameter_index
             self._ayush_parameters.sort(key=lambda p: p.get("parameter_index", 999))
+
+            # Also load supporting parameters (Agni, Koshtha, Ahara-Vihara)
+            for param in data.get("supporting_parameters", []):
+                self._ayush_parameters.append(param)
+                self._questions[param["parameter_id"]] = {
+                    "question_id": param["parameter_id"],
+                    "text_by_language": param.get("text_by_language", {}),
+                    "input_type": param.get("input_type", "single_select"),
+                    "options": param.get("options", []),
+                    "data_element": f"ayush.supporting.{param.get('sanskrit_name', '').lower()}",
+                }
 
         self._loaded = True
 

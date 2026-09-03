@@ -1,5 +1,31 @@
 # Completed Work
 
+## Phase 10: End-to-End Backend Integration & Testing (Completed)
+- **Date Completed:** 2026-09-02
+- **Key Deliverables:**
+  - Designed and executed 3 full multi-persona end-to-end clinical scenarios in `backend/tests/test_e2e_scenarios.py`:
+    1. **OPD Walk-in** (routine fever/cough, Hindi, Male 35yr): Registration → ABHA link → Interview → MedGemma Summary → Clinician Review (`ACCEPTED`) → Consent (`FULL_HIS_SHARE`) → FHIR R4 Bundle → Mock Delivery → DPDP Ephemeral Purge.
+    2. **Acute Emergency** (crushing chest pain, English, Female 62yr): Chief Complaint → SOCRATES deep-dive → Red-flag triage trigger (`RF_CARD_001_CHEST_PAIN_RADIATION`) → Global triage queue verification → Emergency fast-track handling.
+    3. **Document-Heavy Chronic** (lab reports + prescription, Marathi, Female 45yr): Document uploads → OCR extraction → Chronological timeline sorting → MedGemma summary merge → Clinician amendment (`AMENDED`) → FHIR bundle with `DocumentReference` resources → Confirmed delivery & purge.
+  - Implemented Cross-Module Data Flow tests in `backend/tests/test_cross_module_flow.py` verifying LangGraph → Summary, Document → Summary, Summary → FHIR, and consent/clinician review delivery gates.
+  - Implemented Concurrency & Idempotency tests in `backend/tests/test_concurrency.py` verifying 5 simultaneous session isolations, idempotency key replay cache, and session-scoped triage alerts.
+  - Implemented Failure Cascade & Resilience tests in `backend/tests/test_resilience.py` verifying 404/409 handling, delivery retry state preservation on failure, and mid-flow consent revocation enforcement.
+  - Implemented Clinical Safety & AI Output tests in `backend/tests/test_clinical_safety.py` verifying non-diagnostic safety gating, Pydantic schema validation, and ABDM Chapter 33 FHIR compliance (`Composition` as `entry[0]`).
+  - Implemented OpenAPI Contract tests in `backend/tests/test_openapi_contracts.py` verifying complete OpenAPI 3.x schema export and route coverage.
+  - Total automated repository test suite expanded from 48 to **84 passing tests (100% pass rate)**.
+
+## Phase 9: Consent, FHIR R4, ABDM & HIS Integration — Module D (Completed)
+- **Date Completed:** 2026-09-02
+- **Key Deliverables:**
+  - Built granular multi-scope consent engine (`ConsentEngine`) with affirmative grant/revoke APIs and audio guidance in 6 Indian languages.
+  - Implemented self-contained, typed Pydantic FHIR R4 models conforming to ABDM NRCeS profiles.
+  - Implemented `FHIRBundleBuilder` guaranteeing strict ABDM Chapter 33 compliance with `Composition` as `entry[0]`.
+  - Implemented `FHIRValidator` checking referential integrity and document envelope rules.
+  - Implemented multi-adapter delivery architecture (`MockDeliveryAdapter` with truthful `is_mock=True`, `ABDMSandboxAdapter` with credential safety, and `HISAdapter` for direct hospital EMR webhooks).
+  - Built `DeliveryService` orchestrator enforcing active `HIS_SHARE` consent gate and clinician review gate (`ACCEPTED`/`AMENDED` required).
+  - Implemented DPDP Act post-submission data purge: ephemeral raw patient history and staged document bytes are deleted from the kiosk immediately upon confirmed `ACCEPTED` delivery.
+  - Authored 12-test automated integration suite (`backend/tests/test_phase9_integration.py`).
+
 ## Phase 7: Voice Intake Engine — Module E (Completed)
 - **Date Completed:** 2026-09-02
 - **Key Deliverables:**

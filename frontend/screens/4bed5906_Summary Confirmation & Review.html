@@ -1,0 +1,211 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-error-container":"#93000a","on-secondary-fixed-variant":"#005313","on-primary-fixed-variant":"#005046","error-container":"#ffdad6","surface-container-lowest":"#ffffff","on-background":"#191c1d","primary-fixed-dim":"#7dd6c4","secondary-fixed-dim":"#78dc77","error":"#ba1a1a","error-container":"#ffdad6","surface-container":"#eceeee","surface-container-low":"#f2f4f4","primary-fixed":"#99f3e0","tertiary-fixed-dim":"#ffb3ac","on-tertiary-container":"#ffeae8","tertiary":"#aa0a17","secondary-fixed":"#94f990","outline":"#6e7976","tertiary-container":"#ce2b2c","surface-tint":"#006b5d","on-primary":"#ffffff","on-tertiary-fixed-variant":"#930010","primary-container":"#0f7a6b","on-primary-container":"#abffed","background":"#f8fafa","tertiary-fixed":"#ffdad6","inverse-primary":"#7dd6c4","inverse-surface":"#2e3131","surface":"#f8fafa","surface-variant":"#e1e3e3","on-tertiary-fixed":"#410003","surface-bright":"#f8fafa","primary":"#005f53","surface-container-high":"#e6e8e9","on-surface-variant":"#3e4946","inverse-on-surface":"#eff1f1","on-tertiary":"#ffffff","on-primary-fixed":"#00201b","on-secondary-container":"#00731e","outline-variant":"#bdc9c5","on-secondary-fixed":"#002204","on-error":"#ffffff","secondary-container":"#91f78e","surface-dim":"#d8dada","on-secondary":"#ffffff","surface-container-highest":"#e1e3e3","on-surface":"#191c1d","secondary":"#006e1c"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"touch-target-min":"64px","stack-gap":"16px","gutter-md":"24px","section-gap":"48px","margin-edge":"32px"},"fontFamily":{"body-lg":["Noto Sans"],"headline-lg":["Inter"],"display-lg":["Inter"],"display-lg-mobile":["Inter"],"label-lg":["Inter"],"button-text":["Inter"],"headline-md":["Inter"],"body-md":["Noto Sans"]},"fontSize":{"body-lg":["20px",{"lineHeight":"32px","fontWeight":"400"}],"headline-lg":["32px",{"lineHeight":"44px","fontWeight":"600"}],"display-lg":["48px",{"lineHeight":"60px","fontWeight":"700"}],"display-lg-mobile":["32px",{"lineHeight":"40px","fontWeight":"700"}],"label-lg":["18px",{"lineHeight":"24px","letterSpacing":"0.02em","fontWeight":"600"}],"button-text":["20px",{"lineHeight":"24px","fontWeight":"600"}],"headline-md":["28px",{"lineHeight":"36px","fontWeight":"600"}],"body-md":["18px",{"lineHeight":"28px","fontWeight":"400"}]}}}}</script><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Noto+Sans:wght@400;600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/></head><body class="bg-surface font-body-md text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-20 w-full px-margin-edge flex items-center justify-between"><div class="flex items-center gap-4"><img alt="MediKiosk Logo" class="h-10 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WOWlXifmQLGhqAllBVZWCRgkgSLHAnTwgoBJP4xthwDnjNqYWDNg9znbkocAli_qPnHxfUM5D79klRMdTAQj5Rk4qRSkr09CrmGTVLo0_be8qjXJhn9mE-rghz1jGUSZ8IujYp3roz07eCWoP7BPwsqkQ568qFC4OeBQxJm7eJatId6xXV9namiGBleyCPZnazcqxxHo7X_uwcreF3HPg2G28z4r4_EQIZXiuBStLrdydzpmA0OyxNzTAS"/><div class="flex flex-col"><span class="font-headline-md text-headline-md text-primary leading-none">MediKiosk</span><span class="font-label-lg text-label-lg text-on-surface-variant opacity-70">at City General Hospital</span></div></div><div class="flex items-center gap-gutter-md"><div class="text-right hidden md:block"><span class="block font-headline-md text-headline-md text-on-surface">14:20</span><span class="block font-label-lg text-label-lg text-on-surface-variant uppercase">Tuesday, 24 Oct</span></div><button class="h-touch-target-min px-6 bg-tertiary text-on-tertiary font-button-text text-button-text rounded-xl shadow-lg flex items-center gap-2 hover:bg-tertiary-container transition-colors"><span class="material-symbols-outlined">emergency</span> SOS ASSIST</button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex-1 pt-20 pb-32 w-full px-margin-edge"><div class="flex flex-col w-full h-full max-w-[1200px] mx-auto pb-8 relative" id="summary-confirmation-screen">
+<div class="w-full bg-primary-container rounded-[24px] p-8 mb-8 shadow-md relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6" id="audio-summary-card">
+<div class="absolute inset-0 pointer-events-none opacity-20">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 1000 200">
+<path d="M0,100 Q150,50 300,100 T600,100 T1000,100" fill="none" id="ambient-waveform" stroke="white" stroke-width="4"></path>
+</svg>
+</div>
+<div class="flex items-center gap-6 z-10 w-full md:w-auto">
+<button class="w-20 h-20 shrink-0 rounded-full bg-surface-container-lowest text-primary flex items-center justify-center shadow-sm hover:scale-105 transition-transform" id="play-pause-btn">
+<span class="material-symbols-outlined text-[40px] font-bold" id="play-icon" style="font-variation-settings: 'FILL' 1;">pause</span>
+</button>
+<div class="flex flex-col">
+<h2 class="font-headline-lg text-headline-lg text-on-primary-container m-0">Reviewing your summary...</h2>
+<p class="font-body-md text-body-md text-on-primary-container/80 m-0">Please verify the details below before submitting.</p>
+</div>
+</div>
+<div class="flex-1 w-full flex items-center gap-4 z-10 max-w-md">
+<span class="font-label-lg text-label-lg text-on-primary-container min-w-[50px] text-right">0:14</span>
+<div class="flex-1 h-3 bg-surface-container-lowest/30 rounded-full relative cursor-pointer" id="seeker-bar">
+<div class="absolute top-0 left-0 h-full w-[35%] bg-surface-container-lowest rounded-full" id="seeker-progress"></div>
+<div class="absolute top-1/2 left-[35%] -translate-x-1/2 -translate-y-1/2 w-6 h-6 bg-surface-container-lowest rounded-full shadow-sm" id="seeker-thumb"></div>
+</div>
+<span class="font-label-lg text-label-lg text-on-primary-container min-w-[50px]">0:40</span>
+</div>
+</div>
+<div class="flex-1 flex flex-col gap-4 overflow-y-auto pr-4 custom-scrollbar mb-8" id="accordion-container">
+<div class="bg-surface-container-lowest rounded-[24px] shadow-sm flex flex-col transition-all duration-300 accordion-item" data-state="open">
+<button class="w-full flex items-center justify-between p-6 focus:outline-none min-h-[72px] accordion-trigger">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-tertiary-container/10 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined">sick</span>
+</div>
+<span class="font-headline-md text-headline-md text-on-surface">Chief Complaint</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-outline transition-transform duration-300 chevron">expand_less</span>
+</div>
+</button>
+<div class="px-6 pb-6 pt-2 accordion-content">
+<div class="bg-surface-container-low rounded-xl p-6 relative group">
+<p class="font-body-lg text-body-lg text-on-surface-variant m-0 pr-12">Persistent cough for 3 days, mild fever.</p>
+<button class="absolute top-1/2 right-4 -translate-y-1/2 w-12 h-12 rounded-full bg-surface-container-lowest text-primary shadow-sm flex items-center justify-center hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-[24px] shadow-sm flex flex-col transition-all duration-300 accordion-item" data-state="closed">
+<button class="w-full flex items-center justify-between p-6 focus:outline-none min-h-[72px] accordion-trigger">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-secondary-container/20 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">history</span>
+</div>
+<span class="font-headline-md text-headline-md text-on-surface">History of Present Illness</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-outline transition-transform duration-300 chevron">expand_more</span>
+</div>
+</button>
+<div class="px-6 pb-6 pt-2 hidden accordion-content">
+<div class="bg-surface-container-low rounded-xl p-6 relative">
+<p class="font-body-lg text-body-lg text-on-surface-variant m-0 pr-12">Started after exposure to rain; worse at night.</p>
+<button class="absolute top-1/2 right-4 -translate-y-1/2 w-12 h-12 rounded-full bg-surface-container-lowest text-primary shadow-sm flex items-center justify-center hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-[24px] shadow-sm flex flex-col transition-all duration-300 accordion-item" data-state="closed">
+<button class="w-full flex items-center justify-between p-6 focus:outline-none min-h-[72px] accordion-trigger">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary-container/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">medical_information</span>
+</div>
+<span class="font-headline-md text-headline-md text-on-surface">Past Illness</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-outline transition-transform duration-300 chevron">expand_more</span>
+</div>
+</button>
+<div class="px-6 pb-6 pt-2 hidden accordion-content">
+<div class="bg-surface-container-low rounded-xl p-6 relative">
+<p class="font-body-lg text-body-lg text-on-surface-variant m-0 pr-12">None reported.</p>
+<button class="absolute top-1/2 right-4 -translate-y-1/2 w-12 h-12 rounded-full bg-surface-container-lowest text-primary shadow-sm flex items-center justify-center hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-[24px] shadow-sm flex flex-col transition-all duration-300 accordion-item" data-state="closed">
+<button class="w-full flex items-center justify-between p-6 focus:outline-none min-h-[72px] accordion-trigger">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-tertiary-container/10 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined">prescriptions</span>
+</div>
+<span class="font-headline-md text-headline-md text-on-surface">Medications</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-outline transition-transform duration-300 chevron">expand_more</span>
+</div>
+</button>
+<div class="px-6 pb-6 pt-2 hidden accordion-content">
+<div class="bg-surface-container-low rounded-xl p-6 relative">
+<p class="font-body-lg text-body-lg text-on-surface-variant m-0 pr-12">Paracetamol 500mg (as needed).</p>
+<button class="absolute top-1/2 right-4 -translate-y-1/2 w-12 h-12 rounded-full bg-surface-container-lowest text-primary shadow-sm flex items-center justify-center hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-[24px] shadow-sm flex flex-col transition-all duration-300 accordion-item" data-state="closed">
+<button class="w-full flex items-center justify-between p-6 focus:outline-none min-h-[72px] accordion-trigger">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-error-container/20 flex items-center justify-center text-error">
+<span class="material-symbols-outlined">allergy</span>
+</div>
+<span class="font-headline-md text-headline-md text-on-surface">Allergies</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-outline transition-transform duration-300 chevron">expand_more</span>
+</div>
+</button>
+<div class="px-6 pb-6 pt-2 hidden accordion-content">
+<div class="bg-surface-container-low rounded-xl p-6 relative">
+<p class="font-body-lg text-body-lg text-on-surface-variant m-0 pr-12">No known drug allergies.</p>
+<button class="absolute top-1/2 right-4 -translate-y-1/2 w-12 h-12 rounded-full bg-surface-container-lowest text-primary shadow-sm flex items-center justify-center hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full mt-auto pt-4 shrink-0 bg-surface z-20">
+<button class="w-full min-h-[96px] bg-[#006e1c] text-on-secondary rounded-[24px] flex items-center justify-center gap-6 shadow-xl hover:bg-secondary-container hover:text-on-secondary-container transition-all group overflow-hidden relative">
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
+<div class="flex flex-col items-center z-10">
+<span class="font-display-lg text-display-lg m-0 leading-tight">Submit to Doctor</span>
+<span class="font-headline-md text-headline-md opacity-80 m-0 leading-tight">डॉक्टर को भेजें</span>
+</div>
+<span class="material-symbols-outlined text-[48px] group-hover:translate-x-2 transition-transform z-10">arrow_forward</span>
+</button>
+</div>
+</div>
+<style>
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 8px;
+        display: block;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background-color: var(--color-outline-variant, #bdc9c5);
+        border-radius: 20px;
+    }
+    @keyframes shimmer {
+        100% { transform: translateX(100%); }
+    }
+    @keyframes wave {
+        0%, 100% { d: path('M0,100 Q150,50 300,100 T600,100 T1000,100'); }
+        50% { d: path('M0,100 Q150,150 300,100 T600,100 T1000,100'); }
+    }
+    .animating-wave {
+        animation: wave 3s ease-in-out infinite;
+    }
+</style>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const accordions = document.querySelectorAll('.accordion-item');
+        accordions.forEach(item => {
+            const trigger = item.querySelector('.accordion-trigger');
+            const content = item.querySelector('.accordion-content');
+            const chevron = item.querySelector('.chevron');
+
+            trigger.addEventListener('click', () => {
+                const isOpen = item.getAttribute('data-state') === 'open';
+                
+                accordions.forEach(acc => {
+                    acc.setAttribute('data-state', 'closed');
+                    acc.querySelector('.accordion-content').classList.add('hidden');
+                    acc.querySelector('.chevron').textContent = 'expand_more';
+                });
+
+                if (!isOpen) {
+                    item.setAttribute('data-state', 'open');
+                    content.classList.remove('hidden');
+                    chevron.textContent = 'expand_less';
+                }
+            });
+        });
+
+        const playBtn = document.getElementById('play-pause-btn');
+        const playIcon = document.getElementById('play-icon');
+        const wavePath = document.getElementById('ambient-waveform');
+        let isPlaying = true;
+
+        wavePath.classList.add('animating-wave');
+
+        playBtn.addEventListener('click', () => {
+            isPlaying = !isPlaying;
+            if (isPlaying) {
+                playIcon.textContent = 'pause';
+                wavePath.classList.add('animating-wave');
+            } else {
+                playIcon.textContent = 'play_arrow';
+                wavePath.classList.remove('animating-wave');
+            }
+        });
+    });
+</script></main><nav class="fixed bottom-0 w-full bg-surface-container-highest flex justify-around items-stretch h-32 border-t border-outline-variant shadow-[0_-4px_12px_rgba(0,0,0,0.05)]" data-active-classes="text-primary border-t-4 border-primary"><a class="flex-1 flex flex-col items-center justify-center gap-2 text-on-surface-variant transition-all" data-path="home" href="#"><span class="material-symbols-outlined text-[32px]">home</span><span class="font-label-lg text-label-lg uppercase tracking-wider">Home</span></a><a class="flex-1 flex flex-col items-center justify-center gap-2 text-on-surface-variant transition-all" data-path="appointments" href="#"><span class="material-symbols-outlined text-[32px]">calendar_today</span><span class="font-label-lg text-label-lg uppercase tracking-wider">Appointments</span></a><a aria-current="page" class="flex-1 flex flex-col items-center justify-center gap-2 transition-all text-primary border-t-4 border-primary" data-path="records" href="#"><span class="material-symbols-outlined text-[32px]">folder_shared</span><span class="font-label-lg text-label-lg uppercase tracking-wider">Records</span></a><a class="flex-1 flex flex-col items-center justify-center gap-2 text-on-surface-variant transition-all" data-path="help" href="#"><span class="material-symbols-outlined text-[32px]">help_center</span><span class="font-label-lg text-label-lg uppercase tracking-wider">Help</span></a></nav></body></html>

@@ -1,6 +1,6 @@
 # Current State
 
-## Current Phase: Phase 9 (Consent, FHIR & ABDM) Completed / Phase 10 (End-to-End Integration) Next
+## Current Phase: Phase 10 (End-to-End Backend Integration & Testing) Completed / Phase 11 (Frontend Patient Flow) Next
 - **Phase 0 (Foundation Setup):** COMPLETED. Directory structure, docker-compose (Redis + Postgres), MedGemma connectivity check, and requirements locked.
 - **Phase 1 (Core Data Contract & Session Foundation):** COMPLETED. Full `PatientDataObject` Pydantic models (identity, consent, history, ayush, provenance, patch) and session repository.
 - **Phase 2 (Question Engine Skeleton — Rule-based, No AI):** COMPLETED. Dynamic branching engine with `QuestionBank`, `FlowController`, `AnswerValidator`, `RedFlagScanner`, general intake dataset with female menstrual routing (31 total questions), and `/next-question`, `/answer`, `/alerts` endpoints.
@@ -31,9 +31,16 @@
   - Implemented multi-adapter delivery architecture (`MockDeliveryAdapter` with truthful `is_mock=True`, `ABDMSandboxAdapter` with credential safety, and `HISAdapter` for direct hospital EMR webhooks).
   - Built `DeliveryService` orchestrator enforcing active `HIS_SHARE` consent gate and clinician review gate (`ACCEPTED`/`AMENDED` required).
   - Implemented DPDP Act post-submission data purge: ephemeral raw patient history and staged document bytes are deleted from the kiosk immediately upon confirmed `ACCEPTED` delivery.
-  - Mounted `/api/v1/sessions/{id}/integration/prepare`, `/submit`, `/status`, and `/bundle`.
   - Total automated test suite expanded to 48/48 tests passing with 100% pass rate.
-- **Phase 10 (End-to-End Integration & Testing):** NEXT UP.
+- **Phase 10 (End-to-End Backend Integration & Testing):** COMPLETED.
+  - Validated 3 full multi-persona clinical scenarios: OPD Walk-in (routine, Hindi), Acute Emergency (crushing chest pain with red flags), and Document-Heavy Chronic (lab reports + prescription with clinician amendment).
+  - Validated cross-module data flow: LangGraph -> Summary -> Clinician Review -> FHIR Bundle -> Delivery -> Ephemeral DPDP Purge.
+  - Validated multi-session isolation and concurrent answer submissions across 5 parallel kiosk sessions.
+  - Validated failure cascades, graceful degradation, and error contract compliance.
+  - Validated clinical safety non-diagnostic gate, Pydantic schema contracts, and ABDM Chapter 33 compliance.
+  - Validated OpenAPI 3.x schema export and route coverage.
+  - Total automated test suite expanded to 84/84 tests passing with 100% pass rate.
+- **Phase 11 (Frontend Patient Flow — Next.js Kiosk UI):** NEXT UP.
 
 ## Built and working right now
 - **Project Documentation:** Foundational documentation under `docs/` fully updated and synchronized.

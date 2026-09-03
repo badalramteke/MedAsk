@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+    }
+  </style>
+</head>
+<body>
+<!-- STITCH_THREEJS_START:ANIMATION_81 class="fixed inset-0 w-full h-full bg-transparent" -->
+<div class="fixed inset-0 w-full h-full bg-transparent" style="display:block;">
+<script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
+<div id="threejs-container-ANIMATION_81" style="width:100%;height:100%"></div>
+<script>
+(function() {
+  const container = document.getElementById('threejs-container-ANIMATION_81');
+  const devicePixelRatio = window.devicePixelRatio || 1;
+  const container = document.getElementById('sos-pulse-container');
+const width = container.clientWidth || 300;
+const height = container.clientHeight || 300;
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+renderer.setSize(width, height);
+renderer.setPixelRatio(window.devicePixelRatio);
+container.appendChild(renderer.domElement);
+
+const geometry = new THREE.SphereGeometry(5, 32, 32);
+const material = new THREE.MeshPhongMaterial({ 
+    color: 0xba1a1a, 
+    transparent: true, 
+    opacity: 0.6,
+    emissive: 0xba1a1a,
+    emissiveIntensity: 0.5
+});
+const sphere = new THREE.Mesh(geometry, material);
+scene.add(sphere);
+
+const ringGeo = new THREE.TorusGeometry(7, 0.2, 16, 100);
+const ringMat = new THREE.MeshBasicMaterial({ color: 0xba1a1a, transparent: true, opacity: 0.4 });
+const ring = new THREE.Mesh(ringGeo, ringMat);
+scene.add(ring);
+
+const light = new THREE.PointLight(0xffffff, 1, 100);
+light.position.set(10, 10, 10);
+scene.add(light);
+scene.add(new THREE.AmbientLight(0x404040));
+
+camera.position.z = 15;
+
+let time = 0;
+function animate() {
+    requestAnimationFrame(animate);
+    time += 0.05;
+    
+    const scale = 1 + Math.sin(time * 3) * 0.15;
+    sphere.scale.set(scale, scale, scale);
+    material.opacity = 0.4 + Math.sin(time * 3) * 0.2;
+    
+    ring.scale.set(scale * 1.2, scale * 1.2, 1);
+    ringMat.opacity = 0.6 - (scale - 1) * 2;
+    
+    renderer.render(scene, camera);
+}
+animate();
+
+window.addEventListener('resize', () => {
+    const w = container.clientWidth || 300;
+    const h = container.clientHeight || 300;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+});
+})();
+</script>
+</div>
+<!-- STITCH_THREEJS_END:ANIMATION_81 -->
+</body>
+</html>

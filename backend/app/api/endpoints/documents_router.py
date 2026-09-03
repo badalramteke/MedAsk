@@ -316,6 +316,32 @@ def list_session_documents(session_id: str):
     }
 
 
+@router.get("/{session_id}/documents/timeline")
+def get_document_timeline(session_id: str):
+    """
+    Get chronologically sorted medical document timeline for a session.
+    Dates are sorted oldest → newest. Documents with uncertain dates are appended at the end.
+    """
+    from app.services.document.timeline_organizer import timeline_organizer
+
+    session = session_repo.get_session(session_id)
+    if not session:
+        raise MediKioskException(
+            error_code="SESSION_NOT_FOUND",
+            message=f"Intake session '{session_id}' not found.",
+            status_code=status.HTTP_404_NOT_FOUND
+        )
+
+    results = document_repo.get_document_timeline(session_id)
+    timeline = timeline_organizer.sort_chronologically(results)
+
+    return {
+        "session_id": session_id,
+        "total_entries": len(timeline),
+        "timeline": [entry.model_dump() for entry in timeline]
+    }
+
+
 @router.get("/{session_id}/documents/{document_id}")
 def get_document_details(session_id: str, document_id: str):
     """Retrieve detailed metadata for a specific staged document."""
@@ -347,32 +373,6 @@ def get_extraction_result(session_id: str, document_id: str):
             status_code=status.HTTP_404_NOT_FOUND
         )
     return extraction.model_dump()
-
-
-@router.get("/{session_id}/documents/timeline")
-def get_document_timeline(session_id: str):
-    """
-    Get chronologically sorted medical document timeline for a session.
-    Dates are sorted oldest → newest. Documents with uncertain dates are appended at the end.
-    """
-    from app.services.document.timeline_organizer import timeline_organizer
-
-    session = session_repo.get_session(session_id)
-    if not session:
-        raise MediKioskException(
-            error_code="SESSION_NOT_FOUND",
-            message=f"Intake session '{session_id}' not found.",
-            status_code=status.HTTP_404_NOT_FOUND
-        )
-
-    results = document_repo.get_document_timeline(session_id)
-    timeline = timeline_organizer.sort_chronologically(results)
-
-    return {
-        "session_id": session_id,
-        "total_entries": len(timeline),
-        "timeline": [entry.model_dump() for entry in timeline]
-    }
 
 
 @router.post("/{session_id}/documents/{document_id}/review")

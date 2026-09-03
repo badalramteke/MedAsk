@@ -1,0 +1,249 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"primary-container":"#0f7a6b","on-secondary":"#ffffff","on-primary-fixed-variant":"#005046","secondary-fixed-dim":"#78dc77","on-surface":"#191c1d","on-surface-variant":"#3e4946","surface-container":"#eceeee","on-tertiary-fixed":"#410003","on-tertiary":"#ffffff","outline":"#6e7976","inverse-on-surface":"#eff1f1","surface-tint":"#006b5d","surface-container-lowest":"#ffffff","surface":"#f8fafa","on-tertiary-fixed-variant":"#930010","secondary-container":"#91f78e","secondary-fixed":"#94f990","inverse-surface":"#2e3131","primary-fixed-dim":"#7dd6c4","tertiary-fixed":"#ffdad6","on-primary-container":"#abffed","outline-variant":"#bdc9c5","surface-container-highest":"#e1e3e3","error-container":"#ffdad6","inverse-primary":"#7dd6c4","error":"#ba1a1a","on-secondary-fixed":"#002204","on-secondary-fixed-variant":"#005313","on-tertiary-container":"#ffeae8","surface-container-high":"#e6e8e9","surface-bright":"#f8fafa","tertiary-fixed-dim":"#ffb3ac","surface-variant":"#e1e3e3","surface-container-low":"#f2f4f4","on-background":"#191c1d","tertiary-container":"#ce2b2c","on-error-container":"#93000a","on-error":"#ffffff","on-primary":"#ffffff","background":"#f8fafa","surface-dim":"#d8dada","tertiary":"#aa0a17","secondary":"#006e1c","on-primary-fixed":"#00201b","primary":"#005f53","primary-fixed":"#99f3e0","on-secondary-container":"#00731e"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"gutter-md":"24px","stack-gap":"16px","section-gap":"48px","margin-edge":"32px","touch-target-min":"64px"},"fontFamily":{"display-lg-mobile":["Inter"],"headline-lg":["Inter"],"body-lg":["Noto Sans"],"button-text":["Inter"],"headline-md":["Inter"],"label-lg":["Inter"],"display-lg":["Inter"],"body-md":["Noto Sans"]},"fontSize":{"display-lg-mobile":["32px",{"lineHeight":"40px","fontWeight":"700"}],"headline-lg":["32px",{"lineHeight":"44px","fontWeight":"600"}],"body-lg":["20px",{"lineHeight":"32px","fontWeight":"400"}],"button-text":["20px",{"lineHeight":"24px","fontWeight":"600"}],"headline-md":["28px",{"lineHeight":"36px","fontWeight":"600"}],"label-lg":["18px",{"lineHeight":"24px","letterSpacing":"0.02em","fontWeight":"600"}],"display-lg":["48px",{"lineHeight":"60px","fontWeight":"700"}],"body-md":["18px",{"lineHeight":"28px","fontWeight":"400"}]}}}}</script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Noto+Sans:wght@100..900&display=swap" rel="stylesheet"/></head><body class="bg-surface font-body-md text-on-surface min-h-screen bg-gradient-to-br from-surface via-surface to-primary-fixed/20"><header class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-20 w-full px-margin-edge flex items-center justify-between"><div class="flex flex-col"><span class="font-headline-lg text-headline-lg text-primary tracking-tight">MediKiosk</span><span class="font-label-lg text-label-lg text-on-surface-variant">at City General Hospital</span></div><div class="flex items-center gap-gutter-md"><div class="flex items-center gap-2 px-4 py-2 bg-surface-container rounded-xl"><span class="material-symbols-outlined text-on-surface-variant">schedule</span><span class="font-button-text text-button-text text-on-surface">10:45 AM</span></div><button class="flex items-center gap-3 px-8 h-14 bg-error text-on-error rounded-xl font-button-text text-button-text shadow-lg active:scale-95 transition-transform"><span class="material-symbols-outlined">emergency</span>SOS ASSIST</button></div></div></header><main class="w-full pt-20 px-margin-edge"><div class="flex flex-col w-full h-[calc(100vh-5rem)]">
+<!-- Patient Demographics Bar -->
+<div class="flex items-center justify-between p-gutter-md bg-surface-container rounded-xl mb-stack-gap shadow-sm shrink-0">
+<div class="flex items-center gap-margin-edge">
+<div class="flex items-center gap-stack-gap">
+<div class="w-16 h-16 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-headline-lg">RK</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md text-on-surface">Rajesh Kumar</span>
+<span class="font-body-md text-body-md text-on-surface-variant">45 yrs • Male</span>
+</div>
+</div>
+<div class="h-10 w-[1px] bg-outline-variant/30"></div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface-variant uppercase tracking-widest text-xs">ABHA ID</span>
+<span class="font-body-md text-body-md text-on-surface font-mono">12-3456-7890-1234</span>
+</div>
+<div class="h-10 w-[1px] bg-outline-variant/30"></div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface-variant uppercase tracking-widest text-xs">Last Visit</span>
+<span class="font-body-md text-body-md text-on-surface">12 May 2024</span>
+</div>
+</div>
+<div class="flex items-center gap-stack-gap">
+<span class="px-4 py-2 bg-secondary-container text-on-secondary-container rounded-full font-label-lg text-label-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+                Verified
+            </span>
+</div>
+</div>
+<!-- Main Split View -->
+<div class="flex gap-gutter-md flex-1 min-h-0">
+<!-- LEFT PANEL (60%): Clinical Document -->
+<div class="w-[60%] flex flex-col bg-surface-container-lowest rounded-xl shadow-md overflow-hidden relative">
+<div class="p-stack-gap bg-surface-container border-b border-outline-variant/20 flex items-center justify-between shrink-0">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">description</span>
+                    Clinical Summary
+                </h2>
+<span class="px-3 py-1 bg-primary-container/10 text-primary rounded-md font-label-lg text-sm">Draft Mode</span>
+</div>
+<div class="flex-1 overflow-y-auto p-gutter-md flex flex-col gap-stack-gap scroll-smooth" id="clinical-doc-scroll">
+<!-- Section 1: Chief Complaint -->
+<div class="group bg-surface rounded-xl shadow-sm hover:shadow-md transition-shadow">
+<button class="w-full p-4 flex items-center justify-between text-left focus:outline-none" onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('.icon').classList.toggle('rotate-180')">
+<span class="font-label-lg text-label-lg text-on-surface">1. Chief Complaint</span>
+<span class="material-symbols-outlined icon transition-transform duration-300">expand_more</span>
+</button>
+<div class="p-4 pt-0">
+<div class="relative bg-surface-container-lowest rounded-lg p-4 group-focus-within:ring-2 group-focus-within:ring-primary/50 transition-all">
+<div class="absolute top-2 right-2 flex gap-2">
+<span class="px-2 py-0.5 bg-surface-variant text-on-surface-variant text-xs rounded font-mono">[Patient Spoken]</span>
+</div>
+<textarea class="w-full min-h-[80px] bg-transparent resize-none outline-none font-body-md text-on-surface placeholder:text-on-surface-variant/50" placeholder="Enter chief complaint...">Patient reports persistent lower back pain for the past 3 weeks, radiating to the left leg. Pain increases on standing.</textarea>
+</div>
+</div>
+</div>
+<!-- Section 2: HPI -->
+<div class="group bg-surface rounded-xl shadow-sm hover:shadow-md transition-shadow">
+<button class="w-full p-4 flex items-center justify-between text-left focus:outline-none" onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('.icon').classList.toggle('rotate-180')">
+<span class="font-label-lg text-label-lg text-on-surface">2. History of Present Illness (HPI)</span>
+<span class="material-symbols-outlined icon transition-transform duration-300">expand_more</span>
+</button>
+<div class="p-4 pt-0 hidden">
+<div class="relative bg-surface-container-lowest rounded-lg p-4 group-focus-within:ring-2 group-focus-within:ring-primary/50 transition-all">
+<div class="absolute top-2 right-2 flex gap-2">
+<span class="px-2 py-0.5 bg-primary-container/20 text-primary text-xs rounded font-mono">[AI Draft: 92% confidence]</span>
+</div>
+<textarea class="w-full min-h-[120px] bg-transparent resize-none outline-none font-body-md text-on-surface" placeholder="Enter HPI...">Pain is described as sharp and shooting, 7/10 in severity. Aggravated by prolonged sitting or walking. Relieved partially by rest and over-the-counter NSAIDs (Ibuprofen 400mg PRN). Denies any recent trauma, bowel or bladder incontinence.</textarea>
+</div>
+</div>
+</div>
+<!-- Section 3: Past History -->
+<div class="group bg-surface rounded-xl shadow-sm hover:shadow-md transition-shadow">
+<button class="w-full p-4 flex items-center justify-between text-left focus:outline-none" onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('.icon').classList.toggle('rotate-180')">
+<span class="font-label-lg text-label-lg text-on-surface">3. Past Medical/Surgical History</span>
+<span class="material-symbols-outlined icon transition-transform duration-300">expand_more</span>
+</button>
+<div class="p-4 pt-0 hidden">
+<div class="relative bg-surface-container-lowest rounded-lg p-4 group-focus-within:ring-2 group-focus-within:ring-primary/50 transition-all">
+<div class="absolute top-2 right-2 flex gap-2">
+<span class="px-2 py-0.5 bg-tertiary-container/20 text-tertiary text-xs rounded font-mono">[Doc#1: Clinical Notes 2023]</span>
+</div>
+<textarea class="w-full min-h-[80px] bg-transparent resize-none outline-none font-body-md text-on-surface" placeholder="Enter past history...">- Hypertension (Diagnosed 2018, controlled on Amlodipine 5mg)
+- Appendectomy (2005)</textarea>
+</div>
+</div>
+</div>
+<!-- Add remaining sections visually but collapsed -->
+<div class="group bg-surface rounded-xl shadow-sm hover:shadow-md transition-shadow">
+<button class="w-full p-4 flex items-center justify-between text-left focus:outline-none" onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('.icon').classList.toggle('rotate-180')">
+<span class="font-label-lg text-label-lg text-on-surface">4. Medications & Allergies</span>
+<span class="material-symbols-outlined icon transition-transform duration-300">expand_more</span>
+</button>
+<div class="p-4 pt-0 hidden"><div class="p-4 bg-surface-container-lowest rounded-lg">...</div></div>
+</div>
+<div class="group bg-surface rounded-xl shadow-sm hover:shadow-md transition-shadow">
+<button class="w-full p-4 flex items-center justify-between text-left focus:outline-none" onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('.icon').classList.toggle('rotate-180')">
+<span class="font-label-lg text-label-lg text-on-surface">5. Family History</span>
+<span class="material-symbols-outlined icon transition-transform duration-300">expand_more</span>
+</button>
+<div class="p-4 pt-0 hidden"><div class="p-4 bg-surface-container-lowest rounded-lg">...</div></div>
+</div>
+<div class="group bg-surface rounded-xl shadow-sm hover:shadow-md transition-shadow">
+<button class="w-full p-4 flex items-center justify-between text-left focus:outline-none" onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('.icon').classList.toggle('rotate-180')">
+<span class="font-label-lg text-label-lg text-on-surface">6. Personal & Social History</span>
+<span class="material-symbols-outlined icon transition-transform duration-300">expand_more</span>
+</button>
+<div class="p-4 pt-0 hidden"><div class="p-4 bg-surface-container-lowest rounded-lg">...</div></div>
+</div>
+<div class="group bg-surface rounded-xl shadow-sm hover:shadow-md transition-shadow">
+<button class="w-full p-4 flex items-center justify-between text-left focus:outline-none" onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('.icon').classList.toggle('rotate-180')">
+<span class="font-label-lg text-label-lg text-on-surface">7. Review of Systems</span>
+<span class="material-symbols-outlined icon transition-transform duration-300">expand_more</span>
+</button>
+<div class="p-4 pt-0 hidden"><div class="p-4 bg-surface-container-lowest rounded-lg">...</div></div>
+</div>
+<div class="group bg-surface rounded-xl shadow-sm hover:shadow-md transition-shadow">
+<button class="w-full p-4 flex items-center justify-between text-left focus:outline-none" onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('.icon').classList.toggle('rotate-180')">
+<span class="font-label-lg text-label-lg text-on-surface">8. Prior Investigations</span>
+<span class="material-symbols-outlined icon transition-transform duration-300">expand_more</span>
+</button>
+<div class="p-4 pt-0 hidden"><div class="p-4 bg-surface-container-lowest rounded-lg">...</div></div>
+</div>
+<div class="group bg-surface rounded-xl shadow-sm hover:shadow-md transition-shadow mb-8">
+<button class="w-full p-4 flex items-center justify-between text-left focus:outline-none" onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('.icon').classList.toggle('rotate-180')">
+<span class="font-label-lg text-label-lg text-on-surface">9. AYUSH Summary</span>
+<span class="material-symbols-outlined icon transition-transform duration-300">expand_more</span>
+</button>
+<div class="p-4 pt-0 hidden"><div class="p-4 bg-surface-container-lowest rounded-lg">...</div></div>
+</div>
+</div>
+<!-- Bottom Action Bar (Left Panel Overlay or Fixed Bottom) -->
+<div class="p-4 bg-surface-container/90 backdrop-blur-md border-t border-outline-variant/20 flex gap-4 shrink-0 mt-auto">
+<button class="flex-1 h-[64px] bg-secondary text-on-secondary rounded-xl font-button-text flex items-center justify-center gap-2 hover:bg-secondary/90 transition-colors shadow-sm">
+<span class="material-symbols-outlined">check</span>
+                    Accept Draft
+                </button>
+<button class="flex-1 h-[64px] border-2 border-primary text-primary rounded-xl font-button-text flex items-center justify-center gap-2 hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined">edit</span>
+                    Amend Section
+                </button>
+<button class="flex-1 h-[64px] border-2 border-error text-error rounded-xl font-button-text flex items-center justify-center gap-2 hover:bg-error/5 transition-colors">
+<span class="material-symbols-outlined">close</span>
+                    Reject Draft
+                </button>
+<button class="flex-1 h-[64px] bg-[#6B21A8] text-white rounded-xl font-button-text flex items-center justify-center gap-2 hover:bg-[#581C87] transition-colors shadow-sm">
+<span class="material-symbols-outlined">upload</span>
+                    Push to HIS
+                </button>
+</div>
+</div>
+<!-- RIGHT PANEL (40%): Scanned Document Viewer -->
+<div class="w-[40%] flex flex-col bg-surface-container-lowest rounded-xl shadow-md overflow-hidden relative">
+<div class="p-stack-gap bg-surface-container border-b border-outline-variant/20 flex items-center justify-between shrink-0">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">scanner</span>
+                    Source Document
+                </h2>
+<div class="flex items-center gap-2 bg-surface rounded-lg p-1 shadow-sm">
+<button class="w-10 h-10 flex items-center justify-center rounded hover:bg-surface-variant text-on-surface transition-colors" onclick="updateZoom(-0.1)" title="Zoom Out">
+<span class="material-symbols-outlined">zoom_out</span>
+</button>
+<span class="font-mono text-sm w-12 text-center" id="zoom-level">100%</span>
+<button class="w-10 h-10 flex items-center justify-center rounded hover:bg-surface-variant text-on-surface transition-colors" onclick="updateZoom(0.1)" title="Zoom In">
+<span class="material-symbols-outlined">zoom_in</span>
+</button>
+<div class="w-[1px] h-6 bg-outline-variant/30 mx-1"></div>
+<button class="w-10 h-10 flex items-center justify-center rounded hover:bg-surface-variant text-on-surface transition-colors" onclick="updateRotation()" title="Rotate">
+<span class="material-symbols-outlined">rotate_right</span>
+</button>
+</div>
+</div>
+<div class="flex-1 bg-surface-variant/30 relative overflow-hidden flex items-center justify-center p-4" id="doc-viewer-container">
+<!-- Document Image container with panning and zooming -->
+<div class="transition-transform duration-200 ease-out origin-center cursor-move" id="doc-image-wrapper" style="transform: scale(1) rotate(0deg);">
+<img alt="Scanned Medical Document" class="max-w-full max-h-[800px] object-contain rounded shadow-lg bg-white pointer-events-none select-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBi7K00yCKufOCpseHwogsMf_NvwjyQZwCw4so-aQINz0qw2VMGGjfbiNHJlRBP2AqAsd2dEHr6vGpTy_XqNl1R3K3fGPJwoglQC9pF07k5om8O18l-EM3IxTY0hzJXjz_sZh1kcyjJVRp_0csAfQ7vSImlnooWy_psxMiu5EJndnRV4t9WxlBB2zhypJHiPgSdLqiTZSlBqcazRAe8-rHt9yq_Igkb6e5sYtq9rRsscScfC4lmAvvk1S77S4PjTfYTFHc"/>
+</div>
+<!-- Decorative Scan Line (Micro-interaction) -->
+<div class="absolute top-0 left-0 w-full h-1 bg-primary/30 blur-[1px] animate-[scan_3s_ease-in-out_infinite]"></div>
+</div>
+</div>
+</div>
+</div>
+<style>
+    @keyframes scan {
+        0% { top: 0%; opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { top: 100%; opacity: 0; }
+    }
+</style>
+<script>
+    // Simple state for document viewer
+    let scale = 1;
+    let rotation = 0;
+    const wrapper = document.getElementById('doc-image-wrapper');
+    const zoomLabel = document.getElementById('zoom-level');
+
+    function updateTransform() {
+        wrapper.style.transform = `scale(${scale}) rotate(${rotation}deg)`;
+        zoomLabel.textContent = `${Math.round(scale * 100)}%`;
+    }
+
+    function updateZoom(delta) {
+        scale = Math.max(0.5, Math.min(3, scale + delta));
+        updateTransform();
+    }
+
+    function updateRotation() {
+        rotation = (rotation + 90) % 360;
+        updateTransform();
+    }
+    
+    // Basic drag to pan functionality
+    let isDragging = false;
+    let startX, startY;
+    let translateX = 0, translateY = 0;
+
+    const container = document.getElementById('doc-viewer-container');
+
+    container.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        startX = e.clientX - translateX;
+        startY = e.clientY - translateY;
+        wrapper.style.transition = 'none'; // Disable transition during drag for smoothness
+        wrapper.style.cursor = 'grabbing';
+    });
+
+    window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        translateX = e.clientX - startX;
+        translateY = e.clientY - startY;
+        // Apply pan on top of zoom/rotate. Needs a wrapper div for pure translation in a real robust setup, 
+        // but this works for demo purposes by combining transforms or just translating the container.
+        wrapper.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale}) rotate(${rotation}deg)`;
+    });
+
+    window.addEventListener('mouseup', () => {
+        isDragging = false;
+        wrapper.style.transition = 'transform 0.2s ease-out';
+        wrapper.style.cursor = 'move';
+    });
+    
+    // Prevent default drag behaviors on image
+    document.querySelector('#doc-image-wrapper img').addEventListener('dragstart', (e) => e.preventDefault());
+
+</script></main></body></html>

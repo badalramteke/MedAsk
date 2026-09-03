@@ -1,4 +1,14 @@
 import os
+from pathlib import Path
+from dotenv import load_dotenv
+
+# Automatically load environment variables from project root .env or backend .env
+env_paths = [Path(__file__).resolve().parent.parent.parent / ".env", Path(__file__).resolve().parent.parent / ".env"]
+for p in env_paths:
+    if p.exists():
+        load_dotenv(p)
+        break
+
 from fastapi import FastAPI, HTTPException
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware

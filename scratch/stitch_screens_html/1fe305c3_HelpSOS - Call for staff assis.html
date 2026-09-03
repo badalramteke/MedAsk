@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HelpSOS - Staff Assistance</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Noto+Sans:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#d8dada",
+                        "on-tertiary-fixed-variant": "#930010",
+                        "on-error-container": "#93000a",
+                        "on-background": "#191c1d",
+                        "inverse-on-surface": "#eff1f1",
+                        "on-surface": "#191c1d",
+                        "secondary": "#006e1c",
+                        "tertiary": "#aa0a17",
+                        "surface-container-high": "#e6e8e9",
+                        "primary-fixed": "#99f3e0",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-container": "#ffeae8",
+                        "on-tertiary-fixed": "#410003",
+                        "tertiary-fixed": "#ffdad6",
+                        "secondary-fixed-dim": "#78dc77",
+                        "on-secondary-fixed": "#002204",
+                        "on-primary-fixed-variant": "#005046",
+                        "on-primary-container": "#abffed",
+                        "on-error": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "surface-variant": "#e1e3e3",
+                        "secondary-container": "#91f78e",
+                        "primary-fixed-dim": "#7dd6c4",
+                        "secondary-fixed": "#94f990",
+                        "on-secondary-fixed-variant": "#005313",
+                        "surface": "#f8fafa",
+                        "primary-container": "#0f7a6b",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#7dd6c4",
+                        "background": "#f8fafa",
+                        "tertiary-fixed-dim": "#ffb3ac",
+                        "outline": "#6e7976",
+                        "surface-container": "#eceeee",
+                        "on-surface-variant": "#3e4946",
+                        "surface-container-low": "#f2f4f4",
+                        "primary": "#005f53",
+                        "error": "#ba1a1a",
+                        "tertiary-container": "#ce2b2c",
+                        "surface-bright": "#f8fafa",
+                        "on-secondary-container": "#00731e",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-tint": "#006b5d",
+                        "on-primary-fixed": "#00201b",
+                        "on-primary": "#ffffff",
+                        "outline-variant": "#bdc9c5",
+                        "surface-container-highest": "#e1e3e3",
+                        "inverse-surface": "#2e3131"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "touch-target-min": "64px",
+                        "gutter-md": "24px",
+                        "margin-edge": "32px",
+                        "stack-gap": "16px",
+                        "section-gap": "48px"
+                    },
+                    "fontFamily": {
+                        "label-lg": ["Inter"],
+                        "body-lg": ["Noto Sans"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "display-lg-mobile": ["Inter"],
+                        "button-text": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-md": ["Noto Sans"]
+                    },
+                    "fontSize": {
+                        "label-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "body-lg": ["20px", { "lineHeight": "32px", "fontWeight": "400" }],
+                        "headline-md": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "44px", "fontWeight": "600" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "button-text": ["20px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "60px", "fontWeight": "700" }],
+                        "body-md": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .pulse-shadow {
+            box-shadow: 0 0 0 0 rgba(170, 10, 23, 0.4);
+            animation: pulse-ring 2s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
+        @keyframes pulse-ring {
+            0% { box-shadow: 0 0 0 0 rgba(170, 10, 23, 0.4); }
+            70% { box-shadow: 0 0 0 30px rgba(170, 10, 23, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(170, 10, 23, 0); }
+        }
+    </style>
+</head>
+<body class="h-full bg-background text-on-background overflow-hidden flex flex-col relative font-body-lg">
+<!-- Background Shader -->
+<div class="absolute inset-0 z-0 opacity-20 pointer-events-none mix-blend-multiply">
+
+</div>
+<!-- Top Navigation (RedFlagBridge) -->
+<header class="bg-tertiary dark:bg-tertiary-container shadow-md flex justify-between items-center w-full px-margin-edge h-touch-target-min relative z-10 shrink-0">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-tertiary text-[32px]">local_hospital</span>
+<h1 class="font-headline-md text-headline-md font-bold text-on-tertiary">RedFlagBridge</h1>
+</div>
+<div class="flex items-center gap-4">
+<button aria-label="Help" class="w-[64px] h-[64px] flex items-center justify-center rounded-full hover:bg-tertiary-container hover:text-on-tertiary-container text-on-tertiary transition-transform scale-95 active:scale-90">
+<span class="material-symbols-outlined text-[32px]">help</span>
+</button>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col items-center justify-start pt-section-gap px-margin-edge relative z-10 overflow-y-auto">
+<!-- Header Text -->
+<div class="text-center mb-stack-gap">
+<h2 class="font-display-lg text-display-lg md:text-display-lg text-tertiary mb-4 tracking-tight">Calling for assistance...</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">A staff member will be with you shortly. Please stay at the kiosk.</p>
+</div>
+<!-- Central SOS Area -->
+<div class="relative w-full max-w-lg flex flex-col items-center justify-center my-section-gap shrink-0">
+<!-- 3D Scene Background behind button -->
+<div class="absolute inset-0 z-0 scale-150 opacity-40 pointer-events-none mix-blend-screen flex items-center justify-center">
+
+</div>
+<!-- Large SOS Button (Visual only) -->
+<div class="relative z-10 w-[240px] h-[240px] rounded-full bg-gradient-to-br from-tertiary to-tertiary-container flex flex-col items-center justify-center pulse-shadow text-on-tertiary border-4 border-surface shadow-2xl">
+<span class="material-symbols-outlined text-[80px] mb-2" style="font-variation-settings: 'FILL' 1;">emergency</span>
+<span class="font-headline-lg text-headline-lg uppercase tracking-widest font-bold">SOS</span>
+</div>
+<!-- Timer -->
+<div class="mt-stack-gap bg-surface-container-high px-6 py-3 rounded-full shadow-sm border border-outline-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary">timer</span>
+<span class="font-label-lg text-label-lg text-on-surface font-mono" id="timer">Time elapsed: 00:14</span>
+</div>
+</div>
+<!-- Status Card -->
+<div class="bg-surface rounded-xl shadow-sm border border-outline-variant p-6 w-full max-w-3xl flex items-center gap-6 mb-section-gap">
+<div class="w-24 h-24 rounded-full overflow-hidden shrink-0 border-4 border-surface-container-high relative bg-surface-variant">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a friendly nurse in teal scrubs, standing in a brightly lit modern hospital corridor. Soft lighting, approachable expression, clean hygienic aesthetic, light mode colors." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_qzKXIynMzOGNj2-U-i_q8BT_6BPMe71brWX43CD2gNnNb6V7ud-DR5BXvk3M1crxpyEM1WO2Va-F0DGlbRMjex-45vjJNGY3A1bpiCMq2xTeLhcs22LoY23dO6KfpWF8r2if0Mj0owvoLA_MGsYPSQX6DDifSN3wwnjnOi9CBsnYWNcDylBWTDSGF5jJ4UJetMC8oxwHs1hys_ClOBEKRL1H6aSHmucD8nkXbaHSvoaQVh8iabpdICncaeQWjvEl49yu7-ctGPbe"/>
+<div class="absolute bottom-0 right-0 w-6 h-6 bg-secondary rounded-full border-2 border-surface"></div>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-1">Nurse Station Alerted</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Your request has been received by the triage team. They are reviewing your location.</p>
+</div>
+<div class="ml-auto flex items-center justify-center w-12 h-12 bg-secondary-container rounded-full shrink-0">
+<span class="material-symbols-outlined text-on-secondary-container text-[28px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+<!-- Alternative Needs Grids -->
+<div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-gutter-md mb-section-gap">
+<button class="h-touch-target-min min-h-[120px] bg-surface rounded-xl border border-outline-variant shadow-sm hover:shadow-md hover:border-primary transition-all flex flex-col items-center justify-center p-4 gap-2 group">
+<span class="material-symbols-outlined text-primary text-[40px] group-hover:scale-110 transition-transform">translate</span>
+<span class="font-button-text text-button-text text-on-surface text-center">I need a translator</span>
+</button>
+<button class="h-touch-target-min min-h-[120px] bg-surface rounded-xl border border-outline-variant shadow-sm hover:shadow-md hover:border-primary transition-all flex flex-col items-center justify-center p-4 gap-2 group">
+<span class="material-symbols-outlined text-primary text-[40px] group-hover:scale-110 transition-transform">accessible_forward</span>
+<span class="font-button-text text-button-text text-on-surface text-center">I need wheelchair assistance</span>
+</button>
+<button class="h-touch-target-min min-h-[120px] bg-error-container rounded-xl border border-tertiary-fixed-dim shadow-sm hover:shadow-md hover:border-tertiary transition-all flex flex-col items-center justify-center p-4 gap-2 group">
+<span class="material-symbols-outlined text-tertiary text-[40px] group-hover:scale-110 transition-transform" style="font-variation-settings: 'FILL' 1;">medical_services</span>
+<span class="font-button-text text-button-text text-on-error-container text-center">I need a doctor urgently</span>
+</button>
+</div>
+</main>
+<!-- Bottom Actions -->
+<div class="w-full bg-surface-container-lowest border-t border-outline-variant p-margin-edge flex justify-center z-20 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] shrink-0">
+<button class="h-touch-target-min px-8 rounded-full border-2 border-outline text-on-surface hover:bg-surface-variant hover:text-on-surface font-button-text text-button-text transition-colors flex items-center justify-center gap-2 min-w-[250px]">
+<span class="material-symbols-outlined">cancel</span>
+            Cancel Request
+        </button>
+</div>
+<!-- Footer -->
+<footer class="bg-surface-container-highest dark:bg-inverse-surface border-t border-outline-variant w-full py-stack-gap flex flex-col items-center justify-center px-margin-edge z-10 shrink-0">
+<span class="font-label-lg text-label-lg text-primary mb-2">RedFlagBridge</span>
+<div class="flex gap-4">
+<a class="font-body-md text-body-md text-on-surface-variant hover:underline hover:text-primary transition-opacity opacity-100 hover:opacity-80" href="#">Privacy Policy</a>
+<span class="text-outline-variant">|</span>
+<a class="font-body-md text-body-md text-on-surface-variant hover:underline hover:text-primary transition-opacity opacity-100 hover:opacity-80" href="#">Contact Support</a>
+</div>
+<span class="font-body-md text-body-md text-on-surface-variant mt-2">© 2024 City General Hospital</span>
+</footer>
+<script>
+        // Simple timer logic for demonstration
+        let seconds = 14;
+        const timerElement = document.getElementById('timer');
+        
+        setInterval(() => {
+            seconds++;
+            const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+            const s = (seconds % 60).toString().padStart(2, '0');
+            timerElement.textContent = `Time elapsed: ${m}:${s}`;
+        }, 1000);
+    </script>
+</body></html>

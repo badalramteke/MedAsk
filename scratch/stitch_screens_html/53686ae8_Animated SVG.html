@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+    }
+  </style>
+</head>
+<body>
+<!-- STITCH_SVG_START:ANIMATION_50 class="fixed inset-0 w-full h-full" --><div class="fixed inset-0 w-full h-full" id="animated-svg-ANIMATION_50" style="display:block;">#voice-orb {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #2dd4bf, #0f7a6b);
+  box-shadow: 0 0 40px rgba(45, 212, 191, 0.4), inset 0 0 20px rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  animation: pulse-glow 3s infinite ease-in-out;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(45, 212, 191, 0.4); }
+  50% { transform: scale(1.08); box-shadow: 0 0 60px rgba(45, 212, 191, 0.6); }
+}
+
+.waveform-bar {
+  width: 8px;
+  background: white;
+  border-radius: 4px;
+  margin: 0 4px;
+  animation: wave 1.2s infinite ease-in-out;
+}
+
+@keyframes wave {
+  0%, 100% { height: 12px; opacity: 0.6; }
+  50% { height: 48px; opacity: 1; }
+}
+
+/* Specific delays for randomized feel */
+.waveform-bar:nth-child(1) { animation-delay: 0.1s; height: 20px; }
+.waveform-bar:nth-child(2) { animation-delay: 0.3s; height: 35px; }
+.waveform-bar:nth-child(3) { animation-delay: 0.5s; height: 45px; }
+.waveform-bar:nth-child(4) { animation-delay: 0.2s; height: 30px; }
+.waveform-bar:nth-child(5) { animation-delay: 0.4s; height: 25px; }
+</div><!-- STITCH_SVG_END:ANIMATION_50 -->
+</body>
+</html>

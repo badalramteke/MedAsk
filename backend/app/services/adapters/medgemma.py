@@ -13,12 +13,17 @@ class ColabMedGemmaAdapter(BaseModelAdapter):
     """
     def __init__(self, base_url: Optional[str] = None):
         super().__init__(name="colab_medgemma")
-        self.base_url = (base_url or os.getenv("COLAB_MEDGEMMA_URL", "")).rstrip("/")
+        self._explicit_base_url = base_url
         self.headers = {
             "Content-Type": "application/json",
             "User-Agent": "MediKiosk-Backend/1.0",
             "ngrok-skip-browser-warning": "true",
         }
+
+    @property
+    def base_url(self) -> str:
+        url = self._explicit_base_url or os.getenv("COLAB_MEDGEMMA_URL", "")
+        return url.rstrip("/")
 
     async def health_check(self) -> Dict[str, Any]:
         if not self.base_url:

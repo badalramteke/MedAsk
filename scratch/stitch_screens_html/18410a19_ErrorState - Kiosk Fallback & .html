@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ErrorState - Kiosk Fallback</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary": "#ffffff",
+                      "surface-container-highest": "#e1e3e3",
+                      "inverse-on-surface": "#eff1f1",
+                      "error": "#ba1a1a",
+                      "tertiary": "#aa0a17",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-dim": "#d8dada",
+                      "error-container": "#ffdad6",
+                      "tertiary-fixed-dim": "#ffb3ac",
+                      "on-tertiary": "#ffffff",
+                      "tertiary-fixed": "#ffdad6",
+                      "surface-container-high": "#e6e8e9",
+                      "primary-fixed": "#99f3e0",
+                      "primary-fixed-dim": "#7dd6c4",
+                      "on-error": "#ffffff",
+                      "surface-tint": "#006b5d",
+                      "on-primary-fixed": "#00201b",
+                      "on-primary": "#ffffff",
+                      "secondary-fixed": "#94f990",
+                      "surface-container": "#eceeee",
+                      "primary": "#005f53",
+                      "outline-variant": "#bdc9c5",
+                      "on-primary-fixed-variant": "#005046",
+                      "on-tertiary-fixed": "#410003",
+                      "on-surface-variant": "#3e4946",
+                      "on-surface": "#191c1d",
+                      "primary-container": "#0f7a6b",
+                      "secondary": "#006e1c",
+                      "on-tertiary-container": "#ffeae8",
+                      "on-tertiary-fixed-variant": "#930010",
+                      "secondary-fixed-dim": "#78dc77",
+                      "background": "#f8fafa",
+                      "on-primary-container": "#abffed",
+                      "surface-bright": "#f8fafa",
+                      "tertiary-container": "#ce2b2c",
+                      "surface-variant": "#e1e3e3",
+                      "on-error-container": "#93000a",
+                      "inverse-primary": "#7dd6c4",
+                      "surface-container-low": "#f2f4f4",
+                      "inverse-surface": "#2e3131",
+                      "on-secondary-fixed-variant": "#005313",
+                      "on-background": "#191c1d",
+                      "on-secondary-fixed": "#002204",
+                      "surface": "#f8fafa",
+                      "secondary-container": "#91f78e",
+                      "outline": "#6e7976",
+                      "on-secondary-container": "#00731e"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "touch-target-min": "64px",
+                      "stack-gap": "16px",
+                      "section-gap": "48px",
+                      "margin-edge": "32px",
+                      "gutter-md": "24px"
+              },
+              "fontFamily": {
+                      "headline-md": [
+                              "Inter"
+                      ],
+                      "display-lg-mobile": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Noto Sans"
+                      ],
+                      "label-lg": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Noto Sans"
+                      ],
+                      "button-text": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "headline-md": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg-mobile": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "60px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "24px",
+                                      "letterSpacing": "0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "44px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "20px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "button-text": [
+                              "20px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-sans">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface-dim docked full-width top-0 bg-surface-bright dark:bg-surface-dim shadow-sm flex justify-between items-center w-full px-margin-edge h-touch-target-min flex-shrink-0 z-50 relative">
+<div class="flex items-center gap-4">
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">MediKiosk</span>
+<span class="text-on-surface-variant dark:text-outline-variant font-label-lg text-label-lg ml-2 hidden md:inline">at City General Hospital</span>
+</div>
+<div class="flex items-center gap-4">
+<button aria-label="Search" class="hidden text-primary dark:text-primary-fixed hover:bg-surface-container-high dark:hover:bg-surface-container-highest active:scale-95 transition-transform duration-200 p-2 rounded-full">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+<div class="flex gap-2">
+<button aria-label="Help" class="text-primary dark:text-primary-fixed hover:bg-surface-container-high dark:hover:bg-surface-container-highest active:scale-95 transition-transform duration-200 p-2 rounded-full flex items-center justify-center w-12 h-12">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<button aria-label="Language" class="text-primary dark:text-primary-fixed hover:bg-surface-container-high dark:hover:bg-surface-container-highest active:scale-95 transition-transform duration-200 p-2 rounded-full flex items-center justify-center w-12 h-12">
+<span class="material-symbols-outlined" data-icon="language">language</span>
+</button>
+</div>
+<button class="bg-primary text-on-primary font-button-text text-button-text px-6 h-touch-target-min rounded-full active:scale-95 transition-transform duration-200 flex items-center gap-2 hover:bg-primary-container hover:text-on-primary-container">
+                SOS Assist
+            </button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow flex flex-col items-center justify-center px-margin-edge py-section-gap">
+<div class="max-w-2xl w-full flex flex-col items-center text-center space-y-stack-gap">
+<div class="w-64 h-64 mb-6 relative">
+<img alt="Connection Error Illustration" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBbe4U0yb6dylEUvlh-IjNPa8fzj3_RIBAWo4hxalPCKoR-HZ4nMNRvV5MUldIw-Bbbo03O05wxa5LAW4ROQzDudvYSUFfRSVwEIAjTikzVbzZJOI324csu2-XNl9MZIBc9n5oVowRntwRmLFBiCIWCj_QvGYBg0Rgm6BwVoHFpihGBkb1_VhWRPwhIf-hKSfuKtitK6oBIodk7w84IuPybvHj4w4g7SxmLiCqYhbq0YWOnUKKFKwInjgv1m4FZOlmYpZi3zrQpCPC"/>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Temporary Connection Interruption</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+                Don't worry, your progress has been securely cached on this terminal.
+            </p>
+<div class="bg-surface-container-lowest border border-outline-variant shadow-sm rounded-xl p-6 w-full max-w-md my-8 flex flex-col items-center justify-center gap-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined animate-spin text-primary" data-icon="autorenew">autorenew</span>
+<span class="font-label-lg text-label-lg text-on-surface">Retrying in <span id="countdown">8</span>s...</span>
+</div>
+</div>
+<div class="flex flex-col w-full max-w-md gap-4">
+<button class="w-full h-touch-target-min bg-primary text-on-primary rounded-xl font-button-text text-button-text flex items-center justify-center gap-2 hover:bg-primary-container transition-colors shadow-sm active:scale-95">
+<span class="material-symbols-outlined" data-icon="refresh">refresh</span>
+                    Retry Connection Now
+                </button>
+<button class="w-full h-touch-target-min bg-transparent border-2 border-primary text-primary rounded-xl font-button-text text-button-text flex items-center justify-center gap-2 hover:bg-surface-container-low transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-icon="qr_code">qr_code</span>
+                    Print Offline Intake Voucher
+                </button>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-low border-t border-outline-variant p-6 flex flex-col md:flex-row justify-between items-center gap-4 mt-auto">
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="support_agent">support_agent</span>
+<span class="font-label-lg text-label-lg">Helpline: 1800-MED-KIOSK</span>
+</div>
+<button class="h-16 px-8 bg-transparent border-2 border-tertiary text-tertiary rounded-xl font-button-text text-button-text flex items-center gap-2 hover:bg-tertiary-container hover:text-on-tertiary-container transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-icon="notifications_active">notifications_active</span>
+            Call Attendant
+        </button>
+</footer>
+<script>
+        // Simple countdown logic for prototype fidelity
+        let seconds = 8;
+        const countdownElement = document.getElementById('countdown');
+        
+        setInterval(() => {
+            seconds--;
+            if (seconds < 0) seconds = 8;
+            if(countdownElement) {
+                countdownElement.textContent = seconds;
+            }
+        }, 1000);
+    </script>
+</body></html>

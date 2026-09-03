@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lifestyle Assessment - MediKiosk</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Noto+Sans:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-highest": "#e1e3e3",
+                        "secondary-fixed": "#94f990",
+                        "on-secondary-container": "#00731e",
+                        "error-container": "#ffdad6",
+                        "surface-container-high": "#e6e8e9",
+                        "surface-variant": "#e1e3e3",
+                        "on-surface-variant": "#3e4946",
+                        "inverse-on-surface": "#eff1f1",
+                        "inverse-surface": "#2e3131",
+                        "surface-dim": "#d8dada",
+                        "primary-fixed-dim": "#7dd6c4",
+                        "surface-bright": "#f8fafa",
+                        "error": "#ba1a1a",
+                        "primary-fixed": "#99f3e0",
+                        "on-primary-fixed": "#00201b",
+                        "secondary-fixed-dim": "#78dc77",
+                        "on-background": "#191c1d",
+                        "tertiary-container": "#ce2b2c",
+                        "surface-tint": "#006b5d",
+                        "on-tertiary": "#ffffff",
+                        "on-surface": "#191c1d",
+                        "on-secondary-fixed-variant": "#005313",
+                        "on-error": "#ffffff",
+                        "inverse-primary": "#7dd6c4",
+                        "outline-variant": "#bdc9c5",
+                        "outline": "#6e7976",
+                        "tertiary-fixed-dim": "#ffb3ac",
+                        "primary-container": "#0f7a6b",
+                        "on-tertiary-fixed": "#410003",
+                        "surface-container": "#eceeee",
+                        "on-secondary-fixed": "#002204",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed": "#ffdad6",
+                        "background": "#f8fafa",
+                        "secondary-container": "#91f78e",
+                        "primary": "#005f53",
+                        "secondary": "#006e1c",
+                        "on-secondary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed-variant": "#005046",
+                        "on-primary-container": "#abffed",
+                        "surface": "#f8fafa",
+                        "on-tertiary-fixed-variant": "#930010",
+                        "on-tertiary-container": "#ffeae8",
+                        "on-error-container": "#93000a",
+                        "surface-container-low": "#f2f4f4",
+                        "tertiary": "#aa0a17"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-edge": "32px",
+                        "section-gap": "48px",
+                        "gutter-md": "24px",
+                        "stack-gap": "16px",
+                        "touch-target-min": "64px"
+                    },
+                    "fontFamily": {
+                        "button-text": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "display-lg-mobile": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Noto Sans"],
+                        "body-md": ["Noto Sans"]
+                    },
+                    "fontSize": {
+                        "button-text": ["20px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "label-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "display-lg": ["48px", { "lineHeight": "60px", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "44px", "fontWeight": "600" }],
+                        "headline-md": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "body-lg": ["20px", { "lineHeight": "32px", "fontWeight": "400" }],
+                        "body-md": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #f8fafa; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0; }
+        .filled-icon { font-variation-settings: 'FILL' 1; }
+        
+        /* Custom range slider styling for touch */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 32px;
+            width: 32px;
+            border-radius: 50%;
+            background: #005f53;
+            cursor: pointer;
+            margin-top: -12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8px;
+            cursor: pointer;
+            background: #bdc9c5;
+            border-radius: 4px;
+        }
+        input[type=range]:focus {
+            outline: none;
+        }
+        
+        /* Hide scrollbar for clean kiosk UI */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+    </style>
+</head>
+<body class="text-on-background font-body-lg h-screen flex flex-col overflow-hidden select-none">
+<!-- TopAppBar from JSON -->
+<header class="flex justify-between items-center w-full px-margin-edge py-4 h-touch-target-min bg-surface dark:bg-surface-dim border-b border-outline-variant shadow-sm docked full-width top-0 z-50">
+<div class="flex items-center gap-4">
+<span aria-hidden="true" class="material-symbols-outlined text-primary text-4xl">local_hospital</span>
+<h1 class="font-headline-md text-headline-md-mobile md:text-headline-md text-primary dark:text-primary-fixed-dim font-bold">
+                MediKiosk at City General Hospital
+            </h1>
+</div>
+<div class="flex gap-4">
+<button aria-label="Voice Assist" class="h-touch-target-min w-touch-target-min rounded-full bg-surface-container-high flex items-center justify-center hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-3xl text-on-surface-variant">record_voice_over</span>
+</button>
+<button aria-label="SOS Assist" class="h-touch-target-min w-touch-target-min rounded-full bg-error-container text-error flex items-center justify-center hover:bg-tertiary-container hover:text-on-tertiary transition-colors">
+<span class="material-symbols-outlined text-3xl">sos</span>
+</button>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto px-margin-edge py-8 pb-32">
+<div class="max-w-4xl mx-auto">
+<!-- Stepper -->
+<div class="mb-section-gap">
+<div class="flex justify-between items-center mb-2">
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Lifestyle Assessment</h2>
+<span class="font-label-lg text-label-lg text-on-surface-variant">Step 2 of 5</span>
+</div>
+<div class="w-full h-4 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary w-2/5 rounded-full transition-all duration-500 ease-in-out"></div>
+</div>
+</div>
+<!-- Content Blocks -->
+<div class="space-y-section-gap">
+<!-- Smoking Status -->
+<section>
+<h3 class="font-headline-md text-headline-md-mobile md:text-headline-md mb-stack-gap text-on-surface">Smoking Status</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter-md">
+<button class="flex flex-col items-center justify-center bg-surface-container-lowest border-2 border-outline-variant rounded-xl p-8 hover:bg-surface-container-high transition-colors min-h-[160px] active:scale-95">
+<span class="material-symbols-outlined text-5xl mb-4 text-on-surface-variant">smoke_free</span>
+<span class="font-label-lg text-label-lg text-on-surface">Never</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-surface-container-lowest border-2 border-outline-variant rounded-xl p-8 hover:bg-surface-container-high transition-colors min-h-[160px] active:scale-95">
+<span class="material-symbols-outlined text-5xl mb-4 text-on-surface-variant">smoking_rooms</span>
+<span class="font-label-lg text-label-lg text-on-surface">Former</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-surface-container-lowest border-2 border-outline-variant rounded-xl p-8 hover:bg-surface-container-high transition-colors min-h-[160px] active:scale-95">
+<span class="material-symbols-outlined text-5xl mb-4 text-error">smoking_rooms</span>
+<span class="font-label-lg text-label-lg text-on-surface">Current</span>
+</button>
+</div>
+</section>
+<!-- Alcohol Consumption -->
+<section>
+<h3 class="font-headline-md text-headline-md-mobile md:text-headline-md mb-stack-gap text-on-surface">Alcohol Consumption</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter-md">
+<button class="flex flex-col items-center justify-center bg-surface-container-lowest border-2 border-outline-variant rounded-xl p-8 hover:bg-surface-container-high transition-colors min-h-[160px] active:scale-95">
+<span class="material-symbols-outlined text-5xl mb-4 text-on-surface-variant">no_drinks</span>
+<span class="font-label-lg text-label-lg text-on-surface">Never</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-surface-container-lowest border-2 border-outline-variant rounded-xl p-8 hover:bg-surface-container-high transition-colors min-h-[160px] active:scale-95">
+<span class="material-symbols-outlined text-5xl mb-4 text-on-surface-variant">wine_bar</span>
+<span class="font-label-lg text-label-lg text-on-surface">Occasionally</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-surface-container-lowest border-2 border-outline-variant rounded-xl p-8 hover:bg-surface-container-high transition-colors min-h-[160px] active:scale-95">
+<span class="material-symbols-outlined text-5xl mb-4 text-on-surface-variant">sports_bar</span>
+<span class="font-label-lg text-label-lg text-on-surface">Regularly</span>
+</button>
+</div>
+</section>
+<!-- Diet Type -->
+<section>
+<h3 class="font-headline-md text-headline-md-mobile md:text-headline-md mb-stack-gap text-on-surface">Diet Type</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter-md">
+<button class="flex flex-col items-center justify-center bg-surface-container-lowest border-2 border-outline-variant rounded-xl p-8 hover:bg-surface-container-high transition-colors min-h-[160px] active:scale-95">
+<span class="material-symbols-outlined text-5xl mb-4 text-secondary">eco</span>
+<span class="font-label-lg text-label-lg text-on-surface">Vegetarian</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-surface-container-lowest border-2 border-outline-variant rounded-xl p-8 hover:bg-surface-container-high transition-colors min-h-[160px] active:scale-95">
+<span class="material-symbols-outlined text-5xl mb-4 text-on-surface-variant">set_meal</span>
+<span class="font-label-lg text-label-lg text-on-surface">Non-Vegetarian</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-surface-container-lowest border-2 border-outline-variant rounded-xl p-8 hover:bg-surface-container-high transition-colors min-h-[160px] active:scale-95">
+<span class="material-symbols-outlined text-5xl mb-4 text-secondary">psychiatry</span>
+<span class="font-label-lg text-label-lg text-on-surface">Vegan</span>
+</button>
+</div>
+</section>
+<!-- Occupation -->
+<section>
+<h3 class="font-headline-md text-headline-md-mobile md:text-headline-md mb-stack-gap text-on-surface">Occupation</h3>
+<div class="relative w-full">
+<input class="w-full h-touch-target-min bg-surface-container-lowest border-2 border-outline-variant rounded-xl px-6 font-body-lg text-body-lg text-on-surface focus:border-primary focus:ring-0" placeholder="Tap to type occupation..." type="text"/>
+<button aria-label="Speak Occupation" class="absolute right-4 top-1/2 transform -translate-y-1/2 h-12 w-12 flex items-center justify-center bg-surface-container-high rounded-full hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">mic</span>
+</button>
+</div>
+</section>
+<!-- Sleep Duration -->
+<section>
+<h3 class="font-headline-md text-headline-md-mobile md:text-headline-md mb-stack-gap text-on-surface">Sleep Duration (Hours/Night)</h3>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-8">
+<div class="flex justify-between font-label-lg text-label-lg text-on-surface-variant mb-6">
+<span>4 hrs</span>
+<span>8 hrs</span>
+<span>12+ hrs</span>
+</div>
+<input class="w-full" id="sleepSlider" max="12" min="4" oninput="document.getElementById('sleepVal').innerText = this.value + ' Hours'" step="1" type="range" value="7"/>
+<div class="text-center mt-6">
+<span class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary" id="sleepVal">7 Hours</span>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- BottomNavBar from JSON -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex justify-between items-center px-margin-edge py-4 gap-gutter-md bg-surface-container-low dark:bg-surface-container-lowest border-t border-outline-variant shadow-lg h-24">
+<button class="flex items-center justify-center bg-surface-container-lowest border-2 border-primary text-primary rounded-lg min-h-[64px] px-8 font-button-text text-button-text hover:bg-surface-container-high transition-colors active:scale-95">
+<span class="material-symbols-outlined mr-2">arrow_back</span>
+            Back
+        </button>
+<button class="flex items-center justify-center bg-primary dark:bg-primary-container text-on-primary dark:text-on-primary-container rounded-lg min-h-[64px] px-12 font-button-text text-button-text hover:opacity-90 transition-opacity active:scale-95 shadow-md">
+            Continue
+            <span class="material-symbols-outlined ml-2">arrow_forward</span>
+</button>
+</footer>
+<!-- Script to handle button active states (visual only for mockup) -->
+<script>
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active styling from siblings in the same grid
+                const grid = this.closest('.grid');
+                if(grid) {
+                    grid.querySelectorAll('button').forEach(b => {
+                        b.classList.remove('border-primary', 'bg-surface-container-high', 'shadow-md');
+                        b.classList.add('border-outline-variant');
+                        const icon = b.querySelector('.material-symbols-outlined');
+                        if(icon) icon.classList.remove('filled-icon');
+                    });
+                    
+                    // Add to clicked
+                    this.classList.remove('border-outline-variant');
+                    this.classList.add('border-primary', 'bg-surface-container-high', 'shadow-md');
+                    const icon = this.querySelector('.material-symbols-outlined');
+                    if(icon) icon.classList.add('filled-icon');
+                }
+            });
+        });
+    </script>
+</body></html>

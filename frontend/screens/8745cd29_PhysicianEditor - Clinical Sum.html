@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PhysicianEditor - ClinicalOS Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Noto+Sans:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-variant": "#e1e3e3",
+                        "on-primary-container": "#abffed",
+                        "tertiary-container": "#ce2b2c",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#f2f4f4",
+                        "surface-dim": "#d8dada",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "surface-tint": "#006b5d",
+                        "on-secondary-fixed": "#002204",
+                        "tertiary-fixed-dim": "#ffb3ac",
+                        "outline-variant": "#bdc9c5",
+                        "primary-fixed": "#99f3e0",
+                        "surface-container-high": "#e6e8e9",
+                        "tertiary-fixed": "#ffdad6",
+                        "secondary-container": "#91f78e",
+                        "secondary": "#006e1c",
+                        "outline": "#6e7976",
+                        "on-surface": "#191c1d",
+                        "on-secondary-fixed-variant": "#005313",
+                        "secondary-fixed-dim": "#78dc77",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#2e3131",
+                        "error": "#ba1a1a",
+                        "inverse-primary": "#7dd6c4",
+                        "secondary-fixed": "#94f990",
+                        "on-primary-fixed-variant": "#005046",
+                        "background": "#f8fafa",
+                        "on-secondary-container": "#00731e",
+                        "on-tertiary-fixed": "#410003",
+                        "on-tertiary-container": "#ffeae8",
+                        "tertiary": "#aa0a17",
+                        "on-background": "#191c1d",
+                        "inverse-on-surface": "#eff1f1",
+                        "primary-fixed-dim": "#7dd6c4",
+                        "primary-container": "#0f7a6b",
+                        "primary": "#005f53",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#e1e3e3",
+                        "surface-container": "#eceeee",
+                        "on-tertiary-fixed-variant": "#930010",
+                        "on-primary-fixed": "#00201b",
+                        "on-error-container": "#93000a",
+                        "surface": "#f8fafa",
+                        "on-surface-variant": "#3e4946",
+                        "surface-bright": "#f8fafa"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-gap": "16px",
+                        "section-gap": "48px",
+                        "touch-target-min": "64px",
+                        "margin-edge": "32px",
+                        "gutter-md": "24px"
+                    },
+                    "fontFamily": {
+                        "label-lg": ["Inter"],
+                        "body-md": ["Noto Sans"],
+                        "body-lg": ["Noto Sans"],
+                        "headline-lg": ["Inter"],
+                        "display-lg-mobile": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "button-text": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "body-md": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "body-lg": ["20px", { "lineHeight": "32px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "44px", "fontWeight": "600" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "headline-md": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "60px", "fontWeight": "700" }],
+                        "button-text": ["20px", { "lineHeight": "24px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Noto Sans', sans-serif; background-color: #f8fafa; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 1; }
+        .ai-suggestion { border-left: 4px solid #005f53; background-color: rgba(153, 243, 224, 0.1); }
+    </style>
+</head>
+<body class="bg-background text-on-background flex h-screen overflow-hidden">
+<!-- Sidebar Navigation Shell -->
+<nav class="bg-surface-container dark:bg-surface-container-low text-primary dark:text-primary-fixed-dim font-label-lg text-label-lg border-r border-outline-variant dark:border-outline h-screen w-80 fixed left-0 top-0 flex flex-col h-full py-stack-gap">
+<div class="px-gutter-md mb-8">
+<h2 class="font-headline-md text-headline-md text-primary font-bold">Patient Record</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">ID: 98234-AX</p>
+</div>
+<!-- Patient Profile Snippet -->
+<div class="px-gutter-md mb-8">
+<div class="flex items-center gap-4 mb-4">
+<img class="w-16 h-16 rounded-full object-cover shadow-sm" data-alt="A highly professional and clear medical portrait photograph of an Indian male patient, aged 58, in a clinical setting. He has a neutral, calm expression. The lighting is soft, even, and bright, typical of a modern healthcare environment. The background is a clean, out-of-focus light gray. The image emphasizes clinical precision and modern medical aesthetics." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1Ihp3AkDulIwZ20GgjUteGP17aVI332BYVKE4d9fpSe0ffVM2y0v6EutK3MC9tbqtOyZ72h8SHH6DYqH2L8cDzpf4ZDI-mFBorDRbWcdahYuSSeNMTeNTph1kchU7VUp2sWg-O2agSX5_kivshaDnjBv2rQsyokUdK1D_3GnN1qPnB5sa3AiMypF_KSQN6nKDEjGTw-GVOokg5CKVaXgbCjA-prCAsJHiZxRrDtQvlN4LeKj9rusTgB4-e844rI-7giSj8hEeLH3x"/>
+<div>
+<h3 class="font-label-lg text-label-lg text-on-surface">Ramesh Sharma</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">58y, Male • Token #42</p>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm mb-2">ABHA: 91-4523-8891-1200</p>
+<button class="text-primary hover:text-primary-container font-label-lg text-label-lg flex items-center gap-2 transition-colors min-h-[48px]">
+<span class="material-symbols-outlined">history</span> View Full History
+            </button>
+</div>
+<ul class="flex-1 space-y-2">
+<li class="bg-primary-container text-on-primary-container dark:bg-primary-fixed-dim dark:text-on-primary-fixed rounded-lg mx-2 flex items-center px-4 h-16 hover:bg-surface-variant dark:hover:bg-surface-container-highest cursor-pointer">
+<span class="material-symbols-outlined mr-4" data-weight="fill">person</span>
+<span>Patient Summary</span>
+</li>
+<li class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant mx-2 flex items-center px-4 h-16 rounded-lg cursor-pointer transition-colors">
+<span class="material-symbols-outlined mr-4">vital_signs</span>
+<span>Vitals</span>
+</li>
+<li class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant mx-2 flex items-center px-4 h-16 rounded-lg cursor-pointer transition-colors">
+<span class="material-symbols-outlined mr-4">lab_research</span>
+<span>Lab Results</span>
+</li>
+<li class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant mx-2 flex items-center px-4 h-16 rounded-lg cursor-pointer transition-colors">
+<span class="material-symbols-outlined mr-4">medical_services</span>
+<span>Medications</span>
+</li>
+<li class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant mx-2 flex items-center px-4 h-16 rounded-lg cursor-pointer transition-colors">
+<span class="material-symbols-outlined mr-4">radiology</span>
+<span>Imaging</span>
+</li>
+<li class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant mx-2 flex items-center px-4 h-16 rounded-lg cursor-pointer transition-colors">
+<span class="material-symbols-outlined mr-4">history</span>
+<span>History</span>
+</li>
+</ul>
+<div class="mt-auto px-gutter-md">
+<ul class="space-y-2">
+<li class="text-on-surface-variant hover:bg-surface-variant mx-2 flex items-center px-4 h-16 rounded-lg cursor-pointer transition-colors">
+<span class="material-symbols-outlined mr-4">settings</span>
+<span class="font-label-lg text-label-lg">Settings</span>
+</li>
+<li class="text-on-surface-variant hover:bg-surface-variant mx-2 flex items-center px-4 h-16 rounded-lg cursor-pointer transition-colors">
+<span class="material-symbols-outlined mr-4">help</span>
+<span class="font-label-lg text-label-lg">Support</span>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 ml-80 flex flex-col h-screen">
+<!-- Top App Bar -->
+<header class="bg-surface dark:bg-inverse-surface text-primary dark:text-primary-fixed-dim font-headline-md text-headline-md font-body-md text-body-md docked full-width top-0 bg-surface-container-low dark:bg-surface-container-low shadow-sm flex justify-between items-center px-gutter-md w-full h-touch-target-min min-h-[80px] z-10">
+<div class="flex items-center gap-4">
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">ClinicalOS Dashboard</h1>
+<span class="bg-primary-container text-on-primary-container px-3 py-1 rounded-full text-sm font-label-lg ml-4">AI Review Mode</span>
+</div>
+<div class="flex items-center gap-6">
+<!-- Track Changes Toggle -->
+<div class="flex items-center gap-2">
+<span class="font-label-lg text-label-lg text-on-surface-variant">Track Changes</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<!-- Action Buttons -->
+<button class="h-[48px] px-6 border-2 border-primary text-primary font-button-text text-button-text rounded-lg hover:bg-primary-container hover:text-on-primary-container transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined">auto_awesome</span> Accept All AI Suggestions
+                </button>
+<button class="h-[48px] px-6 bg-surface-variant text-on-surface-variant font-button-text text-button-text rounded-lg hover:bg-surface-dim transition-colors">
+                    Discard
+                </button>
+<button class="h-[48px] px-6 bg-primary text-on-primary font-button-text text-button-text rounded-lg hover:bg-surface-tint transition-colors flex items-center gap-2 shadow-md hover:shadow-lg">
+<span class="material-symbols-outlined">save</span> Save and Finalize
+                </button>
+<div class="flex items-center gap-4 border-l border-outline-variant pl-6">
+<span class="material-symbols-outlined cursor-pointer hover:bg-surface-container-high rounded-full p-2 transition-colors">notifications</span>
+<span class="material-symbols-outlined text-tertiary cursor-pointer hover:bg-error-container rounded-full p-2 transition-colors">emergency</span>
+<span class="material-symbols-outlined cursor-pointer hover:bg-surface-container-high rounded-full p-2 transition-colors">sync</span>
+<button class="font-label-lg text-label-lg text-primary hover:underline ml-2">Sign Out</button>
+</div>
+</div>
+</header>
+<!-- Scrollable Content Canvas -->
+<main class="flex-1 overflow-y-auto p-margin-edge bg-surface-bright space-y-section-gap">
+<div class="max-w-5xl mx-auto space-y-8">
+<!-- Chief Complaint -->
+<section class="bg-surface-container-lowest rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-outline-variant p-6">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">record_voice_over</span> Chief Complaint
+                    </h3>
+<div class="ai-suggestion p-4 rounded-lg flex justify-between items-start">
+<div class="flex-1">
+<p class="font-body-lg text-body-lg text-primary italic">Acute Chest Pain - 2 hours duration</p>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2 text-sm">AI extracted from patient intake audio.</p>
+</div>
+<div class="flex gap-2">
+<button class="w-12 h-12 flex items-center justify-center rounded-full bg-secondary-container text-on-secondary-container hover:bg-secondary-fixed transition-colors">
+<span class="material-symbols-outlined">check</span>
+</button>
+<button class="w-12 h-12 flex items-center justify-center rounded-full bg-error-container text-on-error-container hover:bg-tertiary-fixed transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+</div>
+</section>
+<!-- History of Present Illness -->
+<section class="bg-surface-container-lowest rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-outline-variant p-6">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">clinical_notes</span> History of Present Illness
+                    </h3>
+<textarea class="w-full h-32 p-4 font-body-md text-body-md border-2 border-outline-variant rounded-lg focus:border-primary focus:ring-0 resize-none bg-surface" placeholder="Patient describes a sudden onset of crushing chest pain radiating to the left arm..."></textarea>
+<div class="ai-suggestion mt-4 p-4 rounded-lg flex justify-between items-start">
+<div class="flex-1">
+<p class="font-body-lg text-body-lg text-primary">AI Suggestion: Include 'Patient denies shortness of breath or diaphoresis.'</p>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-2 bg-primary text-on-primary font-label-lg rounded-lg hover:bg-surface-tint transition-colors">Insert</button>
+</div>
+</div>
+</section>
+</div>
+</main>
+</div>
+</body></html>

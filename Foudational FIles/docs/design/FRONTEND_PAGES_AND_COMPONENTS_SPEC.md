@@ -4,38 +4,6 @@
 
 ---
 
-## 1. System Architecture & User Journey Map
-
-```mermaid
-graph TD
-    subgraph Patient Kiosk Flow (Mobile / Tablet / Kiosk Responsive)
-        P1[Screen 01: Landing & Attractor Screen - `/`] --> P2[Screen 02: Language Selector - `/language`]
-        P2 --> P3[Screen 03: Patient Auth & ABHA - `/auth`]
-        P3 --> P4[Screen 04: DPDP & ABDM Consent - `/consent`]
-        P4 --> P5[Screen 05: Intake Mode Selector Demo Switch - `/intake/mode-select`]
-        
-        P5 -->|General Allopathic| P6[Screen 06: Symptoms & SOCRATES - `/intake/symptoms`]
-        P5 -->|Ayurvedic AYUSH| P7[Screen 07: Dashavidha Pariksha - `/intake/ayush`]
-        
-        P6 --> P8[Screen 08: Document Scanner & Upload - `/documents/scan`]
-        P7 --> P8
-        
-        P8 --> P9[Screen 09: Digitized Records & Timeline - `/documents/timeline`]
-        P9 --> P10[Screen 10: Patient Summary & Audio Confirmation - `/summary`]
-        P10 --> P12[Screen 12: Intake Complete & OPD Token - `/complete`]
-        
-        P6 -.->|Red-Flag Triggered| P11[Screen 11: Emergency Triage Alert Overlay - `/triage/alert`]
-        P7 -.->|Red-Flag Triggered| P11
-    end
-
-    subgraph Clinician & Staff Flow (Desktop & Tablet Web Portal)
-        D1[Screen 13: OPD Waiting Queue - `/doctor/queue`] --> D2[Screen 14: Doctor Summary Editor & Document Split-View - `/doctor/summary/:patientId`]
-        N1[Screen 15: Nurse Emergency Triage Dashboard - `/nurse/triage-dashboard`]
-        A1[Screen 16: Kiosk & Hardware Health Monitor - `/admin/status`]
-    end
-```
-
----
 
 ## 2. Complete Screen-by-Screen Specification (16 Screens)
 
