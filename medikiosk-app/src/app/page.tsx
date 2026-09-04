@@ -23,12 +23,22 @@ export default function LandingPage() {
   const { speak, isSpeaking } = useTTS();
   const [activeLang, setActiveLang] = useState<LanguageCode>(language);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleStart = async (chosenLang?: LanguageCode) => {
-    const selected = chosenLang || activeLang;
-    setLanguage(selected);
-    await ensureBackendSession(selected);
-    setCurrentScreen('language_picker');
-    router.push('/language');
+    if (isLoading) return;
+    setIsLoading(true);
+    try {
+      const selected = chosenLang || activeLang;
+      setLanguage(selected);
+      await ensureBackendSession(selected);
+      setCurrentScreen('language_picker');
+      router.push('/language');
+    } catch (err) {
+      console.error('Failed to start session', err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleAudioWelcome = () => {
@@ -114,6 +124,7 @@ export default function LandingPage() {
                   <button
                     key={lang.code}
                     type="button"
+                    disabled={isLoading}
                     onClick={() => {
                       setActiveLang(lang.code);
                       setLanguage(lang.code);
@@ -122,7 +133,7 @@ export default function LandingPage() {
                       isSelected
                         ? 'bg-[#005f53] text-white border-transparent shadow-md scale-105'
                         : 'bg-[#f2f4f4] hover:bg-[#eceeee] text-[#191c1d] border-[#bdc9c5]/40'
-                    }`}
+                    } ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
                   >
                     <span>{lang.nativeLabel}</span>
                   </button>
@@ -140,18 +151,28 @@ export default function LandingPage() {
               data-testid="welcome-start-btn"
               aria-label="Tap to start patient check-in"
               onClick={() => handleStart()}
-              className="w-full h-24 md:h-28 rounded-3xl bg-[#005f53] hover:bg-[#0c6b5e] text-white flex items-center justify-between px-8 shadow-2xl animate-pulse-glow active:scale-98 transition-all cursor-pointer group"
+              disabled={isLoading}
+              className={`w-full h-24 md:h-28 rounded-3xl bg-[#005f53] hover:bg-[#0c6b5e] text-white flex items-center justify-between px-8 shadow-2xl transition-all group ${
+                isLoading ? 'opacity-80 cursor-wait' : 'animate-pulse-glow active:scale-98 cursor-pointer'
+              }`}
             >
               <div className="flex flex-col items-start text-left">
                 <span className="text-2xl md:text-3xl font-black tracking-tight">
-                  {t('welcome.tap_to_start', activeLang)}
+                  {isLoading ? 'Starting...' : t('welcome.tap_to_start', activeLang)}
                 </span>
                 <span className="text-sm font-medium text-white/80">
-                  Touch anywhere to begin
+                  {isLoading ? 'Please wait a moment' : 'Touch anywhere to begin'}
                 </span>
               </div>
-              <div className="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center group-hover:translate-x-2 transition-transform">
-                <ArrowRight className="w-8 h-8 text-white" />
+              <div className={`w-14 h-14 rounded-full bg-white/20 flex items-center justify-center transition-transform ${isLoading ? 'animate-spin' : 'group-hover:translate-x-2'}`}>
+                {isLoading ? (
+                  <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                ) : (
+                  <ArrowRight className="w-8 h-8 text-white" />
+                )}
               </div>
             </button>
           </div>
@@ -165,7 +186,10 @@ export default function LandingPage() {
               data-testid="help-audio-btn"
               aria-label="Listen to audio greeting"
               onClick={handleAudioWelcome}
-              className="flex items-center gap-2 px-5 py-3 rounded-full bg-[#eceeee] hover:bg-[#e1e3e3] text-[#005f53] text-sm font-bold transition-colors cursor-pointer active:scale-95"
+              disabled={isLoading}
+              className={`flex items-center gap-2 px-5 py-3 rounded-full bg-[#eceeee] hover:bg-[#e1e3e3] text-[#005f53] text-sm font-bold transition-colors active:scale-95 ${
+                isLoading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
+              }`}
             >
               <Volume2 className={`w-5 h-5 ${isSpeaking ? 'animate-bounce text-[#aa0a17]' : ''}`} />
               <span>{isSpeaking ? 'Playing guidance...' : 'Listen in vernacular audio'}</span>

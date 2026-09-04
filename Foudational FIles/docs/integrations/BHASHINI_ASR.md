@@ -5,7 +5,7 @@ Purpose: Defines the provider-agnostic speech integration boundary for MediKiosk
 ## Scope
 
 - Bhashini is the primary configured ASR/TTS provider.
-- AI4Bharat is the configured fallback path for approved local/on-prem use.
+- Gemini/grok is the configured fallback path for approved .
 - The MVP language set is English, Hindi, Bengali, Marathi, Telugu, and Tamil; provider/model support must be verified before release.
 - Every spoken interaction has an equivalent touch path.
 

@@ -178,8 +178,34 @@ def confirm_abha_auth(session_id: str, req: AbhaAuthConfirmRequest):
 # Conversational Intake & Adaptive Questioning
 # ============================================================================
 
+def _resolve_facility_type(session: PatientDataObject, mode: Optional[str] = None) -> str:
+    """Resolve facility workflow type (ALLOPATHIC/GENERAL vs AYUSH)."""
+    if mode and mode.strip().upper() == "AYUSH":
+        return "AYUSH"
+    if session.identity and session.identity.facility_id and "AYUSH" in session.identity.facility_id.upper():
+        return "AYUSH"
+    if session.plugin_outputs and session.plugin_outputs.get("intake_mode", "").upper() == "AYUSH":
+        return "AYUSH"
+    return os.getenv("MEDIKIOSK_FACILITY_ID", "GENERAL")
+
+
+@router.post("/{session_id}/mode")
+def set_session_intake_mode(session_id: str, mode: str = "ALLOPATHIC"):
+    """Switch active clinical intake mode (ALLOPATHIC vs AYUSH)."""
+    session = session_repo.get_session(session_id)
+    if not session:
+        raise MediKioskException(
+            error_code="SESSION_NOT_FOUND",
+            message=f"Session with ID '{session_id}' was not found.",
+            status_code=status.HTTP_404_NOT_FOUND
+        )
+    session.plugin_outputs["intake_mode"] = mode.upper()
+    session_repo.save_session(session)
+    return {"success": True, "session_id": session_id, "intake_mode": mode.upper()}
+
+
 @router.get("/{session_id}/next-question", response_model=QuestionResponse)
-def get_next_question(session_id: str):
+def get_next_question(session_id: str, mode: Optional[str] = None):
     """
     Get the next question for the patient based on their LangGraph interview state.
     """
@@ -191,7 +217,7 @@ def get_next_question(session_id: str):
             status_code=status.HTTP_404_NOT_FOUND
         )
 
-    facility_type = os.getenv("MEDIKIOSK_FACILITY_ID", "GENERAL")
+    facility_type = _resolve_facility_type(session, mode)
     
     try:
         state = workflow_manager.get_state(session_id, facility_type)
@@ -233,7 +259,7 @@ def get_next_question(session_id: str):
 
 
 @router.post("/{session_id}/answer", response_model=AnswerResult)
-def submit_answer(session_id: str, answer: AnswerSubmission):
+def submit_answer(session_id: str, answer: AnswerSubmission, mode: Optional[str] = None):
     """
     Submit an answer to the current question.
     Advances the LangGraph state machine, scans red flags, and registers triage alerts.
@@ -246,7 +272,7 @@ def submit_answer(session_id: str, answer: AnswerSubmission):
             status_code=status.HTTP_404_NOT_FOUND
         )
 
-    facility_type = os.getenv("MEDIKIOSK_FACILITY_ID", "GENERAL")
+    facility_type = _resolve_facility_type(session, mode)
     
     state = workflow_manager.get_state(session_id, facility_type)
     if not state:
@@ -397,7 +423,7 @@ async def submit_voice_answer(
         }
 
     # 3. Fetch active question ID from graph state
-    facility_type = os.getenv("MEDIKIOSK_FACILITY_ID", "GENERAL")
+    facility_type = _resolve_facility_type(session)
     state = workflow_manager.get_state(session_id, facility_type)
     if not state:
         # Start graph if not yet started
@@ -474,7 +500,7 @@ async def generate_summary_endpoint(session_id: str):
             status_code=status.HTTP_404_NOT_FOUND
         )
 
-    facility_type = os.getenv("MEDIKIOSK_FACILITY_ID", "GENERAL")
+    facility_type = _resolve_facility_type(session)
     
     state = workflow_manager.get_state(session_id, facility_type)
     if not state:

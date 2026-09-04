@@ -83,17 +83,6 @@ export const useSessionStore = create<SessionState>()(
           assignedRoom: null,
         });
 
-        // Fire-and-forget asynchronous backend session registration
-        import('@/services/sessionService').then(({ sessionService }) => {
-          sessionService.createSession({
-            session_id: newSessionId,
-            preferred_language: language,
-            facility_id: 'AIIA_NEW_DELHI_01',
-          }).catch((err) => {
-            console.warn('Backend session registration deferred/offline:', err?.message);
-          });
-        });
-
         return newSessionId;
       },
 

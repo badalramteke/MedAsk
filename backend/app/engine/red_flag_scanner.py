@@ -90,26 +90,26 @@ class RedFlagScanner:
         if pattern.get("symptom_present") and not all_codes:
             return False
 
-        # Check radiation_includes_any
-        radiation_codes = pattern.get("radiation_includes_any", [])
+        # Check radiation_includes_any / radiation_include_any
+        radiation_codes = pattern.get("radiation_includes_any") or pattern.get("radiation_include_any", [])
         if radiation_codes:
             if any(code in all_codes for code in radiation_codes):
                 return True
 
-        # Check associated_symptoms_include_any
-        assoc_codes = pattern.get("associated_symptoms_include_any", [])
+        # Check associated_symptoms_includes_any / associated_symptoms_include_any
+        assoc_codes = pattern.get("associated_symptoms_includes_any") or pattern.get("associated_symptoms_include_any", [])
         if assoc_codes:
             if any(code in all_codes for code in assoc_codes):
                 return True
 
-        # Check severity_includes_any
-        severity_codes = pattern.get("severity_includes_any", [])
+        # Check severity_includes_any / severity_include_any
+        severity_codes = pattern.get("severity_includes_any") or pattern.get("severity_include_any", [])
         if severity_codes:
             if any(code in all_codes for code in severity_codes):
                 return True
 
-        # Check character_includes_any
-        char_codes = pattern.get("character_includes_any", [])
+        # Check character_includes_any / character_include_any
+        char_codes = pattern.get("character_includes_any") or pattern.get("character_include_any", [])
         if char_codes:
             if any(code in all_codes for code in char_codes):
                 return True
@@ -119,8 +119,12 @@ class RedFlagScanner:
     def _get_pattern_codes(self, pattern: dict) -> set:
         """Extract all value codes referenced in a pattern for evidence."""
         codes = set()
-        for key in ["radiation_includes_any", "associated_symptoms_include_any",
-                     "severity_includes_any", "character_includes_any"]:
+        for key in [
+            "radiation_includes_any", "radiation_include_any",
+            "associated_symptoms_includes_any", "associated_symptoms_include_any",
+            "severity_includes_any", "severity_include_any",
+            "character_includes_any", "character_include_any"
+        ]:
             codes.update(pattern.get(key, []))
         return codes
 

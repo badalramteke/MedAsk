@@ -25,9 +25,10 @@ export const intakeService = {
   /**
    * Fetch the current adaptive question in the clinical dialogue graph.
    */
-  async getNextQuestion(sessionId: string): Promise<QuestionResponse> {
+  async getNextQuestion(sessionId: string, mode?: string): Promise<QuestionResponse> {
     const { data } = await api.get<QuestionResponse>(
-      `/sessions/${sessionId}/next-question`
+      `/sessions/${sessionId}/next-question`,
+      { params: mode ? { mode } : undefined }
     );
     return data;
   },
@@ -37,7 +38,8 @@ export const intakeService = {
    */
   async submitAnswer(
     sessionId: string,
-    submission: AnswerSubmission
+    submission: AnswerSubmission,
+    mode?: string
   ): Promise<AnswerResult> {
     const payload = {
       question_id: submission.question_id,
@@ -47,8 +49,19 @@ export const intakeService = {
     };
     const { data } = await api.post<AnswerResult>(
       `/sessions/${sessionId}/answer`,
-      payload
+      payload,
+      { params: mode ? { mode } : undefined }
     );
+    return data;
+  },
+
+  /**
+   * Explicitly set the session intake mode (ALLOPATHIC or AYUSH) on backend.
+   */
+  async setIntakeMode(sessionId: string, mode: 'ALLOPATHIC' | 'AYUSH') {
+    const { data } = await api.post(`/sessions/${sessionId}/mode`, null, {
+      params: { mode },
+    });
     return data;
   },
 

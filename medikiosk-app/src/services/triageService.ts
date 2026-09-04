@@ -41,15 +41,15 @@ export const triageService = {
    */
   async acknowledgeAlert(
     alertId: string,
-    staffId: string,
-    triageAction: string,
+    staffIdOrReq: string | { staff_id: string; triage_action: string; notes?: string },
+    triageAction?: string,
     notes?: string
   ) {
-    const { data } = await api.post(`/alerts/${alertId}/acknowledge`, {
-      staff_id: staffId,
-      triage_action: triageAction,
-      notes,
-    });
+    const payload =
+      typeof staffIdOrReq === 'object'
+        ? staffIdOrReq
+        : { staff_id: staffIdOrReq, triage_action: triageAction || 'ACKNOWLEDGED', notes };
+    const { data } = await api.post(`/alerts/${alertId}/acknowledge`, payload);
     return data;
   },
 };

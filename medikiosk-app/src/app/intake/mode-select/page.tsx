@@ -18,14 +18,24 @@ import { Stethoscope, Flower2, ShieldAlert } from 'lucide-react';
 
 export default function ModeSelectPage() {
   const router = useRouter();
-  const { language, intakeMode, setIntakeMode } = useSessionStore();
+  const { language, sessionId, intakeMode, setIntakeMode } = useSessionStore();
   const { setCurrentScreen } = useFlowStore();
 
   const handleSelectMode = (mode: IntakeMode) => {
     setIntakeMode(mode);
+    if (sessionId) {
+      import('@/services/intakeService').then(({ intakeService }) => {
+        intakeService.setIntakeMode(sessionId, mode).catch(() => {});
+      });
+    }
   };
 
   const handleProceed = () => {
+    if (sessionId) {
+      import('@/services/intakeService').then(({ intakeService }) => {
+        intakeService.setIntakeMode(sessionId, intakeMode).catch(() => {});
+      });
+    }
     setCurrentScreen('patient_identification');
     router.push('/auth');
   };

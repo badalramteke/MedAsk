@@ -21,7 +21,7 @@ export interface IntakeState {
   socratesAnswers: Record<string, string>;
 
   // AYUSH Assessment
-  ayushAnswers: Record<string, string>;
+  ayushAnswers: Record<string, string | string[]>;
 
   // Active Adaptive Question
   activeQuestion: QuestionResponse | null;
@@ -46,7 +46,7 @@ export interface IntakeState {
   addSymptom: (symptom: string) => void;
   removeSymptom: (symptom: string) => void;
   setSocratesAnswer: (key: string, val: string) => void;
-  setAyushAnswer: (key: string, val: string) => void;
+  setAyushAnswer: (key: string, val: string | string[]) => void;
   setActiveQuestion: (q: QuestionResponse | null) => void;
   addUploadedDocument: (doc: {
     id: string;
