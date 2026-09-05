@@ -1,0 +1,169 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --primary: #005f53;
+    --primary-container: #0f7a6b;
+    --on-primary: #ffffff;
+    --on-primary-container: #abffed;
+    --secondary: #006e1c;
+    --secondary-container: #91f78e;
+    --tertiary: #aa0a17;
+    --tertiary-container: #ce2b2c;
+    --surface: #f8fafa;
+    --surface-container-lowest: #ffffff;
+    --surface-container-low: #f2f4f4;
+    --surface-container: #eceeee;
+    --surface-container-high: #e6e8e9;
+    --surface-variant: #e1e3e3;
+    --on-surface: #191c1d;
+    --on-surface-variant: #3e4946;
+    --outline: #6e7976;
+    --outline-variant: #bdc9c5;
+    --error: #ba1a1a;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    background-color: var(--surface);
+    color: var(--on-surface);
+    font-family: 'Inter', 'Noto Sans', system-ui, -apple-system, sans-serif;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ─── CSS Keyframe Animations (No external animation libraries) ──── */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(0, 95, 83, 0.35);
+  }
+  50% {
+    transform: scale(1.04);
+    box-shadow: 0 0 35px rgba(0, 95, 83, 0.6);
+  }
+}
+
+@keyframes voiceWavePulse {
+  0%, 100% {
+    height: 12px;
+  }
+  50% {
+    height: 38px;
+  }
+}
+
+@keyframes emergencyFlash {
+  0%, 100% {
+    border-color: rgba(170, 10, 23, 0.4);
+    box-shadow: 0 0 25px rgba(170, 10, 23, 0.3);
+  }
+  50% {
+    border-color: rgba(170, 10, 23, 0.9);
+    box-shadow: 0 0 45px rgba(170, 10, 23, 0.7);
+  }
+}
+
+.animate-fade-in-down {
+  animation: fadeInDown 0.4s ease-out forwards;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.45s ease-out forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2.4s ease-in-out infinite;
+}
+
+.animate-emergency-flash {
+  animation: emergencyFlash 1.6s ease-in-out infinite;
+}
+
+/* ─── Kiosk Touch UI Classes ─────────────────────────────────────── */
+.kiosk-touch-target {
+  min-height: 56px;
+  min-width: 56px;
+}
+
+.kiosk-card {
+  background-color: var(--surface-container-lowest);
+  border: 1px solid var(--outline-variant);
+  border-radius: 1.5rem;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.kiosk-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.08);
+}
+
+.kiosk-card:active {
+  transform: scale(0.98);
+}
+
+.kiosk-card-selected {
+  background-color: var(--primary-container) !important;
+  color: #ffffff !important;
+  border-color: transparent !important;
+  transform: scale(1.02);
+  box-shadow: 0 14px 28px -6px rgba(15, 122, 107, 0.35);
+}
+
+.btn-kiosk-primary {
+  background-color: var(--primary);
+  color: var(--on-primary);
+  border-radius: 9999px;
+  min-height: 64px;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  font-weight: 600;
+  font-size: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  box-shadow: 0 8px 24px rgba(0, 95, 83, 0.28);
+  transition: all 0.2s ease;
+}
+
+.btn-kiosk-primary:hover {
+  background-color: #0c6b5e;
+  box-shadow: 0 10px 30px rgba(0, 95, 83, 0.4);
+}
+
+.btn-kiosk-primary:active {
+  transform: scale(0.96);
+}
