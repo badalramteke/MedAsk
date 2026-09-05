@@ -32,7 +32,7 @@ export default function AuthPage() {
   const [txnId, setTxnId] = useState<string | null>(null);
   const [guestName, setGuestName] = useState('');
   const [guestAge, setGuestAge] = useState('');
-  const [guestGender, setGuestGender] = useState<'MALE' | 'FEMALE' | 'OTHER'>('MALE');
+  const [guestGender, setGuestGender] = useState<'MALE' | 'FEMALE' | 'OTHER' | null>(null);
   const [loading, setLoading] = useState(false);
   const [verifiedProfile, setVerifiedProfile] = useState<{
     name: string;
@@ -148,19 +148,26 @@ export default function AuthPage() {
   };
 
   const handleGuestSubmit = () => {
-    setIdentity({
-      name: guestName || 'Walk-in Guest',
-      age: guestAge ? parseInt(guestAge, 10) : 45,
-      gender: guestGender,
-      authMode: 'GUEST',
-    });
-    setVerifiedProfile({
-      name: guestName || 'Walk-in Guest',
-      abha: 'GUEST_UNLINKED',
-      age: guestAge ? parseInt(guestAge, 10) : 45,
-      gender: guestGender,
-    });
-  };
+  if (!guestGender) return;
+
+  const age = guestAge ? parseInt(guestAge, 10) : 45;
+  const name = guestName.trim() || 'Walk-in Guest';
+
+  setIdentity({
+    name,
+    age,
+    gender: guestGender,
+    authMode: 'GUEST',
+  });
+
+  setVerifiedProfile({
+    name,
+    abha: 'GUEST_UNLINKED',
+    age,
+    gender: guestGender,
+  });
+};
+
 
   const handleProceed = () => {
     if (!verifiedProfile) {
