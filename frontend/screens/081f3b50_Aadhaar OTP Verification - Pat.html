@@ -1,0 +1,225 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>MediKiosk - Aadhaar OTP Verification</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Noto+Sans:wght@400;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "error": "#ba1a1a",
+                        "tertiary": "#aa0a17",
+                        "surface-variant": "#e1e3e3",
+                        "surface-container-highest": "#e1e3e3",
+                        "primary-fixed-dim": "#7dd6c4",
+                        "on-surface-variant": "#3e4946",
+                        "secondary": "#006e1c",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed-variant": "#005313",
+                        "surface-container-low": "#f2f4f4",
+                        "on-secondary-fixed": "#002204",
+                        "primary": "#005f53",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#930010",
+                        "surface-container": "#eceeee",
+                        "on-primary-fixed-variant": "#005046",
+                        "surface": "#f8fafa",
+                        "on-background": "#191c1d",
+                        "surface-container-high": "#e6e8e9",
+                        "on-primary-container": "#abffed",
+                        "on-tertiary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed": "#00201b",
+                        "on-tertiary-fixed": "#410003",
+                        "on-secondary-container": "#00731e",
+                        "tertiary-container": "#ce2b2c",
+                        "surface-dim": "#d8dada",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#eff1f1",
+                        "inverse-surface": "#2e3131",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#91f78e",
+                        "outline-variant": "#bdc9c5",
+                        "background": "#f8fafa",
+                        "inverse-primary": "#7dd6c4",
+                        "on-tertiary-container": "#ffeae8",
+                        "primary-container": "#0f7a6b",
+                        "on-surface": "#191c1d",
+                        "secondary-fixed": "#94f990",
+                        "surface-bright": "#f8fafa",
+                        "primary-fixed": "#99f3e0",
+                        "tertiary-fixed": "#ffdad6",
+                        "surface-tint": "#006b5d",
+                        "secondary-fixed-dim": "#78dc77",
+                        "outline": "#6e7976",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#ffb3ac"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "gutter-md": "24px",
+                        "touch-target-min": "64px",
+                        "stack-gap": "16px",
+                        "margin-edge": "32px",
+                        "section-gap": "48px"
+                    },
+                    fontFamily: {
+                        "label-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "button-text": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg-mobile": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-lg": ["Noto Sans"],
+                        "body-md": ["Noto Sans"]
+                    },
+                    fontSize: {
+                        "label-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "60px", "fontWeight": "700" }],
+                        "button-text": ["20px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "headline-md": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "44px", "fontWeight": "600" }],
+                        "body-lg": ["20px", { "lineHeight": "32px", "fontWeight": "400" }],
+                        "body-md": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background antialiased h-screen w-screen overflow-hidden flex flex-col relative select-none">
+<!-- Top App Bar -->
+<header class="fixed top-0 left-0 w-full h-[72px] bg-surface border-b border-surface-variant shadow-sm z-50 flex justify-between items-center px-margin-edge">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary text-4xl">local_hospital</span>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md font-bold text-primary">MediKiosk</span>
+<span class="font-body-md text-body-md text-on-surface-variant">City General Hospital</span>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 text-on-surface font-headline-md text-headline-md">
+<span class="material-symbols-outlined text-2xl">schedule</span>
+                10:45 AM
+            </div>
+<button class="bg-error hover:bg-tertiary-container text-on-error px-6 h-touch-target-min rounded-xl font-button-text text-button-text flex items-center gap-2 shadow-lg transition-transform active:scale-95 duration-100">
+<span class="material-symbols-outlined font-[FILL:1]">emergency</span>
+                SOS ASSIST
+            </button>
+</div>
+</header>
+<!-- Background Layer (Blurred/Dimmed) -->
+<main class="mt-[72px] h-[calc(100vh-72px)] w-full relative">
+<div class="absolute inset-0 bg-surface-container-low blur-sm opacity-50 p-margin-edge flex flex-col gap-section-gap">
+<!-- Simulated background content -->
+<div class="max-w-4xl mx-auto w-full bg-surface rounded-xl border border-surface-variant p-gutter-md shadow-sm">
+<div class="flex items-center gap-4 border-b border-surface-variant pb-4 mb-4">
+<span class="material-symbols-outlined text-primary text-4xl">badge</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Aadhaar Identification</h2>
+</div>
+<div class="space-y-stack-gap">
+<p class="font-body-lg text-body-lg text-on-surface-variant">Please confirm your Aadhaar details.</p>
+<div class="bg-surface-container p-6 rounded-lg border border-outline-variant">
+<span class="font-label-lg text-label-lg text-on-surface-variant block mb-2">Aadhaar Number</span>
+<div class="font-display-lg text-display-lg text-on-surface tracking-widest">
+                            •••• •••• 5678
+                        </div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Active Modal Dialog Overlay -->
+<div class="fixed inset-0 z-[100] bg-on-background/40 backdrop-blur-sm flex items-center justify-center p-margin-edge">
+<div class="bg-surface rounded-xl shadow-2xl border border-surface-variant w-full max-w-2xl flex flex-col overflow-hidden animate-[fade-in_0.2s_ease-out]">
+<!-- Modal Header -->
+<div class="p-gutter-md border-b border-surface-variant bg-surface-container-lowest text-center relative">
+<span class="material-symbols-outlined text-primary text-5xl mb-2">lock_person</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-1">Aadhaar OTP Verification</h2>
+
+</div>
+<!-- Modal Body -->
+<div class="p-margin-edge flex flex-col gap-stack-gap items-center text-center">
+<div class="bg-primary-container/20 p-4 rounded-lg border border-primary-container/30 w-full mb-4">
+<p class="font-body-lg text-body-lg text-on-surface mb-1">
+                        OTP has been sent to your Aadhaar-linked mobile number ending in <strong class="text-primary">•••• 5678</strong>
+</p>
+
+</div>
+<!-- OTP Input Segmented -->
+<div class="flex gap-4 justify-center w-full mb-6" id="otp-container">
+<!-- Segmented Inputs (Simulated active state on first box) -->
+<div class="w-16 h-20 border-2 border-primary rounded-lg flex items-center justify-center font-display-lg text-display-lg text-on-surface bg-surface-container-lowest shadow-[0_0_0_4px_rgba(0,95,83,0.1)]">
+                        5
+                    </div>
+<div class="w-16 h-20 border-2 border-outline-variant rounded-lg flex items-center justify-center font-display-lg text-display-lg text-on-surface bg-surface-container-lowest">
+                        2
+                    </div>
+<div class="w-16 h-20 border-2 border-outline-variant rounded-lg flex items-center justify-center font-display-lg text-display-lg text-on-surface bg-surface-container-lowest">
+<!-- Empty -->
+</div>
+<div class="w-16 h-20 border-2 border-outline-variant rounded-lg flex items-center justify-center font-display-lg text-display-lg text-on-surface bg-surface-container-lowest">
+<!-- Empty -->
+</div>
+<div class="w-16 h-20 border-2 border-outline-variant rounded-lg flex items-center justify-center font-display-lg text-display-lg text-on-surface bg-surface-container-lowest">
+<!-- Empty -->
+</div>
+<div class="w-16 h-20 border-2 border-outline-variant rounded-lg flex items-center justify-center font-display-lg text-display-lg text-on-surface bg-surface-container-lowest">
+<!-- Empty -->
+</div>
+</div>
+<!-- Timer & Resend -->
+<div class="flex flex-col items-center gap-2 mb-2 w-full">
+<div class="font-label-lg text-label-lg text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-xl">timer</span>
+                        Resend OTP in 00:48
+                    </div>
+<button class="h-touch-target-min px-6 rounded-lg font-button-text text-button-text text-primary border-2 border-transparent hover:border-primary-fixed hover:bg-primary-container/10 transition-colors opacity-50 cursor-not-allowed">Resend OTP</button>
+</div>
+<!-- Virtual Keypad -->
+<div class="grid grid-cols-3 gap-4 w-full max-w-sm mt-4">
+<button class="h-16 bg-surface-container hover:bg-surface-container-high rounded-xl font-headline-lg text-headline-lg text-on-surface transition-colors active:scale-95">1</button>
+<button class="h-16 bg-surface-container hover:bg-surface-container-high rounded-xl font-headline-lg text-headline-lg text-on-surface transition-colors active:scale-95">2</button>
+<button class="h-16 bg-surface-container hover:bg-surface-container-high rounded-xl font-headline-lg text-headline-lg text-on-surface transition-colors active:scale-95">3</button>
+<button class="h-16 bg-surface-container hover:bg-surface-container-high rounded-xl font-headline-lg text-headline-lg text-on-surface transition-colors active:scale-95">4</button>
+<button class="h-16 bg-surface-container hover:bg-surface-container-high rounded-xl font-headline-lg text-headline-lg text-on-surface transition-colors active:scale-95">5</button>
+<button class="h-16 bg-surface-container hover:bg-surface-container-high rounded-xl font-headline-lg text-headline-lg text-on-surface transition-colors active:scale-95">6</button>
+<button class="h-16 bg-surface-container hover:bg-surface-container-high rounded-xl font-headline-lg text-headline-lg text-on-surface transition-colors active:scale-95">7</button>
+<button class="h-16 bg-surface-container hover:bg-surface-container-high rounded-xl font-headline-lg text-headline-lg text-on-surface transition-colors active:scale-95">8</button>
+<button class="h-16 bg-surface-container hover:bg-surface-container-high rounded-xl font-headline-lg text-headline-lg text-on-surface transition-colors active:scale-95">9</button>
+<button class="h-16 bg-surface-variant hover:bg-surface-container-highest rounded-xl font-label-lg text-label-lg text-on-surface-variant transition-colors active:scale-95 flex items-center justify-center">
+<span class="material-symbols-outlined">clear_all</span>
+</button>
+<button class="h-16 bg-surface-container hover:bg-surface-container-high rounded-xl font-headline-lg text-headline-lg text-on-surface transition-colors active:scale-95">0</button>
+<button class="h-16 bg-surface-variant hover:bg-surface-container-highest rounded-xl font-label-lg text-label-lg text-on-surface-variant transition-colors active:scale-95 flex items-center justify-center">
+<span class="material-symbols-outlined">backspace</span>
+</button>
+</div>
+</div>
+<!-- Modal Footer / Actions -->
+<div class="p-gutter-md border-t border-surface-variant bg-surface-container-lowest flex gap-4 w-full">
+<button class="flex-1 h-[72px] border-2 border-outline-variant rounded-xl font-button-text text-button-text text-on-surface hover:bg-surface-container-high transition-colors active:scale-95 flex flex-col items-center justify-center">Cancel</button>
+<button class="flex-1 h-[72px] bg-primary rounded-xl font-button-text text-button-text text-on-primary shadow-md hover:bg-primary/90 transition-colors active:scale-95 flex flex-col items-center justify-center">Verify &amp; Continue</button>
+</div>
+</div>
+</div>
+<style>
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(10px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+    </style>
+
+
+</body></html>

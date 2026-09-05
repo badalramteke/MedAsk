@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Abnormal Flag Panel - MediKiosk</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Noto+Sans:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#005f53",
+                        "on-error-container": "#93000a",
+                        "surface": "#f8fafa",
+                        "tertiary-fixed-dim": "#ffb3ac",
+                        "surface-dim": "#d8dada",
+                        "primary-container": "#0f7a6b",
+                        "on-surface-variant": "#3e4946",
+                        "on-secondary-fixed": "#002204",
+                        "on-primary-fixed-variant": "#005046",
+                        "surface-bright": "#f8fafa",
+                        "on-error": "#ffffff",
+                        "on-tertiary-container": "#ffeae8",
+                        "tertiary-container": "#ce2b2c",
+                        "background": "#f8fafa",
+                        "on-secondary-fixed-variant": "#005313",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed-dim": "#7dd6c4",
+                        "secondary-fixed-dim": "#78dc77",
+                        "error-container": "#ffdad6",
+                        "on-background": "#191c1d",
+                        "secondary-fixed": "#94f990",
+                        "outline-variant": "#bdc9c5",
+                        "on-primary-container": "#abffed",
+                        "tertiary-fixed": "#ffdad6",
+                        "on-primary-fixed": "#00201b",
+                        "secondary-container": "#91f78e",
+                        "primary-fixed": "#99f3e0",
+                        "on-tertiary": "#ffffff",
+                        "surface-tint": "#006b5d",
+                        "surface-container": "#eceeee",
+                        "inverse-surface": "#2e3131",
+                        "surface-container-highest": "#e1e3e3",
+                        "on-primary": "#ffffff",
+                        "surface-variant": "#e1e3e3",
+                        "tertiary": "#aa0a17",
+                        "error": "#ba1a1a",
+                        "on-surface": "#191c1d",
+                        "surface-container-low": "#f2f4f4",
+                        "outline": "#6e7976",
+                        "on-tertiary-fixed-variant": "#930010",
+                        "on-secondary-container": "#00731e",
+                        "inverse-primary": "#7dd6c4",
+                        "secondary": "#006e1c",
+                        "on-tertiary-fixed": "#410003",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#e6e8e9",
+                        "inverse-on-surface": "#eff1f1"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-gap": "16px",
+                        "touch-target-min": "64px",
+                        "gutter-md": "24px",
+                        "margin-edge": "32px",
+                        "section-gap": "48px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Noto Sans"],
+                        "display-lg": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "display-lg-mobile": ["Inter"],
+                        "body-md": ["Noto Sans"],
+                        "headline-md": ["Inter"],
+                        "button-text": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["20px", { "lineHeight": "32px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "60px", "fontWeight": "700" }],
+                        "label-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "44px", "fontWeight": "600" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "body-md": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-md": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "button-text": ["20px", { "lineHeight": "24px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-lg">
+<!-- TopAppBar -->
+<header class="w-full top-0 left-0 sticky bg-surface dark:bg-surface-dim shadow-sm flex justify-between items-center h-[80px] px-margin-edge w-full z-50">
+<div class="text-headline-md font-headline-md text-primary dark:text-primary-fixed-dim">
+            MediKiosk
+        </div>
+<div class="flex items-center gap-4 text-primary dark:text-primary-fixed-dim font-bold font-headline-md">
+            Step 3 of 5
+        </div>
+<div class="flex gap-4">
+<button class="w-12 h-12 flex items-center justify-center rounded-full hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors active:scale-95 duration-150 text-error">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">emergency</span>
+</button>
+<button class="w-12 h-12 flex items-center justify-center rounded-full hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors active:scale-95 duration-150 text-primary">
+<span class="material-symbols-outlined">schedule</span>
+</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow px-margin-edge py-section-gap pb-[120px] max-w-7xl mx-auto w-full flex flex-col gap-section-gap">
+<!-- Warning Banner -->
+<div class="bg-error-container border border-error rounded-xl p-gutter-md flex items-start gap-4 shadow-sm">
+<span class="material-symbols-outlined text-error text-4xl" style="font-variation-settings: 'FILL' 1;">warning</span>
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-error-container mb-2">3 Clinical Flags Identified for Physician Attention</h1>
+<p class="font-body-lg text-body-lg text-on-error-container opacity-90">Please review the critical information below. These will be automatically highlighted for your doctor during your consultation.</p>
+</div>
+</div>
+<!-- Split Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-gutter-md">
+<!-- Left Column: Abnormal Lab Values -->
+<section class="bg-surface-lowest rounded-xl p-gutter-md border border-outline-variant shadow-sm relative z-10 flex flex-col gap-stack-gap">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-primary text-3xl">biotech</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Abnormal Lab Values</h2>
+</div>
+<!-- Flag 1 -->
+<div class="bg-surface rounded-lg p-4 border border-outline-variant">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-label-lg text-label-lg text-on-surface">HbA1c</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Baseline: 8.5%</p>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-headline-md text-headline-md text-error">9.2%</span>
+<span class="bg-error text-on-error px-2 py-1 rounded text-sm font-bold uppercase tracking-wider mt-1">High</span>
+</div>
+</div>
+<!-- Mock Sparkline -->
+<div class="w-full h-12 flex items-end justify-between px-2 gap-1 mt-4 border-b border-outline-variant pb-2 relative">
+<div class="w-1/4 bg-outline-variant h-1/2 rounded-t-sm relative group">
+<div class="absolute -top-6 left-1/2 transform -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">7.8%</div>
+</div>
+<div class="w-1/4 bg-outline-variant h-3/5 rounded-t-sm relative group">
+<div class="absolute -top-6 left-1/2 transform -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">8.1%</div>
+</div>
+<div class="w-1/4 bg-surface-variant h-4/5 rounded-t-sm relative group">
+<div class="absolute -top-6 left-1/2 transform -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">8.5%</div>
+</div>
+<div class="w-1/4 bg-error h-full rounded-t-sm relative group shadow-[0_0_8px_rgba(186,26,26,0.4)]">
+<div class="absolute -top-6 left-1/2 transform -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">9.2%</div>
+</div>
+</div>
+</div>
+<!-- Flag 2 -->
+<div class="bg-surface rounded-lg p-4 border border-outline-variant">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-label-lg text-label-lg text-on-surface">Serum Creatinine</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Baseline: 1.1 mg/dL</p>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-headline-md text-headline-md text-tertiary">1.8 mg/dL</span>
+<span class="bg-tertiary text-on-tertiary px-2 py-1 rounded text-sm font-bold uppercase tracking-wider mt-1">High</span>
+</div>
+</div>
+</div>
+<!-- Flag 3 -->
+<div class="bg-surface rounded-lg p-4 border border-outline-variant">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-label-lg text-label-lg text-on-surface">Blood Glucose</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Baseline: 145 mg/dL</p>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-headline-md text-headline-md text-error">210 mg/dL</span>
+<span class="bg-error text-on-error px-2 py-1 rounded text-sm font-bold uppercase tracking-wider mt-1">High</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Column: Medication Alerts -->
+<div class="flex flex-col gap-gutter-md">
+<section class="bg-surface-lowest rounded-xl p-gutter-md border border-outline-variant shadow-sm flex flex-col gap-stack-gap flex-grow">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-primary text-3xl">medication</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Interaction &amp; Therapy Warnings</h2>
+</div>
+<div class="bg-surface-container-low rounded-lg p-4 border-l-4 border-tertiary">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-tertiary mt-1" style="font-variation-settings: 'FILL' 1;">warning_amber</span>
+<div>
+<h3 class="font-label-lg text-label-lg text-on-surface">Dosing Warning</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Metformin + Glimepiride potential hypoglycemia risk.</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-lg p-4 border-l-4 border-outline">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-on-surface-variant mt-1">prescriptions</span>
+<div>
+<h3 class="font-label-lg text-label-lg text-on-surface">Duplicate Therapy</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Reviewing multiple NSAID prescriptions.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Reassurance Banner -->
+<div class="bg-secondary-container text-on-secondary-container rounded-xl p-6 flex items-center gap-4 shadow-sm border border-secondary-fixed-dim">
+<span class="material-symbols-outlined text-4xl">verified_user</span>
+<p class="font-body-lg text-body-lg font-medium">These flags will be prioritized on your doctor's consultation screen.</p>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-between items-center px-margin-edge bg-surface-container dark:bg-surface-container-high h-[100px] border-t border-outline-variant shadow-lg">
+<button class="flex items-center justify-center gap-2 border-2 border-primary dark:border-primary-fixed-dim text-primary dark:text-primary-fixed-dim rounded-lg px-8 py-4 h-touch-target-min font-button-text text-button-text hover:opacity-90 transition-opacity active:scale-98 duration-100 ease-in-out">
+            View Documents
+        </button>
+<button class="flex items-center justify-center gap-2 bg-primary dark:bg-primary-container text-on-primary dark:text-on-primary-container rounded-lg px-8 py-4 h-touch-target-min font-button-text text-button-text hover:opacity-90 transition-opacity active:scale-98 duration-100 ease-in-out">
+            Acknowledge &amp; Continue
+            <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</nav>
+</body></html>

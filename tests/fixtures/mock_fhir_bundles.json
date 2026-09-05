@@ -1,0 +1,736 @@
+{
+  "schema_version": "1.0.0",
+  "dataset_id": "mock_fhir_bundles",
+  "fhir_version": "4.0.1",
+  "synthetic": true,
+  "description": "Synthetic FHIR R4 Bundle test fixtures for testing backend FHIR parsing, referential integrity resolution, resource mapping, and ABDM data ingestion workflows.",
+  "disclaimer": "Strictly synthetic FHIR R4 test fixtures. Contains no real patient information, production credentials, or real ABDM health IDs.",
+  "bundles": [
+    {
+      "bundle_id": "BUNDLE_001_BASIC_ENCOUNTER",
+      "description": "Basic Patient Encounter bundle representing an acute chest pain emergency triage episode for synthetic patient Rajesh Sharma.",
+      "resourceType": "Bundle",
+      "type": "collection",
+      "entry": [
+        {
+          "fullUrl": "urn:uuid:patient-001",
+          "resource": {
+            "resourceType": "Patient",
+            "id": "patient-001",
+            "identifier": [
+              {
+                "system": "https://healthid.ndhm.gov.in",
+                "value": "91-1234-5678-9012"
+              }
+            ],
+            "name": [
+              {
+                "use": "official",
+                "text": "Rajesh Sharma",
+                "family": "Sharma",
+                "given": [
+                  "Rajesh"
+                ]
+              }
+            ],
+            "gender": "male",
+            "birthDate": "1968-04-15"
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:encounter-001",
+          "resource": {
+            "resourceType": "Encounter",
+            "id": "encounter-001",
+            "status": "finished",
+            "class": {
+              "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+              "code": "EMER",
+              "display": "emergency"
+            },
+            "subject": {
+              "reference": "urn:uuid:patient-001",
+              "display": "Rajesh Sharma"
+            },
+            "period": {
+              "start": "2026-08-31T09:00:00+05:30",
+              "end": "2026-08-31T09:45:00+05:30"
+            }
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:condition-001",
+          "resource": {
+            "resourceType": "Condition",
+            "id": "condition-001",
+            "clinicalStatus": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                  "code": "active",
+                  "display": "Active"
+                }
+              ]
+            },
+            "verificationStatus": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+                  "code": "confirmed",
+                  "display": "Confirmed"
+                }
+              ]
+            },
+            "category": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                    "code": "encounter-diagnosis",
+                    "display": "Encounter Diagnosis"
+                  }
+                ]
+              }
+            ],
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "29857009",
+                  "display": "Chest pain"
+                },
+                {
+                  "system": "http://hl7.org/fhir/sid/icd-10",
+                  "code": "R07.9",
+                  "display": "Chest pain, unspecified"
+                }
+              ],
+              "text": "Acute Crushing Chest Pain"
+            },
+            "subject": {
+              "reference": "urn:uuid:patient-001",
+              "display": "Rajesh Sharma"
+            },
+            "encounter": {
+              "reference": "urn:uuid:encounter-001"
+            },
+            "recordedDate": "2026-08-31T09:15:00+05:30"
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:observation-001",
+          "resource": {
+            "resourceType": "Observation",
+            "id": "observation-001",
+            "status": "final",
+            "category": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                    "code": "vital-signs",
+                    "display": "Vital Signs"
+                  }
+                ]
+              }
+            ],
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "8867-4",
+                  "display": "Heart rate"
+                }
+              ],
+              "text": "Heart Rate"
+            },
+            "subject": {
+              "reference": "urn:uuid:patient-001",
+              "display": "Rajesh Sharma"
+            },
+            "encounter": {
+              "reference": "urn:uuid:encounter-001"
+            },
+            "effectiveDateTime": "2026-08-31T09:10:00+05:30",
+            "valueQuantity": {
+              "value": 110,
+              "unit": "beats/min",
+              "system": "http://unitsofmeasure.org",
+              "code": "/min"
+            }
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:observation-002",
+          "resource": {
+            "resourceType": "Observation",
+            "id": "observation-002",
+            "status": "final",
+            "category": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                    "code": "vital-signs",
+                    "display": "Vital Signs"
+                  }
+                ]
+              }
+            ],
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "85354-9",
+                  "display": "Blood pressure panel with all children optional"
+                }
+              ],
+              "text": "Blood Pressure"
+            },
+            "subject": {
+              "reference": "urn:uuid:patient-001",
+              "display": "Rajesh Sharma"
+            },
+            "encounter": {
+              "reference": "urn:uuid:encounter-001"
+            },
+            "effectiveDateTime": "2026-08-31T09:10:00+05:30",
+            "component": [
+              {
+                "code": {
+                  "coding": [
+                    {
+                      "system": "http://loinc.org",
+                      "code": "8480-6",
+                      "display": "Systolic blood pressure"
+                    }
+                  ]
+                },
+                "valueQuantity": {
+                  "value": 150,
+                  "unit": "mmHg",
+                  "system": "http://unitsofmeasure.org",
+                  "code": "mm[Hg]"
+                }
+              },
+              {
+                "code": {
+                  "coding": [
+                    {
+                      "system": "http://loinc.org",
+                      "code": "8462-4",
+                      "display": "Diastolic blood pressure"
+                    }
+                  ]
+                },
+                "valueQuantity": {
+                  "value": 95,
+                  "unit": "mmHg",
+                  "system": "http://unitsofmeasure.org",
+                  "code": "mm[Hg]"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "bundle_id": "BUNDLE_002_CHRONIC_DISEASE",
+      "description": "Chronic Disease bundle representing long-term Type 2 Diabetes & Hypertension management for synthetic patient Sunita Deshmukh.",
+      "resourceType": "Bundle",
+      "type": "collection",
+      "entry": [
+        {
+          "fullUrl": "urn:uuid:patient-002",
+          "resource": {
+            "resourceType": "Patient",
+            "id": "patient-002",
+            "identifier": [
+              {
+                "system": "https://healthid.ndhm.gov.in",
+                "value": "91-9876-5432-1098"
+              }
+            ],
+            "name": [
+              {
+                "use": "official",
+                "text": "Sunita Deshmukh",
+                "family": "Deshmukh",
+                "given": [
+                  "Sunita"
+                ]
+              }
+            ],
+            "gender": "female",
+            "birthDate": "1962-08-20"
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:encounter-002",
+          "resource": {
+            "resourceType": "Encounter",
+            "id": "encounter-002",
+            "status": "finished",
+            "class": {
+              "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+              "code": "AMB",
+              "display": "ambulatory"
+            },
+            "subject": {
+              "reference": "urn:uuid:patient-002",
+              "display": "Sunita Deshmukh"
+            },
+            "period": {
+              "start": "2026-07-20T10:00:00+05:30",
+              "end": "2026-07-20T11:00:00+05:30"
+            }
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:condition-002",
+          "resource": {
+            "resourceType": "Condition",
+            "id": "condition-002",
+            "clinicalStatus": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                  "code": "active",
+                  "display": "Active"
+                }
+              ]
+            },
+            "verificationStatus": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+                  "code": "confirmed",
+                  "display": "Confirmed"
+                }
+              ]
+            },
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "44054006",
+                  "display": "Type 2 diabetes mellitus"
+                },
+                {
+                  "system": "http://hl7.org/fhir/sid/icd-10",
+                  "code": "E11",
+                  "display": "Type 2 diabetes mellitus"
+                }
+              ]
+            },
+            "subject": {
+              "reference": "urn:uuid:patient-002",
+              "display": "Sunita Deshmukh"
+            },
+            "encounter": {
+              "reference": "urn:uuid:encounter-002"
+            },
+            "recordedDate": "2025-11-10T10:00:00+05:30"
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:condition-003",
+          "resource": {
+            "resourceType": "Condition",
+            "id": "condition-003",
+            "clinicalStatus": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                  "code": "active",
+                  "display": "Active"
+                }
+              ]
+            },
+            "verificationStatus": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+                  "code": "confirmed",
+                  "display": "Confirmed"
+                }
+              ]
+            },
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "59621000",
+                  "display": "Essential hypertension"
+                },
+                {
+                  "system": "http://hl7.org/fhir/sid/icd-10",
+                  "code": "I10",
+                  "display": "Essential (primary) hypertension"
+                }
+              ]
+            },
+            "subject": {
+              "reference": "urn:uuid:patient-002",
+              "display": "Sunita Deshmukh"
+            },
+            "encounter": {
+              "reference": "urn:uuid:encounter-002"
+            },
+            "recordedDate": "2025-11-10T10:00:00+05:30"
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:observation-003",
+          "resource": {
+            "resourceType": "Observation",
+            "id": "observation-003",
+            "status": "final",
+            "category": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                    "code": "laboratory",
+                    "display": "Laboratory"
+                  }
+                ]
+              }
+            ],
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "4548-4",
+                  "display": "Hemoglobin A1c/Hemoglobin.total in Blood"
+                }
+              ],
+              "text": "HbA1c"
+            },
+            "subject": {
+              "reference": "urn:uuid:patient-002",
+              "display": "Sunita Deshmukh"
+            },
+            "encounter": {
+              "reference": "urn:uuid:encounter-002"
+            },
+            "effectiveDateTime": "2026-07-18T08:30:00+05:30",
+            "valueQuantity": {
+              "value": 10.5,
+              "unit": "%",
+              "system": "http://unitsofmeasure.org",
+              "code": "%"
+            }
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:observation-004",
+          "resource": {
+            "resourceType": "Observation",
+            "id": "observation-004",
+            "status": "final",
+            "category": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                    "code": "laboratory",
+                    "display": "Laboratory"
+                  }
+                ]
+              }
+            ],
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "2160-0",
+                  "display": "Creatinine [Mass/volume] in Serum or Plasma"
+                }
+              ],
+              "text": "Serum Creatinine"
+            },
+            "subject": {
+              "reference": "urn:uuid:patient-002",
+              "display": "Sunita Deshmukh"
+            },
+            "encounter": {
+              "reference": "urn:uuid:encounter-002"
+            },
+            "effectiveDateTime": "2026-07-18T08:30:00+05:30",
+            "valueQuantity": {
+              "value": 2.1,
+              "unit": "mg/dL",
+              "system": "http://unitsofmeasure.org",
+              "code": "mg/dL"
+            }
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:medstatement-001",
+          "resource": {
+            "resourceType": "MedicationStatement",
+            "id": "medstatement-001",
+            "status": "active",
+            "medicationCodeableConcept": {
+              "coding": [
+                {
+                  "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                  "code": "6809",
+                  "display": "Metformin"
+                }
+              ],
+              "text": "Metformin 500 mg"
+            },
+            "subject": {
+              "reference": "urn:uuid:patient-002",
+              "display": "Sunita Deshmukh"
+            },
+            "dateAsserted": "2025-11-10T10:00:00+05:30",
+            "dosage": [
+              {
+                "text": "500 mg oral twice daily after meals"
+              }
+            ]
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:medstatement-002",
+          "resource": {
+            "resourceType": "MedicationStatement",
+            "id": "medstatement-002",
+            "status": "active",
+            "medicationCodeableConcept": {
+              "coding": [
+                {
+                  "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                  "code": "17767",
+                  "display": "Amlodipine"
+                }
+              ],
+              "text": "Amlodipine 5 mg"
+            },
+            "subject": {
+              "reference": "urn:uuid:patient-002",
+              "display": "Sunita Deshmukh"
+            },
+            "dateAsserted": "2025-11-10T10:00:00+05:30",
+            "dosage": [
+              {
+                "text": "5 mg oral once daily in the morning"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "bundle_id": "BUNDLE_003_DOCUMENTS",
+      "description": "Multi-document bundle containing synthetic radiology report and discharge summary metadata for synthetic patient Arthur Pendelton.",
+      "resourceType": "Bundle",
+      "type": "collection",
+      "entry": [
+        {
+          "fullUrl": "urn:uuid:patient-003",
+          "resource": {
+            "resourceType": "Patient",
+            "id": "patient-003",
+            "identifier": [
+              {
+                "system": "https://healthid.ndhm.gov.in",
+                "value": "91-5555-4444-3333"
+              }
+            ],
+            "name": [
+              {
+                "use": "official",
+                "text": "Arthur Pendelton",
+                "family": "Pendelton",
+                "given": [
+                  "Arthur"
+                ]
+              }
+            ],
+            "gender": "male",
+            "birthDate": "1958-09-11"
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:encounter-003",
+          "resource": {
+            "resourceType": "Encounter",
+            "id": "encounter-003",
+            "status": "finished",
+            "class": {
+              "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+              "code": "IMP",
+              "display": "inpatient encounter"
+            },
+            "subject": {
+              "reference": "urn:uuid:patient-003",
+              "display": "Arthur Pendelton"
+            },
+            "period": {
+              "start": "2026-01-15T08:00:00+05:30",
+              "end": "2026-01-18T14:00:00+05:30"
+            }
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:docref-001",
+          "resource": {
+            "resourceType": "DocumentReference",
+            "id": "docref-001",
+            "status": "current",
+            "docStatus": "final",
+            "type": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "11524-6",
+                  "display": "EKG Study / Chest Radiology"
+                }
+              ],
+              "text": "Chest X-Ray PA View Radiology Report"
+            },
+            "subject": {
+              "reference": "urn:uuid:patient-003",
+              "display": "Arthur Pendelton"
+            },
+            "date": "2026-01-15T10:30:00+05:30",
+            "content": [
+              {
+                "attachment": {
+                  "contentType": "application/pdf",
+                  "url": "urn:uuid:doc-binary-001",
+                  "title": "Chest X-Ray Report PDF Metadata"
+                }
+              }
+            ],
+            "context": {
+              "encounter": [
+                {
+                  "reference": "urn:uuid:encounter-003"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:docref-002",
+          "resource": {
+            "resourceType": "DocumentReference",
+            "id": "docref-002",
+            "status": "current",
+            "docStatus": "final",
+            "type": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "18842-5",
+                  "display": "Discharge summary"
+                }
+              ],
+              "text": "Hospitalization Discharge Summary"
+            },
+            "subject": {
+              "reference": "urn:uuid:patient-003",
+              "display": "Arthur Pendelton"
+            },
+            "date": "2026-01-18T14:00:00+05:30",
+            "content": [
+              {
+                "attachment": {
+                  "contentType": "application/pdf",
+                  "url": "urn:uuid:doc-binary-002",
+                  "title": "Discharge Summary PDF Metadata"
+                }
+              }
+            ],
+            "context": {
+              "encounter": [
+                {
+                  "reference": "urn:uuid:encounter-003"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "bundle_id": "BUNDLE_004_CONSENT",
+      "description": "Patient privacy consent bundle for intake questionnaire data access for synthetic pediatric patient Aarav Sundaram.",
+      "resourceType": "Bundle",
+      "type": "collection",
+      "entry": [
+        {
+          "fullUrl": "urn:uuid:patient-004",
+          "resource": {
+            "resourceType": "Patient",
+            "id": "patient-004",
+            "identifier": [
+              {
+                "system": "https://healthid.ndhm.gov.in",
+                "value": "91-7777-8888-9999"
+              }
+            ],
+            "name": [
+              {
+                "use": "official",
+                "text": "Aarav Sundaram",
+                "family": "Sundaram",
+                "given": [
+                  "Aarav"
+                ]
+              }
+            ],
+            "gender": "male",
+            "birthDate": "2022-04-12"
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:consent-001",
+          "resource": {
+            "resourceType": "Consent",
+            "id": "consent-001",
+            "status": "active",
+            "scope": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/consentscope",
+                  "code": "patient-privacy",
+                  "display": "Patient Privacy"
+                }
+              ]
+            },
+            "category": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/consentcategorycodes",
+                    "code": "hipaa-npp",
+                    "display": "Notice of Privacy Practices"
+                  }
+                ]
+              }
+            ],
+            "patient": {
+              "reference": "urn:uuid:patient-004",
+              "display": "Aarav Sundaram"
+            },
+            "dateTime": "2026-08-31T08:00:00+05:30",
+            "provision": {
+              "type": "permit",
+              "period": {
+                "start": "2026-08-31T00:00:00+05:30",
+                "end": "2027-08-31T00:00:00+05:30"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

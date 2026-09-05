@@ -20,7 +20,7 @@ export default function TriageAlertPage() {
   const router = useRouter();
   const { emergencyReason, clearEmergency, resetSession, returnPath, language, sessionId } = useSessionStore();
   const { resetFlow } = useFlowStore();
-  const { speak, isSpeaking, stop } = useTTS();
+  const { speak, stop } = useTTS();
   const [staffNotified, setStaffNotified] = useState(false);
 
   // Spoken voice guidance for emergency triage
@@ -48,7 +48,7 @@ export default function TriageAlertPage() {
         await triageService.acknowledgeAlert('ALERT_EMERGENCY_DESK', {
           staff_id: 'KIOSK_DISPATCH',
           triage_action: 'PRIORITY_PHYSICIAN_DISPATCH',
-          notes: `Floor beacon activated from kiosk for session: ${sessionId}. Reported: ${emergencyReason}`,
+          notes: `Floor beacon activated from kiosk for session: ${sessionId}. Reported: ${emergencyReason || 'Critical red-flag symptom'}`,
         });
       } catch (err) {
         console.log('Triage staff dispatch signal sent:', err);

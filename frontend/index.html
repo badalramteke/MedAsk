@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediKiosk Interactive Design System & Flow Explorer</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#005f53',
+                        'primary-container': '#0f7a6b',
+                        'on-primary': '#ffffff',
+                        'on-primary-container': '#abffed',
+                        secondary: '#006e1c',
+                        'secondary-container': '#91f78e',
+                        tertiary: '#aa0a17',
+                        background: '#f8fafa',
+                        surface: '#ffffff',
+                        'surface-container': '#eceeee',
+                        'surface-container-high': '#e6e8e9',
+                        'on-surface': '#191c1d',
+                        'on-surface-variant': '#3e4946',
+                        outline: '#6e7976',
+                        'outline-variant': '#bdc9c5',
+                        error: '#ba1a1a'
+                    },
+                    fontFamily: {
+                        headline: ['Inter', 'sans-serif'],
+                        body: ['Noto Sans', 'sans-serif']
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #bdc9c5;
+            border-radius: 9999px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background-color: #f2f4f4;
+        }
+        .voice-pulse {
+            animation: voiceRing 2s infinite ease-out;
+        }
+        @keyframes voiceRing {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 95, 83, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 16px rgba(0, 95, 83, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 95, 83, 0); }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body h-screen flex flex-col overflow-hidden">
+    <!-- Top Global App Bar -->
+    <header class="h-16 bg-primary text-on-primary px-6 flex items-center justify-between shadow-md shrink-0 z-50">
+        <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-lg bg-on-primary/10 flex items-center justify-center border border-on-primary/20">
+                <span class="material-symbols-outlined text-2xl text-on-primary">local_hospital</span>
+            </div>
+            <div>
+                <div class="flex items-center gap-2">
+                    <span class="font-headline font-bold text-lg tracking-tight">MediKiosk</span>
+                    <span class="px-2 py-0.5 text-xs bg-on-primary/20 text-on-primary rounded-full font-medium">Interactive Remix v2</span>
+                </div>
+                <p class="text-xs text-on-primary/80">AI Clinical Intake & ABDM Integration Flow</p>
+            </div>
+        </div>
+
+        <!-- Flow Stage Stepper (Interactive) -->
+        <div class="hidden xl:flex items-center gap-2 bg-on-primary/10 px-3 py-1.5 rounded-full border border-on-primary/20 text-xs">
+            <button onclick="goToStage('STAGE_0')" class="stage-pill px-3 py-1 rounded-full font-medium transition-all bg-on-primary text-primary" data-stage="STAGE_0">0. Attract</button>
+            <span class="text-on-primary/40">›</span>
+            <button onclick="goToStage('STAGE_1')" class="stage-pill px-3 py-1 rounded-full font-medium transition-all text-on-primary hover:bg-on-primary/10" data-stage="STAGE_1">1. Identify</button>
+            <span class="text-on-primary/40">›</span>
+            <button onclick="goToStage('STAGE_2')" class="stage-pill px-3 py-1 rounded-full font-medium transition-all text-on-primary hover:bg-on-primary/10" data-stage="STAGE_2">2. Converse (Voice)</button>
+            <span class="text-on-primary/40">›</span>
+            <button onclick="goToStage('STAGE_3')" class="stage-pill px-3 py-1 rounded-full font-medium transition-all text-on-primary hover:bg-on-primary/10" data-stage="STAGE_3">3. Scan & Timeline</button>
+            <span class="text-on-primary/40">›</span>
+            <button onclick="goToStage('STAGE_4')" class="stage-pill px-3 py-1 rounded-full font-medium transition-all text-on-primary hover:bg-on-primary/10" data-stage="STAGE_4">4. Summary & Push</button>
+            <span class="text-on-primary/40">›</span>
+            <button onclick="goToStage('STAGE_5')" class="stage-pill px-3 py-1 rounded-full font-medium transition-all text-on-primary hover:bg-on-primary/10" data-stage="STAGE_5">5. Doctor Desk</button>
+        </div>
+
+        <!-- Global Interactivity & Voice Status Bar -->
+        <div class="flex items-center gap-3">
+            <!-- Voice Indicator -->
+            <div id="voiceIndicator" class="flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container border border-secondary/20 text-xs font-semibold">
+                <span class="w-2.5 h-2.5 rounded-full bg-secondary animate-ping"></span>
+                <span>Voice Engine Ready</span>
+            </div>
+
+            <!-- Language Badge -->
+            <div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-on-primary/10 border border-on-primary/20 text-xs">
+                <span class="material-symbols-outlined text-sm">language</span>
+                <span id="activeLangLabel" class="font-medium">English (en-IN)</span>
+            </div>
+
+            <!-- Emergency Red Alert Trigger -->
+            <button onclick="triggerEmergencyOverlay()" class="h-9 px-4 bg-tertiary hover:bg-red-700 text-on-primary rounded-full flex items-center gap-1.5 text-xs font-bold shadow-md active:scale-95 transition-all">
+                <span class="material-symbols-outlined text-sm">emergency</span>
+                <span>SOS Alert</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Workspace (Split View: Step Navigator + Screen Frame Canvas) -->
+    <div class="flex-1 flex overflow-hidden">
+        <!-- Sidebar: Sequential Screen Playlist -->
+        <aside class="w-80 bg-surface border-r border-outline-variant flex flex-col shrink-0 custom-scrollbar overflow-y-auto">
+            <div class="p-4 border-b border-outline-variant bg-surface-container/50">
+                <h3 class="font-headline font-bold text-sm text-on-surface">Screen Flow Map</h3>
+                <p class="text-xs text-on-surface-variant">45 Connected Designs in Clinical Order</p>
+                <div class="mt-2 flex items-center justify-between text-xs text-on-surface-variant">
+                    <span id="screenCounter">Screen 1 of 24</span>
+                    <button onclick="toggleSidebarCompact()" class="text-primary font-medium hover:underline">Toggle List</button>
+                </div>
+            </div>
+
+            <div id="screenListContainer" class="divide-y divide-outline-variant/30 text-xs">
+                <!-- Injected via JavaScript -->
+            </div>
+        </aside>
+
+        <!-- Main Display: Dynamic Screen Preview Host -->
+        <main class="flex-1 flex flex-col bg-surface-container-low overflow-hidden relative">
+            <!-- Screen Controls & Direct Nav Bar -->
+            <div class="h-12 bg-surface px-6 border-b border-outline-variant flex items-center justify-between shrink-0 shadow-sm">
+                <div class="flex items-center gap-3">
+                    <span id="activeScreenBadge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-primary/10 text-primary">STAGE 0</span>
+                    <h2 id="activeScreenTitle" class="font-headline font-bold text-sm text-on-surface">Refined Landing Screen v2 (WelcomeGate)</h2>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <button onclick="prevScreen()" class="px-3 py-1.5 rounded-lg border border-outline-variant hover:bg-surface-container text-xs font-semibold flex items-center gap-1 transition-all">
+                        <span class="material-symbols-outlined text-sm">arrow_back</span>
+                        <span>Previous</span>
+                    </button>
+                    <button onclick="nextScreen()" class="px-4 py-1.5 rounded-lg bg-primary hover:bg-primary-container text-on-primary text-xs font-bold flex items-center gap-1 shadow transition-all">
+                        <span>Next Screen</span>
+                        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Screen Viewport Frame -->
+            <div class="flex-1 p-4 flex items-center justify-center overflow-hidden relative">
+                <iframe id="screenFrame" class="w-full h-full rounded-2xl shadow-xl border border-outline-variant bg-white transition-opacity duration-200" src="about:blank"></iframe>
+
+                <!-- Floating Voice & Interaction Controller Overlay (Always Accessible) -->
+                <div id="floatingVoiceController" class="absolute bottom-8 right-12 z-40 bg-surface/95 backdrop-blur-md rounded-2xl p-4 shadow-2xl border border-primary/20 flex flex-col gap-3 w-80 transition-all duration-300">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary text-lg">mic</span>
+                            <span class="font-headline font-bold text-xs text-on-surface">Voice Command & TTS</span>
+                        </div>
+                        <span class="text-[10px] px-2 py-0.5 bg-primary/10 text-primary font-bold rounded-full">ACTIVE</span>
+                    </div>
+
+                    <!-- Live Audio Waveform Simulation -->
+                    <div class="h-8 bg-surface-container rounded-lg flex items-center justify-center gap-1 px-3">
+                        <span class="w-1 bg-primary rounded-full h-2 animate-bounce" style="animation-delay: 0.1s"></span>
+                        <span class="w-1 bg-primary rounded-full h-4 animate-bounce" style="animation-delay: 0.3s"></span>
+                        <span class="w-1 bg-primary rounded-full h-7 animate-bounce" style="animation-delay: 0.2s"></span>
+                        <span class="w-1 bg-primary rounded-full h-3 animate-bounce" style="animation-delay: 0.4s"></span>
+                        <span class="w-1 bg-primary rounded-full h-6 animate-bounce" style="animation-delay: 0.15s"></span>
+                        <span class="w-1 bg-primary rounded-full h-2 animate-bounce" style="animation-delay: 0.35s"></span>
+                    </div>
+
+                    <p id="voiceLiveCaption" class="text-xs text-on-surface-variant italic">
+                        "Speak clearly into the microphone or tap the on-screen options..."
+                    </p>
+
+                    <div class="flex items-center gap-2 pt-1 border-t border-outline-variant/40">
+                        <button onclick="simulateVoiceInput('I have severe burning chest pain since morning')" class="flex-1 py-1 px-2 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary text-[11px] font-semibold text-center transition-colors">
+                            🎤 Simulate Pain Voice
+                        </button>
+                        <button onclick="speakCurrentScreenPrompt()" class="p-1 rounded-lg border border-outline-variant hover:bg-surface-container text-on-surface-variant" title="Read Prompt Aloud">
+                            <span class="material-symbols-outlined text-base">volume_up</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Emergency Modal Overlay (Triggered by SOS) -->
+    <div id="emergencyModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-6">
+        <div class="bg-surface rounded-3xl max-w-lg w-full p-8 text-center border-4 border-error shadow-2xl flex flex-col items-center animate-pulse">
+            <div class="w-20 h-20 rounded-full bg-error text-on-error flex items-center justify-center mb-4">
+                <span class="material-symbols-outlined text-5xl">emergency</span>
+            </div>
+            <h2 class="font-headline font-black text-2xl text-error uppercase tracking-wider mb-2">Priority Triage Alert</h2>
+            <p class="text-sm text-on-surface-variant mb-6">
+                Critical clinical signs or manual emergency SOS triggered. Triage nurse desk notified with Patient ID: <strong>PAT-9821</strong>.
+            </p>
+            <div class="w-full flex flex-col gap-3">
+                <button onclick="openScreenByKey('triage_dashboard')" class="w-full py-3 bg-error text-on-error font-headline font-bold rounded-xl shadow-lg hover:bg-red-700 transition-colors">
+                    Open Nurse Triage Monitor
+                </button>
+                <button onclick="closeEmergencyOverlay()" class="w-full py-2.5 rounded-xl border border-outline-variant font-medium text-xs text-on-surface-variant hover:bg-surface-container">
+                    Dismiss Alert (Continue Standard Intake)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/flow_data.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

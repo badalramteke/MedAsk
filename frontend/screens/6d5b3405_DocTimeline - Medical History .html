@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DocTimeline - MediKiosk</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Noto+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                            "surface-dim": "#d8dada",
+                            "tertiary-fixed": "#ffdad6",
+                            "on-secondary": "#ffffff",
+                            "primary-container": "#0f7a6b",
+                            "on-tertiary": "#ffffff",
+                            "on-primary-fixed-variant": "#005046",
+                            "tertiary": "#aa0a17",
+                            "on-secondary-fixed": "#002204",
+                            "on-error": "#ffffff",
+                            "primary-fixed-dim": "#7dd6c4",
+                            "surface-container-lowest": "#ffffff",
+                            "secondary-fixed": "#94f990",
+                            "surface-container-low": "#f2f4f4",
+                            "surface-container": "#eceeee",
+                            "inverse-on-surface": "#eff1f1",
+                            "on-tertiary-container": "#ffeae8",
+                            "outline": "#6e7976",
+                            "on-secondary-container": "#00731e",
+                            "on-surface-variant": "#3e4946",
+                            "surface-container-highest": "#e1e3e3",
+                            "secondary": "#006e1c",
+                            "surface-bright": "#f8fafa",
+                            "inverse-primary": "#7dd6c4",
+                            "surface-tint": "#006b5d",
+                            "outline-variant": "#bdc9c5",
+                            "on-error-container": "#93000a",
+                            "on-surface": "#191c1d",
+                            "secondary-container": "#91f78e",
+                            "on-tertiary-fixed": "#410003",
+                            "primary-fixed": "#99f3e0",
+                            "tertiary-fixed-dim": "#ffb3ac",
+                            "on-primary-container": "#abffed",
+                            "on-primary-fixed": "#00201b",
+                            "surface-container-high": "#e6e8e9",
+                            "secondary-fixed-dim": "#78dc77",
+                            "surface-variant": "#e1e3e3",
+                            "surface": "#f8fafa",
+                            "primary": "#005f53",
+                            "tertiary-container": "#ce2b2c",
+                            "on-tertiary-fixed-variant": "#930010",
+                            "on-secondary-fixed-variant": "#005313",
+                            "inverse-surface": "#2e3131",
+                            "on-primary": "#ffffff",
+                            "background": "#f8fafa",
+                            "on-background": "#191c1d",
+                            "error-container": "#ffdad6",
+                            "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                            "DEFAULT": "0.25rem",
+                            "lg": "0.5rem",
+                            "xl": "0.75rem",
+                            "full": "9999px"
+                    },
+                    "spacing": {
+                            "gutter-md": "24px",
+                            "touch-target-min": "64px",
+                            "stack-gap": "16px",
+                            "section-gap": "48px",
+                            "margin-edge": "32px"
+                    },
+                    "fontFamily": {
+                            "display-lg": [
+                                    "Inter"
+                            ],
+                            "label-lg": [
+                                    "Inter"
+                            ],
+                            "display-lg-mobile": [
+                                    "Inter"
+                            ],
+                            "body-lg": [
+                                    "Noto Sans"
+                            ],
+                            "headline-md": [
+                                    "Inter"
+                            ],
+                            "headline-lg": [
+                                    "Inter"
+                            ],
+                            "button-text": [
+                                    "Inter"
+                            ],
+                            "body-md": [
+                                    "Noto Sans"
+                            ]
+                    },
+                    "fontSize": {
+                            "display-lg": [
+                                    "48px",
+                                    {
+                                            "lineHeight": "60px",
+                                            "fontWeight": "700"
+                                    }
+                            ],
+                            "label-lg": [
+                                    "18px",
+                                    {
+                                            "lineHeight": "24px",
+                                            "letterSpacing": "0.02em",
+                                            "fontWeight": "600"
+                                    }
+                            ],
+                            "display-lg-mobile": [
+                                    "32px",
+                                    {
+                                            "lineHeight": "40px",
+                                            "fontWeight": "700"
+                                    }
+                            ],
+                            "body-lg": [
+                                    "20px",
+                                    {
+                                            "lineHeight": "32px",
+                                            "fontWeight": "400"
+                                    }
+                            ],
+                            "headline-md": [
+                                    "28px",
+                                    {
+                                            "lineHeight": "36px",
+                                            "fontWeight": "600"
+                                    }
+                            ],
+                            "headline-lg": [
+                                    "32px",
+                                    {
+                                            "lineHeight": "44px",
+                                            "fontWeight": "600"
+                                    }
+                            ],
+                            "button-text": [
+                                    "20px",
+                                    {
+                                            "lineHeight": "24px",
+                                            "fontWeight": "600"
+                                    }
+                            ],
+                            "body-md": [
+                                    "18px",
+                                    {
+                                            "lineHeight": "28px",
+                                            "fontWeight": "400"
+                                    }
+                            ]
+                    }
+            },
+                },
+        }
+    </script>
+<style>
+        /* Base typography setting */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+        
+        /* Custom scrollbar for timeline */
+        .timeline-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+        .timeline-scroll::-webkit-scrollbar-track {
+            background: theme('colors.surface-container-low');
+            border-radius: 8px;
+        }
+        .timeline-scroll::-webkit-scrollbar-thumb {
+            background: theme('colors.outline-variant');
+            border-radius: 8px;
+        }
+        .timeline-scroll::-webkit-scrollbar-thumb:hover {
+            background: theme('colors.outline');
+        }
+        
+        /* Timeline line styling */
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: theme('colors.surface-container-high');
+            border-radius: 4px;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col overflow-hidden bg-background">
+<!-- TopAppBar -->
+<header class="docked full-width top-0 bg-surface dark:bg-surface-container shadow-sm flex justify-between items-center w-full px-gutter-md h-touch-target-min flex-shrink-0 z-20">
+<div class="flex items-center gap-4">
+<span class="text-headline-md font-headline-md text-primary dark:text-primary-fixed">HealthConnect Kiosk</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex flex-col items-center justify-center text-primary font-bold">
+<span class="font-button-text text-button-text">Step 3 of 5 - Document Review</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center w-12 h-12 rounded-full hover:bg-surface-container-high active:scale-95 transition-transform duration-200 text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">help</span>
+</button>
+<button class="flex items-center justify-center w-12 h-12 rounded-full hover:bg-surface-container-high active:scale-95 transition-transform duration-200 text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">language</span>
+</button>
+<button class="h-touch-target-min px-6 rounded-lg bg-error text-on-error font-button-text text-button-text shadow-sm flex items-center justify-center hover:opacity-90 active:scale-95 transition-all">
+                SOS Assist
+            </button>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-grow flex flex-col md:flex-row overflow-hidden relative">
+<!-- Left Column: Timeline -->
+<section class="w-full md:w-[45%] lg:w-[40%] flex flex-col border-r border-outline-variant bg-surface h-full relative z-10">
+<div class="px-margin-edge py-6 bg-surface z-10 shadow-sm relative">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-2">Medical History</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Review your historical records before proceeding.</p>
+</div>
+<div class="flex-grow overflow-y-auto timeline-scroll px-margin-edge py-6 relative timeline-line">
+<!-- Year Marker 2024 -->
+<div class="relative z-10 mb-8 pl-14">
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-11 h-8 bg-surface border-2 border-surface-container-high flex items-center justify-center rounded-full z-10">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+</div>
+<span class="font-label-lg text-label-lg text-primary bg-primary-container/10 px-4 py-2 rounded-full inline-block">2024</span>
+</div>
+<!-- Timeline Item: Lab Report (Abnormal) -->
+<div class="relative z-10 mb-section-gap pl-14 group">
+<div class="absolute left-[14px] top-8 w-4 h-4 rounded-full bg-surface border-2 border-outline-variant z-10 group-hover:border-primary transition-colors"></div>
+<div class="bg-surface-container-lowest border border-outline-variant shadow-sm rounded-[24px] p-6 hover:shadow-md hover:border-primary-container transition-all cursor-pointer ring-2 ring-transparent focus-within:ring-primary">
+<div class="flex items-start justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-full bg-tertiary-fixed/30 text-tertiary flex items-center justify-center">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">science</span>
+</div>
+<div>
+<h3 class="font-label-lg text-label-lg text-on-surface">Comprehensive Metabolic Panel</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Oct 12, 2024 • City General Hospital</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container p-4 rounded-xl mb-4 border border-outline-variant/50">
+<p class="font-body-md text-body-md text-on-surface">Key Finding:</p>
+<div class="flex items-center gap-2 mt-2">
+<span class="font-label-lg text-label-lg text-tertiary">HbA1c: 8.5%</span>
+<span class="bg-tertiary text-on-tertiary text-xs px-2 py-1 rounded-full font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">warning</span> High
+                                </span>
+</div>
+</div>
+<button class="w-full h-12 flex items-center justify-center gap-2 text-primary font-button-text text-button-text border border-outline-variant rounded-lg hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">visibility</span> View Document
+                        </button>
+</div>
+</div>
+<!-- Year Marker 2022 -->
+<div class="relative z-10 mb-8 pl-14">
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-11 h-8 bg-surface border-2 border-surface-container-high flex items-center justify-center rounded-full z-10">
+<span class="w-3 h-3 rounded-full bg-outline-variant"></span>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface-variant bg-surface-container-high px-4 py-2 rounded-full inline-block">2022</span>
+</div>
+<!-- Timeline Item: Prescription -->
+<div class="relative z-10 mb-section-gap pl-14 group">
+<div class="absolute left-[14px] top-8 w-4 h-4 rounded-full bg-surface border-2 border-outline-variant z-10 group-hover:border-primary transition-colors"></div>
+<div class="bg-surface-container-lowest border border-outline-variant shadow-sm rounded-[24px] p-6 hover:shadow-md hover:border-primary-container transition-all cursor-pointer">
+<div class="flex items-start justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-full bg-primary-container/20 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">prescriptions</span>
+</div>
+<div>
+<h3 class="font-label-lg text-label-lg text-on-surface">Endocrinology Consultation</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">May 04, 2022 • Metro Health Clinic</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container p-4 rounded-xl mb-4 border border-outline-variant/50">
+<p class="font-body-md text-body-md text-on-surface">Prescribed:</p>
+<p class="font-label-lg text-label-lg text-on-surface mt-1">Metformin 500mg - Take 1 tablet daily with meals.</p>
+</div>
+<button class="w-full h-12 flex items-center justify-center gap-2 text-primary font-button-text text-button-text border border-outline-variant rounded-lg hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">visibility</span> View Document
+                        </button>
+</div>
+</div>
+<!-- Year Marker 2019 -->
+<div class="relative z-10 mb-8 pl-14">
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-11 h-8 bg-surface border-2 border-surface-container-high flex items-center justify-center rounded-full z-10">
+<span class="w-3 h-3 rounded-full bg-outline-variant"></span>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface-variant bg-surface-container-high px-4 py-2 rounded-full inline-block">2019</span>
+</div>
+<!-- Timeline Item: Discharge Summary -->
+<div class="relative z-10 mb-12 pl-14 group">
+<div class="absolute left-[14px] top-8 w-4 h-4 rounded-full bg-surface border-2 border-outline-variant z-10 group-hover:border-primary transition-colors"></div>
+<div class="bg-surface-container-lowest border border-outline-variant shadow-sm rounded-[24px] p-6 hover:shadow-md hover:border-primary-container transition-all cursor-pointer">
+<div class="flex items-start justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-full bg-secondary-container/30 text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">description</span>
+</div>
+<div>
+<h3 class="font-label-lg text-label-lg text-on-surface">Discharge Summary</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Nov 18, 2019 • City General Hospital</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container p-4 rounded-xl mb-4 border border-outline-variant/50">
+<p class="font-body-md text-body-md text-on-surface">Diagnosis:</p>
+<p class="font-label-lg text-label-lg text-on-surface mt-1">Acute Bronchitis - Resolved.</p>
+</div>
+<button class="w-full h-12 flex items-center justify-center gap-2 text-primary font-button-text text-button-text border border-outline-variant rounded-lg hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">visibility</span> View Document
+                        </button>
+</div>
+</div>
+<!-- Bottom spacer for scrolling past bottom nav -->
+<div class="h-24"></div>
+</div>
+</section>
+<!-- Right Column: Document Preview (Bento/Glassmorphism style) -->
+<section class="hidden md:flex flex-col flex-grow bg-surface-container-low relative p-margin-edge h-full">
+<div class="absolute inset-0 z-0 opacity-40 mix-blend-multiply" style="background-image: radial-gradient(circle at 100% 0%, theme('colors.primary-container') 0%, transparent 40%), radial-gradient(circle at 0% 100%, theme('colors.secondary-container') 0%, transparent 40%);"></div>
+<div class="relative z-10 flex-grow flex flex-col">
+<div class="flex justify-between items-center mb-6">
+<h2 class="font-headline-md text-headline-md text-on-surface">Document Preview</h2>
+<div class="flex gap-2">
+<button class="w-12 h-12 rounded-full bg-surface-container border border-outline-variant flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high">
+<span class="material-symbols-outlined">zoom_out</span>
+</button>
+<button class="w-12 h-12 rounded-full bg-surface-container border border-outline-variant flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high">
+<span class="material-symbols-outlined">zoom_in</span>
+</button>
+<button class="w-12 h-12 rounded-full bg-surface-container border border-outline-variant flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high">
+<span class="material-symbols-outlined">print</span>
+</button>
+</div>
+</div>
+<!-- Glassmorphism Document Container -->
+<div class="flex-grow bg-surface-container-lowest/80 backdrop-blur-md border border-surface-bright shadow-lg rounded-[24px] overflow-hidden flex flex-col relative">
+<!-- Doc Header -->
+<div class="p-6 border-b border-outline-variant/30 flex justify-between items-center bg-surface-container-lowest">
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 bg-surface-container rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[32px]">local_hospital</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface leading-tight">City General Hospital</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Department of Pathology</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-body-md text-body-md text-on-surface-variant">Date: Oct 12, 2024</p>
+<p class="font-body-md text-body-md text-on-surface-variant">Patient ID: 987654321</p>
+</div>
+</div>
+<!-- Doc Content area with faux text and highlights -->
+<div class="flex-grow p-8 overflow-y-auto bg-white" style="background-image: linear-gradient(theme('colors.surface-container-low') 1px, transparent 1px); background-size: 100% 32px; line-height: 32px;">
+<div class="font-display-lg text-display-lg text-center mb-8 pb-4 border-b-2 border-outline-variant">LABORATORY REPORT</div>
+<div class="grid grid-cols-2 gap-8 mb-8 font-body-lg text-body-lg text-on-surface">
+<div>
+<p><strong>Patient Name:</strong> John Doe</p>
+<p><strong>DOB:</strong> 05/14/1980</p>
+<p><strong>Gender:</strong> Male</p>
+</div>
+<div>
+<p><strong>Referring Dr:</strong> Dr. Sarah Smith</p>
+<p><strong>Specimen:</strong> Blood, Serum</p>
+<p><strong>Collected:</strong> 10/11/2024 08:30 AM</p>
+</div>
+</div>
+<div class="font-headline-md text-headline-md mb-4 text-on-surface bg-surface-container-low px-4 py-2 rounded">COMPREHENSIVE METABOLIC PANEL</div>
+<table class="w-full text-left font-body-lg text-body-lg mb-8 border-collapse">
+<thead>
+<tr class="border-b-2 border-outline">
+<th class="py-2 w-1/3">Test Name</th>
+<th class="py-2 w-1/4">Result</th>
+<th class="py-2 w-1/4">Ref. Range</th>
+<th class="py-2 w-1/6">Units</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-outline-variant/30">
+<td class="py-3">Glucose, Fasting</td>
+<td class="py-3">95</td>
+<td class="py-3 text-on-surface-variant">70 - 99</td>
+<td class="py-3 text-on-surface-variant">mg/dL</td>
+</tr>
+<tr class="border-b border-outline-variant/30">
+<td class="py-3">BUN</td>
+<td class="py-3">15</td>
+<td class="py-3 text-on-surface-variant">7 - 20</td>
+<td class="py-3 text-on-surface-variant">mg/dL</td>
+</tr>
+<tr class="border-b border-outline-variant/30">
+<td class="py-3">Creatinine</td>
+<td class="py-3">0.9</td>
+<td class="py-3 text-on-surface-variant">0.6 - 1.2</td>
+<td class="py-3 text-on-surface-variant">mg/dL</td>
+</tr>
+<!-- Highlighted Row -->
+<tr class="border-b-2 border-tertiary bg-tertiary-fixed/10 relative">
+<td class="py-3 font-bold text-on-surface pl-2 border-l-4 border-tertiary">Hemoglobin A1c</td>
+<td class="py-3 font-bold text-tertiary flex items-center gap-2">
+<span class="bg-primary-container text-on-primary-container px-2 py-1 rounded shadow-sm">8.5</span>
+<span class="material-symbols-outlined text-tertiary animate-pulse" title="Abnormal Value">warning</span>
+</td>
+<td class="py-3 text-on-surface-variant">&lt; 5.7</td>
+<td class="py-3 text-on-surface-variant">%</td>
+</tr>
+<tr class="border-b border-outline-variant/30">
+<td class="py-3">Sodium</td>
+<td class="py-3">140</td>
+<td class="py-3 text-on-surface-variant">136 - 145</td>
+<td class="py-3 text-on-surface-variant">mmol/L</td>
+</tr>
+</tbody>
+</table>
+<div class="mt-8 p-6 bg-surface-container-low rounded-xl border border-outline-variant font-body-md text-body-md">
+<p class="font-bold mb-2">Pathologist Note:</p>
+<p class="text-on-surface-variant">HbA1c levels indicate poor glycemic control over the past 2-3 months. Clinical correlation and follow-up with endocrinology is recommended. Remaining metabolic panel is within normal limits.</p>
+<div class="mt-8 pt-4 border-t border-outline-variant flex justify-between items-end">
+<div>
+<div class="w-32 h-12 mb-2 opacity-50" data-alt="A stylized cursive signature in dark blue ink on a white background, representing a doctor's signature on a medical document." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDriMFbRYPBU7hkmc1sjGQxnKr9eMljdNz9HahMknA8rkapfw57K1VXY8ySH9-sznc3p7lhpq85eoci3JDd4Nble7BJNX8LDeFM4A130OScOUnRhYiwBGe_zRhWy9ifMzAFC7fFH5FeaqTFGEVn0BhfjxZqcyl8VOQHDXZzX-5uB3ZHyd8YYk-w7IH-H07smua0P88ZW-FN3ib30G47VQDJRouIhgVqDpFV1Hx7abBjAfy42rUFXef7rePMZozXCB2d1UnU_bUpC4z5');"></div>
+<p class="font-bold">Dr. Amanda Wright, MD</p>
+<p class="text-on-surface-variant text-sm">Board Certified Pathologist</p>
+</div>
+<div class="w-24 h-24 border border-outline-variant rounded p-1 opacity-50 flex items-center justify-center bg-white" data-alt="A high contrast, square QR code or 2D barcode on a white background, used for verifying medical document authenticity." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCg2hrqUh6OZFcU0D3tYQKNolvYCEYnGs6tfKKPZoc9L0YCkEVwugBvwUJ0jpWhp3KIWOr6LaMv-PccTx7Y3HSQ7vRi3bQXbk00m8aO7ebH8sP5opaTyYityrV186kOp6dp_hInjnQhFTf-h4xeJbau4aE15YebwQSH6EC53Zgh0ywa4ELxzvYEispnzikpi5CYNkpiFVGGatvVecsT_7C83PAJ87h5h_Wr3vDZP7dsN1F6ZYHD1VmGnMjauqIAoR0DWdnLU0Xk-v8p');"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom spacer for floating nav -->
+<div class="h-24"></div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-between items-center px-margin-edge py-4 bg-surface-container-high dark:bg-inverse-surface border-t border-outline-variant shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] rounded-t-xl">
+<button class="flex flex-row items-center justify-center text-on-surface-variant border-2 border-outline rounded-lg px-8 h-touch-target-min gap-2 hover:opacity-90 active:translate-y-0.5 transition-all bg-surface font-button-text text-button-text min-w-[160px]">
+<span class="material-symbols-outlined">arrow_back</span>
+            Back
+        </button>
+<!-- Progress Indicators (Optional enhancement for kiosk flow) -->
+<div class="hidden lg:flex gap-3">
+<div class="w-16 h-2 rounded-full bg-primary"></div>
+<div class="w-16 h-2 rounded-full bg-primary"></div>
+<div class="w-16 h-2 rounded-full bg-primary shadow-[0_0_8px_theme('colors.primary')]"></div>
+<div class="w-16 h-2 rounded-full bg-surface-variant"></div>
+<div class="w-16 h-2 rounded-full bg-surface-variant"></div>
+</div>
+<button class="flex flex-row items-center justify-center bg-primary text-on-primary rounded-lg px-8 h-touch-target-min gap-2 hover:opacity-90 active:translate-y-0.5 transition-all shadow-md font-button-text text-button-text min-w-[160px]">
+            Continue
+            <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</nav>
+</body></html>

@@ -1,0 +1,713 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0.0",
+  "dataset_id": "clinical_red_flag_rules_v1",
+  "description": "Deterministic high-priority clinical red-flag alert rules for outpatient and kiosk triage prioritization across six Indian languages.",
+  "disclaimer": "These rules provide deterministic alerts for triage staff. They do not generate diagnostic conclusions or patient treatment instructions.",
+  "requires_clinical_review": true,
+  "supported_languages": [
+    "en",
+    "hi",
+    "mr",
+    "bn",
+    "ta",
+    "te"
+  ],
+  "allowed_urgency_levels": [
+    "EMERGENCY_CRITICAL",
+    "URGENT_PRIORITY"
+  ],
+  "rules": [
+    {
+      "rule_id": "RF_CARD_001_CHEST_PAIN_RADIATION",
+      "category": "cardiovascular",
+      "urgency_level": "EMERGENCY_CRITICAL",
+      "trigger": {
+        "primary_symptom": "chest_pain",
+        "condition": "EXPRESSION_MATCH",
+        "structured_fact_pattern": {
+          "symptom_present": true,
+          "radiation_includes_any": [
+            "RADIATION_LEFT_ARM_SHOULDER",
+            "RADIATION_JAW_NECK",
+            "RADIATION_BACK"
+          ]
+        }
+      },
+      "trigger_keywords_by_lang": {
+        "en": [
+          "chest pain left arm",
+          "chest pain jaw",
+          "crushing pain neck",
+          "heart pain shoulder radiation"
+        ],
+        "hi": [
+          "छाती का दर्द बायां हाथ",
+          "सीने में दर्द जबड़ा",
+          "छाती का दर्द गर्दन तक"
+        ],
+        "mr": [
+          "छातीत दुखणे डावा हात",
+          "छातीत वेदना जबडा",
+          "हृदयात दुखणे मान"
+        ],
+        "bn": [
+          "বুকের ব্যথা বাঁ হাত",
+          "বুকের ব্যথা চোয়াল",
+          "বুকে ব্যথা ঘাড়"
+        ],
+        "ta": [
+          "நெஞ்சு வலி இடது கை",
+          "நெஞ்சு வலி தாடை",
+          "நெஞ்சு வலி கழுத்து"
+        ],
+        "te": [
+          "ఛాతీ నొప్పి ఎడమ చేయి",
+          "ఛాతీ నొప్పి దవడ",
+          "ఛాతీ నొప్పి మెడ"
+        ]
+      },
+      "alert_message": {
+        "en": "CRITICAL ALERT: Suspected Acute Coronary Syndrome (Chest pain radiating to arm/jaw). Immediate physician triage required.",
+        "hi": "गंभीर चेतावनी: तीव्र कोरोनरी सिंड्रोम की आशंका (हाथ/जबड़े में छाती का दर्द)। तुरंत चिकित्सक जांच आवश्यक।",
+        "mr": "गंभीर इशारा: अ‍ॅक्युट कोरोनरी सिंड्रोमची शंका (डाव्या हातात/जबड्यात पसरणारी छातीतील वेदना). त्वरित वैद्यकीय तपासणी आवश्यक.",
+        "bn": "জরুরি সতর্কতা: তীব্র করোনারি সিন্ড্রোমের আশঙ্কা (হাত/চোয়ালে ছড়িয়ে পড়াুকের ব্যথা)। অবিলম্বে চিকিৎসকের পরিদর্শন প্রয়োজন।",
+        "ta": "கடுமையான எச்சரிக்கை: அக்யூட் காரனரி சிண்ட்ரோம் சந்தேகம் (கை/தாடைக்கு பரவும் நெஞ்சு வலி). உடனடி மருத்துவ ஆய்வு தேவை.",
+        "te": "తీవ్రమైన హెచ్చరిక: అక్యూట్ కరోనరీ సిండ్రోమ్ అనుమానం (చేయి/దవడకి వ్యాపించే ఛాతీ నొప్పి). వెంటనే వైద్య పరీక్ష అవసరం."
+      },
+      "action_code": "EMERGENCY_TRIAGE_NOTIFY_PHYSICIAN_IMMEDIATE"
+    },
+    {
+      "rule_id": "RF_CARD_002_DIAPHORESIS_CONCERNING",
+      "category": "cardiovascular",
+      "urgency_level": "EMERGENCY_CRITICAL",
+      "trigger": {
+        "primary_symptom": "chest_pain",
+        "condition": "EXPRESSION_MATCH",
+        "structured_fact_pattern": {
+          "symptom_present": true,
+          "associated_symptoms_includes_any": [
+            "DIAPHORESIS_SWEATING",
+            "DYSPNOEA_SHORTNESS_BREATH",
+            "DIZZINESS_LIGHTHEADEDNESS"
+          ]
+        }
+      },
+      "trigger_keywords_by_lang": {
+        "en": [
+          "cold sweat chest pain",
+          "sweating breathless",
+          "profuse sweating chest pressure"
+        ],
+        "hi": [
+          "ठंडा पसीना छाती में दर्द",
+          "पसीना सांस फूलना",
+          "अचानक ठंडा पसीना"
+        ],
+        "mr": [
+          "थंड घाम छातीत दुखणे",
+          "घाम येणे श्वास लागणे",
+          "प्रचंड घाम"
+        ],
+        "bn": [
+          "ঠান্ডা ঘাম বুকের ব্যথা",
+          "ঘাম ও শ্বাসকষ্ট",
+          "প্রচুর ঘাম"
+        ],
+        "ta": [
+          "குளிர்ந்த வேர்வை நெஞ்சு வலி",
+          "வேர்வை மூச்சுத்திணறல்"
+        ],
+        "te": [
+          "చల్లని చెమట ఛాతీ నొప్పి",
+          "చెమటలు ఆయాసం"
+        ]
+      },
+      "alert_message": {
+        "en": "CRITICAL ALERT: Chest pain associated with profuse diaphoresis/dyspnea. Immediate emergency triage required.",
+        "hi": "गंभीर चेतावनी: अत्यधिक पसीने और सांस फूलने के साथ छाती का दर्द। तुरंत आपातकालीन जांच आवश्यक।",
+        "mr": "गंभीर इशारा: प्रचंड घाम आणि दम लागण्यासह छातीत दुखणे. त्वरित आपत्कालीन तपासणी आवश्यक.",
+        "bn": "জরুরি সতর্কতা: প্রচুর ঘাম ও শ্বাসকষ্টের সাথে বুকের ব্যথা। অবিলম্বে জরুরি মূল্যায়ন প্রয়োজন।",
+        "ta": "கடுமையான எச்சரிக்கை: அதிக வேர்வை மற்றும் மூச்சுத்திணறலுடன் நெஞ்சு வலி. உடனடி அவசர சிகிச்சை தேவை.",
+        "te": "తీవ్రమైన హెచ్చరిక: విపరీతమైన చెమటలు మరియు ఆయాసంతో కూడిన ఛాతీ నొప్పి. వెంటనే అత్యవసర పరీక్ష అవసరం."
+      },
+      "action_code": "EMERGENCY_TRIAGE_NOTIFY_NURSE_STATION"
+    },
+    {
+      "rule_id": "RF_CARD_003_SUDDEN_COLLAPSE",
+      "category": "cardiovascular",
+      "urgency_level": "EMERGENCY_CRITICAL",
+      "trigger": {
+        "primary_symptom": "syncope",
+        "condition": "EXPRESSION_MATCH",
+        "structured_fact_pattern": {
+          "loss_of_consciousness": true,
+          "onset": "SUDDEN"
+        }
+      },
+      "trigger_keywords_by_lang": {
+        "en": [
+          "sudden collapse",
+          "fainted suddenly",
+          "passed out loss of consciousness",
+          "unresponsive fall"
+        ],
+        "hi": [
+          "अचानक बेहोश होना",
+          "अचानक गिर पड़ना",
+          "चक्कर खाकर गिरना"
+        ],
+        "mr": [
+          "अचानक चक्कर येऊन पडणे",
+          "बेहोश होणे",
+          "अचानक पडणे"
+        ],
+        "bn": [
+          "হঠাৎ অজ্ঞান হওয়া",
+          "হঠাৎ পড়ে যাওয়া",
+          "চেতনা হারানো"
+        ],
+        "ta": [
+          "திடீர் மயக்கம்",
+          "திடீரென்று கீழே விழுதல்",
+          "உணர்விழப்பு"
+        ],
+        "te": [
+          "అకస్మాత్తుగా స్పృహ తప్పడం",
+          "కళ్లు తిరిగి పడిపోవడం",
+          "స్పృహ కోల్పోవడం"
+        ]
+      },
+      "alert_message": {
+        "en": "CRITICAL ALERT: Reported sudden collapse / syncope event. Immediate resuscitation team assessment required.",
+        "hi": "गंभीर चेतावनी: अचानक बेहोश होने / गिरने की सूचना। तुरंत मेडिकल टीम का मूल्यांकन आवश्यक।",
+        "mr": "गंभीर इशारा: अचानक पडणे किंवा चक्कर येणे. त्वरित पुनरुज्जीवन टीमची तपासणी आवश्यक.",
+        "bn": "জরুরি সতর্কতা: হঠাৎ পড়ে যাওয়া/অজ্ঞান হওয়ার তথ্য। অবিলম্বে মেডিকেল টিম মূল্যায়ন প্রয়োজন।",
+        "ta": "கடுமையான எச்சரிக்கை: திடீர் மயக்கம் / கீழே விழுந்த நிகழ்வு. உடனடி மருத்துவக் குழு ஆய்வு தேவை.",
+        "te": "తీవ్రమైన హెచ్చరిక: అకస్మాత్తుగా పడిపోవడం / స్పృహ తప్పిన ఘటన. వెంటనే వైద్య బృందం పరీక్ష అవసరం."
+      },
+      "action_code": "EMERGENCY_RESUSCITATION_TEAM_INTERRUPT"
+    },
+    {
+      "rule_id": "RF_RESP_001_SEVERE_ACUTE_DYSPNOEA",
+      "category": "respiratory",
+      "urgency_level": "EMERGENCY_CRITICAL",
+      "trigger": {
+        "primary_symptom": "dyspnea",
+        "condition": "EXPRESSION_MATCH",
+        "structured_fact_pattern": {
+          "severity": "SEVERE",
+          "onset": "ACUTE",
+          "inability_to_speak_full_sentences": true
+        }
+      },
+      "trigger_keywords_by_lang": {
+        "en": [
+          "severe acute dyspnea",
+          "gasping for air",
+          "cannot breathe",
+          "severe breathlessness"
+        ],
+        "hi": [
+          "गंभीर सांस की तकलीफ",
+          "सांस नहीं आ रही",
+          "हवा के लिए तड़पना"
+        ],
+        "mr": [
+          "तीव्र श्वास कोंडणे",
+          "श्वास घेता येत नाही",
+          "दम लागणे"
+        ],
+        "bn": [
+          "তীব্র শ্বাসকষ্ট",
+          "শ্বাস নিতে না পারা",
+          "বাতাসের জন্য হাঁপানো"
+        ],
+        "ta": [
+          "கடுமையான மூச்சுத்திணறல்",
+          "மூச்சு விட முடியவில்லை"
+        ],
+        "te": [
+          "తీవ్రమైన ఆయాసం",
+          "శ్వాస ఆడకపోవడం"
+        ]
+      },
+      "alert_message": {
+        "en": "CRITICAL ALERT: Severe acute dyspnea / Respiratory distress reported. Immediate airway and oxygenation evaluation required.",
+        "hi": "गंभीर चेतावनी: अत्यधिक सांस की तकलीफ। तुरंत ऑक्सीजन और श्वसन जांच आवश्यक।",
+        "mr": "गंभीर इशारा: तीव्र श्वास कोंडणे. त्वरित ऑक्सिजन आणि श्वसन तपासणी आवश्यक.",
+        "bn": "জরুরি সতর্কতা: তীব্র শ্বাসকষ্ট। অবিলম্বে শ্বাসনালী ও অক্সিজেন মূল্যায়ন প্রয়োজন।",
+        "ta": "கடுமையான எச்சரிக்கை: தீவிர மூச்சுத்திணறல். உடனடி ஆக்சிஜன் மற்றும் சுவாச பரிசோதனை தேவை.",
+        "te": "తీవ్రమైన హెచ్చరిక: తీవ్రమైన ఆయాసం / శ్వాసకోశ ఇబ్బంది. వెంటనే ఆక్సిజన్ మరియు శ్వాస పరీక్ష అవసరం."
+      },
+      "action_code": "EMERGENCY_OXYGEN_AIRWAY_EVALUATION"
+    },
+    {
+      "rule_id": "RF_RESP_002_STRIDOR",
+      "category": "respiratory",
+      "urgency_level": "EMERGENCY_CRITICAL",
+      "trigger": {
+        "primary_symptom": "upper_airway_sound",
+        "condition": "EXPRESSION_MATCH",
+        "structured_fact_pattern": {
+          "stridor_present": true,
+          "airway_compromise_risk": true
+        }
+      },
+      "trigger_keywords_by_lang": {
+        "en": [
+          "stridor",
+          "high pitched breathing sound",
+          "choking noise upper throat"
+        ],
+        "hi": [
+          "स्ट्रिडर",
+          "सांस लेते समय सीटी या सीटी जैसी आवाज",
+          "गले में रुकावट"
+        ],
+        "mr": [
+          "स्ट्रायडर",
+          "श्वास घेताना शिटीसारखा आवाज",
+          "घशात अडकणे"
+        ],
+        "bn": [
+          "স্ট্রাইডার",
+          "শ্বাস নেওয়ার সময় বাঁশির শব্দ",
+          "গলায় চরম বাধা"
+        ],
+        "ta": [
+          "ஸ்ட்ரைடர்",
+          "மூச்சுவிடும்போது கூச்சல் ஒலி",
+          "தொண்டை அடைப்பு"
+        ],
+        "te": [
+          "స్ట్రైడర్",
+          "శ్వాస తీస్కుంటున్నప్పుడు ఈల శబ్దం",
+          "గొంతు నిరోధం"
+        ]
+      },
+      "alert_message": {
+        "en": "CRITICAL ALERT: Stridor / Upper airway obstruction noise reported. Immediate STAT physician intervention required.",
+        "hi": "गंभीर चेतावनी: गले में रुकावट / स्ट्रिडर की आवाज। तुरंत डॉक्टर द्वारा आपातकालीन हस्तक्षेप आवश्यक।",
+        "mr": "गंभीर इशारा: वरच्या श्वसनमार्गात अडथळा (स्ट्रायडर). त्वरित डॉक्टरांचे आपत्कालीन सहाय्य आवश्यक.",
+        "bn": "জরুরি সতর্কতা: ওপরের শ্বাসনালীতে বাধা (স্ট্রাইডার)। অবিলম্বে চিকিৎসকের হস্তক্ষেপ প্রয়োজন।",
+        "ta": "கடுமையான எச்சரிக்கை: மேல் சுவாசப்பாதை அடைப்பு (ஸ்ட்ரைடர்). உடனடி மருத்துவர் தலையீடு தேவை.",
+        "te": "తీవ్రమైన హెచ్చరిక: గొంతు శ్వాసకోశ అవరోధం (స్ట్రైడర్). వెంటనే అత్యవసర వైద్యుల జోక్యం అవసరం."
+      },
+      "action_code": "EMERGENCY_AIRWAY_STAT_INTERVENTION"
+    },
+    {
+      "rule_id": "RF_RESP_003_CENTRAL_CYANOSIS",
+      "category": "respiratory",
+      "urgency_level": "EMERGENCY_CRITICAL",
+      "trigger": {
+        "primary_symptom": "cyanosis",
+        "condition": "EXPRESSION_MATCH",
+        "structured_fact_pattern": {
+          "bluish_discoloration": "CENTRAL_LIPS_TONGUE_FACE"
+        }
+      },
+      "trigger_keywords_by_lang": {
+        "en": [
+          "central cyanosis",
+          "blue lips",
+          "blue tongue face blue",
+          "skin turning blue oxygen loss"
+        ],
+        "hi": [
+          "नीले होंठ",
+          "जीभ नीली पड़ना",
+          "त्वचा का नीला पड़ना"
+        ],
+        "mr": [
+          "ओठ निळे पडणे",
+          "जीभ निळी होणे",
+          "त्वचा निळी पडणे"
+        ],
+        "bn": [
+          "ঠোঁট নীল হয়ে যাওয়া",
+          "জিহ্বা নীল হওয়া",
+          "ত্বক নীল হওয়া"
+        ],
+        "ta": [
+          "உதடுகள் நீல நிறமாதல்",
+          "நாக்கு நீல நிறமாதல்"
+        ],
+        "te": [
+          "పెదవులు నీలంగా మారడం",
+          "నాలుక నీలరంగులోకి మారడం"
+        ]
+      },
+      "alert_message": {
+        "en": "CRITICAL ALERT: Central cyanosis detected (bluish lips/tongue indicating severe hypoxia). Immediate resuscitation required.",
+        "hi": "गंभीर चेतावनी: शरीर में ऑक्सीजन की भारी कमी (नीले होंठ/जीभ)। तुरंत ऑक्सीजन एवं मेडिकल टीम आवश्यक।",
+        "mr": "गंभीर इशारा: तीव्र ऑक्सिजनची कमतरता (निळे ओठ/जीभ). त्वरित वैद्यकीय मदत आवश्यक.",
+        "bn": "জরুরি সতর্কতা: তীব্র অক্সিজেনের অভাব (নীল ঠোঁট/জিহ্বা)। অবিলম্বে অক্সিজেন ও পুনরুজ্জীবন প্রয়োজন।",
+        "ta": "கடுமையான எச்சரிக்கை: தீவிர ஆக்சிஜன் குறைபாடு (நீல நிற உதடுகள்/நாக்கு). உடனடி அவசர சிகிச்சை தேவை.",
+        "te": "తీవ్రమైన హెచ్చరిక: తీవ్రమైన ఆక్సిజన్ లోపం (నీలరంగు పెదవులు/నాలుక). వెంటనే అత్యవసర చికిత్స అవసరం."
+      },
+      "action_code": "EMERGENCY_HIGH_FLOW_OXYGEN_RESUSCITATION"
+    },
+    {
+      "rule_id": "RF_NEURO_001_FACIAL_DROOPING",
+      "category": "neurological",
+      "urgency_level": "EMERGENCY_CRITICAL",
+      "trigger": {
+        "primary_symptom": "stroke_symptoms",
+        "condition": "EXPRESSION_MATCH",
+        "structured_fact_pattern": {
+          "facial_asymmetry_droop": true,
+          "onset": "SUDDEN"
+        }
+      },
+      "trigger_keywords_by_lang": {
+        "en": [
+          "facial drooping",
+          "face twisted",
+          "one side of face slanting",
+          "mouth crooked stroke"
+        ],
+        "hi": [
+          "चेहरा टेढ़ा होना",
+          "मुंह का एक तरफ लटकना",
+          "फेशियल पैरालिसिस"
+        ],
+        "mr": [
+          "चेहरा वाकडा होणे",
+          "तोंड एका बाजूला जाणे"
+        ],
+        "bn": [
+          "মুখ বাঁকা হয়ে যাওয়া",
+          "মুখের একপাশ ঝুলে পড়া"
+        ],
+        "ta": [
+          "முகம் கோணலாகுதல்",
+          "முகத்தின் ஒரு பகுதி தொங்குதல்"
+        ],
+        "te": [
+          "ముఖం ఒక వైపుకు వంగిపోవడం",
+          "నోరు పక్కకు జరగడం"
+        ]
+      },
+      "alert_message": {
+        "en": "CRITICAL ALERT: Suspected Acute Stroke (Sudden facial drooping - FAST criteria). Immediate stroke protocol activation.",
+        "hi": "गंभीर चेतावनी: स्ट्रोक की आशंका (अचानक चेहरा टेढ़ा होना - FAST मापदंड)। तुरंत स्ट्रोक प्रोटोकॉल लागू करें।",
+        "mr": "गंभीर इशारा: स्ट्रोकची शंका (अचानक चेहरा वाकडा होणे - FAST नियम). त्वरित स्ट्रोक प्रोटोकॉल सुरू करा.",
+        "bn": "জরুরি সতর্কতা: স্ট্রোকের আশঙ্কা (হঠাৎ মুখ বাঁকা হয়ে যাওয়া)। অবিলম্বে স্ট্রোক প্রটোকল চালুকরণ।",
+        "ta": "கடுமையான எச்சரிக்கை: ஸ்ட்ரோக் சந்தேகம் (திடீர் முகக் கோணல்). உடனடி ஸ்ட்ரோக் நெறிமுறை இயக்கம்.",
+        "te": "తీవ్రమైన హెచ్చరిక: స్ట్రోక్ అనుమానం (అకస్మాత్తుగా ముఖం పక్కకు వంగడం). వెంటనే స్ట్రోక్ ప్రొటోகాల్ ప్రారంభం."
+      },
+      "action_code": "EMERGENCY_ACTIVATE_STROKE_TEAM_IMMEDIATE"
+    },
+    {
+      "rule_id": "RF_NEURO_002_ARM_WEAKNESS",
+      "category": "neurological",
+      "urgency_level": "EMERGENCY_CRITICAL",
+      "trigger": {
+        "primary_symptom": "stroke_symptoms",
+        "condition": "EXPRESSION_MATCH",
+        "structured_fact_pattern": {
+          "unilateral_arm_weakness_drift": true,
+          "onset": "SUDDEN"
+        }
+      },
+      "trigger_keywords_by_lang": {
+        "en": [
+          "arm weakness sudden",
+          "one arm drift",
+          "cannot lift arm",
+          "numbness one arm stroke"
+        ],
+        "hi": [
+          "एक हाथ में कमजोरी",
+          "हाथ नहीं उठ रहा",
+          "एक तरफ का हाथ सुन्न"
+        ],
+        "mr": [
+          "एका हातातील ताकद जाणे",
+          "हात वर न होणे"
+        ],
+        "bn": [
+          "এক হাত দুর্বল হয়ে যাওয়া",
+          "হাত তুলতে না পারা"
+        ],
+        "ta": [
+          "ஒரு கை பலவீனம்",
+          "கையை உயர்த்த முடியாமை"
+        ],
+        "te": [
+          "ఒక చేయి బలహీనపడటం",
+          "చేయి పైకి ఎత్తలేకపోవడం"
+        ]
+      },
+      "alert_message": {
+        "en": "CRITICAL ALERT: Suspected Acute Stroke (Sudden unilateral arm weakness). Immediate stroke protocol activation.",
+        "hi": "गंभीर चेतावनी: स्ट्रोक की आशंका (अचानक एक हाथ में कमजोरी)। तुरंत स्ट्रोक टीम को सूचित करें।",
+        "mr": "गंभीर इशारा: स्ट्रोकची शंका (अचानक एका हातात कमजोरी). स्ट्रोक टीमला त्वरित कळवा.",
+        "bn": "জরুরি সতর্কতা: স্ট্রোকের আশঙ্কা (হঠাৎ এক হাত দুর্বল হওয়া)। অবিলম্বে স্ট্রোক টিমকে জানান।",
+        "ta": "கடுமையான எச்சரிக்கை: ஸ்ட்ரோக் சந்தேகம் (திடீர் ஒரு கை பலவீனம்). உடனடி ஸ்ட்ரோக் குழு அறிவிப்பு.",
+        "te": "తీవ్రమైన హెచ్చరిక: స్ట్రోక్ అనుమానం (అకస్మాత్తుగా ఒక చేయి బలహీనపడటం). వెంటనే స్ట్రోక్ బృందానికి సమాచారం."
+      },
+      "action_code": "EMERGENCY_ACTIVATE_STROKE_TEAM_IMMEDIATE"
+    },
+    {
+      "rule_id": "RF_NEURO_003_SLURRED_SPEECH",
+      "category": "neurological",
+      "urgency_level": "EMERGENCY_CRITICAL",
+      "trigger": {
+        "primary_symptom": "stroke_symptoms",
+        "condition": "EXPRESSION_MATCH",
+        "structured_fact_pattern": {
+          "slurred_speech_aphasia": true,
+          "onset": "SUDDEN"
+        }
+      },
+      "trigger_keywords_by_lang": {
+        "en": [
+          "slurred speech",
+          "unable to speak clearly",
+          "words jumbled",
+          "sudden speech loss"
+        ],
+        "hi": [
+          "आवाज लडखडाना",
+          "बोला नहीं जाना",
+          "अचानक बोली बंद होना"
+        ],
+        "mr": [
+          "बोलताना जीभ अडखळणे",
+          "स्पष्ट बोलता न येणे"
+        ],
+        "bn": [
+          "কথা জড়িয়ে যাওয়া",
+          "কথা বলতে না পারা"
+        ],
+        "ta": [
+          "பேச்சு குளறுபடி",
+          "பேச முடியாமை"
+        ],
+        "te": [
+          "మాటలు తడబడటం",
+          "మాట్లాడలేకపోవడం"
+        ]
+      },
+      "alert_message": {
+        "en": "CRITICAL ALERT: Suspected Acute Stroke (Sudden speech difficulty / slurring). Immediate stroke protocol activation.",
+        "hi": "गंभीर चेतावनी: स्ट्रोक की आशंका (अचानक आवाज लड़खड़ाना)। तुरंत स्ट्रोक अलर्ट जारी करें।",
+        "mr": "गंभीर इशारा: स्ट्रोकची शंका (अचानक बोलणे अडखळणे). त्वरित स्ट्रोक अलर्ट.",
+        "bn": "জরুরি সতর্কতা: স্ট্রোকের আশঙ্কা (হঠাৎ কথা জড়িয়ে যাওয়া)। অবিলম্বে স্ট্রোক অ্যালার্ট।",
+        "ta": "கடுமையான எச்சரிக்கை: ஸ்ட்ரோக் சந்தேகம் (திடீர் பேச்சு குளறுபடி). உடனடி ஸ்ட்ரோக் எச்சரிக்கை.",
+        "te": "తీవ్రమైన హెచ్చరిక: స్ట్రోక్ అనుమానం (అకస్మాత్తుగా మాటలు తడబడటం). వెంటనే స్ట్రోక్ అలర్ట్."
+      },
+      "action_code": "EMERGENCY_ACTIVATE_STROKE_TEAM_IMMEDIATE"
+    },
+    {
+      "rule_id": "RF_NEURO_004_SUDDEN_CONFUSION",
+      "category": "neurological",
+      "urgency_level": "EMERGENCY_CRITICAL",
+      "trigger": {
+        "primary_symptom": "altered_mental_status",
+        "condition": "EXPRESSION_MATCH",
+        "structured_fact_pattern": {
+          "acute_disorientation": true,
+          "onset": "SUDDEN"
+        }
+      },
+      "trigger_keywords_by_lang": {
+        "en": [
+          "sudden confusion",
+          "disoriented acute",
+          "talking nonsense suddenly",
+          "altered sensorium"
+        ],
+        "hi": [
+          "अचानक भ्रमित होना",
+          "पहचान न पाना",
+          "अचानक बहकी-बहकी बातें करना"
+        ],
+        "mr": [
+          "अचानक गोंधळून जाणे",
+          "ओळखता न येणे"
+        ],
+        "bn": [
+          "হঠাৎ বিভ্রান্তি",
+          "চিনতে না পারা"
+        ],
+        "ta": [
+          "திடீர் குழப்பம்",
+          "நபர்களை அடையாளம் காண முடியாமை"
+        ],
+        "te": [
+          "అకస్మాత్తుగా అయోమయానికి గురికావడం",
+          "గుర్తించలేకపోవడం"
+        ]
+      },
+      "alert_message": {
+        "en": "CRITICAL ALERT: Sudden altered mental status / Acute confusion. Urgent neurological evaluation required.",
+        "hi": "गंभीर चेतावनी: अचानक मानसिक स्थिति में बदलाव / भ्रम। तुरंत तंत्रिका विज्ञान जांच आवश्यक।",
+        "mr": "गंभीर इशारा: अचानक गोंधळ किंवा मानसिक बदल. त्वरित मज्जासंस्था तपासणी आवश्यक.",
+        "bn": "জরুরি সতর্কতা: হঠাৎ মানসিকভাবে বিভ্রান্ত হওয়া। অবিলম্বে স্নায়ুরোগ মূল্যায়ন প্রয়োজন।",
+        "ta": "கடுமையான எச்சரிக்கை: திடீர் மனக்குழப்பம். உடனடி நரம்பியல் பரிசோதனை தேவை.",
+        "te": "తీవ్రమైన హెచ్చరిక: అకస్మాత్తుగా మానసిక స్థితిలో మార్పు / అయోమయం. వెంటనే న్యూరాలజీ పరీక్ష అవసరం."
+      },
+      "action_code": "EMERGENCY_NEUROLOGICAL_EVALUATION"
+    },
+    {
+      "rule_id": "RF_TRAUMA_001_ACTIVE_MAJOR_BLEEDING",
+      "category": "trauma_bleeding",
+      "urgency_level": "EMERGENCY_CRITICAL",
+      "trigger": {
+        "primary_symptom": "hemorrhage",
+        "condition": "EXPRESSION_MATCH",
+        "structured_fact_pattern": {
+          "active_arterial_pulsatile_bleeding": true,
+          "uncontrolled": true
+        }
+      },
+      "trigger_keywords_by_lang": {
+        "en": [
+          "active major bleeding",
+          "arterial spurting blood",
+          "heavy uncontrolled bleeding",
+          "profuse blood loss"
+        ],
+        "hi": [
+          "अत्यधिक तेज खून बहना",
+          "धमनी से खून की पिचकारी",
+          "अनियंत्रित रक्तस्राव"
+        ],
+        "mr": [
+          "प्रचंड रक्तस्त्राव",
+          "रक्ताची फवारी उडणे",
+          "रक्त न थांबणे"
+        ],
+        "bn": [
+          "প্রচুর রক্তপাত",
+          "রক্তের ফোয়ারা",
+          "অনিয়ন্ত্রিত রক্তক্ষরণ"
+        ],
+        "ta": [
+          "கடுமையான ரத்தப்போக்கு",
+          "ரத்தம் கட்டுக்கடங்காமல் வெளியேறுதல்"
+        ],
+        "te": [
+          "విపరీతంగా రక్తం కారడం",
+          "నియంత్రణ లేని రసస్రావం"
+        ]
+      },
+      "alert_message": {
+        "en": "CRITICAL ALERT: Active major / arterial hemorrhage reported. Immediate pressure dressing and trauma team STAT call required.",
+        "hi": "गंभीर चेतावनी: अत्यधिक भारी / धमनी रक्तस्राव। तुरंत आघात (ट्रॉमा) टीम को बुलाएं।",
+        "mr": "गंभीर इशारा: प्रचंड रक्तस्त्राव. ट्रॉमा टीमला त्वरित पाचारण करा.",
+        "bn": "জরুরি সতর্কতা: প্রচুর রক্তপাত। অবিলম্বে ট্রমা টিমকে ডাকুন।",
+        "ta": "கடுமையான எச்சரிக்கை: கடுமையான ரத்தப்போக்கு. உடனடி டிராமா குழு அழைப்பு தேவை.",
+        "te": "తీవ్రమైన హెచ్చరిక: విపరీతమైన రక్తస్రావం. వెంటనే ట్రౌమా బృందానికి సమాచారం అందించండి."
+      },
+      "action_code": "EMERGENCY_TRAUMA_HEMORRHAGE_CONTROL_STAT"
+    },
+    {
+      "rule_id": "RF_TRAUMA_002_MAJOR_FRACTURE",
+      "category": "trauma_bleeding",
+      "urgency_level": "URGENT_PRIORITY",
+      "trigger": {
+        "primary_symptom": "fracture_trauma",
+        "condition": "EXPRESSION_MATCH",
+        "structured_fact_pattern": {
+          "open_deformed_fracture": true,
+          "inability_to_bear_weight": true
+        }
+      },
+      "trigger_keywords_by_lang": {
+        "en": [
+          "major fracture",
+          "bone visible open wound",
+          "femur leg broken bone deformed",
+          "severe deformity limb trauma"
+        ],
+        "hi": [
+          "बड़ी हड्डी टूटना",
+          "हड्डी बाहर दिखना",
+          "पैर की हड्डी टूटना"
+        ],
+        "mr": [
+          "मोठे अस्थिभंग",
+          "हाड बाहेर दिसणे",
+          "पाय मोडणे"
+        ],
+        "bn": [
+          "বড় হাড় ভাঙা",
+          "হাড় বাইরে বেরিয়ে আসা",
+          "পা ভাঙা"
+        ],
+        "ta": [
+          "பெரிய எலும்பு முறிவு",
+          "எலும்பு வெளியே தெரிதல்"
+        ],
+        "te": [
+          "పెద్ద ఎముక విరగడం",
+          "ఎముక బయటకు కనిపించడం"
+        ]
+      },
+      "alert_message": {
+        "en": "URGENT ALERT: Major fracture / severe limb trauma reported. Immobilization and urgent orthopedic evaluation required.",
+        "hi": "उच्च प्राथमिकता चेतावनी: गंभीर हड्डी टूटना / आघात। तुरंत आर्थोपेडिक जांच आवश्यक।",
+        "mr": "तातडीचा इशारा: गंभीर अस्थिभंग. त्वरित अस्थिरोगतज्ज्ञ तपासणी आवश्यक.",
+        "bn": "জরুরি সতর্কতা: গুরুতর হাড় ভাঙা। অবিলম্বে অর্থোপেডিক মূল্যায়ন প্রয়োজন।",
+        "ta": "முக்கிய எச்சரிக்கை: கடுமையான எலும்பு முறிவு. உடனடி எலும்பு சிகிச்சை பரிசோதனை தேவை.",
+        "te": "ముఖ్యమైన హెచ్చరిక: తీవ్రమైన ఎముక ముక్కలు కావడం / విరగడం. వెంటనే ఆర్థోపెడిక్ పరీక్ష అవసరం."
+      },
+      "action_code": "URGENT_ORTHOPEDIC_IMMOBILIZATION_PRIORITY"
+    },
+    {
+      "rule_id": "RF_TRAUMA_003_ACUTE_SEVERE_BURN",
+      "category": "trauma_bleeding",
+      "urgency_level": "EMERGENCY_CRITICAL",
+      "trigger": {
+        "primary_symptom": "thermal_burn",
+        "condition": "EXPRESSION_MATCH",
+        "structured_fact_pattern": {
+          "burn_percentage": ">15%",
+          "involvement_face_neck_airway": true
+        }
+      },
+      "trigger_keywords_by_lang": {
+        "en": [
+          "acute severe burn",
+          "fire burn face neck",
+          "chemical burn large area",
+          "blistered deep burn"
+        ],
+        "hi": [
+          "गंभीर रूप से जलना",
+          "आग से चेहरा/गर्दन जलना",
+          "केमिकल से जलना"
+        ],
+        "mr": [
+          "तीव्र भाजणे",
+          "आगीत चेहरा किंवा मान भाजणे"
+        ],
+        "bn": [
+          "তীব্রভাবে পুড়ে যাওয়া",
+          "আগুনে মুখ/ঘাড় পোড়া"
+        ],
+        "ta": [
+          "கடுமையான தீக்காயம்",
+          "முகம் மற்றும் கழுத்து தீக்காயம்"
+        ],
+        "te": [
+          "తీవ్రంగా కాలిన గాయాలు",
+          "అగ్నిప్రమాదంలో ముఖం కాలడం"
+        ]
+      },
+      "alert_message": {
+        "en": "CRITICAL ALERT: Acute severe burn involving face/airway or extensive body area. Immediate burn protocol and airway monitoring required.",
+        "hi": "गंभीर चेतावनी: चेहरे या बड़े हिस्से पर गंभीर जलन। तुरंत बर्न यूनिट एवं श्वसन मॉनिटरिंग आवश्यक।",
+        "mr": "गंभीर इशारा: चेहरा किंवा शरीराचा मोठा भाग भाजणे. त्वरित बर्न प्रोटोकॉल आवश्यक.",
+        "bn": "জরুরি সতর্কতা: মুখ বা শরীরের বড় অংশে তীব্র পোড়া। অবিলম্বে বার্ন ইউনিট মূল্যায়ন প্রয়োজন।",
+        "ta": "கடுமையான எச்சரிக்கை: முகம் அல்லது உடலின் பெரும் பகுதி தீக்காயம். உடனடி தீக்காய சிகிச்சை தேவை.",
+        "te": "తీవ్రమైన హెచ్చరిక: முఖం లేదా విస్తారమైన శరీరం కాలడం. వెంటనే బర్న్ ప్రొటోకాల్ మరియు శ్వాస పర్యవేక్షణ అవసరం."
+      },
+      "action_code": "EMERGENCY_BURN_UNIT_AIRWAY_MONITOR"
+    }
+  ]
+}

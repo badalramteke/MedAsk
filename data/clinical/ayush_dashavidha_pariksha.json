@@ -1,0 +1,802 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0.0",
+  "dataset_id": "ayush_dashavidha_pariksha_v1",
+  "description": "Structured Ayurvedic intake dataset containing the ten primary Dashavidha Pariksha parameters and key supporting clinical parameters across six Indian languages.",
+  "disclaimer": "This dataset defines structured data-capture parameters for Ayurvedic clinical history. It does not provide automated diagnostic scores or treatment recommendations.",
+  "supported_languages": [
+    "en",
+    "hi",
+    "mr",
+    "bn",
+    "ta",
+    "te"
+  ],
+  "primary_dashavidha_parameters": [
+    {
+      "parameter_id": "AYU_DASH_001_PRAKRITI",
+      "sanskrit_name": "Prakriti",
+      "category": "dashavidha_primary",
+      "parameter_index": 1,
+      "clinical_concept": "Individual Psychosomatic Constitution",
+      "text_by_language": {
+        "en": "Prakriti (Natural Body Constitution / Dominant Dosha)",
+        "hi": "प्रकृति (शरीर का प्राकृतिक स्वभाव / मुख्य दोष)",
+        "mr": "प्रकृती (नैसर्गिक शारीरिक प्रकृती / दोष)",
+        "bn": "প্রকৃতি (শারীরিক গঠন ও স্বভাবজাত দোষ)",
+        "ta": "பிரகிருதி (இயற்கையான உடல் தத்துவம் / தோஷம்)",
+        "te": "ప్రకృతి (శారీరక స్వభావం / ప్రధాన దోషం)"
+      },
+      "input_type": "single_select",
+      "options": [
+        {
+          "option_id": "OPT_PRAKRITI_VATA",
+          "value_code": "PRAKRITI_VATA_PRADHANA",
+          "text_by_language": {
+            "en": "Vata Pradhana (Vata dominant)",
+            "hi": "वात प्रधान (वात दोष की प्रधानता)",
+            "mr": "वात प्रधान (वाताचे प्राबल्य)",
+            "bn": "বাত প্রধান (বাত দোষের প্রাধান্য)",
+            "ta": "வாத பிரதானம் (வாத தோஷம் அதிகம்)",
+            "te": "వాత ప్రధానం (వాత దోషం ఎక్కువ)"
+          }
+        },
+        {
+          "option_id": "OPT_PRAKRITI_PITTA",
+          "value_code": "PRAKRITI_PITTA_PRADHANA",
+          "text_by_language": {
+            "en": "Pitta Pradhana (Pitta dominant)",
+            "hi": "पित्त प्रधान (पित्त दोष की प्रधानता)",
+            "mr": "पित्त प्रधान (पित्ताचे प्राबल्य)",
+            "bn": "পিত প্রধান (পিত দোষের প্রাধান্য)",
+            "ta": "பித்த பிரதானம் (பித்த தோஷம் அதிகம்)",
+            "te": "పిత్త ప్రధానం (పిత్త దోషం ఎక్కువ)"
+          }
+        },
+        {
+          "option_id": "OPT_PRAKRITI_KAPHA",
+          "value_code": "PRAKRITI_KAPHA_PRADHANA",
+          "text_by_language": {
+            "en": "Kapha Pradhana (Kapha dominant)",
+            "hi": "कफ प्रधान (कफ दोष की प्रधानता)",
+            "mr": "कफ प्रधान (कफाचे प्राबल्य)",
+            "bn": "কফ প্রধান (কফ দোষের প্রাধান্য)",
+            "ta": "கப பிரதானம் (கப தோஷம் அதிகம்)",
+            "te": "కఫ ప్రధానం (కఫ దోషం ఎక్కువ)"
+          }
+        },
+        {
+          "option_id": "OPT_PRAKRITI_VP",
+          "value_code": "PRAKRITI_VATA_PITTA",
+          "text_by_language": {
+            "en": "Vata-Pitta Dwandvaja (Dual Vata-Pitta)",
+            "hi": "वात-पित्त द्वंद्वज",
+            "mr": "वात-पित्त द्वंद्वज",
+            "bn": "বাত-পিত দ্বিক দোষ",
+            "ta": "வாத-பித்த துவந்ததுவம்",
+            "te": "వాత-పిత్త ద్వంద్వజం"
+          }
+        },
+        {
+          "option_id": "OPT_PRAKRITI_PK",
+          "value_code": "PRAKRITI_PITTA_KAPHA",
+          "text_by_language": {
+            "en": "Pitta-Kapha Dwandvaja (Dual Pitta-Kapha)",
+            "hi": "पित्त-कफ द्वंद्वज",
+            "mr": "पित्त-कफ द्वंद्वज",
+            "bn": "পিত-কফ দ্বিক দোষ",
+            "ta": "பித்த-கப துவந்ததுவம்",
+            "te": "పిత్త-కఫ ద్వంద్వజం"
+          }
+        },
+        {
+          "option_id": "OPT_PRAKRITI_VK",
+          "value_code": "PRAKRITI_VATA_KAPHA",
+          "text_by_language": {
+            "en": "Vata-Kapha Dwandvaja (Dual Vata-Kapha)",
+            "hi": "वात-कफ द्वंद्वज",
+            "mr": "वात-कफ द्वंद्वज",
+            "bn": "বাত-কফ দ্বিক দোষ",
+            "ta": "வாத-கப துவந்ததுவம்",
+            "te": "వాత-కఫ ద్వంద్వజం"
+          }
+        },
+        {
+          "option_id": "OPT_PRAKRITI_SAMADOSHA",
+          "value_code": "PRAKRITI_SAMADOSHA_TRIDOSHAJA",
+          "text_by_language": {
+            "en": "Sama-Prakriti / Tridoshaja (Balanced all 3 doshas)",
+            "hi": "सम-प्रकृति / त्रिदोषज (तीनों दोष संतुलित)",
+            "mr": "सम-प्रकृती / त्रिदोषज (तिन्ही दोष संतुलित)",
+            "bn": "সম-প্রকৃতি / ত্রিদোষজ (তিন দোষের ভারসাম্য)",
+            "ta": "சம-பிரகிருதி / திரிதோஷஜம்",
+            "te": "సమ-ప్రకృతి / త్రిదోషజం"
+          }
+        }
+      ]
+    },
+    {
+      "parameter_id": "AYU_DASH_002_VIKRITI",
+      "sanskrit_name": "Vikriti",
+      "category": "dashavidha_primary",
+      "parameter_index": 2,
+      "clinical_concept": "Current Morbidity / Imbalance State",
+      "text_by_language": {
+        "en": "Vikriti (Current Pathological State / Imbalanced Dosha)",
+        "hi": "विकृति (वर्तमान रोगग्रस्त अवस्था / असंतुलित दोष)",
+        "mr": "विकृती (सध्याची आजारपण किंवा विकृत अवस्था)",
+        "bn": "বিকৃতি (বর্তমান রোগ বা বিকৃত অবস্থা)",
+        "ta": "விகிருதி (தற்போதைய நோய் நிலை)",
+        "te": "వికృతి (ప్రస్తుత అనారోగ్య స్థితి)"
+      },
+      "input_type": "multi_select",
+      "options": [
+        {
+          "option_id": "OPT_VIKRITI_VATA_VRIDDHI",
+          "value_code": "VIKRITI_VATA_VRIDDHI",
+          "text_by_language": {
+            "en": "Vata Vriddhi (Aggravated Vata)",
+            "hi": "वात वृद्धि (वात का बढ़ना)",
+            "mr": "वात वृद्धी (वात वाढणे)",
+            "bn": "বাত বৃদ্ধি",
+            "ta": "வாத விருத்தி",
+            "te": "వాత వృద్ధి"
+          }
+        },
+        {
+          "option_id": "OPT_VIKRITI_PITTA_VRIDDHI",
+          "value_code": "VIKRITI_PITTA_VRIDDHI",
+          "text_by_language": {
+            "en": "Pitta Vriddhi (Aggravated Pitta)",
+            "hi": "पित्त वृद्धि (पित्त का बढ़ना)",
+            "mr": "पित्त वृद्धी (पित्त वाढणे)",
+            "bn": "পিত বৃদ্ধি",
+            "ta": "பித்த விருத்தி",
+            "te": "పిత్త వృద్ధి"
+          }
+        },
+        {
+          "option_id": "OPT_VIKRITI_KAPHA_VRIDDHI",
+          "value_code": "VIKRITI_KAPHA_VRIDDHI",
+          "text_by_language": {
+            "en": "Kapha Vriddhi (Aggravated Kapha)",
+            "hi": "कफ वृद्धि (कफ का बढ़ना)",
+            "mr": "कफ वृद्धी (कफ वाढणे)",
+            "bn": "কফ বৃদ্ধি",
+            "ta": "கப விருத்தி",
+            "te": "కఫ వృద్ధి"
+          }
+        },
+        {
+          "option_id": "OPT_VIKRITI_DHATU_DUSHTI",
+          "value_code": "VIKRITI_DHATU_DUSHTI",
+          "text_by_language": {
+            "en": "Dhatu Dushti (Tissue Involvement)",
+            "hi": "धातु दुष्टि (धातुओं की विकृति)",
+            "mr": "धातू दुष्टी",
+            "bn": "ধাতু দুষ্টি",
+            "ta": "தாது துஷ்டி",
+            "te": "ధాతు దుష్టి"
+          }
+        }
+      ]
+    },
+    {
+      "parameter_id": "AYU_DASH_003_SARA",
+      "sanskrit_name": "Sara",
+      "category": "dashavidha_primary",
+      "parameter_index": 3,
+      "clinical_concept": "Tissue Quality / Excellence of Dhatus",
+      "text_by_language": {
+        "en": "Sara (Tissue Excellence Assessment)",
+        "hi": "सार (धातुओं की उत्तमता का परीक्षण)",
+        "mr": "सार (धातूंची गुणवत्ता)",
+        "bn": "সার (টিস্যু উৎকর্ষ মূল্যায়ন)",
+        "ta": "சாரா (தாதுக்களின் தரம்)",
+        "te": "సార (ధాతువుల నాణ్యత శ్రేష్ఠత)"
+      },
+      "input_type": "single_select",
+      "options": [
+        {
+          "option_id": "OPT_SARA_PRAVARA",
+          "value_code": "SARA_PRAVARA_SARVA_SARA",
+          "text_by_language": {
+            "en": "Pravara Sara / Sarva Sara (Excellent tissue strength)",
+            "hi": "प्रवर सार / सर्व सार (उत्कृष्ट धातु शक्ति)",
+            "mr": "प्रवर सार / सर्व सार",
+            "bn": "প্রবর সার (উত্তম ধাতু শক্তি)",
+            "ta": "பிரவர சாரா (சிறந்த தாது பலம்)",
+            "te": "ప్రవర సార (శ్రేష్ఠమైన ధాతు బలం)"
+          }
+        },
+        {
+          "option_id": "OPT_SARA_MADHYAMA",
+          "value_code": "SARA_MADHYAMA",
+          "text_by_language": {
+            "en": "Madhyama Sara (Moderate tissue quality)",
+            "hi": "मध्यम सार (मध्यम धातु शक्ति)",
+            "mr": "मध्यम सार",
+            "bn": "মধ্যম সার",
+            "ta": "மத்தியம சாரா",
+            "te": "మధ్యమ సార"
+          }
+        },
+        {
+          "option_id": "OPT_SARA_AVARA",
+          "value_code": "SARA_AVARA_ASARA",
+          "text_by_language": {
+            "en": "Avara Sara / Asara (Poor tissue strength)",
+            "hi": "अवर सार / असार (कमजोर धातु शक्ति)",
+            "mr": "अवर सार / असार",
+            "bn": "অবর সার (দুর্বল ধাতু শক্তি)",
+            "ta": "அவர சாரா (குறைந்த தாது பலம்)",
+            "te": "అవర సార (తక్కువ ధాతు బలం)"
+          }
+        }
+      ]
+    },
+    {
+      "parameter_id": "AYU_DASH_004_SAMHANANA",
+      "sanskrit_name": "Samhanana",
+      "category": "dashavidha_primary",
+      "parameter_index": 4,
+      "clinical_concept": "Body Compactness / Musculoskeletal Integrity",
+      "text_by_language": {
+        "en": "Samhanana (Body Compactness & Physique)",
+        "hi": "संहनन (शरीर का सुगठित होना)",
+        "mr": "संहनन (शरीराची बांधणी)",
+        "bn": "সংহনন (দেহের দৃঢ়তা ও কম্প্যাক্টনেস)",
+        "ta": "சம்ஹனனம் (உடலின் கட்டமைப்பு)",
+        "te": "సంగ్రహణ / సంహననం (శరీర సౌష్టవం)"
+      },
+      "input_type": "single_select",
+      "options": [
+        {
+          "option_id": "OPT_SAMHANANA_SU",
+          "value_code": "SAMHANANA_SUSAMHATA",
+          "text_by_language": {
+            "en": "Su-samhata (Well-compact and sturdy frame)",
+            "hi": "सुसंहत (सुगठित और मजबूत शरीर)",
+            "mr": "सुसंहत (मजबूत शरीर)",
+            "bn": "সুসংহত (দৃঢ় কায়িক গঠন)",
+            "ta": "சுசம்ஹதம் (நன்கு அமைந்த உடல்)",
+            "te": "సుసంహతం (దృఢమైన శరీర నిర్మాణం)"
+          }
+        },
+        {
+          "option_id": "OPT_SAMHANANA_MADHYAMA",
+          "value_code": "SAMHANANA_MADHYAMA",
+          "text_by_language": {
+            "en": "Madhyama Samhanana (Moderate compactness)",
+            "hi": "मध्यम संहनन",
+            "mr": "मध्यम संहनन",
+            "bn": "মধ্যম সংহনন",
+            "ta": "மத்தியம சம்ஹனனம்",
+            "te": "మధ్యమ సంహననం"
+          }
+        },
+        {
+          "option_id": "OPT_SAMHANANA_HEENA",
+          "value_code": "SAMHANANA_HEENA_LEEN",
+          "text_by_language": {
+            "en": "Heena Samhanana (Frail / Loose bodily frame)",
+            "hi": "हीन संहनन (कमजोर या ढीला शरीर)",
+            "mr": "हीन संहनन",
+            "bn": "হীন সংহনন (শিথিল শরীর)",
+            "ta": "ஹீன சம்ஹனனம்",
+            "te": "హీన సంహననం (బలహీనమైన శరీరం)"
+          }
+        }
+      ]
+    },
+    {
+      "parameter_id": "AYU_DASH_005_PRAMANA",
+      "sanskrit_name": "Pramana",
+      "category": "dashavidha_primary",
+      "parameter_index": 5,
+      "clinical_concept": "Anthropometric Measurement & Body Proportions",
+      "text_by_language": {
+        "en": "Pramana (Body Measurement & Proportions)",
+        "hi": "प्रमाण (शरीर का माप और अनुपात)",
+        "mr": "प्रमाण (शारीरिक प्रमाण)",
+        "bn": "প্রমাণ (দেহের পরিমাপ ও অনুপাত)",
+        "ta": "பிரமாணம் (உடல் அளவீடு)",
+        "te": "ప్రమాణం (శరీర కొలతలు)"
+      },
+      "input_type": "single_select",
+      "options": [
+        {
+          "option_id": "OPT_PRAMANA_PRAMANAYUKTA",
+          "value_code": "PRAMANA_PRAMANAYUKTA",
+          "text_by_language": {
+            "en": "Pramana-yukta (Normal proportionate dimensions)",
+            "hi": "प्रमाणयुक्त (समानुपातिक शरीर)",
+            "mr": "प्रमाणयुक्त (योग्य प्रमाणातील)",
+            "bn": "প্রমাণযুক্ত (সঠিক অনুপাত)",
+            "ta": "பிரமாண யுக்தம் (சரியான அளவு)",
+            "te": "ప్రమాణయుక్తం (తగిన పరిమాణం)"
+          }
+        },
+        {
+          "option_id": "OPT_PRAMANA_HEENA",
+          "value_code": "PRAMANA_HEENA_UNDERWEIGHT",
+          "text_by_language": {
+            "en": "Heena Pramana (Under-proportioned / Underweight)",
+            "hi": "हीन प्रमाण (कम वजन / अल्प माप)",
+            "mr": "हीन प्रमाण",
+            "bn": "হীন প্রমাণ (কম পরিমাপ)",
+            "ta": "ஹீன பிரமாணம்",
+            "te": "హీన ప్రమాణం"
+          }
+        },
+        {
+          "option_id": "OPT_PRAMANA_ATI",
+          "value_code": "PRAMANA_ATI_OVERWEIGHT",
+          "text_by_language": {
+            "en": "Ati Pramana (Over-proportioned / Overweight)",
+            "hi": "अति प्रमाण (अत्यधिक माप / अति स्थूल)",
+            "mr": "अति प्रमाण",
+            "bn": "অতি প্রমাণ",
+            "ta": "அதி பிரமாணம்",
+            "te": "అతి ప్రమాణం"
+          }
+        }
+      ]
+    },
+    {
+      "parameter_id": "AYU_DASH_006_SATMYA",
+      "sanskrit_name": "Satmya",
+      "category": "dashavidha_primary",
+      "parameter_index": 6,
+      "clinical_concept": "Adaptability & Dietary Habituation",
+      "text_by_language": {
+        "en": "Satmya (Adaptability to Dietary Tastes & Environment)",
+        "hi": "सात्म्य (आहार और वातावरण के प्रति अनुकूलता)",
+        "mr": "सात्म्य (अनुकूलता)",
+        "bn": "সাTM্য (খাদ্য ও আবহাওয়া সহ্য ক্ষমতা)",
+        "ta": "சாத்மியம் (உணவு மற்றும் சூழல் சகிப்புத்தன்மை)",
+        "te": "సాత్మ్యం (ఆహార వాతావరణ అలవాట్లు)"
+      },
+      "input_type": "single_select",
+      "options": [
+        {
+          "option_id": "OPT_SATMYA_PRAVARA",
+          "value_code": "SATMYA_PRAVARA_SARVA_RASA",
+          "text_by_language": {
+            "en": "Pravara Satmya (Adaptable to all 6 tastes & varied foods)",
+            "hi": "प्रवर सात्म्य (सभी ६ रसों और खाद्यों के प्रति अनुकूल)",
+            "mr": "प्रवर सात्म्य (सर्व रस अनुकूल)",
+            "bn": "প্রবর সাত্ম্য (সকল স্বাদে সহনশীল)",
+            "ta": "பிரவர சாத்மியம் (அனைத்து சுவைகளும் ஏற்கும்)",
+            "te": "ప్రవర సాత్మ్యం (అన్ని రసాలు పడే స్వభావం)"
+          }
+        },
+        {
+          "option_id": "OPT_SATMYA_MADHYAMA",
+          "value_code": "SATMYA_MADHYAMA",
+          "text_by_language": {
+            "en": "Madhyama Satmya (Moderate adaptability)",
+            "hi": "मध्यम सात्म्य",
+            "mr": "मध्यम सात्म्य",
+            "bn": "মধ্যম সাত্ম্য",
+            "ta": "மத்தியம சாத்மியம்",
+            "te": "మధ్యమ సాత్మ్యం"
+          }
+        },
+        {
+          "option_id": "OPT_SATMYA_AVARA",
+          "value_code": "SATMYA_AVARA_EKA_RASA",
+          "text_by_language": {
+            "en": "Avara Satmya (Poor adaptability / Sensitive to changes)",
+            "hi": "अवर सात्म्य (कम अनुकूलता / केवल सीमित आहार सहन)",
+            "mr": "अवर सात्म्य",
+            "bn": "অবর সাত্ম্য (কম সহনশীলতা)",
+            "ta": "அவர சாத்மியம்",
+            "te": "అవర సాత్మ్యం (తక్కువ తట్టుకునే శక్తి)"
+          }
+        }
+      ]
+    },
+    {
+      "parameter_id": "AYU_DASH_007_SATTVA",
+      "sanskrit_name": "Sattva",
+      "category": "dashavidha_primary",
+      "parameter_index": 7,
+      "clinical_concept": "Mental Strength & Psychological Resilience",
+      "text_by_language": {
+        "en": "Sattva (Mental Endurance & Temperament)",
+        "hi": "सत्त्व (मानसिक सहनशक्ति और मनोबल)",
+        "mr": "सत्त्व (मानसिक धैर्य)",
+        "bn": "সত্ত্ব (মানসিক দৃঢ়তা ও সহনশীলতা)",
+        "ta": "சத்துவம் (மன பலம்)",
+        "te": "సత్త్వం (మానసిక బలం, సహనం)"
+      },
+      "input_type": "single_select",
+      "options": [
+        {
+          "option_id": "OPT_SATTVA_PRAVARA",
+          "value_code": "SATTVA_PRAVARA_HIGH_ENDURANCE",
+          "text_by_language": {
+            "en": "Pravara Sattva (High mental resilience & tolerance to pain)",
+            "hi": "प्रवर सत्त्व (उच्च मनोबल और सहनशीलता)",
+            "mr": "प्रवर सत्त्व (उच्च मानसिक धैर्य)",
+            "bn": "প্রবর সত্ত্ব (উচ্চ মানসিক বল)",
+            "ta": "பிரவர சத்துவம் (உயர் மன பலம்)",
+            "te": "ప్రవర సత్త్వం (అధిక మానసిక స్థైర్యం)"
+          }
+        },
+        {
+          "option_id": "OPT_SATTVA_MADHYAMA",
+          "value_code": "SATTVA_MADHYAMA",
+          "text_by_language": {
+            "en": "Madhyama Sattva (Moderate mental resilience)",
+            "hi": "मध्यम सत्त्व",
+            "mr": "मध्यम सत्त्व",
+            "bn": "মধ্যম সত্ত্ব",
+            "ta": "மத்தியம சத்துவம்",
+            "te": "మధ్యమ సత్త్వం"
+          }
+        },
+        {
+          "option_id": "OPT_SATTVA_AVARA",
+          "value_code": "SATTVA_AVARA_LOW_ENDURANCE",
+          "text_by_language": {
+            "en": "Avara Sattva (Low mental endurance / Easily anxious)",
+            "hi": "अवर सत्त्व (कमजोर मनोबल / जल्दी घबराने वाला)",
+            "mr": "अवर सत्त्व (कमकुवत मनोबल)",
+            "bn": "অবর সত্ত্ব (কম মানসিক বল)",
+            "ta": "அவர சத்துவம் (குறைந்த மன தைரியம்)",
+            "te": "అవర సత్త్వం (తక్కువ మానసిక స్థైర్యం)"
+          }
+        }
+      ]
+    },
+    {
+      "parameter_id": "AYU_DASH_008_AHARA_SHAKTI",
+      "sanskrit_name": "Ahara Shakti",
+      "category": "dashavidha_primary",
+      "parameter_index": 8,
+      "clinical_concept": "Digestive Capacity (Abhyavaharana & Jarana Shakti)",
+      "text_by_language": {
+        "en": "Ahara Shakti (Food Intake & Digestive Capacity)",
+        "hi": "आहार शक्ति (भोजन ग्रहण और पाचन क्षमता)",
+        "mr": "आहार शक्ती (पचनक्षमता)",
+        "bn": "আহার শক্তি (খাদ্য গ্রহণ ও হজম ক্ষমতা)",
+        "ta": "ஆஹார சக்தி (செரிமான ஆற்றல்)",
+        "te": "ఆహార శక్తి (జీర్ణక్రియ మరియు ఆహార సేకరణ సామర్థ్యం)"
+      },
+      "input_type": "single_select",
+      "options": [
+        {
+          "option_id": "OPT_AHARA_PRAVARA",
+          "value_code": "AHARA_SHAKTI_PRAVARA",
+          "text_by_language": {
+            "en": "Pravara Ahara Shakti (Good appetite & swift digestion)",
+            "hi": "प्रवर आहार शक्ति (अच्छी भूख और बढ़िया पाचन)",
+            "mr": "प्रवर आहार शक्ती (उत्तम भूक व पचन)",
+            "bn": "প্রবর আহার শক্তি (উত্তম ক্ষুধা ও হজম)",
+            "ta": "பிரவர ஆஹார சக்தி (நல்ல பசி மற்றும் செரிமானம்)",
+            "te": "ప్రవర ఆహార శక్తి (మంచి ఆకలి మరియు జీర్ణక్రియ)"
+          }
+        },
+        {
+          "option_id": "OPT_AHARA_MADHYAMA",
+          "value_code": "AHARA_SHAKTI_MADHYAMA",
+          "text_by_language": {
+            "en": "Madhyama Ahara Shakti (Moderate appetite & digestion)",
+            "hi": "मध्यम आहार शक्ति",
+            "mr": "मध्यम आहार शक्ती",
+            "bn": "মধ্যম আহার শক্তি",
+            "ta": "மத்தியம ஆஹார சக்தி",
+            "te": "మధ్యమ ఆహార శక్తి"
+          }
+        },
+        {
+          "option_id": "OPT_AHARA_AVARA",
+          "value_code": "AHARA_SHAKTI_AVARA",
+          "text_by_language": {
+            "en": "Avara Ahara Shakti (Poor appetite / Slow digestion)",
+            "hi": "अवर आहार शक्ति (कम भूख और धीमा पाचन)",
+            "mr": "अवर आहार शक्ती (मंद पचन)",
+            "bn": "অবর আহার শক্তি (কম ক্ষুধা ও ধীর হজম)",
+            "ta": "அவர ஆஹார சக்தி (குறைந்த பசி)",
+            "te": "అవర ఆహార శక్తి (తక్కువ ఆకలి, మందగించిన జీర్ణం)"
+          }
+        }
+      ]
+    },
+    {
+      "parameter_id": "AYU_DASH_009_VYAYAMA_SHAKTI",
+      "sanskrit_name": "Vyayama Shakti",
+      "category": "dashavidha_primary",
+      "parameter_index": 9,
+      "clinical_concept": "Physical Exercise & Stamina Capacity",
+      "text_by_language": {
+        "en": "Vyayama Shakti (Physical Stamina & Work Capacity)",
+        "hi": "व्यायाम शक्ति (शारीरिक व्यायाम और काम करने की क्षमता)",
+        "mr": "व्यायाम शक्ती (शारीरिक कार्यक्षमता)",
+        "bn": "ব্যায়াম শক্তি (শারীরিক পরিশ্রম ও সহনক্ষমতা)",
+        "ta": "வியாயாம சக்தி (உடற்பயிற்சி மற்றும் வேலை திறன்)",
+        "te": "వ్యాయామ శక్తి (శారీరక శ్రమ మరియు స్టామినా సామర్థ్యం)"
+      },
+      "input_type": "single_select",
+      "options": [
+        {
+          "option_id": "OPT_VYAYAMA_PRAVARA",
+          "value_code": "VYAYAMA_SHAKTI_PRAVARA",
+          "text_by_language": {
+            "en": "Pravara Vyayama Shakti (High stamina & work tolerance)",
+            "hi": "प्रवर व्यायाम शक्ति (उच्च शारीरिक क्षमता)",
+            "mr": "प्रवर व्यायाम शक्ती (उच्च कार्यक्षमता)",
+            "bn": "প্রবর ব্যায়াম শক্তি (উচ্চ শারীরিক শক্তি)",
+            "ta": "பிரவர வியாயாம சக்தி (அதிக உடல் திறன்)",
+            "te": "ప్రవర వ్యాయామ శక్తి (అధిక శారీరక స్టామినా)"
+          }
+        },
+        {
+          "option_id": "OPT_VYAYAMA_MADHYAMA",
+          "value_code": "VYAYAMA_SHAKTI_MADHYAMA",
+          "text_by_language": {
+            "en": "Madhyama Vyayama Shakti (Moderate physical capacity)",
+            "hi": "मध्यम व्यायाम शक्ति",
+            "mr": "मध्यम व्यायाम शक्ती",
+            "bn": "মধ্যম ব্যায়াম শক্তি",
+            "ta": "மத்தியம வியாயாம சக்தி",
+            "te": "మధ్యమ వ్యాయామ శక్తి"
+          }
+        },
+        {
+          "option_id": "OPT_VYAYAMA_AVARA",
+          "value_code": "VYAYAMA_SHAKTI_AVARA",
+          "text_by_language": {
+            "en": "Avara Vyayama Shakti (Low stamina / Easily fatigued)",
+            "hi": "अवर व्यायाम शक्ति (कमजोरी / जल्दी थकान होना)",
+            "mr": "अवर व्यायाम शक्ती (लवकर थकवा)",
+            "bn": "অবর ব্যায়াম শক্তি (দ্রুত ক্লান্তি)",
+            "ta": "அவர வியாயாம சக்தி (விரைவில் சோர்வு)",
+            "te": "అవర వ్యాయామ శక్తి (త్వరగా అలసిపోవడం)"
+          }
+        }
+      ]
+    },
+    {
+      "parameter_id": "AYU_DASH_010_VAYA",
+      "sanskrit_name": "Vaya",
+      "category": "dashavidha_primary",
+      "parameter_index": 10,
+      "clinical_concept": "Age Group & Chronological Development State",
+      "text_by_language": {
+        "en": "Vaya (Age Category)",
+        "hi": "वय (आयु काल / उम्र की अवस्था)",
+        "mr": "वय (वयोगट)",
+        "bn": "বয়ঃ (বয়সের পর্যায়)",
+        "ta": "வயது (வயது பிரிவு)",
+        "te": "వయస్సు (వయో వర్గం)"
+      },
+      "input_type": "single_select",
+      "options": [
+        {
+          "option_id": "OPT_VAYA_BALA",
+          "value_code": "VAYA_BALA_CHILDHOOD",
+          "text_by_language": {
+            "en": "Bala Avastha (Childhood / Up to 16 years)",
+            "hi": "बाल अवस्था (बाल्यावस्था / 16 वर्ष तक)",
+            "mr": "बाल अवस्था (१६ वर्षांपर्यंत)",
+            "bn": "বাল্যাবস্থা (১৬ বছর পর্যন্ত)",
+            "ta": "பால அவஸ்தை (16 வயது வரை)",
+            "te": "బాల్యావస్థ (16 సంవత్సరాల వరకు)"
+          }
+        },
+        {
+          "option_id": "OPT_VAYA_MADHYAMA",
+          "value_code": "VAYA_MADHYAMA_ADULTHOOD",
+          "text_by_language": {
+            "en": "Madhyama Avastha (Youth & Adulthood / 16 to 60 years)",
+            "hi": "मध्यम अवस्था (युवा एवं युवावस्था / 16 से 60 वर्ष)",
+            "mr": "मध्यम अवस्था (१६ ते ६० वर्षे)",
+            "bn": "মধ্যম অবস্থা (১৬ থেকে ৬০ বছর)",
+            "ta": "மத்தியம அவஸ்தை (16 முதல் 60 வயது வரை)",
+            "te": "మధ్యమావస్థ (16 నుండి 60 సంవత్సరాలు)"
+          }
+        },
+        {
+          "option_id": "OPT_VAYA_VRIDDHA",
+          "value_code": "VAYA_VRIDDHA_ELDERLY",
+          "text_by_language": {
+            "en": "Vriddha Avastha (Old Age / Above 60 years)",
+            "hi": "वृद्ध अवस्था (वृद्धावस्था / 60 वर्ष से अधिक)",
+            "mr": "वृद्ध अवस्था (६० वर्षांपेक्षा जास्त)",
+            "bn": "বৃদ্ধাবস্থা (৬০ বছরের ঊর্ধ্বে)",
+            "ta": "விருத்த அவஸ்தை (60 வயதிற்கு மேல்)",
+            "te": "వృద్ధావస్థ (60 సంవత్సరాలు పైబడిన)"
+          }
+        }
+      ]
+    }
+  ],
+  "supporting_parameters": [
+    {
+      "parameter_id": "AYU_SUPP_001_AGNI",
+      "sanskrit_name": "Agni",
+      "category": "supporting_parameter",
+      "clinical_concept": "State of Digestive Fire",
+      "text_by_language": {
+        "en": "Agni (State of Metabolic & Digestive Fire)",
+        "hi": "अग्नि (पाचन और चयापचय अग्नि की स्थिति)",
+        "mr": "अग्नि (पचनाग्नि स्थिती)",
+        "bn": "অগ্নি (পাচক অগ্নির অবস্থা)",
+        "ta": "அக்னி (செரிமான தீயின் நிலை)",
+        "te": "అగ్ని (జఠరాగ్ని స్థితి)"
+      },
+      "input_type": "single_select",
+      "options": [
+        {
+          "option_id": "OPT_AGNI_SAMAGNI",
+          "value_code": "AGNI_SAMAGNI",
+          "text_by_language": {
+            "en": "Samagni (Balanced digestive fire)",
+            "hi": "समाग्नि (संतुलित अग्नि)",
+            "mr": "समाग्नि (संतुलित अग्नि)",
+            "bn": "সমাগ্নি (সুষম অগ্নি)",
+            "ta": "சமாக்னி (சீரான அக்னி)",
+            "te": "సమాగ్ని (సమతుల్య అగ్ని)"
+          }
+        },
+        {
+          "option_id": "OPT_AGNI_VISHAMAGNI",
+          "value_code": "AGNI_VISHAMAGNI",
+          "text_by_language": {
+            "en": "Vishamagni (Erratic / Irregular digestion - Vata type)",
+            "hi": "विषमाग्नि (अनियमित पाचन - वातजन्य)",
+            "mr": "विषमाग्नि (अनियमित पचन)",
+            "bn": "বিষমাগ্নি (অনিয়মিত হজম)",
+            "ta": "விஷமாக்னி (மாறுபடும் அக்னி)",
+            "te": "విషమాగ్ని (అసమానమైన జీర్ణక్రియ)"
+          }
+        },
+        {
+          "option_id": "OPT_AGNI_TIKSHNAGNI",
+          "value_code": "AGNI_TIKSHNAGNI",
+          "text_by_language": {
+            "en": "Tikshnagni (Hyperactive / Intense digestion - Pitta type)",
+            "hi": "तीक्ष्णाग्नि (अत्यधिक तीव्र अग्नि - पित्तजन्य)",
+            "mr": "तीक्ष्णाग्नि (अति तीव्र पचन)",
+            "bn": "তীক্ষ্ণাগ্নি (অতিরিক্ত তীব্র হজম)",
+            "ta": "தீக்ஷ்ணாக்னி (அதிக பசி அக்னி)",
+            "te": "తీక్ష్ణాగ్ని (తీవ్రమైన జీర్ణక్రియ)"
+          }
+        },
+        {
+          "option_id": "OPT_AGNI_MANDAGNI",
+          "value_code": "AGNI_MANDAGNI",
+          "text_by_language": {
+            "en": "Mandagni (Sluggish / Dull digestion - Kapha type)",
+            "hi": "मंदाग्नि (धीमी अग्नि / कम भूख - कफजन्य)",
+            "mr": "मंदाग्नि (मंद पचन)",
+            "bn": "মন্দাগ্নি (ধীর পাচক অগ্নি)",
+            "ta": "மந்தாக்னி (மந்தமான அக்னி)",
+            "te": "మందాగ్ని (మందగించిన అగ్ని)"
+          }
+        }
+      ]
+    },
+    {
+      "parameter_id": "AYU_SUPP_002_KOSHTHA",
+      "sanskrit_name": "Koshtha",
+      "category": "supporting_parameter",
+      "clinical_concept": "Bowel Habit & Gastrointestinal Evacuation Pattern",
+      "text_by_language": {
+        "en": "Koshtha (Bowel Pattern & Tendency)",
+        "hi": "कोष्ठ (मलत्याग की प्रवृत्ति)",
+        "mr": "कोष्ठ (शौचाची सवय)",
+        "bn": "কোষ্ঠ (মলত্যাগের ধরণ)",
+        "ta": "கோஷ்டம் (மலக்குடல் இயல்பு)",
+        "te": "కోష్ఠం (పేగుల స్వభావం / మల విసర్జన అలవాటు)"
+      },
+      "input_type": "single_select",
+      "options": [
+        {
+          "option_id": "OPT_KOSHTHA_KRURA",
+          "value_code": "KOSHTHA_KRURA_CONSTIPATED",
+          "text_by_language": {
+            "en": "Krura Koshtha (Hard bowel movement / Constipation-prone)",
+            "hi": "क्रूर कोष्ठ (कड़ा मल / कब्ज की प्रवृत्ति)",
+            "mr": "क्रूर कोष्ठ (कडक शौच / मलावरोध)",
+            "bn": "ক্রূর কোষ্ঠ (কঠিন মল / কোষ্ঠকাঠিন্য)",
+            "ta": "க்ரூர கோஷ்டம் (மலச்சிக்கல் இயல்பு)",
+            "te": "క్రూర కోష్ఠం (మలబద్ధకం స్వభావం)"
+          }
+        },
+        {
+          "option_id": "OPT_KOSHTHA_MRIDU",
+          "value_code": "KOSHTHA_MRIDU_LOOSE",
+          "text_by_language": {
+            "en": "Mridu Koshtha (Soft bowel movement / Frequent loose stools)",
+            "hi": "मृदु कोष्ठ (नरम मल / जल्दी दस्त होना)",
+            "mr": "मृदु कोष्ठ (मऊ शौच)",
+            "bn": "মৃদু কোষ্ঠ (পাতলা মল)",
+            "ta": "மிருது கோஷ்டம் (இளகிய மலம்)",
+            "te": "మృదు కోష్ఠం (మెత్తటి మల విసర్జన)"
+          }
+        },
+        {
+          "option_id": "OPT_KOSHTHA_MADHYAMA",
+          "value_code": "KOSHTHA_MADHYAMA_NORMAL",
+          "text_by_language": {
+            "en": "Madhyama Koshtha (Regular normal bowel movement)",
+            "hi": "मध्यम कोष्ठ (सामान्य नियमित मलत्याग)",
+            "mr": "मध्यम कोष्ठ (नियमित शौच)",
+            "bn": "মধ্যম কোষ্ঠ (স্বাভাবিক মলত্যাগের অভ্যাস)",
+            "ta": "மத்தியம கோஷ்டம் (சாதாரண மலம்)",
+            "te": "మధ్యమ కోష్ఠం (సాధారణ మల విసర్జన)"
+          }
+        }
+      ]
+    },
+    {
+      "parameter_id": "AYU_SUPP_003_AHARA_VIHARA",
+      "sanskrit_name": "Ahara-Vihara",
+      "category": "supporting_parameter",
+      "clinical_concept": "Dietary Habits and Daily Routine Practices",
+      "text_by_language": {
+        "en": "Ahara-Vihara (Dietary Habits & Daily Lifestyle Regimen)",
+        "hi": "आहार-विहार (खान-पान की आदतें और जीवनशैली)",
+        "mr": "आहार-विहार (आहार व जीवनशैली सवयी)",
+        "bn": "আহার-বিহার (খাদ্যাভ্যাস ও জীবনযাত্রা)",
+        "ta": "ஆஹார-விஹாரம் (உணவு மற்றும் வாழ்க்கை முறை)",
+        "te": "ఆహార-విహారాలు (ఆహారపు అలవాట్లు మరియు జీవనశైలి)"
+      },
+      "input_type": "multi_select",
+      "options": [
+        {
+          "option_id": "OPT_AHVI_KATU_AMLA",
+          "value_code": "PREFER_SPICY_SOUR_FOODS",
+          "text_by_language": {
+            "en": "Excess spicy, sour or salty food intake",
+            "hi": "अत्यधिक तीखा, खट्टा या नमकीन भोजन",
+            "mr": "अति तिखट, आंबट किंवा खारट अन्न",
+            "bn": "অতিরিক্ত ঝাল, টক বা নোনতা খাবার",
+            "ta": "அதிக காரம், புளிப்பு அல்லது உப்பு உணவு",
+            "te": "అధిక కారం, పులుపు లేదా ఉప్పు ఆహారం"
+          }
+        },
+        {
+          "option_id": "OPT_AHVI_RUKSHA_SHEETA",
+          "value_code": "PREFER_DRY_COLD_FOODS",
+          "text_by_language": {
+            "en": "Excess dry, cold or processed food intake",
+            "hi": "अधिक रूखा, ठंडा या बासी भोजन",
+            "mr": "कोरडे, थंड किंवा शिळे अन्न",
+            "bn": "শুকনো, ঠান্ডা বা বাসি খাবার",
+            "ta": "அதிக வறண்ட, குளிர்ந்த உணவு",
+            "te": "ఎక్కువ పొడి, చల్లని లేదా నిల్వ ఆహారం"
+          }
+        },
+        {
+          "option_id": "OPT_AHVI_RATRI_JAGARANA",
+          "value_code": "LIFESTYLE_LATE_NIGHT_SLEEP",
+          "text_by_language": {
+            "en": "Ratri Jagarana (Habitual late night awakening)",
+            "hi": "रात्रि जागरण (रात में देर तक जागना)",
+            "mr": "रात्री उशिरापर्यंत जागणे",
+            "bn": "রাত্রি জাগরণ (রাতে দেরিতে ঘুমানো)",
+            "ta": "இரவு நேரம் தாமதமாக தூங்குவது",
+            "te": "రాత్రి పూట ఆలస్యంగా నిద్రపోవడం"
+          }
+        },
+        {
+          "option_id": "OPT_AHVI_VEGADHARANA",
+          "value_code": "HABIT_SUPPRESSING_URGES",
+          "text_by_language": {
+            "en": "Vega-dharana (Suppression of natural bodily urges)",
+            "hi": "वेग धारण (प्राकृतिक वेगों जैसे शौच/मूत्र को रोकना)",
+            "mr": "नैसर्गिक वेग अडवून ठेवणे",
+            "bn": "বেগ ধারণ (প্রাকৃতিক বেগ চেপে রাখা)",
+            "ta": "இயற்கை உபாதைகளை அடக்குதல்",
+            "te": "సహజ శారీరక వేగాలను నిరోధించడం"
+          }
+        }
+      ]
+    }
+  ]
+}

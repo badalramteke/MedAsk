@@ -1,0 +1,536 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0.0",
+  "dataset_id": "general_intake_questions_v1",
+  "description": "Structured general clinical intake questions covering past medical history, surgical history, medications, allergies, family history, social/personal history, and review of systems. Follows the same schema as questions_socrates.json for engine uniformity.",
+  "supported_languages": ["en", "hi", "mr", "bn", "ta", "te"],
+  "questions": [
+    {
+      "question_id": "GEN_PMH_001",
+      "section": "past_medical_history",
+      "text_by_language": {
+        "en": "Do you have any ongoing medical conditions or diseases?",
+        "hi": "क्या आपको कोई चल रही बीमारी या स्वास्थ्य समस्या है?",
+        "mr": "तुम्हाला सध्या कोणतीही सुरू असलेली वैद्यकीय स्थिती आहे का?",
+        "bn": "আপনার কি কোনো চলমান রোগ বা স্বাস্থ্য সমস্যা আছে?",
+        "ta": "உங்களுக்கு ஏதேனும் நடப்பு நோய்கள் அல்லது உடல்நலப் பிரச்சனைகள் உள்ளதா?",
+        "te": "మీకు ఏదైనా కొనసాగుతున్న వ్యాధులు లేదా ఆరోగ్య సమస్యలు ఉన్నాయా?"
+      },
+      "input_type": "single_select",
+      "options": [
+        {
+          "option_id": "OPT_PMH_YES",
+          "value_code": "PMH_YES",
+          "text_by_language": {
+            "en": "Yes, I have ongoing conditions",
+            "hi": "हाँ, मुझे चल रही बीमारियाँ हैं",
+            "mr": "होय, मला सुरू असलेले आजार आहेत",
+            "bn": "হ্যাঁ, আমার চলমান রোগ আছে",
+            "ta": "ஆம், எனக்கு நடப்பு நோய்கள் உள்ளன",
+            "te": "అవును, నాకు కొనసాగుతున్న వ్యాధులు ఉన్నాయి"
+          }
+        },
+        {
+          "option_id": "OPT_PMH_NO",
+          "value_code": "PMH_NO",
+          "text_by_language": {
+            "en": "No known medical conditions",
+            "hi": "कोई ज्ञात बीमारी नहीं",
+            "mr": "कोणताही ज्ञात आजार नाही",
+            "bn": "কোনো জানা রোগ নেই",
+            "ta": "அறியப்பட்ட நோய்கள் இல்லை",
+            "te": "తెలిసిన వ్యాధులు ఏమీ లేవు"
+          }
+        }
+      ],
+      "data_element": "history.past_medical_history",
+      "followup_triggers": [
+        {
+          "trigger_id": "TRIG_PMH_YES",
+          "condition_type": "VALUE_MATCH",
+          "target_value_codes": ["PMH_YES"],
+          "next_question_id": "GEN_PMH_002"
+        },
+        {
+          "trigger_id": "TRIG_PMH_NO",
+          "condition_type": "VALUE_MATCH",
+          "target_value_codes": ["PMH_NO"],
+          "next_question_id": "GEN_PSH_001"
+        }
+      ]
+    },
+    {
+      "question_id": "GEN_PMH_002",
+      "section": "past_medical_history",
+      "text_by_language": {
+        "en": "Please describe your medical conditions (e.g., diabetes, hypertension, asthma, thyroid).",
+        "hi": "कृपया अपनी बीमारियों का वर्णन करें (जैसे मधुमेह, उच्च रक्तचाप, अस्थमा, थायराइड)।",
+        "mr": "कृपया तुमच्या आजारांचे वर्णन करा (जसे मधुमेह, रक्तदाब, दमा, थायरॉइड).",
+        "bn": "অনুগ্রহ করে আপনার রোগের বর্ণনা দিন (যেমন ডায়াবেটিস, উচ্চ রক্তচাপ, হাঁপানি, থাইরয়েড)।",
+        "ta": "உங்கள் நோய்களை விவரிக்கவும் (எ.கா., நீரிழிவு, உயர் இரத்த அழுத்தம், ஆஸ்துமா, தைராய்டு).",
+        "te": "మీ వ్యాధులను వివరించండి (ఉదా., మధుమేహం, అధిక రక్తపోటు, ఆస్తమా, థైరాయిడ్)."
+      },
+      "input_type": "free_text",
+      "options": [],
+      "data_element": "history.past_medical_history_details",
+      "followup_triggers": [
+        {
+          "trigger_id": "TRIG_PMH_DETAILS_DONE",
+          "condition_type": "ALWAYS",
+          "target_value_codes": [],
+          "next_question_id": "GEN_PSH_001"
+        }
+      ]
+    },
+    {
+      "question_id": "GEN_PSH_001",
+      "section": "past_surgical_history",
+      "text_by_language": {
+        "en": "Have you ever had any surgeries or operations?",
+        "hi": "क्या आपकी कभी कोई सर्जरी या ऑपरेशन हुआ है?",
+        "mr": "तुमची कधी कोणतीही शस्त्रक्रिया झाली आहे का?",
+        "bn": "আপনার কি কখনো কোনো অস্ত্রোপচার হয়েছে?",
+        "ta": "உங்களுக்கு எப்போதாவது அறுவை சிகிச்சை செய்யப்பட்டதா?",
+        "te": "మీకు ఎప్పుడైనా ఏదైనా శస్త్రచికిత్స జరిగిందా?"
+      },
+      "input_type": "single_select",
+      "options": [
+        {
+          "option_id": "OPT_PSH_YES",
+          "value_code": "PSH_YES",
+          "text_by_language": {
+            "en": "Yes", "hi": "हाँ", "mr": "होय", "bn": "হ্যাঁ", "ta": "ஆம்", "te": "అవును"
+          }
+        },
+        {
+          "option_id": "OPT_PSH_NO",
+          "value_code": "PSH_NO",
+          "text_by_language": {
+            "en": "No", "hi": "नहीं", "mr": "नाही", "bn": "না", "ta": "இல்லை", "te": "కాదు"
+          }
+        }
+      ],
+      "data_element": "history.past_surgical_history",
+      "followup_triggers": [
+        {
+          "trigger_id": "TRIG_PSH_YES",
+          "condition_type": "VALUE_MATCH",
+          "target_value_codes": ["PSH_YES"],
+          "next_question_id": "GEN_PSH_002"
+        },
+        {
+          "trigger_id": "TRIG_PSH_NO",
+          "condition_type": "VALUE_MATCH",
+          "target_value_codes": ["PSH_NO"],
+          "next_question_id": "GEN_MED_001"
+        }
+      ]
+    },
+    {
+      "question_id": "GEN_PSH_002",
+      "section": "past_surgical_history",
+      "text_by_language": {
+        "en": "Please describe the surgeries you have had and when they were performed.",
+        "hi": "कृपया बताएं कि कौन सी सर्जरी हुई और कब हुई।",
+        "mr": "कृपया कोणत्या शस्त्रक्रिया झाल्या आणि कधी झाल्या ते सांगा.",
+        "bn": "অনুগ্রহ করে বলুন কী অস্ত্রোপচার হয়েছিল এবং কখন হয়েছিল।",
+        "ta": "என்ன அறுவை சிகிச்சை செய்யப்பட்டது, எப்போது என்று விவரிக்கவும்.",
+        "te": "ఏ శస్త్రచికిత్సలు జరిగాయి, ఎప్పుడు జరిగాయో వివరించండి."
+      },
+      "input_type": "free_text",
+      "options": [],
+      "data_element": "history.past_surgical_history_details",
+      "followup_triggers": [
+        {
+          "trigger_id": "TRIG_PSH_DETAILS_DONE",
+          "condition_type": "ALWAYS",
+          "target_value_codes": [],
+          "next_question_id": "GEN_MED_001"
+        }
+      ]
+    },
+    {
+      "question_id": "GEN_MED_001",
+      "section": "medications",
+      "text_by_language": {
+        "en": "Are you currently taking any medications?",
+        "hi": "क्या आप वर्तमान में कोई दवा ले रहे हैं?",
+        "mr": "तुम्ही सध्या कोणतीही औषधे घेत आहात का?",
+        "bn": "আপনি কি বর্তমানে কোনো ওষুধ খাচ্ছেন?",
+        "ta": "நீங்கள் தற்போது ஏதேனும் மருந்துகள் எடுத்துக் கொள்கிறீர்களா?",
+        "te": "మీరు ప్రస్తుతం ఏదైనా మందులు తీసుకుంటున్నారా?"
+      },
+      "input_type": "single_select",
+      "options": [
+        {
+          "option_id": "OPT_MED_YES",
+          "value_code": "MED_YES",
+          "text_by_language": {
+            "en": "Yes", "hi": "हाँ", "mr": "होय", "bn": "হ্যাঁ", "ta": "ஆம்", "te": "అవును"
+          }
+        },
+        {
+          "option_id": "OPT_MED_NO",
+          "value_code": "MED_NO",
+          "text_by_language": {
+            "en": "No", "hi": "नहीं", "mr": "नाही", "bn": "না", "ta": "இல்லை", "te": "కాదు"
+          }
+        }
+      ],
+      "data_element": "history.medications",
+      "followup_triggers": [
+        {
+          "trigger_id": "TRIG_MED_YES",
+          "condition_type": "VALUE_MATCH",
+          "target_value_codes": ["MED_YES"],
+          "next_question_id": "GEN_MED_002"
+        },
+        {
+          "trigger_id": "TRIG_MED_NO",
+          "condition_type": "VALUE_MATCH",
+          "target_value_codes": ["MED_NO"],
+          "next_question_id": "GEN_ALG_001"
+        }
+      ]
+    },
+    {
+      "question_id": "GEN_MED_002",
+      "section": "medications",
+      "text_by_language": {
+        "en": "Please list the medications you are taking, including dosage if known.",
+        "hi": "कृपया अपनी दवाइयों की सूची दें, खुराक सहित (यदि पता हो)।",
+        "mr": "कृपया तुम्ही घेत असलेल्या औषधांची यादी द्या, डोस सह (माहीत असल्यास).",
+        "bn": "অনুগ্রহ করে আপনি যে ওষুধ খাচ্ছেন তার তালিকা দিন, ডোজ সহ (জানা থাকলে)।",
+        "ta": "நீங்கள் எடுத்துக்கொள்ளும் மருந்துகளை பட்டியலிடுங்கள், அளவு தெரிந்தால் சேர்க்கவும்.",
+        "te": "మీరు తీసుకుంటున్న మందుల జాబితా ఇవ్వండి, మోతాదుతో (తెలిస్తే)."
+      },
+      "input_type": "free_text",
+      "options": [],
+      "data_element": "history.medications_details",
+      "followup_triggers": [
+        {
+          "trigger_id": "TRIG_MED_DETAILS_DONE",
+          "condition_type": "ALWAYS",
+          "target_value_codes": [],
+          "next_question_id": "GEN_ALG_001"
+        }
+      ]
+    },
+    {
+      "question_id": "GEN_ALG_001",
+      "section": "allergies",
+      "text_by_language": {
+        "en": "Do you have any known allergies (medicines, food, or other)?",
+        "hi": "क्या आपको किसी चीज़ से एलर्जी है (दवा, खाना, या अन्य)?",
+        "mr": "तुम्हाला कोणतीही ज्ञात ॲलर्जी आहे का (औषध, अन्न, किंवा इतर)?",
+        "bn": "আপনার কি কোনো পরিচিত অ্যালার্জি আছে (ওষুধ, খাবার, বা অন্যান্য)?",
+        "ta": "உங்களுக்கு ஏதேனும் அறியப்பட்ட ஒவ்வாமை உள்ளதா (மருந்து, உணவு, அல்லது பிற)?",
+        "te": "మీకు ఏదైనా తెలిసిన అలర్జీలు ఉన్నాయా (మందులు, ఆహారం, లేదా ఇతర)?"
+      },
+      "input_type": "single_select",
+      "options": [
+        {
+          "option_id": "OPT_ALG_YES",
+          "value_code": "ALG_YES",
+          "text_by_language": {
+            "en": "Yes, I have allergies", "hi": "हाँ, मुझे एलर्जी है", "mr": "होय, मला ॲलर्जी आहे", "bn": "হ্যাঁ, আমার অ্যালার্জি আছে", "ta": "ஆம், எனக்கு ஒவ்வாமை உள்ளது", "te": "అవును, నాకు అలర్జీలు ఉన్నాయి"
+          }
+        },
+        {
+          "option_id": "OPT_ALG_NO",
+          "value_code": "ALG_NO",
+          "text_by_language": {
+            "en": "No known allergies", "hi": "कोई ज्ञात एलर्जी नहीं", "mr": "कोणतीही ज्ञात ॲलर्जी नाही", "bn": "কোনো জানা অ্যালার্জি নেই", "ta": "அறியப்பட்ட ஒவ்வாமை இல்லை", "te": "తెలిసిన అలర్జీలు లేవు"
+          }
+        }
+      ],
+      "data_element": "history.allergies",
+      "followup_triggers": [
+        {
+          "trigger_id": "TRIG_ALG_YES",
+          "condition_type": "VALUE_MATCH",
+          "target_value_codes": ["ALG_YES"],
+          "next_question_id": "GEN_ALG_002"
+        },
+        {
+          "trigger_id": "TRIG_ALG_NO",
+          "condition_type": "VALUE_MATCH",
+          "target_value_codes": ["ALG_NO"],
+          "next_question_id": "GEN_FH_001"
+        }
+      ]
+    },
+    {
+      "question_id": "GEN_ALG_002",
+      "section": "allergies",
+      "text_by_language": {
+        "en": "Please describe your allergies and what reactions you experience.",
+        "hi": "कृपया अपनी एलर्जी और उनसे होने वाली प्रतिक्रियाओं का वर्णन करें।",
+        "mr": "कृपया तुमच्या ॲलर्जी आणि त्यांच्यामुळे होणाऱ्या प्रतिक्रियांचे वर्णन करा.",
+        "bn": "অনুগ্রহ করে আপনার অ্যালার্জি এবং কী প্রতিক্রিয়া হয় তা বর্ণনা করুন।",
+        "ta": "உங்கள் ஒவ்வாமை மற்றும் என்ன எதிர்வினைகள் ஏற்படுகின்றன என்பதை விவரிக்கவும்.",
+        "te": "మీ అలర్జీలు మరియు ఏ ప్రతిచర్యలు అనుభవిస్తారో వివరించండి."
+      },
+      "input_type": "free_text",
+      "options": [],
+      "data_element": "history.allergies_details",
+      "followup_triggers": [
+        {
+          "trigger_id": "TRIG_ALG_DETAILS_DONE",
+          "condition_type": "ALWAYS",
+          "target_value_codes": [],
+          "next_question_id": "GEN_FH_001"
+        }
+      ]
+    },
+    {
+      "question_id": "GEN_FH_001",
+      "section": "family_history",
+      "text_by_language": {
+        "en": "Does anyone in your family have a history of major illnesses (diabetes, heart disease, cancer, hypertension)?",
+        "hi": "क्या आपके परिवार में किसी को कोई गंभीर बीमारी रही है (मधुमेह, हृदय रोग, कैंसर, उच्च रक्तचाप)?",
+        "mr": "तुमच्या कुटुंबात कोणाला गंभीर आजार आहे का (मधुमेह, हृदयरोग, कर्करोग, उच्च रक्तदाब)?",
+        "bn": "আপনার পরিবারে কারো কি কোনো গুরুতর রোগের ইতিহাস আছে (ডায়াবেটিস, হৃদরোগ, ক্যান্সার, উচ্চ রক্তচাপ)?",
+        "ta": "உங்கள் குடும்பத்தில் யாருக்காவது கடுமையான நோய்கள் உள்ளதா (நீரிழிவு, இதய நோய், புற்றுநோய், உயர் இரத்த அழுத்தம்)?",
+        "te": "మీ కుటుంబంలో ఎవరికైనా తీవ్రమైన వ్యాధుల చరిత్ర ఉందా (మధుమేహం, గుండె జబ్బు, క్యాన్సర్, అధిక రక్తపోటు)?"
+      },
+      "input_type": "single_select",
+      "options": [
+        {
+          "option_id": "OPT_FH_YES",
+          "value_code": "FH_YES",
+          "text_by_language": {
+            "en": "Yes", "hi": "हाँ", "mr": "होय", "bn": "হ্যাঁ", "ta": "ஆம்", "te": "అవును"
+          }
+        },
+        {
+          "option_id": "OPT_FH_NO",
+          "value_code": "FH_NO",
+          "text_by_language": {
+            "en": "No / Not aware", "hi": "नहीं / पता नहीं", "mr": "नाही / माहिती नाही", "bn": "না / জানি না", "ta": "இல்லை / தெரியாது", "te": "కాదు / తెలియదు"
+          }
+        }
+      ],
+      "data_element": "history.family_history",
+      "followup_triggers": [
+        {
+          "trigger_id": "TRIG_FH_YES",
+          "condition_type": "VALUE_MATCH",
+          "target_value_codes": ["FH_YES"],
+          "next_question_id": "GEN_FH_002"
+        },
+        {
+          "trigger_id": "TRIG_FH_NO",
+          "condition_type": "VALUE_MATCH",
+          "target_value_codes": ["FH_NO"],
+          "next_question_id": "GEN_SH_001"
+        }
+      ]
+    },
+    {
+      "question_id": "GEN_FH_002",
+      "section": "family_history",
+      "text_by_language": {
+        "en": "Please describe the family illnesses and which family member is affected.",
+        "hi": "कृपया बताएं कि कौन सी बीमारी किस परिवार के सदस्य को है।",
+        "mr": "कृपया सांगा कोणत्या कुटुंबीय सदस्याला कोणता आजार आहे.",
+        "bn": "অনুগ্রহ করে বলুন কোন পরিবারের সদস্যের কোন রোগ আছে।",
+        "ta": "குடும்பத்தில் யாருக்கு என்ன நோய் உள்ளது என்று விவரிக்கவும்.",
+        "te": "కుటుంబంలో ఎవరికి ఏ వ్యాధి ఉందో వివరించండి."
+      },
+      "input_type": "free_text",
+      "options": [],
+      "data_element": "history.family_history_details",
+      "followup_triggers": [
+        {
+          "trigger_id": "TRIG_FH_DETAILS_DONE",
+          "condition_type": "ALWAYS",
+          "target_value_codes": [],
+          "next_question_id": "GEN_SH_001"
+        }
+      ]
+    },
+    {
+      "question_id": "GEN_SH_001",
+      "section": "social_history",
+      "text_by_language": {
+        "en": "Do you use tobacco, alcohol, or any other substances?",
+        "hi": "क्या आप तम्बाकू, शराब, या किसी अन्य पदार्थ का सेवन करते हैं?",
+        "mr": "तुम्ही तंबाखू, मद्य, किंवा इतर कोणत्या पदार्थांचे सेवन करता का?",
+        "bn": "আপনি কি তামাক, মদ, বা অন্য কোনো পদার্থ ব্যবহার করেন?",
+        "ta": "நீங்கள் புகையிலை, மது, அல்லது வேறு ஏதேனும் பொருள்களை பயன்படுத்துகிறீர்களா?",
+        "te": "మీరు పొగాకు, మద్యం, లేదా ఏదైనా ఇతర పదార్థాలను ఉపయోగిస్తున్నారా?"
+      },
+      "input_type": "single_select",
+      "options": [
+        {
+          "option_id": "OPT_SH_YES",
+          "value_code": "SH_YES",
+          "text_by_language": {
+            "en": "Yes", "hi": "हाँ", "mr": "होय", "bn": "হ্যাঁ", "ta": "ஆம்", "te": "అవును"
+          }
+        },
+        {
+          "option_id": "OPT_SH_NO",
+          "value_code": "SH_NO",
+          "text_by_language": {
+            "en": "No", "hi": "नहीं", "mr": "नाही", "bn": "না", "ta": "இல்லை", "te": "కాదు"
+          }
+        }
+      ],
+      "data_element": "history.social_history",
+      "followup_triggers": [
+        {
+          "trigger_id": "TRIG_SH_YES",
+          "condition_type": "VALUE_MATCH",
+          "target_value_codes": ["SH_YES"],
+          "next_question_id": "GEN_SH_002"
+        },
+        {
+          "trigger_id": "TRIG_SH_NO",
+          "condition_type": "VALUE_MATCH",
+          "target_value_codes": ["SH_NO"],
+          "next_question_id": "GEN_MEN_001"
+        }
+      ]
+    },
+    {
+      "question_id": "GEN_SH_002",
+      "section": "social_history",
+      "text_by_language": {
+        "en": "Please describe which substances, how much, and for how long.",
+        "hi": "कृपया बताएं कौन सा पदार्थ, कितना, और कब से ले रहे हैं।",
+        "mr": "कृपया सांगा कोणता पदार्थ, किती, आणि किती काळापासून घेत आहात.",
+        "bn": "অনুগ্রহ করে বলুন কোন পদার্থ, কতটুকু, এবং কতদিন ধরে নিচ্ছেন।",
+        "ta": "எந்த பொருள், எவ்வளவு, எவ்வளவு காலமாக என்று விவரிக்கவும்.",
+        "te": "ఏ పదార్థం, ఎంత, ఎంతకాలంగా తీసుకుంటున్నారో వివరించండి."
+      },
+      "input_type": "free_text",
+      "options": [],
+      "data_element": "history.social_history_details",
+      "followup_triggers": [
+        {
+          "trigger_id": "TRIG_SH_DETAILS_DONE",
+          "condition_type": "ALWAYS",
+          "target_value_codes": [],
+          "next_question_id": "GEN_MEN_001"
+        }
+      ]
+    },
+    {
+      "question_id": "GEN_MEN_001",
+      "section": "menstrual_reproductive_history",
+      "gender_restriction": "FEMALE",
+      "text_by_language": {
+        "en": "For female patients: Are your menstrual cycles regular, and when was your Last Menstrual Period (LMP)?",
+        "hi": "महिला रोगियों के लिए: क्या आपका मासिक धर्म नियमित है, और आपका अंतिम मासिक धर्म (LMP) कब था?",
+        "mr": "महिला रुग्णांसाठी: तुमची मासिक पाळी नियमित आहे का आणि तुमची शेवटची मासिक पाळी (LMP) कधी आली होती?",
+        "bn": "মহিলা রোগীদের জন্য: আপনার মাসিক কি নিয়মিত, এবং আপনার শেষ মাসিকের তারিখ (LMP) কবে ছিল?",
+        "ta": "பெண் நோயாளிகளுக்கு: உங்கள் மாதவிடாய் சுழற்சி சீரானதா, உங்கள் கடைசி மாதவிடாய் (LMP) எப்போது இருந்தது?",
+        "te": "మహిళా రోగులకు: మీ ఋతు చక్రం క్రమంగా ఉందా, మరియు మీ చివరి ఋతుస్రావం (LMP) ఎప్పుడు జరిగింది?"
+      },
+      "input_type": "single_select",
+      "options": [
+        {
+          "option_id": "OPT_MEN_REGULAR",
+          "value_code": "MEN_CYCLE_REGULAR",
+          "text_by_language": {
+            "en": "Regular cycles",
+            "hi": "नियमित चक्र",
+            "mr": "नियमित पाळी",
+            "bn": "নিয়মিত চক্র",
+            "ta": "வழக்கமான சுழற்சி",
+            "te": "క్రమబద్ధమైన చక్రం"
+          }
+        },
+        {
+          "option_id": "OPT_MEN_IRREGULAR",
+          "value_code": "MEN_CYCLE_IRREGULAR",
+          "text_by_language": {
+            "en": "Irregular / Painful cycles",
+            "hi": "अनियमित / दर्दनाक चक्र",
+            "mr": "अनियमित / वेदनादायी पाळी",
+            "bn": "অনিয়মিত / বেদনাদায়ক চক্র",
+            "ta": "முறையற்ற / வலிமிகுந்த சுழற்சி",
+            "te": "అసాధారణమైన / బాధాకరమైన చక్రం"
+          }
+        },
+        {
+          "option_id": "OPT_MEN_MENOPAUSE",
+          "value_code": "MEN_MENOPAUSE",
+          "text_by_language": {
+            "en": "Menopause attained (No periods)",
+            "hi": "रजोनिवृत्ति (मासिक धर्म बंद)",
+            "mr": "रजोनिवृत्ती (पाळी बंद)",
+            "bn": "মেনোপজ হয়েছে (মাসিক বন্ধ)",
+            "ta": "மாதவிடாய் நின்றது",
+            "te": "మెనోపాజ్ వచ్చింది (పీరియడ్స్ ఆగిపోయాయి)"
+          }
+        },
+        {
+          "option_id": "OPT_MEN_PREGNANT",
+          "value_code": "MEN_CURRENTLY_PREGNANT",
+          "text_by_language": {
+            "en": "Currently pregnant",
+            "hi": "वर्तमान में गर्भवती",
+            "mr": "सध्या गरोदर",
+            "bn": "বর্তমানে গর্ভবতী",
+            "ta": "தற்போது கர்ப்பமாக உள்ளேன்",
+            "te": "ప్రస్తుతం గర్భవతి"
+          }
+        },
+        {
+          "option_id": "OPT_MEN_NA",
+          "value_code": "MEN_NOT_APPLICABLE",
+          "text_by_language": {
+            "en": "Not applicable / Male patient",
+            "hi": "लागू नहीं / पुरुष रोगी",
+            "mr": "लागू नाही / पुरुष रुग्ण",
+            "bn": "প্রযোজ্য নয় / পুরুষ রোগী",
+            "ta": "பொருந்தாது / ஆண் நோயாளி",
+            "te": "వర్తించదు / మగ రోగి"
+          }
+        }
+      ],
+      "data_element": "history.menstrual_history",
+      "followup_triggers": [
+        {
+          "trigger_id": "TRIG_MEN_DETAILS",
+          "condition_type": "VALUE_MATCH",
+          "target_value_codes": ["MEN_CYCLE_REGULAR", "MEN_CYCLE_IRREGULAR", "MEN_CURRENTLY_PREGNANT"],
+          "next_question_id": "GEN_MEN_002"
+        },
+        {
+          "trigger_id": "TRIG_MEN_SKIP",
+          "condition_type": "ALWAYS",
+          "target_value_codes": [],
+          "next_question_id": null
+        }
+      ]
+    },
+    {
+      "question_id": "GEN_MEN_002",
+      "section": "menstrual_reproductive_history",
+      "gender_restriction": "FEMALE",
+      "text_by_language": {
+        "en": "Please provide your LMP approximate date or any pregnancy / obstetric details (e.g. number of children, previous miscarriages).",
+        "hi": "कृपया अपने अंतिम मासिक धर्म (LMP) की अनुमानित तारीख या गर्भावस्था / प्रसूति संबंधी विवरण दें।",
+        "mr": "कृपया तुमच्या शेवटच्या पाळीची (LMP) अंदाजे तारीख किंवा गर्भधारणा / प्रसूती तपशील द्या.",
+        "bn": "অনুগ্রহ করে আপনার শেষ মাসিকের (LMP) আনুমানিক তারিখ বা গর্ভাবস্থা / প্রসূতি সংক্রান্ত বিবরণ দিন।",
+        "ta": "உங்கள் கடைசி மாதவிடாய் (LMP) தேதி அல்லது கர்ப்பம் பற்றிய விவரங்களை தெரிவிக்கவும்.",
+        "te": "దయచేసి మీ చివరి పీరియడ్ (LMP) సుమారు తేదీ లేదా గర్భధారణ వివరాలను తెలపండి."
+      },
+      "input_type": "free_text",
+      "options": [],
+      "data_element": "history.menstrual_history_details",
+      "followup_triggers": [
+        {
+          "trigger_id": "TRIG_MEN_DONE",
+          "condition_type": "ALWAYS",
+          "target_value_codes": [],
+          "next_question_id": null
+        }
+      ]
+    }
+  ]
+}

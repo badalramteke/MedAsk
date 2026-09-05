@@ -1,0 +1,97 @@
+# Current State
+
+## Current Phase: Phase 10 (End-to-End Backend Integration & Testing) Completed / Phase 11 (Frontend Patient Flow) Next
+- **Phase 0 (Foundation Setup):** COMPLETED. Directory structure, docker-compose (Redis + Postgres), MedGemma connectivity check, and requirements locked.
+- **Phase 1 (Core Data Contract & Session Foundation):** COMPLETED. Full `PatientDataObject` Pydantic models (identity, consent, history, ayush, provenance, patch) and session repository.
+- **Phase 2 (Question Engine Skeleton — Rule-based, No AI):** COMPLETED. Dynamic branching engine with `QuestionBank`, `FlowController`, `AnswerValidator`, `RedFlagScanner`, general intake dataset with female menstrual routing (31 total questions), and `/next-question`, `/answer`, `/alerts` endpoints.
+- **Phase 3 (MedGemma & ModelService Integration):** COMPLETED. Implemented `ModelService`, `ColabMedGemmaAdapter` (verified LIVE on Google Colab GPU with `google/medgemma-1.5-4b-it`), `GeminiAdapter`, `MockModelAdapter`, prompt templates, safety gating, and session AI endpoints (`/ai/structure-narration`, `/ai/generate-summary`, `/ai/health`).
+- **Phase 4 (LangGraph Clinical Workflow & Safety Rules):** COMPLETED. Stateful `ClinicalInterviewState` with nodes for Chief Complaint, SOCRATES, General, Menstrual, AYUSH, Validator, and real-time red-flag triage scanner.
+- **Phase 5 (Summary Generator — Module C):** COMPLETED. Implemented `ClinicalSummaryDraft` schema with 9 distinct clinical sections matching FHIR R4 requirements, bilingual audio confirmation scripts, clinician review actions (`ACCEPTED`, `AMENDED`, `REJECTED`), and verified live inference on GPU for summary synthesis and multimodal chest X-ray image analysis.
+- **Phase 6 (API Layer Completion):** COMPLETED. 23 API endpoints, global middleware (correlation, idempotency, error handler), ABHA M1 auth, SSE summary streaming, triage alerts queue, and document staging security.
+- **Phase 7 (Voice Intake Engine — Module E):** COMPLETED.
+  - Built modular `backend/app/services/speech/` with 3-tier cascade (`BhashiniSpeechAdapter` -> `GeminiAudioAdapter` -> `MockSpeechAdapter`).
+  - Added Module E semantic voice action matcher (`VoiceActionMatcher`) recognizing allow-listed UI commands across 6 Indian languages.
+  - Added hybrid in-memory `TTSAudioCache` for instant 0ms audio retrieval for static questions.
+  - Mounted modular `/api/v1/voice/transcribe`, `/api/v1/voice/synthesize`, `/api/v1/voice/actions`, `/api/v1/voice/health`.
+  - Built unified sub-second voice answer endpoint (`POST /api/v1/sessions/{id}/voice/answer`) combining ASR + LangGraph + red flags + next-question TTS audio.
+  - Verified 23/23 automated pytest tests passing with 100% pass rate.
+- **Phase 8 (Document Digitization Module — Module B):** COMPLETED.
+  - Built modular `backend/app/services/ocr/` with three-path document processing.
+  - Built `ImagePreprocessor` with OpenCV denoising, deskewing, binarization, and multi-page PDF conversion.
+  - Implemented `DocumentEntityExtractor` with date-first extraction (Printed -> Contextual -> MedGemma Inferred).
+  - Implemented `LabValueNormalizer` with gender-adjusted reference ranges (`lab_reference_ranges.json`) and three-tier severity flagging (`LOW`, `MODERATE`, `HIGH`).
+  - Implemented `TimelineOrganizer` for chronological sequencing with date uncertainty flags.
+  - Extended `DocumentRepository` with DPDP-compliant ephemeral raw file byte buffer and extraction result CRUD.
+  - Total automated test suite expanded to 36/36 tests passing with 100% pass rate.
+- **Phase 9 (Consent, FHIR R4, ABDM & HIS Integration — Module D):** COMPLETED.
+  - Built granular multi-scope consent engine (`ConsentEngine`) with affirmative grant/revoke APIs and audio guidance in 6 Indian languages.
+  - Implemented self-contained, typed Pydantic FHIR R4 models conforming to ABDM NRCeS profiles.
+  - Implemented `FHIRBundleBuilder` guaranteeing strict ABDM Chapter 33 compliance with `Composition` as `entry[0]`.
+  - Implemented `FHIRValidator` checking referential integrity and document envelope rules.
+  - Implemented multi-adapter delivery architecture (`MockDeliveryAdapter` with truthful `is_mock=True`, `ABDMSandboxAdapter` with credential safety, and `HISAdapter` for direct hospital EMR webhooks).
+  - Built `DeliveryService` orchestrator enforcing active `HIS_SHARE` consent gate and clinician review gate (`ACCEPTED`/`AMENDED` required).
+  - Implemented DPDP Act post-submission data purge: ephemeral raw patient history and staged document bytes are deleted from the kiosk immediately upon confirmed `ACCEPTED` delivery.
+  - Total automated test suite expanded to 48/48 tests passing with 100% pass rate.
+- **Phase 10 (End-to-End Backend Integration & Testing):** COMPLETED.
+  - Validated 3 full multi-persona clinical scenarios: OPD Walk-in (routine, Hindi), Acute Emergency (crushing chest pain with red flags), and Document-Heavy Chronic (lab reports + prescription with clinician amendment).
+  - Validated cross-module data flow: LangGraph -> Summary -> Clinician Review -> FHIR Bundle -> Delivery -> Ephemeral DPDP Purge.
+  - Validated multi-session isolation and concurrent answer submissions across 5 parallel kiosk sessions.
+  - Validated failure cascades, graceful degradation, and error contract compliance.
+  - Validated clinical safety non-diagnostic gate, Pydantic schema contracts, and ABDM Chapter 33 compliance.
+  - Validated OpenAPI 3.x schema export and route coverage.
+  - Total automated test suite expanded to 84/84 tests passing with 100% pass rate.
+- **Phase 11 (Frontend Patient Flow — Next.js Kiosk UI):** NEXT UP.
+
+## Built and working right now
+- **Project Documentation:** Foundational documentation under `docs/` fully updated and synchronized.
+- **AI Memory System:** Initialized in `.ai/memory/` with approved decisions, rules, completed work, and retrospectives for Phases 0 through 6.
+- **Data Contract:** Type-safe Pydantic models implementing `PatientDataObject` with RFC 6902 JSON-Patch support.
+- **Question Engine Skeleton (`backend/app/engine/`):**
+  - `question_bank.py`: Loads and indexes 31 questions (17 SOCRATES across 2 domains + 14 General Intake across 7 sections, with female-specific menstrual history gating).
+  - `flow_controller.py`: Dynamic branching state machine (Chief Complaint → SOCRATES Deep-Dive → General History → Menstrual History if Female → Complete) using JSON `followup_triggers`.
+  - `answer_validator.py`: Strict validation of submitted `value_code` against JSON options.
+  - `red_flag_scanner.py`: Real-time scan of 13 deterministic emergency rules via `structured_fact_pattern` matching after every answer.
+  - `langgraph_workflow.py`: Stateful LangGraph workflow with nodes for chief complaint, SOCRATES, AYUSH, general history, menstrual history, red-flag scanner, and validator.
+- **Clinical Datasets (`data/clinical/`):**
+  - `questions_socrates.json` (17 questions, 6 languages)
+  - `questions_general_intake.json` (14 questions, 7 sections, 6 languages, branching triggers + gender gating)
+  - `red_flags_rules.json` (13 rules, 4 emergency categories, 6 languages)
+  - `ayush_dashavidha_pariksha.json` (10 parameters, 6 languages — reserved for AYUSH hospital deployments)
+  - `lab_reference_ranges.json` (Reserved for Phase 8 doc digitization)
+- **API Endpoints (23 OpenAPI Paths):**
+  - `POST /api/v1/sessions/` (Create intake session)
+  - `GET /api/v1/sessions/{id}` (Retrieve session PDO)
+  - `DELETE /api/v1/sessions/{id}` (Purge ephemeral session data)
+  - `POST /api/v1/sessions/{id}/abha/initiate` (ABDM M1 initiate auth)
+  - `POST /api/v1/sessions/{id}/abha/confirm` (ABDM M1 confirm OTP & link profile)
+  - `GET /api/v1/sessions/{id}/next-question` (Get localized next question)
+  - `POST /api/v1/sessions/{id}/answer` (Submit answer, patch PDO, scan red flags, advance state)
+  - `POST /api/v1/sessions/{id}/ai/structure-narration` (Structure free text narration)
+  - `POST /api/v1/sessions/{id}/ai/generate-summary` (Generate 9-section clinical draft)
+  - `GET /api/v1/sessions/{id}/summary/stream` (SSE stream summary generation)
+  - `GET /api/v1/sessions/{id}/summary` (Inspect summary draft)
+  - `POST /api/v1/sessions/{id}/summary/review` (Clinician action: ACCEPT, AMEND, REJECT)
+  - `GET /api/v1/sessions/{id}/consent` (Inspect DPDP consent status)
+  - `POST /api/v1/sessions/{id}/consent` (Grant granular consent)
+  - `POST /api/v1/sessions/{id}/consent/revoke` (Revoke consent scope)
+  - `POST /api/v1/sessions/{id}/documents/upload` (Upload with magic-byte validation)
+  - `GET /api/v1/sessions/{id}/documents` (List staged documents)
+  - `GET /api/v1/sessions/{id}/documents/{doc_id}` (Inspect staged document)
+  - `GET /api/v1/alerts` (Global emergency triage queue)
+  - `GET /api/v1/sessions/{id}/alerts` (Session red-flag alerts)
+  - `POST /api/v1/alerts/{alert_id}/acknowledge` (Triage nurse acknowledgement)
+  - `GET /health` & `GET /api/v1/health` (Liveness probes)
+  - `GET /api/v1/ready` (Deep readiness probe)
+  - `GET /api/v1/ai/health` (AI provider diagnostics)
+
+## Locked-in tech stack & decisions
+- Frontend: Next.js (with mandatory element attribute schema and `PATHS.md` registry)
+- Backend: FastAPI with modular routers, correlation tracing, and idempotency caching
+- AI orchestration: LangGraph with LangChain integration layer
+- Model layer: MedGemma served on Google Colab (vLLM/FastAPI) as primary, with Gemini/Grok API fallback via ModelService
+- Vision & OCR: Dual-path (Tesseract/PaddleOCR for text docs → MedGemma summary; direct multimodal MedGemma for medical images)
+- Speech stack: Bhashini ASR/TTS primary with `.env` key, cascading to Gemini audio and local speech engines; push-to-talk persistent listening until session end
+- Languages: English, Hindi, Marathi, Bengali, Tamil, Telugu
+- Clinical: Allopathic SOCRATES + Full Dashavidha Pariksha & AYUSH parameters (separate AYUSH deployment config)
+- Data and interoperability: Cloud Supabase + local Docker, PatientDataObject, FHIR R4, ABDM sandbox model, ephemeral audio termination with persistent history
+- Demonstration: Separate dedicated portal for Clinician review (`/doctor`)

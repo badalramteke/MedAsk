@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MediKiosk - Session Timeout</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Noto+Sans:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "outline": "#6e7976",
+                      "on-tertiary": "#ffffff",
+                      "background": "#f8fafa",
+                      "surface-container-highest": "#e1e3e3",
+                      "on-surface-variant": "#3e4946",
+                      "tertiary-fixed-dim": "#ffb3ac",
+                      "tertiary": "#aa0a17",
+                      "surface": "#f8fafa",
+                      "primary": "#005f53",
+                      "secondary-fixed": "#94f990",
+                      "primary-fixed": "#99f3e0",
+                      "on-secondary-container": "#00731e",
+                      "on-error": "#ffffff",
+                      "surface-bright": "#f8fafa",
+                      "on-secondary-fixed-variant": "#005313",
+                      "primary-fixed-dim": "#7dd6c4",
+                      "surface-container-low": "#f2f4f4",
+                      "on-error-container": "#93000a",
+                      "secondary-fixed-dim": "#78dc77",
+                      "on-secondary-fixed": "#002204",
+                      "inverse-surface": "#2e3131",
+                      "error": "#ba1a1a",
+                      "on-surface": "#191c1d",
+                      "error-container": "#ffdad6",
+                      "tertiary-container": "#ce2b2c",
+                      "secondary": "#006e1c",
+                      "surface-dim": "#d8dada",
+                      "primary-container": "#0f7a6b",
+                      "on-tertiary-fixed": "#410003",
+                      "on-primary-fixed": "#00201b",
+                      "on-primary-container": "#abffed",
+                      "on-primary-fixed-variant": "#005046",
+                      "outline-variant": "#bdc9c5",
+                      "on-primary": "#ffffff",
+                      "inverse-primary": "#7dd6c4",
+                      "on-tertiary-fixed-variant": "#930010",
+                      "surface-variant": "#e1e3e3",
+                      "surface-container-high": "#e6e8e9",
+                      "on-secondary": "#ffffff",
+                      "secondary-container": "#91f78e",
+                      "surface-container": "#eceeee",
+                      "surface-container-lowest": "#ffffff",
+                      "on-tertiary-container": "#ffeae8",
+                      "tertiary-fixed": "#ffdad6",
+                      "surface-tint": "#006b5d",
+                      "inverse-on-surface": "#eff1f1",
+                      "on-background": "#191c1d"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "2xl": "1.5rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-gap": "16px",
+                      "touch-target-min": "64px",
+                      "margin-edge": "32px",
+                      "gutter-md": "24px",
+                      "section-gap": "48px"
+              },
+              "fontFamily": {
+                      "headline-md": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Noto Sans"
+                      ],
+                      "display-lg-mobile": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Noto Sans"
+                      ],
+                      "display-lg": [
+                              "Inter"
+                      ],
+                      "label-lg": [
+                              "Inter"
+                      ],
+                      "button-text": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "headline-md": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "44px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "20px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg-mobile": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "60px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "24px",
+                                      "letterSpacing": "0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "button-text": [
+                              "20px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .circular-progress {
+            transform: rotate(-90deg);
+        }
+        .circular-progress circle {
+            stroke-dasharray: 440; /* 2 * pi * r (approx 70) */
+            stroke-dashoffset: 0;
+            transition: stroke-dashoffset 1s linear;
+        }
+    </style>
+</head>
+<body class="bg-background min-h-screen relative overflow-hidden font-body-lg text-on-surface">
+<!-- Blurred Background Context (Simulated) -->
+<div class="absolute inset-0 z-0 opacity-50" data-alt="A blurred medical dashboard interface in the background, out of focus. Clinical and clean environment, bright, modern light-mode aesthetic, utilizing deep blacks, pristine whites, and soft medical teal tones. High-end, reassuring, professional tone." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDYyJw0GtB0twqAMNIpINO6X50P_tg7B0ar5A4nSovyrx26SlQHDaHwDRdillsEvbhkq3vYonLqAoMEkZC7Vw5reT4Q0bakDKwzEag6q3yL_51Z3QsMkV3pBMqAsp7QtqAp8kzisoI9HWYBVoMTVYh7XAHYrq70o6GLUtSihxV4bku2OOMljC6mPGT5iogWn2deb2Ukg-ujrhsTgg6vHMfS_8G9AkjRlgl_95h51fEm7DbNk3ancFtyfCoCD03l0irQrcPOk047Hz9R')"></div>
+<!-- Semi-transparent Dark Overlay -->
+<div class="absolute inset-0 bg-inverse-surface/40 backdrop-blur-xl z-10"></div>
+<!-- Modal Container -->
+<div class="absolute inset-0 z-20 flex items-center justify-center p-margin-edge">
+<div class="bg-surface-container-lowest rounded-2xl shadow-xl w-full max-w-2xl p-section-gap flex flex-col items-center text-center relative border border-outline-variant">
+<!-- Warning Icon -->
+<div class="w-16 h-16 rounded-full bg-error-container/30 flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-4xl text-[#EAB308]" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<!-- Title & Subtitle -->
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-2">Are you still there?</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-md mx-auto mb-10">
+                Your session will expire in 60 seconds to protect your privacy.
+            </p>
+<!-- Circular Timer -->
+<div class="relative w-48 h-48 mb-10 flex items-center justify-center">
+<svg class="w-full h-full circular-progress absolute inset-0" viewbox="0 0 160 160">
+<circle class="stroke-surface-container-high" cx="80" cy="80" fill="none" r="70" stroke-width="12"></circle>
+<circle class="stroke-primary" cx="80" cy="80" fill="none" id="progress-ring" r="70" stroke-linecap="round" stroke-width="12"></circle>
+</svg>
+<span class="font-display-lg text-display-lg text-primary" id="countdown-text">60</span>
+</div>
+<!-- Actions -->
+<div class="flex flex-col sm:flex-row gap-gutter-md w-full mb-6">
+<button class="flex-1 h-touch-target-min bg-primary text-on-primary rounded-xl font-button-text text-button-text hover:bg-primary/90 transition-colors active:scale-[0.98] flex items-center justify-center">
+                    Yes, continue
+                </button>
+<button class="flex-1 h-touch-target-min bg-transparent border-2 border-primary text-primary rounded-xl font-button-text text-button-text hover:bg-primary/5 transition-colors active:scale-[0.98] flex items-center justify-center">
+                    No, end session
+                </button>
+</div>
+<!-- Warning Text -->
+<p class="font-body-md text-body-md text-on-surface-variant flex items-start gap-2 text-left bg-surface-container-low p-4 rounded-lg w-full">
+<span class="material-symbols-outlined text-outline mt-1">info</span>
+<span>Your information has NOT been saved yet. If session ends, you will need to start over.</span>
+</p>
+</div>
+</div>
+<script>
+        // Simple countdown logic for visual demonstration
+        let timeLeft = 60;
+        const countdownText = document.getElementById('countdown-text');
+        const progressRing = document.getElementById('progress-ring');
+        const circumference = 2 * Math.PI * 70; // r=70
+
+        const timer = setInterval(() => {
+            timeLeft--;
+            if (timeLeft >= 0) {
+                countdownText.textContent = timeLeft;
+                // Calculate percentage
+                const percentage = timeLeft / 60;
+                // Update dashoffset
+                const offset = circumference - (percentage * circumference);
+                progressRing.style.strokeDashoffset = offset;
+            } else {
+                clearInterval(timer);
+                // Handle timeout action here
+            }
+        }, 1000);
+    </script>
+</body></html>
