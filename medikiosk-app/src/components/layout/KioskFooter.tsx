@@ -1,14 +1,17 @@
 /**
  * MediKiosk — Kiosk Footer Component
- * Persistent navigation bar with Back, Voice/Touch Indicator, and Next/Continue.
+ * Streamlined navigation bar (≤ 64px) with prominent center-bottom floating action
+ * microphone button (56–72px), clear visual feedback states (Idle/Recording/Processing),
+ * and minimal essential navigation controls.
  */
 
 'use client';
 
 import { useSessionStore } from '@/stores/useSessionStore';
 import { useVoiceStore } from '@/stores/useVoiceStore';
+import { useVoiceCapture } from '@/hooks/useVoiceCapture';
 import { t } from '@/lib/i18n';
-import { ArrowLeft, ArrowRight, Mic, Touchpad } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Mic, MicOff, Loader2 } from 'lucide-react';
 
 interface KioskFooterProps {
   onNext?: () => void;
@@ -18,6 +21,8 @@ interface KioskFooterProps {
   nextDisabled?: boolean;
   hideBack?: boolean;
   hideNext?: boolean;
+  showMic?: boolean;
+  onTranscriptReady?: (transcript: string) => void;
 }
 
 export default function KioskFooter({
@@ -28,19 +33,34 @@ export default function KioskFooter({
   nextDisabled = false,
   hideBack = false,
   hideNext = false,
+  showMic = true,
+  onTranscriptReady,
 }: KioskFooterProps) {
   const language = useSessionStore((s) => s.language);
-  const isListening = useVoiceStore((s) => s.isListening);
+  const { isListening, isProcessing, transcript } = useVoiceStore();
+  const { startListening, stopListening } = useVoiceCapture();
+
+  const handleToggleMic = async () => {
+    if (isProcessing) return;
+    if (isListening) {
+      const blob = await stopListening();
+      if (transcript && onTranscriptReady) {
+        onTranscriptReady(transcript);
+      }
+    } else {
+      await startListening();
+    }
+  };
 
   return (
     <footer
       id="kiosk-footer"
       data-element="kiosk-footer"
       data-testid="kiosk-footer"
-      className="h-24 md:h-28 w-full bg-white/90 backdrop-blur-md border-t border-[#bdc9c5]/30 px-6 md:px-12 flex items-center justify-between flex-shrink-0 z-40"
+      className="relative h-16 w-full bg-white/95 backdrop-blur-md border-t border-[#bdc9c5]/40 px-4 md:px-8 flex items-center justify-between flex-shrink-0 z-40"
     >
       {/* Left: Back Button */}
-      <div>
+      <div className="z-10">
         {!hideBack && (
           <button
             id="kiosk-footer-back-btn"
@@ -49,29 +69,68 @@ export default function KioskFooter({
             data-testid="kiosk-footer-back-btn"
             aria-label="Go to previous screen"
             onClick={onBack}
-            className="h-14 md:h-16 px-6 md:px-8 rounded-full border-2 border-[#bdc9c5] hover:bg-[#eceeee] text-[#191c1d] font-bold text-lg flex items-center gap-3 active:scale-95 transition-all cursor-pointer"
+            className="h-10 px-4 md:px-5 rounded-full border border-[#bdc9c5] hover:bg-[#eceeee] text-[#191c1d] font-bold text-xs md:text-sm flex items-center gap-2 active:scale-95 transition-all cursor-pointer"
           >
-            <ArrowLeft className="w-6 h-6 text-[#3e4946]" />
+            <ArrowLeft className="w-4 h-4 text-[#3e4946]" />
             <span>{backText || t('nav.back', language)}</span>
           </button>
         )}
       </div>
 
-      {/* Center: Dual-Mode Voice & Touch Parity Indicator */}
-      <div className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-[#f2f4f4] border border-[#bdc9c5]/40 text-xs font-semibold text-[#3e4946]">
-        <div className="flex items-center gap-1.5">
-          <Touchpad className="w-4 h-4 text-[#005f53]" />
-          <span>{t('footer.touch', language)}</span>
+      {/* Center: Prominent Floating Action Microphone Button (64px diameter, z-50) */}
+      {showMic && (
+        <div className="absolute left-1/2 -top-5 -translate-x-1/2 z-50 flex flex-col items-center pointer-events-auto">
+          <div className="relative flex items-center justify-center">
+            {/* Pulsing outer ring animation while recording */}
+            {isListening && (
+              <span className="absolute -inset-2 rounded-full bg-[#aa0a17]/30 animate-ping pointer-events-none" />
+            )}
+
+            <button
+              id="kiosk-floating-mic-btn"
+              data-element="floating-mic-btn"
+              data-voice-action={isListening ? 'stop-recording' : 'start-recording'}
+              data-testid="floating-mic-btn"
+              aria-label={
+                isProcessing
+                  ? 'Processing Speech...'
+                  : isListening
+                  ? 'Stop Recording'
+                  : 'Tap to Speak'
+              }
+              disabled={isProcessing}
+              onClick={handleToggleMic}
+              className={`w-16 h-16 rounded-full flex items-center justify-center shadow-xl active:scale-95 transition-all cursor-pointer ${
+                isProcessing
+                  ? 'bg-[#0f7a6b] text-white ring-4 ring-[#0f7a6b]/30 cursor-wait'
+                  : isListening
+                  ? 'bg-[#aa0a17] text-white ring-4 ring-[#aa0a17]/40 animate-pulse shadow-[#aa0a17]/40'
+                  : 'bg-[#005f53] hover:bg-[#0c6b5e] text-white ring-4 ring-white shadow-[#005f53]/30 hover:scale-105'
+              }`}
+            >
+              {isProcessing ? (
+                <Loader2 className="w-7 h-7 text-white animate-spin" />
+              ) : isListening ? (
+                <MicOff className="w-7 h-7 text-white" />
+              ) : (
+                <Mic className="w-7 h-7 text-white" />
+              )}
+            </button>
+          </div>
+
+          {/* Micro-label beneath the mic button */}
+          <span className="text-[10px] font-bold text-[#3e4946] bg-white/95 px-2 py-0.5 rounded-full shadow-xs mt-0.5 whitespace-nowrap border border-[#bdc9c5]/30">
+            {isProcessing
+              ? (language === 'hi' ? 'प्रोसेसिंग...' : 'Processing...')
+              : isListening
+              ? (language === 'hi' ? 'सुन रहे हैं...' : 'Listening...')
+              : (language === 'hi' ? 'बोलने के लिए दबाएं' : 'Tap to speak')}
+          </span>
         </div>
-        <span className="text-[#bdc9c5]">•</span>
-        <div className="flex items-center gap-1.5">
-          <Mic className={`w-4 h-4 ${isListening ? 'text-[#aa0a17] animate-pulse' : 'text-[#005f53]'}`} />
-          <span>{isListening ? t('footer.listening', language) : t('footer.voice_active', language)}</span>
-        </div>
-      </div>
+      )}
 
       {/* Right: Next / Proceed Button */}
-      <div>
+      <div className="z-10">
         {!hideNext && (
           <button
             id="kiosk-footer-next-btn"
@@ -81,14 +140,14 @@ export default function KioskFooter({
             aria-label="Proceed to next step"
             onClick={onNext}
             disabled={nextDisabled}
-            className={`h-14 md:h-16 px-8 md:px-12 rounded-full font-bold text-lg md:text-xl flex items-center gap-3 shadow-lg active:scale-95 transition-all cursor-pointer ${
+            className={`h-10 px-5 md:px-7 rounded-full font-bold text-xs md:text-sm flex items-center gap-2 shadow-md active:scale-95 transition-all cursor-pointer ${
               nextDisabled
                 ? 'bg-[#e1e3e3] text-[#3e4946]/50 cursor-not-allowed shadow-none'
-                : 'bg-[#005f53] hover:bg-[#0c6b5e] text-white shadow-[#005f53]/30 hover:shadow-[#005f53]/40'
+                : 'bg-[#005f53] hover:bg-[#0c6b5e] text-white shadow-[#005f53]/25 hover:shadow-[#005f53]/35'
             }`}
           >
             <span>{nextText || t('nav.continue', language)}</span>
-            <ArrowRight className="w-6 h-6" />
+            <ArrowRight className="w-4 h-4" />
           </button>
         )}
       </div>

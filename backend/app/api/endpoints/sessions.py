@@ -23,6 +23,7 @@ from app.models.alert import TriageAlertItem
 from app.repositories.session_repository import session_repo
 from app.repositories.alert_repository import alert_repo
 from app.engine.answer_validator import answer_validator
+from app.engine.question_bank import question_bank
 from app.engine.langgraph_workflow import workflow_manager
 from app.middleware.error_handler import MediKioskException
 
@@ -287,6 +288,30 @@ def submit_answer(session_id: str, answer: AnswerSubmission, mode: Optional[str]
             message="Interview is already complete.",
             status_code=status.HTTP_400_BAD_REQUEST
         )
+
+    # Normalize numeric scores for slider/scale questions
+    q_def = question_bank.get_question(answer.question_id)
+    if q_def and q_def.get("input_type") in ("scale_numeric", "slider", "numeric"):
+        allowed_codes = {opt["value_code"] for opt in q_def.get("options", [])}
+        if answer.selected_value_codes and allowed_codes:
+            mapped = []
+            for code in answer.selected_value_codes:
+                if code in allowed_codes:
+                    mapped.append(code)
+                else:
+                    try:
+                        n = float(code)
+                        if n <= 3 and "SEVERITY_1_TO_3_MILD" in allowed_codes:
+                            mapped.append("SEVERITY_1_TO_3_MILD")
+                        elif n <= 6 and "SEVERITY_4_TO_6_MODERATE" in allowed_codes:
+                            mapped.append("SEVERITY_4_TO_6_MODERATE")
+                        elif "SEVERITY_7_TO_10_SEVERE" in allowed_codes:
+                            mapped.append("SEVERITY_7_TO_10_SEVERE")
+                        else:
+                            mapped.append(code)
+                    except ValueError:
+                        mapped.append(code)
+            answer.selected_value_codes = mapped
 
     # Validate the answer if answered
     if answer.answer_state not in ("UNKNOWN", "REFUSED"):

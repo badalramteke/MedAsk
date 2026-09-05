@@ -40,10 +40,16 @@ MANIFEST
 
 # Environment variables
 .env
+.env.*
 .env*.local
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Testing & Cache
+.pytest_cache/
+.cache/
+*.log
 
 # IDE
 .vscode/*
@@ -64,3 +70,4 @@ $RECYCLE.BIN/
 # Docker
 .docker/
 docker-compose.override.yml
+

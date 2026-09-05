@@ -10,12 +10,16 @@ import { useState, useRef, useCallback, useEffect } from 'react';
 import { useVoiceStore } from '@/stores/useVoiceStore';
 import { useSessionStore } from '@/stores/useSessionStore';
 import { voiceService } from '@/services/voiceService';
+import { geminiLiveClient } from '@/lib/audio/geminiLiveClient';
+import { noiseSuppressor } from '@/lib/audio/rnnoiseSuppressor';
 
 export function useVoiceCapture() {
   const { language, sessionId } = useSessionStore();
   const {
     isListening,
     setListening,
+    isProcessing,
+    setProcessing,
     setAudioLevel,
     setTranscript,
     setInterimTranscript,
@@ -31,6 +35,8 @@ export function useVoiceCapture() {
   const animFrameRef = useRef<number | null>(null);
   const lastLevelRef = useRef<number>(0);
   const lastUpdateRef = useRef<number>(0);
+  const silenceTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const processingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Web Speech API recognition fallback for real-time live interim feedback
   const recognitionRef = useRef<any>(null);
@@ -47,6 +53,10 @@ export function useVoiceCapture() {
         }
         recognitionRef.current = null;
       }
+      if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
+      if (processingTimeoutRef.current) clearTimeout(processingTimeoutRef.current);
+      noiseSuppressor.destroy();
+      geminiLiveClient.stopASRSession();
     };
   }, []);
 
@@ -88,6 +98,20 @@ export function useVoiceCapture() {
         },
       });
 
+      // 1. RNNoise / Web Audio noise suppression pipeline
+      await noiseSuppressor.initialize(stream, (cleanPcmChunk) => {
+        geminiLiveClient.sendAudioChunk(cleanPcmChunk);
+      });
+
+      // 2. Open Gemini Live ASR WebSocket (gemini-3.5-transcribe-live)
+      geminiLiveClient.startASRSession({
+        languageCode: language,
+        onInterim: (text) => setInterimTranscript(text),
+        onFinal: (text) => setTranscript(text),
+        onError: (err) => console.warn('Gemini Live ASR note:', err),
+        onClose: (code, reason) => console.log('Gemini Live ASR closed:', code, reason),
+      });
+
       // Audio analysis for visualizer
       const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
       const analyser = audioCtx.createAnalyser();
@@ -112,8 +136,23 @@ export function useVoiceCapture() {
         }
       };
 
+      mediaRecorder.onerror = (e: any) => {
+        console.error('MediaRecorder error event:', e);
+        setError('Audio recording failed. Please try again.');
+        setListening(false);
+      };
+
       mediaRecorderRef.current = mediaRecorder;
       mediaRecorder.start(250); // 250ms chunks
+
+      // Silence detection: check after 4.5s if patient hasn't spoken
+      if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
+      silenceTimerRef.current = setTimeout(() => {
+        if (lastLevelRef.current < 0.02 && isListening) {
+          console.log('Silence detected; auto-stopping recording to conserve bandwidth');
+          stopListening();
+        }
+      }, 4500);
 
       // Start Web Speech recognition if supported for live interim transcripts
       if (typeof window !== 'undefined' && ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
@@ -147,11 +186,13 @@ export function useVoiceCapture() {
             if (final) setTranscript(final);
           };
 
-          recognition.onerror = () => {};
+          recognition.onerror = (recErr: any) => {
+            console.warn('WebSpeech recognition event note:', recErr);
+          };
           recognitionRef.current = recognition;
           recognition.start();
-        } catch {
-          // Ignore
+        } catch (e) {
+          console.warn('WebSpeech init notice:', e);
         }
       }
 
@@ -165,6 +206,15 @@ export function useVoiceCapture() {
 
   const stopListening = useCallback(async (): Promise<Blob | null> => {
     return new Promise((resolve) => {
+      // Stop Gemini Live ASR session & reset noise suppressor
+      geminiLiveClient.stopASRSession();
+      noiseSuppressor.reset();
+
+      if (silenceTimerRef.current) {
+        clearTimeout(silenceTimerRef.current);
+        silenceTimerRef.current = null;
+      }
+
       if (!mediaRecorderRef.current || mediaRecorderRef.current.state === 'inactive') {
         setListening(false);
         resolve(null);
@@ -196,6 +246,14 @@ export function useVoiceCapture() {
         // Stop all tracks
         mediaRecorderRef.current?.stream.getTracks().forEach((track) => track.stop());
         setListening(false);
+        setProcessing(true);
+
+        // Safety hard timeout: clear processing state if backend takes > 8 seconds
+        if (processingTimeoutRef.current) clearTimeout(processingTimeoutRef.current);
+        processingTimeoutRef.current = setTimeout(() => {
+          console.warn('Transcription timeout reached (8s); releasing processing lock');
+          setProcessing(false);
+        }, 8000);
 
         // Try backend transcription
         try {
@@ -213,6 +271,9 @@ export function useVoiceCapture() {
           }
         } catch (err) {
           console.warn('Backend transcription fallback to local transcript:', err);
+        } finally {
+          if (processingTimeoutRef.current) clearTimeout(processingTimeoutRef.current);
+          setProcessing(false);
         }
 
         resolve(audioBlob);
@@ -220,10 +281,11 @@ export function useVoiceCapture() {
 
       mediaRecorderRef.current.stop();
     });
-  }, [language, sessionId, setAudioLevel, setListening, setTranscript, setVoiceAction]);
+  }, [language, sessionId, setAudioLevel, setListening, setProcessing, setTranscript, setVoiceAction]);
 
   return {
     isListening,
+    isProcessing,
     startListening,
     stopListening,
   };

@@ -8,6 +8,7 @@ import { create } from 'zustand';
 export interface VoiceState {
   isListening: boolean;
   isSpeaking: boolean;
+  isProcessing: boolean;
   audioLevel: number; // 0.0 to 1.0 for waveform animations
   transcript: string;
   interimTranscript: string;
@@ -17,6 +18,7 @@ export interface VoiceState {
   // Actions
   setListening: (listening: boolean) => void;
   setSpeaking: (speaking: boolean) => void;
+  setProcessing: (processing: boolean) => void;
   setAudioLevel: (level: number) => void;
   setTranscript: (text: string) => void;
   setInterimTranscript: (text: string) => void;
@@ -29,6 +31,7 @@ export interface VoiceState {
 export const useVoiceStore = create<VoiceState>((set) => ({
   isListening: false,
   isSpeaking: false,
+  isProcessing: false,
   audioLevel: 0,
   transcript: '',
   interimTranscript: '',
@@ -37,6 +40,7 @@ export const useVoiceStore = create<VoiceState>((set) => ({
 
   setListening: (isListening) => set({ isListening }),
   setSpeaking: (isSpeaking) => set({ isSpeaking }),
+  setProcessing: (isProcessing) => set({ isProcessing }),
   setAudioLevel: (audioLevel) => set({ audioLevel }),
   setTranscript: (transcript) => set({ transcript }),
   setInterimTranscript: (interimTranscript) => set({ interimTranscript }),
@@ -47,6 +51,7 @@ export const useVoiceStore = create<VoiceState>((set) => ({
     set({
       isListening: false,
       isSpeaking: false,
+      isProcessing: false,
       audioLevel: 0,
       transcript: '',
       interimTranscript: '',

@@ -82,12 +82,26 @@ export default function SymptomsPage() {
   } = useIntakeStore();
 
   const { speak, isSpeaking, stop } = useTTS();
+  const { transcript, interimTranscript, isListening } = useVoiceStore();
   const activeTab = symptomsTab;
   const setActiveTab = setSymptomsTab;
+
+  const lastHandledTranscriptRef = useRef<string>('');
 
   useEffect(() => {
     setCurrentScreen('chief_complaint');
   }, [setCurrentScreen]);
+
+  useEffect(() => {
+    lastHandledTranscriptRef.current = '';
+  }, [activeTab, activeQuestion?.question_id]);
+
+  useEffect(() => {
+    if (transcript && transcript !== lastHandledTranscriptRef.current && !isListening) {
+      lastHandledTranscriptRef.current = transcript;
+      handleVoiceTranscript(transcript);
+    }
+  }, [transcript, isListening]);
 
   const [voiceFeedback, setVoiceFeedback] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -621,20 +635,11 @@ export default function SymptomsPage() {
       <KioskHeader onBack={handleBack} />
       <StepProgressBar />
 
-      <main className="flex-1 max-w-5xl w-full mx-auto p-4 md:p-8 flex flex-col justify-between overflow-y-auto">
-        {/* Title & Phase Header */}
+      <main className="flex-1 max-w-5xl w-full mx-auto p-3 md:p-6 pb-20 flex flex-col justify-between overflow-y-auto">
+        {/* Title & Question Header (Cleaned: No internal/debug tags) */}
         <div className="text-center mb-2">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#005f53]/10 text-[#005f53] font-bold text-xs uppercase tracking-wider mb-2">
-            <Activity className="w-4 h-4" />
-            <span>
-              {activeTab === 'ADAPTIVE_QUESTION'
-                ? activeQuestion?.phase || 'Adaptive SOCRATES Inquiry'
-                : t('intake.header_badge', language)}
-            </span>
-          </div>
-
           <div className="flex items-center justify-center gap-3">
-            <h1 className="text-2xl md:text-3xl font-black text-[#191c1d] tracking-tight">
+            <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#191c1d] tracking-tight">
               {activeTab === 'COMPLAINT' && t('intake.chief_complaint', language)}
               {activeTab === 'BODY_MAP' && t('intake.body_map_title', language)}
               {activeTab === 'PAIN_SCALE' && t('pain.title', language)}
@@ -675,6 +680,17 @@ export default function SymptomsPage() {
           <p className="text-xs md:text-sm text-[#3e4946] mt-1">
             {t('intake.interaction_hint', language)}
           </p>
+
+          {/* Live Transcript Display Area: Visible, distinct from question text */}
+          {(interimTranscript || transcript) && (
+            <div className="inline-flex items-center gap-2 mt-2 px-4 py-1.5 rounded-full bg-white border border-[#005f53]/30 text-[#191c1d] text-xs font-semibold shadow-xs animate-fade-in-up max-w-lg">
+              <div className={`w-2 h-2 rounded-full shrink-0 ${isListening ? 'bg-[#aa0a17] animate-ping' : 'bg-[#005f53]'}`} />
+              <span className="text-[#6e7976] shrink-0 font-bold">
+                {isListening ? (language === 'hi' ? 'सुना जा रहा है:' : 'Listening:') : (language === 'hi' ? 'उत्तर:' : 'Answer:')}
+              </span>
+              <span className="italic truncate">&ldquo;{interimTranscript || transcript}&rdquo;</span>
+            </div>
+          )}
 
           {/* Voice Feedback Banner */}
           {voiceFeedback && (
@@ -773,12 +789,6 @@ export default function SymptomsPage() {
                 );
               })}
             </div>
-
-            <VoiceOrb
-              promptText={t('intake.chief_complaint', language)}
-              onTranscriptReady={handleVoiceTranscript}
-              inline
-            />
           </div>
         )}
 
@@ -964,13 +974,6 @@ export default function SymptomsPage() {
                 {t('intake.prefer_not_say', language)}
               </button>
             </div>
-
-            {/* Voice Orb for Adaptive Question */}
-            <VoiceOrb
-              promptText={activeQuestion.question_text}
-              onTranscriptReady={handleVoiceTranscript}
-              inline
-            />
           </div>
         )}
       </main>
@@ -978,6 +981,7 @@ export default function SymptomsPage() {
       <KioskFooter
         onNext={handleProceed}
         onBack={handleBack}
+        onTranscriptReady={handleVoiceTranscript}
         nextDisabled={
           loading ||
           (activeTab === 'ADAPTIVE_QUESTION' &&

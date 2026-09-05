@@ -35,7 +35,7 @@ class QuestionResponse(BaseModel):
     """Payload sent to the frontend — the next question to show the patient."""
     question_id: str
     question_text: str  # Localized
-    input_type: Literal["single_select", "multi_select", "free_text", "numeric"]
+    input_type: Literal["single_select", "multi_select", "free_text", "numeric", "scale_numeric", "slider", "body_map"]
     options: List[QuestionOption] = Field(default_factory=list)
     data_element: Optional[str] = Field(None, description="PDO path this answer maps to (e.g., hpi.chest_pain.site)")
     phase: str  # Current interview phase

@@ -21,6 +21,8 @@ class AnswerValidator:
                 if free_text and len(free_text.strip()) > 0:
                     return True, ""
                 return False, "Chief complaint cannot be empty."
+            if question_id.startswith("SOC_FALLBACK_") or question_id == "SOC_FALLBACK_ONSET":
+                return True, ""
             return False, f"Unknown question_id: {question_id}"
 
         input_type = question.get("input_type", "single_select")
@@ -30,9 +32,31 @@ class AnswerValidator:
                 return False, "Free text answer cannot be empty."
             return True, ""
 
-        # For select questions, validate value_codes against allowed options
+        if input_type == "body_map":
+            if not selected_value_codes:
+                return False, "No body region selected."
+            return True, ""
+
         allowed_codes = {opt["value_code"] for opt in question.get("options", [])}
 
+        if input_type in ["scale_numeric", "slider", "numeric"]:
+            if not selected_value_codes:
+                return False, "No numeric score provided."
+            # Check if value is numeric or directly in allowed_codes
+            for code in selected_value_codes:
+                if code in allowed_codes:
+                    continue
+                try:
+                    num = float(code)
+                    # Valid numeric score 0-10
+                    if 0 <= num <= 10:
+                        continue
+                    return False, f"Score {num} out of valid range 0-10."
+                except ValueError:
+                    return False, f"Invalid numeric score: {code}"
+            return True, ""
+
+        # For select questions, validate value_codes against allowed options
         if not selected_value_codes:
             return False, "No option selected."
 

@@ -65,11 +65,6 @@ export default function MultiSelectCard({
                 </div>
                 <div className="flex flex-col">
                   <span className="text-lg font-bold leading-tight">{option.text}</span>
-                  {option.value_code && (
-                    <span className={`text-xs mt-0.5 ${isSelected ? 'text-white/80' : 'text-[#6e7976]'}`}>
-                      {option.value_code}
-                    </span>
-                  )}
                 </div>
               </div>
 

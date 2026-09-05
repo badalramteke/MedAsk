@@ -1,4 +1,12 @@
 [
+  "tests/test_clinical_safety.py::test_all_prohibited_patterns_compiled_correctly",
+  "tests/test_clinical_safety.py::test_fhir_bundle_all_references_resolve",
+  "tests/test_clinical_safety.py::test_fhir_bundle_composition_is_entry_zero",
+  "tests/test_clinical_safety.py::test_fhir_bundle_type_is_document",
+  "tests/test_clinical_safety.py::test_generated_summary_has_required_fields",
+  "tests/test_clinical_safety.py::test_safety_gate_accepts_observational_summary",
+  "tests/test_clinical_safety.py::test_safety_gate_rejects_autonomous_diagnosis",
+  "tests/test_clinical_safety.py::test_summary_retains_ai_provider_metadata",
   "tests/test_e2e_scenarios.py::test_persona1_opd_walkin_full_lifecycle",
   "tests/test_e2e_scenarios.py::test_persona2_acute_emergency_chest_pain",
   "tests/test_e2e_scenarios.py::test_persona3_document_heavy_chronic_followup",
