@@ -5,29 +5,36 @@
 
 'use client';
 
+import { useSessionStore } from '@/stores/useSessionStore';
+import { t } from '@/lib/i18n';
+
 interface PainSeveritySliderProps {
   value: number;
   onChange: (val: number) => void;
 }
 
 const PAIN_LEVELS = [
-  { val: 0, label: 'No Pain', emoji: '😊', color: '#006e1c' },
-  { val: 2, label: 'Mild', emoji: '🙂', color: '#0f7a6b' },
-  { val: 4, label: 'Moderate', emoji: '😐', color: '#e69a00' },
-  { val: 6, label: 'Severe', emoji: '😣', color: '#e65100' },
-  { val: 8, label: 'Very Severe', emoji: '😭', color: '#ce2b2c' },
-  { val: 10, label: 'Worst Possible', emoji: '😱', color: '#aa0a17' },
+  { val: 0, key: 'none', defaultLabel: 'No Pain', emoji: '😊', color: '#006e1c' },
+  { val: 2, key: 'mild', defaultLabel: 'Mild', emoji: '🙂', color: '#0f7a6b' },
+  { val: 4, key: 'moderate', defaultLabel: 'Moderate', emoji: '😐', color: '#e69a00' },
+  { val: 6, key: 'severe', defaultLabel: 'Severe', emoji: '😣', color: '#e65100' },
+  { val: 8, key: 'very_severe', defaultLabel: 'Very Severe', emoji: '😭', color: '#ce2b2c' },
+  { val: 10, key: 'worst', defaultLabel: 'Worst Possible', emoji: '😱', color: '#aa0a17' },
 ];
 
 export default function PainSeveritySlider({
   value,
   onChange,
 }: PainSeveritySliderProps) {
+  const language = useSessionStore((s) => s.language);
+
   // Find closest representation
   const activeLevel =
     PAIN_LEVELS.reduce((prev, curr) =>
       Math.abs(curr.val - value) < Math.abs(prev.val - value) ? curr : prev
     );
+
+  const translatedLabel = t(`pain.${activeLevel.key}`, language) || activeLevel.defaultLabel;
 
   return (
     <div
@@ -49,7 +56,7 @@ export default function PainSeveritySlider({
             {value} / 10
           </span>
           <span className="text-xl font-bold text-[#191c1d]">
-            {activeLevel.label}
+            {translatedLabel}
           </span>
         </div>
       </div>

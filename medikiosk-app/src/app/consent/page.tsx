@@ -6,7 +6,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import KioskHeader from '@/components/layout/KioskHeader';
 import KioskFooter from '@/components/layout/KioskFooter';
@@ -17,12 +17,23 @@ import { useTTS } from '@/hooks/useTTS';
 import { consentService } from '@/services/consentService';
 import { t } from '@/lib/i18n';
 import { ShieldCheck, Volume2, Check, Lock, FileText, Share2, Sparkles } from 'lucide-react';
+import {
+  HealthStethoscope,
+  PrescriptionDocument,
+  MedicalRecords,
+  HospitalSymbol,
+  SecurityWorker,
+} from '@/components/icons/ClinicalIcon';
 
 export default function ConsentPage() {
   const router = useRouter();
   const { language, sessionId, setConsent } = useSessionStore();
   const { setCurrentScreen } = useFlowStore();
   const { speak, isSpeaking } = useTTS();
+
+  useEffect(() => {
+    setCurrentScreen('consent_capture');
+  }, [setCurrentScreen]);
 
   const [scopes, setScopes] = useState({
     intake: true,
@@ -49,21 +60,22 @@ export default function ConsentPage() {
     speak(audioNotice);
   };
 
-  const handleAgree = async () => {
+  const handleAgree = () => {
     setConsent(true);
+    setCurrentScreen('chief_complaint');
+    router.push('/intake/symptoms');
+
     if (sessionId) {
-      try {
-        await consentService.grantConsent(sessionId, {
+      consentService
+        .grantConsent(sessionId, {
           scope: 'FULL_HIS_SHARE',
           interaction_mode: 'TOUCH_SCREEN',
           language,
+        })
+        .catch((err) => {
+          console.warn('Consent background sync note:', err);
         });
-      } catch (err) {
-        console.warn('Consent logging failed, proceeding with local consent:', err);
-      }
     }
-    setCurrentScreen('chief_complaint');
-    router.push('/intake/symptoms');
   };
 
   const handleDecline = () => {
@@ -86,8 +98,8 @@ export default function ConsentPage() {
         {/* Title & Trust Badge */}
         <div className="text-center mb-4">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#006e1c]/10 text-[#006e1c] font-bold text-xs uppercase tracking-wider mb-2">
-            <ShieldCheck className="w-4 h-4" />
-            <span>DPDP Act 2023 & ABDM Compliant</span>
+            <SecurityWorker className="w-4 h-4" />
+            <span>{t('consent.badge', language)}</span>
           </div>
           <h1 className="text-3xl md:text-4xl font-black text-[#191c1d] tracking-tight">
             {t('consent.title', language)}
@@ -108,7 +120,7 @@ export default function ConsentPage() {
             className="inline-flex items-center gap-2 mt-4 px-5 py-2.5 rounded-full bg-[#eceeee] hover:bg-[#e1e3e3] text-[#005f53] font-bold text-sm transition-all cursor-pointer shadow-xs active:scale-95"
           >
             <Volume2 className={`w-4 h-4 ${isSpeaking ? 'animate-bounce text-[#aa0a17]' : ''}`} />
-            <span>{isSpeaking ? 'Playing Audio Notice...' : 'Listen to Spoken Notice'}</span>
+            <span>{isSpeaking ? t('consent.playing_btn', language) : t('consent.listen_btn', language)}</span>
           </button>
         </div>
 
@@ -125,14 +137,14 @@ export default function ConsentPage() {
           >
             <div className="flex items-center gap-4">
               <div className="w-10 h-10 rounded-xl bg-[#005f53]/10 text-[#005f53] flex items-center justify-center">
-                <FileText className="w-5 h-5" />
+                <HealthStethoscope className="w-6 h-6" />
               </div>
               <div>
                 <h4 className="font-bold text-base text-[#191c1d]">
-                  1. Clinical Intake & Symptom Interview
+                  {t('consent.scope1_title', language)}
                 </h4>
                 <p className="text-xs text-[#3e4946]">
-                  Record your presenting complaints and SOCRATES symptom history via voice or touch.
+                  {t('consent.scope1_desc', language)}
                 </p>
               </div>
             </div>
@@ -158,14 +170,14 @@ export default function ConsentPage() {
           >
             <div className="flex items-center gap-4">
               <div className="w-10 h-10 rounded-xl bg-[#005f53]/10 text-[#005f53] flex items-center justify-center">
-                <Lock className="w-5 h-5" />
+                <PrescriptionDocument className="w-6 h-6" />
               </div>
               <div>
                 <h4 className="font-bold text-base text-[#191c1d]">
-                  2. Medical Document Digitization & OCR
+                  {t('consent.scope2_title', language)}
                 </h4>
                 <p className="text-xs text-[#3e4946]">
-                  Scan and extract prior prescriptions, lab reports, and medications.
+                  {t('consent.scope2_desc', language)}
                 </p>
               </div>
             </div>
@@ -191,14 +203,14 @@ export default function ConsentPage() {
           >
             <div className="flex items-center gap-4">
               <div className="w-10 h-10 rounded-xl bg-[#005f53]/10 text-[#005f53] flex items-center justify-center">
-                <Sparkles className="w-5 h-5" />
+                <MedicalRecords className="w-6 h-6" />
               </div>
               <div>
                 <h4 className="font-bold text-base text-[#191c1d]">
-                  3. AI Clinical Summary Draft Generation
+                  {t('consent.scope3_title', language)}
                 </h4>
                 <p className="text-xs text-[#3e4946]">
-                  Generate a structured, editable clinical draft for your doctor to review before consultation.
+                  {t('consent.scope3_desc', language)}
                 </p>
               </div>
             </div>
@@ -224,14 +236,14 @@ export default function ConsentPage() {
           >
             <div className="flex items-center gap-4">
               <div className="w-10 h-10 rounded-xl bg-[#005f53]/10 text-[#005f53] flex items-center justify-center">
-                <Share2 className="w-5 h-5" />
+                <HospitalSymbol className="w-6 h-6" />
               </div>
               <div>
                 <h4 className="font-bold text-base text-[#191c1d]">
-                  4. ABDM Personal Health Locker Linkage
+                  {t('consent.scope4_title', language)}
                 </h4>
                 <p className="text-xs text-[#3e4946]">
-                  Securely link your verified intake summary to your ABHA personal health records.
+                  {t('consent.scope4_desc', language)}
                 </p>
               </div>
             </div>
@@ -249,7 +261,7 @@ export default function ConsentPage() {
 
         {/* Ephemeral Notice */}
         <div className="p-3 rounded-2xl bg-[#005f53]/5 border border-[#005f53]/20 text-center text-xs text-[#005f53] font-semibold my-2">
-          Zero Retention: Temporary voice recordings and camera frames are erased from kiosk memory upon submission.
+          {t('consent.disclaimer', language)}
         </div>
       </main>
 

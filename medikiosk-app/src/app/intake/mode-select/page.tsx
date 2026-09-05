@@ -17,6 +17,7 @@ import { useTTS } from '@/hooks/useTTS';
 import { t } from '@/lib/i18n';
 import type { IntakeMode } from '@/lib/constants';
 import { Stethoscope, Flower2, ShieldAlert } from 'lucide-react';
+import { HealthStethoscope, ExerciseYoga } from '@/components/icons/ClinicalIcon';
 
 export default function ModeSelectPage() {
   const router = useRouter();
@@ -24,17 +25,27 @@ export default function ModeSelectPage() {
   const { setCurrentScreen } = useFlowStore();
   const { speak, stop } = useTTS();
 
+  useEffect(() => {
+    setCurrentScreen('mode_selection');
+  }, [setCurrentScreen]);
+
   // Auto-speak mode selection guidance on screen entry
   useEffect(() => {
-    const promptMsg = language === 'hi'
-      ? 'कृपया अपनी परामर्श पद्धति चुनें: सामान्य एलोपैथिक या आयुर्वेदिक आयुष।'
-      : 'Please choose your consultation mode: General Allopathic medicine or Ayurvedic AYUSH.';
+    const promptPrompts: Record<string, string> = {
+      en: 'Please choose your consultation mode: General Allopathic medicine or Ayurvedic AYUSH.',
+      hi: 'कृपया अपनी परामर्श पद्धति चुनें: सामान्य एलोपैथिक या आयुर्वेदिक आयुष।',
+      mr: 'कृपया आपला सल्लामसलत प्रकार निवडा: सामान्य अ‍ॅलोपॅथिक किंवा आयुर्वेदिक आयुष.',
+      bn: 'আপনার পরামর্শের ধরন নির্বাচন করুন: সাধারণ অ্যালোপ্যাথিক বা আয়ুর্বেদিক আয়ুষ।',
+      ta: 'உங்கள் ஆலோசனை வகையைத் தேர்ந்தெடுக்கவும்: பொது அலோபதி அல்லது ஆயுர்வேத ஆயுஷ்.',
+      te: 'దయచేసి మీ సంప్రదింపు రకాన్ని ఎంచుకోండి: జనరల్ అల్లోపతి లేదా ఆయుర్వేద ఆయుష్.',
+    };
+    const promptMsg = promptPrompts[language] || promptPrompts.en;
     speak(promptMsg, language);
 
     return () => {
       stop();
     };
-  }, []); // Run once on mount
+  }, [language, speak, stop]);
 
   const handleSelectMode = (mode: IntakeMode) => {
     setIntakeMode(mode);
@@ -70,13 +81,13 @@ export default function ModeSelectPage() {
       <main className="flex-1 max-w-5xl w-full mx-auto p-6 md:p-10 flex flex-col justify-between overflow-y-auto">
         <div className="text-center mb-6">
           <span className="inline-block px-4 py-1.5 rounded-full bg-[#005f53]/10 text-[#005f53] font-bold text-xs uppercase tracking-wider mb-2">
-            Clinical Protocol Selection
+            {t('mode.badge', language)}
           </span>
           <h1 className="text-3xl md:text-4xl font-black text-[#191c1d] tracking-tight">
             {t('mode.title', language)}
           </h1>
           <p className="text-base text-[#3e4946] mt-2">
-            Choose your hospital department for tailored symptom inquiry.
+            {t('mode.subtitle', language)}
           </p>
         </div>
 
@@ -84,34 +95,34 @@ export default function ModeSelectPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-auto">
           <OptionCard
             id="mode-allopathic-card"
-            title="General OPD (Allopathic)"
-            subtitle="Modern Medicine — SOCRATES symptom assessment, Review of Systems, Drug and Allergy profiling."
+            title={t('mode.allopathic', language)}
+            subtitle={t('mode.allopathic_desc', language)}
             selected={intakeMode === 'ALLOPATHIC'}
-            badge={intakeMode === 'ALLOPATHIC' ? 'Active' : undefined}
+            badge={intakeMode === 'ALLOPATHIC' ? t('mode.active_badge', language) : undefined}
             dataElement="mode-allopathic-card"
             dataVoiceAction="select-allopathic"
             dataVoiceParam="Allopathic"
             onSelect={() => handleSelectMode('ALLOPATHIC')}
-            icon={<Stethoscope className="w-8 h-8" />}
+            icon={<HealthStethoscope className="w-9 h-9" />}
           />
 
           <OptionCard
             id="mode-ayush-card"
-            title="Ayurvedic OPD (AYUSH)"
-            subtitle="All India Institute of Ayurveda — Dashavidha Pariksha, Prakriti, Vikriti, Agni, and Ahara-Vihara assessment."
+            title={t('mode.ayush', language)}
+            subtitle={t('mode.ayush_desc', language)}
             selected={intakeMode === 'AYUSH'}
-            badge={intakeMode === 'AYUSH' ? 'Active' : undefined}
+            badge={intakeMode === 'AYUSH' ? t('mode.active_badge', language) : undefined}
             dataElement="mode-ayush-card"
             dataVoiceAction="select-ayush"
             dataVoiceParam="Ayurvedic AYUSH"
             onSelect={() => handleSelectMode('AYUSH')}
-            icon={<Flower2 className="w-8 h-8" />}
+            icon={<ExerciseYoga className="w-9 h-9" />}
           />
         </div>
 
         {/* Informational Disclaimer */}
         <div className="p-4 rounded-2xl bg-white border border-[#bdc9c5]/40 text-center text-xs text-[#3e4946] max-w-2xl mx-auto shadow-xs">
-          Selected pathway configures the automated question sequence and clinical ontology.
+          {t('mode.disclaimer', language)}
         </div>
       </main>
 

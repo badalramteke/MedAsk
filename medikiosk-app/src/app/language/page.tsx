@@ -6,6 +6,7 @@
 
 'use client';
 
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import KioskHeader from '@/components/layout/KioskHeader';
 import KioskFooter from '@/components/layout/KioskFooter';
@@ -33,6 +34,10 @@ export default function LanguagePage() {
   const { setCurrentScreen } = useFlowStore();
   const { speak } = useTTS();
 
+  useEffect(() => {
+    setCurrentScreen('language_picker');
+  }, [setCurrentScreen]);
+
   const handleSelect = (code: LanguageCode) => {
     setLanguage(code);
     speak(AUDIO_PROMPTS[code], code);
@@ -58,7 +63,7 @@ export default function LanguagePage() {
         <div className="text-center mb-6">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#005f53]/10 text-[#005f53] font-bold text-xs uppercase tracking-wider mb-2">
             <Languages className="w-4 h-4" />
-            <span>Multilingual First-Mile Access</span>
+            <span>{t('language.badge', language)}</span>
           </div>
           <h1 className="text-3xl md:text-4xl font-black text-[#191c1d] tracking-tight">
             {t('language.title', language)}

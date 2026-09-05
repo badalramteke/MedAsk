@@ -38,6 +38,7 @@ export interface SessionState {
     abhaAddress?: string;
     authMode?: 'ABHA' | 'AADHAAR' | 'QR' | 'GUEST';
   }) => void;
+  setAuthMode: (authMode: 'ABHA' | 'AADHAAR' | 'QR' | 'GUEST' | null) => void;
   setConsent: (granted: boolean) => void;
   triggerEmergency: (reason: string, returnPath?: string) => void;
   clearEmergency: () => void;
@@ -125,6 +126,8 @@ export const useSessionStore = create<SessionState>()(
           abhaAddress: data.abhaAddress ?? state.abhaAddress,
           authMode: data.authMode ?? state.authMode,
         })),
+
+      setAuthMode: (authMode) => set({ authMode }),
 
       setConsent: (granted: boolean) =>
         set({

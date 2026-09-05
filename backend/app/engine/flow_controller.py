@@ -78,8 +78,10 @@ class FlowController:
         state.answered_question_ids.append(question_id)
         state.answer_history[question_id] = selected_value_codes if selected_value_codes else free_text
 
-        # Use the question bank's trigger-based routing (with gender filtering)
-        next_qid = question_bank.get_next_question_id(question_id, selected_value_codes, gender=gender)
+        # Use the question bank's trigger-based routing (with gender filtering and semantic free-text resolution)
+        next_qid = question_bank.get_next_question_id(
+            question_id, selected_value_codes, gender=gender, free_text=free_text
+        )
 
         if next_qid:
             state.current_question_id = next_qid

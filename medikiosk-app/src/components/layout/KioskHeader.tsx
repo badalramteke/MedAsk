@@ -12,6 +12,7 @@ import { useSessionStore } from '@/stores/useSessionStore';
 import { useFlowStore } from '@/stores/useFlowStore';
 import { t } from '@/lib/i18n';
 import { ArrowLeft, Stethoscope, AlertTriangle, Globe } from 'lucide-react';
+import { HealthStethoscope, Ambulance, HospitalSymbol } from '@/components/icons/ClinicalIcon';
 
 interface KioskHeaderProps {
   showBack?: boolean;
@@ -76,7 +77,7 @@ export default function KioskHeader({ showBack = true, onBack }: KioskHeaderProp
         )}
 
         <div className="w-12 h-12 rounded-xl bg-[#0f7a6b] flex items-center justify-center shadow-sm">
-          <Stethoscope className="w-7 h-7 text-white" />
+          <HealthStethoscope className="w-8 h-8 text-white" />
         </div>
 
         <div className="flex flex-col">
@@ -121,7 +122,7 @@ export default function KioskHeader({ showBack = true, onBack }: KioskHeaderProp
           onClick={handleSos}
           className="h-12 md:h-14 px-5 md:px-7 rounded-full bg-[#aa0a17] hover:bg-[#8e0813] text-white flex items-center gap-2.5 shadow-md active:scale-95 transition-all cursor-pointer font-bold tracking-wide text-sm md:text-base"
         >
-          <AlertTriangle className="w-5 h-5 text-white animate-bounce" />
+          <Ambulance className="w-5 h-5 text-white animate-bounce" />
           <span>{t('header.sos', language)}</span>
         </button>
       </div>

@@ -14,6 +14,7 @@ import { useFlowStore } from '@/stores/useFlowStore';
 import { useIntakeStore } from '@/stores/useIntakeStore';
 import { t } from '@/lib/i18n';
 import { CheckCircle2, Printer, LogOut, QrCode, Clock, ShieldCheck } from 'lucide-react';
+import { Positive, HealthQrCode, Doctor, HospitalSymbol } from '@/components/icons/ClinicalIcon';
 
 export default function CompletePage() {
   const router = useRouter();
@@ -24,8 +25,12 @@ export default function CompletePage() {
     patientName,
     resetSession,
   } = useSessionStore();
-  const { resetFlow } = useFlowStore();
+  const { resetFlow, setCurrentScreen } = useFlowStore();
   const { resetIntake } = useIntakeStore();
+
+  useEffect(() => {
+    setCurrentScreen('intake_complete');
+  }, [setCurrentScreen]);
 
   const [purgeCountdown, setPurgeCountdown] = useState(30);
 
@@ -69,20 +74,20 @@ export default function CompletePage() {
         {/* Success Header */}
         <div className="text-center">
           <div className="w-16 h-16 rounded-full bg-[#006e1c]/10 text-[#006e1c] flex items-center justify-center mx-auto mb-3">
-            <CheckCircle2 className="w-10 h-10" />
+            <Positive className="w-10 h-10 text-[#006e1c]" />
           </div>
           <h1 className="text-3xl font-black text-[#191c1d] tracking-tight">
             {t('complete.title', language)}
           </h1>
           <p className="text-sm text-[#3e4946] mt-1">
-            Your clinical history summary has been securely routed to the OPD consultation desk.
+            {t('complete.subtitle', language)}
           </p>
         </div>
 
         {/* Receipt Token Card */}
         <div className="w-full bg-white rounded-3xl p-6 md:p-8 border-2 border-[#005f53] shadow-xl text-center my-4 space-y-4">
           <div className="text-xs font-bold uppercase tracking-widest text-[#005f53]">
-            OPD QUEUE TOKEN
+            {t('complete.queue_token', language)}
           </div>
 
           <div className="text-6xl md:text-7xl font-black text-[#005f53] tracking-tight">
@@ -96,15 +101,15 @@ export default function CompletePage() {
               {activeRoom}
             </div>
             <div className="text-xs text-[#3e4946]">
-              Patient: {patientName || 'Walk-in Guest'}
+              {t('complete.patient', language)} {patientName || t('complete.walkin_guest', language)}
             </div>
           </div>
 
           {/* Rapid QR Scan for Doctor */}
           <div className="p-3 bg-[#f2f4f4] rounded-2xl flex items-center justify-center gap-3">
-            <QrCode className="w-10 h-10 text-[#005f53]" />
+            <HealthQrCode className="w-10 h-10 text-[#005f53]" />
             <span className="text-xs text-left font-medium text-[#3e4946]">
-              Show this screen or printed token to your doctor when called.
+              {t('complete.show_screen', language)}
             </span>
           </div>
         </div>
@@ -113,7 +118,7 @@ export default function CompletePage() {
         <div className="w-full p-4 rounded-2xl bg-[#005f53]/5 border border-[#005f53]/20 flex items-center justify-between text-xs text-[#005f53]">
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-5 h-5 flex-shrink-0" />
-            <span>Session privacy purge in progress:</span>
+            <span>{t('complete.purge_notice', language)}</span>
           </div>
           <span className="font-black text-sm bg-white px-2.5 py-1 rounded-full shadow-xs">
             {purgeCountdown}s

@@ -32,6 +32,7 @@ router = APIRouter()
 _active_abha_transactions: Dict[str, Dict[str, Any]] = {}
 
 
+@router.post("", response_model=PatientDataObject, status_code=status.HTTP_201_CREATED, include_in_schema=False)
 @router.post("/", response_model=PatientDataObject, status_code=status.HTTP_201_CREATED)
 def create_session(pdo: PatientDataObject):
     """Create a new clinical intake session."""

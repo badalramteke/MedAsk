@@ -6,7 +6,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import KioskHeader from '@/components/layout/KioskHeader';
 import { useSessionStore } from '@/stores/useSessionStore';
@@ -15,6 +15,7 @@ import { useTTS } from '@/hooks/useTTS';
 import { SUPPORTED_LANGUAGES, LanguageCode } from '@/lib/constants';
 import { t } from '@/lib/i18n';
 import { ArrowRight, Touchpad, Volume2, ShieldCheck, HeartPulse, Clock, Sparkles } from 'lucide-react';
+import { HospitalSymbol, HeartOrgan, SecurityWorker, HealthStethoscope, Doctor } from '@/components/icons/ClinicalIcon';
 
 export default function LandingPage() {
   const router = useRouter();
@@ -23,22 +24,21 @@ export default function LandingPage() {
   const { speak, isSpeaking } = useTTS();
   const [activeLang, setActiveLang] = useState<LanguageCode>(language);
 
+  useEffect(() => {
+    setCurrentScreen('welcome_gate');
+  }, [setCurrentScreen]);
+
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleStart = async (chosenLang?: LanguageCode) => {
-    if (isLoading) return;
-    setIsLoading(true);
-    try {
-      const selected = chosenLang || activeLang;
-      setLanguage(selected);
-      await ensureBackendSession(selected);
-      setCurrentScreen('language_picker');
-      router.push('/language');
-    } catch (err) {
-      console.error('Failed to start session', err);
-    } finally {
-      setIsLoading(false);
-    }
+  const handleStart = (chosenLang?: LanguageCode) => {
+    const selected = chosenLang || activeLang;
+    setLanguage(selected);
+    setCurrentScreen('language_picker');
+    router.push('/language');
+    // Asynchronously initialize backend session in background without blocking screen transition
+    ensureBackendSession(selected).catch((err) => {
+      console.warn('Backend session async init note:', err);
+    });
   };
 
   const handleAudioWelcome = () => {
@@ -63,29 +63,29 @@ export default function LandingPage() {
           <div className="relative z-10 flex items-center gap-2">
             <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-bold uppercase tracking-wider text-[#abffed]">
               <Sparkles className="w-4 h-4 text-[#99f3e0]" />
-              <span>Ministry of Ayush & AIIA Smart OPD</span>
+              <span>{t('welcome.ministry_badge', activeLang)}</span>
             </div>
           </div>
 
           {/* Center Headline */}
           <div className="relative z-10 max-w-xl my-auto py-6">
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-tight mb-4">
-              Your Health, <br />
-              <span className="text-[#99f3e0]">Our Priority.</span>
+              {t('welcome.hero_title_1', activeLang)} <br />
+              <span className="text-[#99f3e0]">{t('welcome.hero_title_2', activeLang)}</span>
             </h1>
             <p className="text-lg md:text-xl text-white/85 font-medium leading-relaxed mb-6">
-              Complete your clinical intake and prescription scan in minutes before meeting your doctor.
+              {t('welcome.hero_desc', activeLang)}
             </p>
 
             {/* Key badges */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
               <div className="flex items-center gap-3 p-3 rounded-2xl bg-white/10 backdrop-blur-xs border border-white/10">
-                <HeartPulse className="w-6 h-6 text-[#99f3e0] flex-shrink-0" />
-                <span className="text-sm font-semibold">Dual-Mode Voice & Touch</span>
+                <HeartOrgan className="w-6 h-6 text-[#99f3e0] flex-shrink-0" />
+                <span className="text-sm font-semibold">{t('welcome.badge_voice_touch', activeLang)}</span>
               </div>
               <div className="flex items-center gap-3 p-3 rounded-2xl bg-white/10 backdrop-blur-xs border border-white/10">
-                <ShieldCheck className="w-6 h-6 text-[#99f3e0] flex-shrink-0" />
-                <span className="text-sm font-semibold">ABDM & DPDP Act 2023</span>
+                <SecurityWorker className="w-6 h-6 text-[#99f3e0] flex-shrink-0" />
+                <span className="text-sm font-semibold">{t('welcome.badge_abdm', activeLang)}</span>
               </div>
             </div>
           </div>
@@ -93,7 +93,7 @@ export default function LandingPage() {
           {/* Bottom Hospital Trust */}
           <div className="relative z-10 flex items-center gap-4 text-xs text-white/70 border-t border-white/10 pt-4">
             <Clock className="w-4 h-4" />
-            <span>Average intake time: 2–3 minutes • Zero technical skills required</span>
+            <span>{t('welcome.trust_footer', activeLang)}</span>
           </div>
         </div>
 
@@ -102,14 +102,14 @@ export default function LandingPage() {
           {/* Top Info */}
           <div className="w-full flex flex-col items-center text-center">
             <div className="w-20 h-20 rounded-3xl bg-[#005f53]/10 text-[#005f53] flex items-center justify-center mb-5 shadow-xs">
-              <Touchpad className="w-10 h-10" />
+              <HealthStethoscope className="w-12 h-12" />
             </div>
 
             <h2 className="text-2xl md:text-3xl font-black text-[#191c1d] tracking-tight">
-              Ready to check in?
+              {t('welcome.ready_title', activeLang)}
             </h2>
             <p className="text-base text-[#3e4946] mt-2 max-w-sm">
-              Tap the screen below to begin in your preferred language.
+              {t('welcome.ready_desc', activeLang)}
             </p>
 
             {/* Quick Language Chips */}
@@ -158,10 +158,10 @@ export default function LandingPage() {
             >
               <div className="flex flex-col items-start text-left">
                 <span className="text-2xl md:text-3xl font-black tracking-tight">
-                  {isLoading ? 'Starting...' : t('welcome.tap_to_start', activeLang)}
+                  {isLoading ? t('welcome.starting', activeLang) : t('welcome.tap_to_start', activeLang)}
                 </span>
                 <span className="text-sm font-medium text-white/80">
-                  {isLoading ? 'Please wait a moment' : 'Touch anywhere to begin'}
+                  {isLoading ? t('welcome.wait_moment', activeLang) : t('welcome.touch_to_begin', activeLang)}
                 </span>
               </div>
               <div className={`w-14 h-14 rounded-full bg-white/20 flex items-center justify-center transition-transform ${isLoading ? 'animate-spin' : 'group-hover:translate-x-2'}`}>
@@ -192,11 +192,11 @@ export default function LandingPage() {
               }`}
             >
               <Volume2 className={`w-5 h-5 ${isSpeaking ? 'animate-bounce text-[#aa0a17]' : ''}`} />
-              <span>{isSpeaking ? 'Playing guidance...' : 'Listen in vernacular audio'}</span>
+              <span>{isSpeaking ? t('welcome.playing_audio', activeLang) : t('welcome.listen_audio', activeLang)}</span>
             </button>
 
             <span className="text-xs text-[#3e4946]">
-              Press red SOS button at top-right for urgent clinical care
+              {t('welcome.sos_hint', activeLang)}
             </span>
           </div>
         </div>

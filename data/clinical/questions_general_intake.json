@@ -63,15 +63,100 @@
       "question_id": "GEN_PMH_002",
       "section": "past_medical_history",
       "text_by_language": {
-        "en": "Please describe your medical conditions (e.g., diabetes, hypertension, asthma, thyroid).",
-        "hi": "कृपया अपनी बीमारियों का वर्णन करें (जैसे मधुमेह, उच्च रक्तचाप, अस्थमा, थायराइड)।",
-        "mr": "कृपया तुमच्या आजारांचे वर्णन करा (जसे मधुमेह, रक्तदाब, दमा, थायरॉइड).",
-        "bn": "অনুগ্রহ করে আপনার রোগের বর্ণনা দিন (যেমন ডায়াবেটিস, উচ্চ রক্তচাপ, হাঁপানি, থাইরয়েড)।",
-        "ta": "உங்கள் நோய்களை விவரிக்கவும் (எ.கா., நீரிழிவு, உயர் இரத்த அழுத்தம், ஆஸ்துமா, தைராய்டு).",
-        "te": "మీ వ్యాధులను వివరించండి (ఉదా., మధుమేహం, అధిక రక్తపోటు, ఆస్తమా, థైరాయిడ్)."
+        "en": "Please select your ongoing medical conditions (tap all that apply):",
+        "hi": "कृपया अपनी चल रही बीमारियों का चयन करें (जो भी लागू हो उसे चुनें):",
+        "mr": "कृपया तुमचे सुरू असलेले आजार निवडा (लागू असलेले सर्व निवडा):",
+        "bn": "অনুগ্রহ করে আপনার চলমান রোগ নির্বাচন করুন (প্রযোজ্য সব নির্বাচন করুন):",
+        "ta": "உங்கள் நடப்பு நோய்களைத் தேர்ந்தெடுக்கவும் (பொருந்தும் அனைத்தையும் தொடவும்):",
+        "te": "దయచేసి మీ కొనసాగుతున్న వ్యాధులను ఎంచుకోండి (వర్తించేవన్నీ ఎంచుకోండి):"
       },
-      "input_type": "free_text",
-      "options": [],
+      "input_type": "multi_select",
+      "options": [
+        {
+          "option_id": "OPT_PMH_DIABETES",
+          "value_code": "PMH_DIABETES",
+          "text_by_language": {
+            "en": "Diabetes / High Blood Sugar",
+            "hi": "मधुमेह / शुगर",
+            "mr": "मधुमेह",
+            "bn": "ডায়াবেটিস",
+            "ta": "நீரிழிவு நோய்",
+            "te": "మధుమేహం"
+          }
+        },
+        {
+          "option_id": "OPT_PMH_HYPERTENSION",
+          "value_code": "PMH_HYPERTENSION",
+          "text_by_language": {
+            "en": "Hypertension / High BP",
+            "hi": "उच्च रक्तचाप / बीपी",
+            "mr": "उच्च रक्तदाब",
+            "bn": "উচ্চ রক্তচাপ",
+            "ta": "உயர் இரத்த அழுத்தம்",
+            "te": "అధిక రక్తపోటు"
+          }
+        },
+        {
+          "option_id": "OPT_PMH_ASTHMA",
+          "value_code": "PMH_ASTHMA",
+          "text_by_language": {
+            "en": "Asthma / Respiratory Problem",
+            "hi": "दमा / सांस की समस्या",
+            "mr": "दमा / श्वसन समस्या",
+            "bn": "হাঁপানি / শ্বাসকষ্ট",
+            "ta": "ஆஸ்துமா / சுவாசப் பிரச்சனை",
+            "te": "ఆస్తమా / శ్వాస సమస్య"
+          }
+        },
+        {
+          "option_id": "OPT_PMH_THYROID",
+          "value_code": "PMH_THYROID",
+          "text_by_language": {
+            "en": "Thyroid Disorder",
+            "hi": "थायराइड समस्या",
+            "mr": "थायरॉइड आजार",
+            "bn": "থাইরয়েড সমস্যা",
+            "ta": "தைராய்டு கோளாறு",
+            "te": "థైరాయిడ్ సమస్య"
+          }
+        },
+        {
+          "option_id": "OPT_PMH_HEART",
+          "value_code": "PMH_HEART_DISEASE",
+          "text_by_language": {
+            "en": "Heart / Cardiac Condition",
+            "hi": "हृदय रोग / दिल की बीमारी",
+            "mr": "हृदयरोग",
+            "bn": "হৃদরোগ",
+            "ta": "இதய நோய்",
+            "te": "గుండె జబ్బు"
+          }
+        },
+        {
+          "option_id": "OPT_PMH_ARTHRITIS",
+          "value_code": "PMH_ARTHRITIS",
+          "text_by_language": {
+            "en": "Arthritis / Joint Pain",
+            "hi": "गठिया / जोड़ों का दर्द",
+            "mr": "सांधेदुखी",
+            "bn": "বাত / জয়েন্টে ব্যথা",
+            "ta": "மூட்டு வலி",
+            "te": "కీళ్ల నొప్పులు"
+          }
+        },
+        {
+          "option_id": "OPT_PMH_OTHER",
+          "value_code": "PMH_OTHER",
+          "text_by_language": {
+            "en": "Other Medical Condition",
+            "hi": "अन्य बीमारी",
+            "mr": "इतर आजार",
+            "bn": "অন্যান্য রোগ",
+            "ta": "பிற நோய்",
+            "te": "ఇతర వ్యాధి"
+          }
+        }
+      ],
       "data_element": "history.past_medical_history_details",
       "followup_triggers": [
         {
@@ -130,15 +215,88 @@
       "question_id": "GEN_PSH_002",
       "section": "past_surgical_history",
       "text_by_language": {
-        "en": "Please describe the surgeries you have had and when they were performed.",
-        "hi": "कृपया बताएं कि कौन सी सर्जरी हुई और कब हुई।",
-        "mr": "कृपया कोणत्या शस्त्रक्रिया झाल्या आणि कधी झाल्या ते सांगा.",
-        "bn": "অনুগ্রহ করে বলুন কী অস্ত্রোপচার হয়েছিল এবং কখন হয়েছিল।",
-        "ta": "என்ன அறுவை சிகிச்சை செய்யப்பட்டது, எப்போது என்று விவரிக்கவும்.",
-        "te": "ఏ శస్త్రచికిత్సలు జరిగాయి, ఎప్పుడు జరిగాయో వివరించండి."
+        "en": "Please select the type of surgeries you have had (tap all that apply):",
+        "hi": "कृपया बताएं कि आपकी कौन सी सर्जरी हुई है (जो भी लागू हो चुनें):",
+        "mr": "कृपया तुमच्या झालेल्या शस्त्रक्रियांचे प्रकार निवडा:",
+        "bn": "অনুগ্রহ করে আপনার অস্ত্রোপচারের ধরন নির্বাচন করুন:",
+        "ta": "நீங்கள் செய்த அறுவை சிகிச்சைகளைத் தேர்ந்தெடுக்கவும்:",
+        "te": "మీరు చేయించుకున్న శస్త్రచికిత్స రకాలను ఎంచుకోండి:"
       },
-      "input_type": "free_text",
-      "options": [],
+      "input_type": "multi_select",
+      "options": [
+        {
+          "option_id": "OPT_PSH_ABDOMINAL",
+          "value_code": "PSH_ABDOMINAL",
+          "text_by_language": {
+            "en": "Abdominal / Gallbladder / Appendix",
+            "hi": "पेट की सर्जरी / अपेंडिक्स / पित्त की थैली",
+            "mr": "पोटाची शस्त्रक्रिया / अपेंडिक्स",
+            "bn": "পেটের অস্ত্রোপচার / অ্যাপেন্ডিক্স",
+            "ta": "வயிற்று அறுவை சிகிச்சை",
+            "te": "కడుపు శస్త్రచికిత్స"
+          }
+        },
+        {
+          "option_id": "OPT_PSH_CSECTION",
+          "value_code": "PSH_CSECTION",
+          "text_by_language": {
+            "en": "Cesarean Delivery (C-Section)",
+            "hi": "सिजेरियन डिलीवरी (सी-सेक्शन)",
+            "mr": "सिझेरियन प्रसूती",
+            "bn": "সিজারিয়ান ডেলিভারি",
+            "ta": "சிசேரியன் பிரசவம்",
+            "te": "సిజేరియన్ ప్రసవం"
+          }
+        },
+        {
+          "option_id": "OPT_PSH_CARDIAC",
+          "value_code": "PSH_CARDIAC_STENT",
+          "text_by_language": {
+            "en": "Heart Surgery / Stent / Bypass",
+            "hi": "हार्ट सर्जरी / स्टेंट / बाईपास",
+            "mr": "हृदयाची शस्त्रक्रिया / बायपास",
+            "bn": "হার্ট সার্জারি / স্টেন্ট / বাইপাস",
+            "ta": "இதய அறுவை சிகிச்சை / ஸ்டென்ட்",
+            "te": "గుండె శస్త్రచికిత్స / స్టెంట్"
+          }
+        },
+        {
+          "option_id": "OPT_PSH_ORTHOPEDIC",
+          "value_code": "PSH_ORTHOPEDIC",
+          "text_by_language": {
+            "en": "Bone / Joint / Fracture Surgery",
+            "hi": "हड्डी / फ्रैक्चर / जोड़ सर्जरी",
+            "mr": "हाडांची शस्त्रक्रिया",
+            "bn": "হাড় / জয়েন্ট সার্জারি",
+            "ta": "எலும்பு / மூட்டு அறுவை சிகிச்சை",
+            "te": "ఎముక / కీళ్ల శస్త్రచికిత్స"
+          }
+        },
+        {
+          "option_id": "OPT_PSH_EYE",
+          "value_code": "PSH_EYE_CATARACT",
+          "text_by_language": {
+            "en": "Eye / Cataract Surgery",
+            "hi": "आँख / मोतियाबिंद का ऑपरेशन",
+            "mr": "डोळ्यांची शस्त्रक्रिया / मोतीबिंदू",
+            "bn": "চোখের ছানি অপারেশন",
+            "ta": "கண் / கண்புரை அறுவை சிகிச்சை",
+            "te": "కంటి శుక్లం శస్త్రచికిత్స"
+          }
+        },
+        {
+          "option_id": "OPT_PSH_OTHER",
+          "value_code": "PSH_OTHER",
+          "text_by_language": {
+            "en": "Other Surgical Procedure",
+            "hi": "अन्य ऑपरेशन / सर्जरी",
+            "mr": "इतर शस्त्रक्रिया",
+            "bn": "অন্যান্য অস্ত্রোপচার",
+            "ta": "பிற அறுவை சிகிச்சை",
+            "te": "ఇతర శస్త్రచికిత్స"
+          }
+        }
+      ],
       "data_element": "history.past_surgical_history_details",
       "followup_triggers": [
         {
@@ -197,15 +355,88 @@
       "question_id": "GEN_MED_002",
       "section": "medications",
       "text_by_language": {
-        "en": "Please list the medications you are taking, including dosage if known.",
-        "hi": "कृपया अपनी दवाइयों की सूची दें, खुराक सहित (यदि पता हो)।",
-        "mr": "कृपया तुम्ही घेत असलेल्या औषधांची यादी द्या, डोस सह (माहीत असल्यास).",
-        "bn": "অনুগ্রহ করে আপনি যে ওষুধ খাচ্ছেন তার তালিকা দিন, ডোজ সহ (জানা থাকলে)।",
-        "ta": "நீங்கள் எடுத்துக்கொள்ளும் மருந்துகளை பட்டியலிடுங்கள், அளவு தெரிந்தால் சேர்க்கவும்.",
-        "te": "మీరు తీసుకుంటున్న మందుల జాబితా ఇవ్వండి, మోతాదుతో (తెలిస్తే)."
+        "en": "Please select the types of medications you are regularly taking (tap all that apply):",
+        "hi": "कृपया बताएं कि आप कौन सी नियमित दवाइयाँ ले रहे हैं (जो भी लागू हो चुनें):",
+        "mr": "कृपया तुम्ही नियमित घेत असलेल्या औषधांचे प्रकार निवडा:",
+        "bn": "অনুগ্রহ করে আপনি নিয়মিত যে ওষুধ খাচ্ছেন তা নির্বাচন করুন:",
+        "ta": "நீங்கள் வழக்கமாக எடுத்துக்கொள்ளும் மருந்துகளைத் தேர்ந்தெடுக்கவும்:",
+        "te": "మీరు క్రమం తప్పకుండా తీసుకునే మందులను ఎంచుకోండి:"
       },
-      "input_type": "free_text",
-      "options": [],
+      "input_type": "multi_select",
+      "options": [
+        {
+          "option_id": "OPT_MED_BP",
+          "value_code": "MED_BP_TABLETS",
+          "text_by_language": {
+            "en": "Blood Pressure (BP) Tablets",
+            "hi": "बीपी / उच्च रक्तचाप की गोली",
+            "mr": "रक्तदाबाची (BP) औषधे",
+            "bn": "রক্তচাপের (BP) ওষুধ",
+            "ta": "இரத்த அழுத்த மாத்திரைகள்",
+            "te": "బీపీ మాత్రలు"
+          }
+        },
+        {
+          "option_id": "OPT_MED_DIABETES",
+          "value_code": "MED_DIABETES_INSULIN",
+          "text_by_language": {
+            "en": "Diabetes Tablets / Insulin",
+            "hi": "मधुमेह की गोली / इंसुलिन",
+            "mr": "मधुमेहाची औषधे / इन्सुलिन",
+            "bn": "ডায়াবেটিসের ওষুধ / ইনসুলিন",
+            "ta": "நீரிழிவு மாத்திரைகள் / இன்சுலின்",
+            "te": "మధుమేహం మాత్రలు / ఇన్సులిన్"
+          }
+        },
+        {
+          "option_id": "OPT_MED_HEART",
+          "value_code": "MED_HEART_MEDS",
+          "text_by_language": {
+            "en": "Heart / Blood Thinners (Aspirin/Clopidogrel)",
+            "hi": "हृदय की दवा / खून पतला करने वाली गोली",
+            "mr": "हृदयाची औषधे / रक्त पातळ करणारी",
+            "bn": "হার্টের ওষুধ / রক্ত পাতলা করার ওষুধ",
+            "ta": "இதய மருந்துகள் / ரத்த மெலிதாக்கி",
+            "te": "గుండె మందులు / రక్తం పల్చబడే మందులు"
+          }
+        },
+        {
+          "option_id": "OPT_MED_PAINKILLER",
+          "value_code": "MED_PAINKILLERS",
+          "text_by_language": {
+            "en": "Painkillers / Anti-inflammatory",
+            "hi": "दर्द निवारक दवा / पेनकिलर",
+            "mr": "वेदनाशामक औषधे",
+            "bn": "ব্যথানাশক ওষুধ",
+            "ta": "வலி நிவாரணிகள்",
+            "te": "నొప్పి నివారణ మాత్రలు"
+          }
+        },
+        {
+          "option_id": "OPT_MED_THYROID",
+          "value_code": "MED_THYROID_SUPP",
+          "text_by_language": {
+            "en": "Thyroid Supplements",
+            "hi": "थायराइड की गोली (जैसे थायरोक्सिन)",
+            "mr": "थायरॉइडची औषधे",
+            "bn": "থাইরয়েডের ওষুধ",
+            "ta": "தைராய்டு மாத்திரைகள்",
+            "te": "థైరాయిడ్ మాత్రలు"
+          }
+        },
+        {
+          "option_id": "OPT_MED_OTHER",
+          "value_code": "MED_OTHER",
+          "text_by_language": {
+            "en": "Other Regular Prescriptions",
+            "hi": "अन्य नियमित दवाइयाँ",
+            "mr": "इतर नियमित औषधे",
+            "bn": "অন্যান্য নিয়মিত ওষুধ",
+            "ta": "பிற வழக்கமான மருந்துகள்",
+            "te": "ఇతర సాధారణ మందులు"
+          }
+        }
+      ],
       "data_element": "history.medications_details",
       "followup_triggers": [
         {
@@ -264,15 +495,76 @@
       "question_id": "GEN_ALG_002",
       "section": "allergies",
       "text_by_language": {
-        "en": "Please describe your allergies and what reactions you experience.",
-        "hi": "कृपया अपनी एलर्जी और उनसे होने वाली प्रतिक्रियाओं का वर्णन करें।",
-        "mr": "कृपया तुमच्या ॲलर्जी आणि त्यांच्यामुळे होणाऱ्या प्रतिक्रियांचे वर्णन करा.",
-        "bn": "অনুগ্রহ করে আপনার অ্যালার্জি এবং কী প্রতিক্রিয়া হয় তা বর্ণনা করুন।",
-        "ta": "உங்கள் ஒவ்வாமை மற்றும் என்ன எதிர்வினைகள் ஏற்படுகின்றன என்பதை விவரிக்கவும்.",
-        "te": "మీ అలర్జీలు మరియు ఏ ప్రతిచర్యలు అనుభవిస్తారో వివరించండి."
+        "en": "Which specific allergies or reactions do you experience?",
+        "hi": "आपको कौन सी विशिष्ट एलर्जी या प्रतिक्रियाएं होती हैं?",
+        "mr": "तुम्हाला कोणती विशिष्ट ॲलर्जी किंवा प्रतिक्रिया होतात?",
+        "bn": "আপনার কোন নির্দিষ্ট অ্যালার্জি বা প্রতিক্রিয়া আছে?",
+        "ta": "உங்களுக்கு என்ன குறிப்பிட்ட ஒவ்வாமை அல்லது எதிர்வினைகள் உள்ளன?",
+        "te": "మీకు ఏ నిర్దిష్ట అలర్జీలు లేదా ప్రతిచర్యలు ఉన్నాయి?"
       },
-      "input_type": "free_text",
-      "options": [],
+      "input_type": "multi_select",
+      "options": [
+        {
+          "option_id": "gen_alg_002_med",
+          "text_by_language": {
+            "en": "Medications / Antibiotics (Penicillin, Aspirin)",
+            "hi": "दवाइयाँ / एंटीबायोटिक्स (पेनिसिलिन, एस्पिरिन)",
+            "mr": "औषधे / प्रतिजैविके (पेनिसिलिन, ॲस्पिरिन)",
+            "bn": "ওষুধ / অ্যান্টিবায়োটিক",
+            "ta": "மருந்துகள் / நுண்ணுயிர் எதிர்ப்பிகள்",
+            "te": "మందులు / యాంటీబయాటిక్స్"
+          },
+          "value_code": "ALG_MEDICATION"
+        },
+        {
+          "option_id": "gen_alg_002_food",
+          "text_by_language": {
+            "en": "Food Allergy (Nuts, Milk, Seafood, Eggs)",
+            "hi": "खाद्य एलर्जी (मूंगफली, दूध, समुद्री भोजन)",
+            "mr": "अन्नाची ॲलर्जी (शेंगदाणे, दूध, अंडी)",
+            "bn": "খাদ্য অ্যালার্জি",
+            "ta": "உணவு ஒவ்வாமை",
+            "te": "ఆహార అలర్జీ"
+          },
+          "value_code": "ALG_FOOD"
+        },
+        {
+          "option_id": "gen_alg_002_env",
+          "text_by_language": {
+            "en": "Dust, Pollen or Seasonal Allergies",
+            "hi": "धूल, परागकण या मौसमी एलर्जी",
+            "mr": "धूळ, परागकण किंवा हंगामी ॲलर्जी",
+            "bn": "ধুলো বা ঋতুগত অ্যালার্জি",
+            "ta": "தூசி அல்லது பருவகால ஒவ்வாமை",
+            "te": "ధూళి లేదా కాలానుగుణ అలర్జీ"
+          },
+          "value_code": "ALG_ENV"
+        },
+        {
+          "option_id": "gen_alg_002_contact",
+          "text_by_language": {
+            "en": "Skin / Contact (Latex, Soaps, Cosmetics)",
+            "hi": "त्वचा / संपर्क (लेटेक्स, साबुन, प्रसाधन)",
+            "mr": "त्वचा / स्पर्श (लेटेक्स, साबण)",
+            "bn": "ত্বক বা স্পর্শ অ্যালার্জি",
+            "ta": "தோல் / தொடர்பு ஒவ்வாமை",
+            "te": "చర్మం / సంపర్క అలర్జీ"
+          },
+          "value_code": "ALG_SKIN_CONTACT"
+        },
+        {
+          "option_id": "gen_alg_002_other",
+          "text_by_language": {
+            "en": "Other Specific Allergy",
+            "hi": "अन्य कोई विशिष्ट एलर्जी",
+            "mr": "इतर विशिष्ट ॲलर्जी",
+            "bn": "অন্যান্য অ্যালার্জি",
+            "ta": "பிற ஒவ்வாமை",
+            "te": "ఇతర అలర్జీ"
+          },
+          "value_code": "ALG_OTHER"
+        }
+      ],
       "data_element": "history.allergies_details",
       "followup_triggers": [
         {
@@ -331,15 +623,112 @@
       "question_id": "GEN_FH_002",
       "section": "family_history",
       "text_by_language": {
-        "en": "Please describe the family illnesses and which family member is affected.",
-        "hi": "कृपया बताएं कि कौन सी बीमारी किस परिवार के सदस्य को है।",
-        "mr": "कृपया सांगा कोणत्या कुटुंबीय सदस्याला कोणता आजार आहे.",
-        "bn": "অনুগ্রহ করে বলুন কোন পরিবারের সদস্যের কোন রোগ আছে।",
-        "ta": "குடும்பத்தில் யாருக்கு என்ன நோய் உள்ளது என்று விவரிக்கவும்.",
-        "te": "కుటుంబంలో ఎవరికి ఏ వ్యాధి ఉందో వివరించండి."
+        "en": "Please select the illnesses and family members affected (tap all that apply):",
+        "hi": "कृपया बताएं कि परिवार में कौन सी बीमारी और किस सदस्य को है (जो भी लागू हो चुनें):",
+        "mr": "कृपया कुटुंबात कोणाला कोणता आजार आहे ते निवडा:",
+        "bn": "অনুগ্রহ করে পরিবারে কার কী রোগ আছে তা নির্বাচন করুন:",
+        "ta": "குடும்பத்தில் யாருக்கு என்ன நோய் உள்ளது என்பதைத் தேர்ந்தெடுக்கவும்:",
+        "te": "కుటుంబంలో ఎవరికి ఏ వ్యాధి ఉందో ఎంచుకోండి:"
       },
-      "input_type": "free_text",
-      "options": [],
+      "input_type": "multi_select",
+      "options": [
+        {
+          "option_id": "OPT_FH_DIABETES",
+          "value_code": "FH_DIABETES",
+          "text_by_language": {
+            "en": "Diabetes / High Blood Sugar",
+            "hi": "मधुमेह / शुगर",
+            "mr": "मधुमेह",
+            "bn": "ডায়াবেটিস",
+            "ta": "நீரிழிவு நோய்",
+            "te": "మధుమేహం"
+          }
+        },
+        {
+          "option_id": "OPT_FH_HYPERTENSION",
+          "value_code": "FH_HYPERTENSION",
+          "text_by_language": {
+            "en": "High Blood Pressure (Hypertension)",
+            "hi": "उच्च रक्तचाप (हाई बीपी)",
+            "mr": "उच्च रक्तदाब",
+            "bn": "উচ্চ রক্তচাপ",
+            "ta": "உயர் இரத்த அழுத்தம்",
+            "te": "అధిక రక్తపోటు"
+          }
+        },
+        {
+          "option_id": "OPT_FH_HEART",
+          "value_code": "FH_HEART_DISEASE",
+          "text_by_language": {
+            "en": "Heart Disease / Heart Attack",
+            "hi": "हृदय रोग / हार्ट अटैक",
+            "mr": "हृदयरोग / हृदयविकाराचा झटका",
+            "bn": "হৃদরোগ / হার্ট অ্যাটাক",
+            "ta": "இதய நோய் / மாரடைப்பு",
+            "te": "గుండె జబ్బు / గుండెపోటు"
+          }
+        },
+        {
+          "option_id": "OPT_FH_CANCER",
+          "value_code": "FH_CANCER",
+          "text_by_language": {
+            "en": "Cancer History",
+            "hi": "कैंसर की बीमारी",
+            "mr": "कर्करोग इतिहास",
+            "bn": "ক্যান্সারের ইতিহাস",
+            "ta": "புற்றுநோய் வரலாறு",
+            "te": "క్యాన్సర్ చరిత్ర"
+          }
+        },
+        {
+          "option_id": "OPT_FH_ASTHMA",
+          "value_code": "FH_ASTHMA",
+          "text_by_language": {
+            "en": "Asthma / Respiratory Problem",
+            "hi": "दमा / सांस की समस्या",
+            "mr": "दमा / श्वसन समस्या",
+            "bn": "হাঁপানি / শ্বাসকষ্ট",
+            "ta": "ஆஸ்துமா / சுவாசப் பிரச்சனை",
+            "te": "ఆస్తమా / శ్వాస సమస్య"
+          }
+        },
+        {
+          "option_id": "OPT_FH_FATHER",
+          "value_code": "FH_AFFECTED_FATHER",
+          "text_by_language": {
+            "en": "Father Affected",
+            "hi": "पिताजी को है",
+            "mr": "वडिलांना",
+            "bn": "বাবার আছে",
+            "ta": "தந்தைக்கு",
+            "te": "తండ్రికి"
+          }
+        },
+        {
+          "option_id": "OPT_FH_MOTHER",
+          "value_code": "FH_AFFECTED_MOTHER",
+          "text_by_language": {
+            "en": "Mother Affected",
+            "hi": "माताजी को है",
+            "mr": "आईला",
+            "bn": "মায়ের আছে",
+            "ta": "தாய்க்கு",
+            "te": "తల్లికి"
+          }
+        },
+        {
+          "option_id": "OPT_FH_OTHER",
+          "value_code": "FH_OTHER",
+          "text_by_language": {
+            "en": "Other Family Illness",
+            "hi": "अन्य पारिवारिक बीमारी",
+            "mr": "इतर कौटुंबिक आजार",
+            "bn": "অন্যান্য পারিবারিক রোগ",
+            "ta": "பிற குடும்ப நோய்",
+            "te": "ఇతర కుటుంబ వ్యాధి"
+          }
+        }
+      ],
       "data_element": "history.family_history_details",
       "followup_triggers": [
         {
@@ -398,15 +787,88 @@
       "question_id": "GEN_SH_002",
       "section": "social_history",
       "text_by_language": {
-        "en": "Please describe which substances, how much, and for how long.",
-        "hi": "कृपया बताएं कौन सा पदार्थ, कितना, और कब से ले रहे हैं।",
-        "mr": "कृपया सांगा कोणता पदार्थ, किती, आणि किती काळापासून घेत आहात.",
-        "bn": "অনুগ্রহ করে বলুন কোন পদার্থ, কতটুকু, এবং কতদিন ধরে নিচ্ছেন।",
-        "ta": "எந்த பொருள், எவ்வளவு, எவ்வளவு காலமாக என்று விவரிக்கவும்.",
-        "te": "ఏ పదార్థం, ఎంత, ఎంతకాలంగా తీసుకుంటున్నారో వివరించండి."
+        "en": "Please select the substances used and frequency (tap all that apply):",
+        "hi": "कृपया बताएं कि आप किस पदार्थ का सेवन करते हैं (जो भी लागू हो चुनें):",
+        "mr": "कृपया तुम्ही सेवन करत असलेले पदार्थ निवडा:",
+        "bn": "অনুগ্রহ করে আপনি যে পদার্থ ব্যবহার করেন তা নির্বাচন করুন:",
+        "ta": "நீங்கள் பயன்படுத்தும் பொருள்களைத் தேர்ந்தெடுக்கவும்:",
+        "te": "మీరు ఉపయోగించే పదార్థాలను ఎంచుకోండి:"
       },
-      "input_type": "free_text",
-      "options": [],
+      "input_type": "multi_select",
+      "options": [
+        {
+          "option_id": "OPT_SH_SMOKING",
+          "value_code": "SH_SMOKING_CIGARETTE",
+          "text_by_language": {
+            "en": "Cigarettes / Bidi / Smoking",
+            "hi": "सिगरेट / बीड़ी / धूम्रपान",
+            "mr": "विडी / सिगारेट / धूम्रपान",
+            "bn": "সিগারেট / বিড়ি / ধূমপান",
+            "ta": "சிகரெட் / பீடி / புகைபிடித்தல்",
+            "te": "సిగరెట్ / బీడీ / ధూమపానం"
+          }
+        },
+        {
+          "option_id": "OPT_SH_ALCOHOL",
+          "value_code": "SH_ALCOHOL",
+          "text_by_language": {
+            "en": "Alcohol / Liquor",
+            "hi": "शराब / मदिरा",
+            "mr": "मद्यपान / दारू",
+            "bn": "মদ / অ্যালকোহল",
+            "ta": "மதுபானம்",
+            "te": "మద్యం"
+          }
+        },
+        {
+          "option_id": "OPT_SH_TOBACCO_CHEW",
+          "value_code": "SH_TOBACCO_CHEW",
+          "text_by_language": {
+            "en": "Chewing Tobacco / Gutkha / Khaini",
+            "hi": "तम्बाकू / गुटखा / खैनी चबाना",
+            "mr": "तंबाखू / गुटखा / खैनी",
+            "bn": "খৈনি / গুটখা / জর্দা",
+            "ta": "புகையிலை / குட்கா மெல்லுதல்",
+            "te": "పొగాకు / గుట్కా నమలడం"
+          }
+        },
+        {
+          "option_id": "OPT_SH_PAAN",
+          "value_code": "SH_PAAN_BETEL",
+          "text_by_language": {
+            "en": "Paan / Betel Nut / Supari",
+            "hi": "पान / सुपारी / कत्था",
+            "mr": "पान / सुपारी",
+            "bn": "পান / সুপারি",
+            "ta": "பாக்கு / பான்",
+            "te": "తమలపాకు / పోక"
+          }
+        },
+        {
+          "option_id": "OPT_SH_OCCASIONAL",
+          "value_code": "SH_OCCASIONAL_USE",
+          "text_by_language": {
+            "en": "Occasional / Social Use Only",
+            "hi": "कभी-कभार / केवल सामाजिक रूप से",
+            "mr": "अधूनमधून / केवळ सामाजिक",
+            "bn": "মাঝে মাঝে / সামাজিক ব্যবহার",
+            "ta": "எப்போதாவது மட்டும்",
+            "te": "అప్పుడప్పుడు మాత్రమే"
+          }
+        },
+        {
+          "option_id": "OPT_SH_OTHER",
+          "value_code": "SH_OTHER",
+          "text_by_language": {
+            "en": "Other Substance",
+            "hi": "अन्य पदार्थ",
+            "mr": "इतर पदार्थ",
+            "bn": "অন্যান্য পদার্থ",
+            "ta": "பிற பொருள்",
+            "te": "ఇతర పదార్థం"
+          }
+        }
+      ],
       "data_element": "history.social_history_details",
       "followup_triggers": [
         {
@@ -513,15 +975,76 @@
       "section": "menstrual_reproductive_history",
       "gender_restriction": "FEMALE",
       "text_by_language": {
-        "en": "Please provide your LMP approximate date or any pregnancy / obstetric details (e.g. number of children, previous miscarriages).",
-        "hi": "कृपया अपने अंतिम मासिक धर्म (LMP) की अनुमानित तारीख या गर्भावस्था / प्रसूति संबंधी विवरण दें।",
-        "mr": "कृपया तुमच्या शेवटच्या पाळीची (LMP) अंदाजे तारीख किंवा गर्भधारणा / प्रसूती तपशील द्या.",
-        "bn": "অনুগ্রহ করে আপনার শেষ মাসিকের (LMP) আনুমানিক তারিখ বা গর্ভাবস্থা / প্রসূতি সংক্রান্ত বিবরণ দিন।",
-        "ta": "உங்கள் கடைசி மாதவிடாய் (LMP) தேதி அல்லது கர்ப்பம் பற்றிய விவரங்களை தெரிவிக்கவும்.",
-        "te": "దయచేసి మీ చివరి పీరియడ్ (LMP) సుమారు తేదీ లేదా గర్భధారణ వివరాలను తెలపండి."
+        "en": "Please select your last menstrual period (LMP) status or obstetric history details:",
+        "hi": "कृपया अपने अंतिम मासिक धर्म (LMP) की स्थिति या प्रसूति इतिहास विवरण चुनें:",
+        "mr": "कृपया तुमच्या शेवटच्या पाळीची (LMP) स्थिती किंवा प्रसूती इतिहास निवडा:",
+        "bn": "অনুগ্রহ করে আপনার শেষ মাসিক (LMP) বা প্রসূতি ইতিহাস নির্বাচন করুন:",
+        "ta": "தயவுசெய்து உங்கள் கடைசி மாதவிடாய் (LMP) அல்லது மகப்பேறு வரலாறு விவரங்களைத் தேர்ந்தெடுக்கவும்:",
+        "te": "దయచేసి మీ చివరి పీరియడ్ (LMP) లేదా ప్రసూతి చరిత్ర వివరాలను ఎంచుకోండి:"
       },
-      "input_type": "free_text",
-      "options": [],
+      "input_type": "multi_select",
+      "options": [
+        {
+          "option_id": "gen_men_002_recent",
+          "text_by_language": {
+            "en": "LMP within past 4 weeks (Regular)",
+            "hi": "पिछले 4 हफ्तों में (नियमित चक्र)",
+            "mr": "मागील 4 आठवड्यांत (नियमित)",
+            "bn": "গত ৪ সপ্তাহের মধ্যে (নিয়মিত)",
+            "ta": "கடந்த 4 வாரங்களில் (வழக்கமான)",
+            "te": "గత 4 వారాల్లో (సక్రమ చక్రం)"
+          },
+          "value_code": "MEN_LMP_RECENT"
+        },
+        {
+          "option_id": "gen_men_002_delayed",
+          "text_by_language": {
+            "en": "Missed / Delayed period (> 4 weeks)",
+            "hi": "मासिक धर्म में देरी (> 4 सप्ताह)",
+            "mr": "पाळी चुकली किंवा उशीर झाला (> 4 आठवडे)",
+            "bn": "মাসিক বিলম্বিত (> ৪ সপ্তাহ)",
+            "ta": "தாமதமான மாதவிடாய் (> 4 வாரங்கள்)",
+            "te": "పీరియడ్ ఆలస్యం (> 4 వారాలు)"
+          },
+          "value_code": "MEN_LMP_DELAYED"
+        },
+        {
+          "option_id": "gen_men_002_pregnant",
+          "text_by_language": {
+            "en": "Currently pregnant",
+            "hi": "वर्तमान में गर्भवती",
+            "mr": "सध्या गरोदर आहे",
+            "bn": "বর্তমানে গর্ভবতী",
+            "ta": "தற்போது கர்ப்பமாக உள்ளேன்",
+            "te": "ప్రస్తుతం గర్భవతి"
+          },
+          "value_code": "MEN_PREGNANT"
+        },
+        {
+          "option_id": "gen_men_002_menopause",
+          "text_by_language": {
+            "en": "Post-menopausal",
+            "hi": "रजोनिवृत्ति (मेनोपॉज)",
+            "mr": "मासिक पाळी कायमची बंद (मेनोपॉज)",
+            "bn": "মেনোপজ / মাসিক বন্ধ",
+            "ta": "மாதவிடாய் நின்றவர்",
+            "te": "మెనోపాజ్"
+          },
+          "value_code": "MEN_POST_MENOPAUSE"
+        },
+        {
+          "option_id": "gen_men_002_cramping",
+          "text_by_language": {
+            "en": "Irregular cycles or severe cramping",
+            "hi": "अनियमित चक्र या अत्यधिक दर्द",
+            "mr": "अनियमित पाळी किंवा तीव्र वेदना",
+            "bn": "অনিয়মিত চক্র বা তীব্র ব্যথা",
+            "ta": "ஒழுங்கற்ற சுழற்சி அல்லது கடுமையான வலி",
+            "te": "క్రమరహిత చక్రం లేదా తీవ్రమైన నొప్పి"
+          },
+          "value_code": "MEN_IRREGULAR_PAIN"
+        }
+      ],
       "data_element": "history.menstrual_history_details",
       "followup_triggers": [
         {

@@ -20,8 +20,8 @@ import MultiSelectCard from '@/components/interactive/MultiSelectCard';
 import { useSessionStore } from '@/stores/useSessionStore';
 import { useFlowStore } from '@/stores/useFlowStore';
 import { useIntakeStore } from '@/stores/useIntakeStore';
+import { useVoiceStore } from '@/stores/useVoiceStore';
 import { useTTS } from '@/hooks/useTTS';
-import { useVoiceCapture } from '@/hooks/useVoiceCapture';
 import { intakeService } from '@/services/intakeService';
 import type { QuestionResponse, QuestionOption } from '@/lib/types';
 import { t } from '@/lib/i18n';
@@ -33,7 +33,17 @@ import {
   ShieldAlert,
   Sparkles,
   Check,
+  Keyboard,
 } from 'lucide-react';
+import {
+  SymptomIcon,
+  HealthStethoscope,
+  Person as HealthPerson,
+  Pain as HealthPain,
+  Doctor as HealthDoctor,
+  Positive,
+  Negative,
+} from '@/components/icons/ClinicalIcon';
 
 const COMMON_CHIEF_COMPLAINTS = [
   { id: 'chest_pain', text: 'Chest Pain', redFlag: true },
@@ -51,24 +61,37 @@ export default function SymptomsPage() {
   const { language, sessionId, intakeMode, triggerEmergency, ensureBackendSession } = useSessionStore();
   const { setCurrentScreen } = useFlowStore();
   const {
+    symptomsTab,
+    setSymptomsTab,
     chiefComplaint,
     setChiefComplaint,
     bodyRegion,
     setBodyRegion,
     painSeverity,
     setPainSeverity,
+    activeQuestion,
+    setActiveQuestion,
+    pushQuestionHistory,
+    popQuestionHistory,
+    freeTextAnswer,
+    setFreeTextAnswer,
+    selectedOptionCode,
+    setSelectedOptionCode,
+    selectedMultiCodes,
+    setSelectedMultiCodes,
   } = useIntakeStore();
 
   const { speak, isSpeaking, stop } = useTTS();
-  const { startListening, stopListening } = useVoiceCapture();
+  const activeTab = symptomsTab;
+  const setActiveTab = setSymptomsTab;
 
-  const [activeTab, setActiveTab] = useState<'COMPLAINT' | 'BODY_MAP' | 'PAIN_SCALE' | 'ADAPTIVE_QUESTION'>('COMPLAINT');
-  const [activeQuestion, setActiveQuestion] = useState<QuestionResponse | null>(null);
-  const [selectedOptionCode, setSelectedOptionCode] = useState<string | null>(null);
-  const [selectedMultiCodes, setSelectedMultiCodes] = useState<string[]>([]);
-  const [freeTextAnswer, setFreeTextAnswer] = useState<string>('');
+  useEffect(() => {
+    setCurrentScreen('chief_complaint');
+  }, [setCurrentScreen]);
+
   const [voiceFeedback, setVoiceFeedback] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [showKeyboardInput, setShowKeyboardInput] = useState(false);
 
   const handleReadOptions = useCallback(() => {
     if (!activeQuestion?.options || activeQuestion.options.length === 0) return;
@@ -76,7 +99,7 @@ export default function SymptomsPage() {
     speak(`Options are: ${listText}`, language);
   }, [activeQuestion, language, speak]);
 
-  // Voice Guidance: Auto-speak prompt on tab/question change and automatically start listening hands-free
+  // Voice Guidance: Spoken prompt on tab/question change (does not auto-trigger mic or beep)
   useEffect(() => {
     let promptMsg = '';
     if (activeTab === 'COMPLAINT') {
@@ -90,18 +113,13 @@ export default function SymptomsPage() {
     }
 
     if (promptMsg) {
-      stopListening();
-      speak(promptMsg, language, () => {
-        // As soon as kiosk finishes speaking, auto-listen for the patient!
-        startListening().catch(() => {});
-      });
+      speak(promptMsg, language);
     }
 
     return () => {
       stop();
-      stopListening();
     };
-  }, [activeTab, activeQuestion?.question_id, language, speak, stop, startListening, stopListening]);
+  }, [activeTab, activeQuestion?.question_id, language, speak, stop]);
 
   const handleSelectComplaint = (complaint: (typeof COMMON_CHIEF_COMPLAINTS)[0]) => {
     setChiefComplaint(complaint.text);
@@ -129,18 +147,60 @@ export default function SymptomsPage() {
     if (!transcript) return;
     const lower = transcript.toLowerCase().trim();
 
-    // Check emergency spoken phrases across languages
-    if (
-      lower.includes('chest pain') ||
-      lower.includes('heart attack') ||
-      lower.includes('breath') ||
-      lower.includes('difficulty breathing') ||
-      lower.includes('stroke') ||
-      lower.includes('paralysis') ||
-      lower.includes('छाती में दर्द') ||
-      lower.includes('सांस लेने में तकलीफ') ||
-      lower.includes('दौरा')
-    ) {
+    // Distinguish family / relative history from acute patient emergencies
+    const isFamilyOrRelative =
+      lower.includes('family') ||
+      lower.includes('relative') ||
+      lower.includes('father') ||
+      lower.includes('mother') ||
+      lower.includes('dad') ||
+      lower.includes('mom') ||
+      lower.includes('brother') ||
+      lower.includes('sister') ||
+      lower.includes('grandfather') ||
+      lower.includes('grandmother') ||
+      lower.includes('parent') ||
+      lower.includes('he ') ||
+      lower.includes("he's") ||
+      lower.includes('he was') ||
+      lower.includes('he has') ||
+      lower.includes('his ') ||
+      lower.includes('she ') ||
+      lower.includes("she's") ||
+      lower.includes('she was') ||
+      lower.includes('she has') ||
+      lower.includes('her ') ||
+      lower.includes('pita') ||
+      lower.includes('mata') ||
+      lower.includes('bhai') ||
+      lower.includes('behen') ||
+      lower.includes('परिवार') ||
+      lower.includes('पिता') ||
+      lower.includes('माता') ||
+      Boolean(
+        activeQuestion && (
+          activeQuestion.question_id?.includes('FH') ||
+          activeQuestion.phase === 'GENERAL_HISTORY' ||
+          activeQuestion.question_text?.toLowerCase().includes('family')
+        )
+      );
+
+    // Only check acute presenting red-flags if this is patient acute symptom context
+    const isAcuteEmergency =
+      !isFamilyOrRelative &&
+      (
+        lower.includes('acute chest pain') ||
+        lower.includes('crushing chest pain') ||
+        (lower.includes('chest pain') && (lower.includes('arm') || lower.includes('jaw') || lower.includes('sweat') || lower.includes('severe'))) ||
+        lower.includes('cannot breathe') ||
+        lower.includes('difficulty breathing right now') ||
+        lower.includes('severe shortness of breath') ||
+        (lower.includes('paralysis') && !lower.includes('history')) ||
+        lower.includes('छाती में तेज दर्द') ||
+        lower.includes('सांस नहीं आ रही')
+      );
+
+    if (isAcuteEmergency) {
       triggerEmergency(
         `Spoken red-flag: "${transcript}" — Urgent triage required`,
         '/intake/symptoms'
@@ -239,6 +299,66 @@ export default function SymptomsPage() {
         return;
       }
 
+      // Intercept "next" / "continue" voice commands so they never get submitted as free-text
+      const trimmed = lower.trim();
+      if (
+        trimmed === 'next' ||
+        trimmed === 'aage' ||
+        trimmed === 'continue' ||
+        trimmed === 'आगे' ||
+        trimmed === 'next question' ||
+        trimmed === 'aage badho'
+      ) {
+        if (selectedOptionCode) {
+          await submitActiveAnswer([selectedOptionCode]);
+        } else if (selectedMultiCodes.length > 0) {
+          await submitActiveAnswer(selectedMultiCodes);
+        } else if (freeTextAnswer.trim()) {
+          await submitActiveAnswer([], freeTextAnswer.trim());
+        } else {
+          setVoiceFeedback(
+            language === 'hi'
+              ? 'कृपया आगे बढ़ने के लिए स्क्रीन पर एक विकल्प चुनें।'
+              : 'Please select an option on screen before continuing.'
+          );
+        }
+        return;
+      }
+
+      // Check for negative intent (e.g. "I do not take substances", "nahi lete", "no", "never", "none")
+      const words = lower.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?'"|।]/g, ' ').split(/\s+/);
+      const isNegative =
+        words.includes('no') ||
+        words.includes('none') ||
+        words.includes('never') ||
+        words.includes('nahi') ||
+        words.includes('not') ||
+        lower.includes('do not') ||
+        lower.includes("don't") ||
+        lower.includes('kuch nahi') ||
+        lower.includes('nahi leta') ||
+        lower.includes('nahi lete');
+
+      if (isNegative && activeQuestion.options && activeQuestion.options.length > 0) {
+        const noOpt = activeQuestion.options.find(
+          (o) =>
+            o.value_code.endsWith('_NO') ||
+            o.value_code.includes('NONE') ||
+            o.value_code.includes('NOT') ||
+            o.text.toLowerCase().startsWith('no') ||
+            o.text.toLowerCase().includes('नहीं') ||
+            o.text.toLowerCase().includes('नाही')
+        );
+        if (noOpt) {
+          setVoiceFeedback(`Recognized: "${noOpt.text}"`);
+          setSelectedOptionCode(noOpt.value_code);
+          setTimeout(() => {
+            submitActiveAnswer([noOpt.value_code], null);
+          }, 350);
+          return;
+        }
+      }
+
       // Strip conversational prefixes ("I am having...", "I have...", "Mujhe...")
       const core = lower.replace(/(i am having|i have|i am experiencing|mujhe|mere|mera|hai|dard|ka problem|problem|issue)/gi, '').trim();
 
@@ -280,23 +400,16 @@ export default function SymptomsPage() {
   };
 
   const toggleMultiCode = (code: string) => {
-    setSelectedMultiCodes((prev) =>
-      prev.includes(code) ? prev.filter((c) => c !== code) : [...prev, code]
-    );
+    const next = selectedMultiCodes.includes(code)
+      ? selectedMultiCodes.filter((c) => c !== code)
+      : [...selectedMultiCodes, code];
+    setSelectedMultiCodes(next);
   };
 
   const submitChiefComplaintToGraph = async () => {
     setLoading(true);
     try {
-      const activeSessionId = sessionId || await ensureBackendSession(language);
-      
-      // Ensure the clinical interview workflow is initialized in backend LangGraph
-      try {
-        await intakeService.getNextQuestion(activeSessionId);
-      } catch (e) {
-        // Initialized
-      }
-
+      const activeSessionId = sessionId || (await ensureBackendSession(language));
       const complaintSummary = `${chiefComplaint || 'General health evaluation'}. Region: ${bodyRegion || 'general'}. Pain scale: ${painSeverity}/10.`;
       
       const result = await intakeService.submitAnswer(activeSessionId, {
@@ -324,8 +437,26 @@ export default function SymptomsPage() {
         finishSymptomIntake();
       }
     } catch (err) {
-      console.warn('Backend graph progression fallback to next stage:', err);
-      finishSymptomIntake();
+      console.warn('Backend graph progression notice, using clinical fallback:', err);
+      // Fallback SOCRATES question to ensure smooth uninterrupted intake
+      setActiveQuestion({
+        question_id: 'SOC_FALLBACK_ONSET',
+        question_text: language === 'hi'
+          ? 'यह तकलीफ या लक्षण कब शुरू हुआ?'
+          : 'When did this discomfort or symptom begin?',
+        input_type: 'single_select',
+        phase: 'SOCRATES_DEEP_DIVE',
+        options: [
+          { option_id: 'sudden', text: language === 'hi' ? 'अचानक (कुछ ही मिनटों में)' : 'Suddenly (within minutes)', value_code: 'SUDDEN' },
+          { option_id: 'hours', text: language === 'hi' ? 'कुछ घंटे पहले' : 'A few hours ago', value_code: 'FEW_HOURS' },
+          { option_id: 'days', text: language === 'hi' ? 'पिछले 1–2 दिनों से' : 'Past 1–2 days', value_code: 'FEW_DAYS' },
+          { option_id: 'chronic', text: language === 'hi' ? 'एक सप्ताह से अधिक समय से' : 'More than a week ago', value_code: 'CHRONIC' },
+        ],
+      });
+      setActiveTab('ADAPTIVE_QUESTION');
+      setSelectedOptionCode(null);
+      setSelectedMultiCodes([]);
+      setFreeTextAnswer('');
     } finally {
       setLoading(false);
     }
@@ -337,25 +468,41 @@ export default function SymptomsPage() {
     answerState: 'ANSWERED' | 'UNKNOWN' | 'REFUSED' = 'ANSWERED'
   ) => {
     if (!activeQuestion) return;
+
+    const codes =
+      valueCodes !== undefined
+        ? valueCodes
+        : activeQuestion.input_type === 'multi_select'
+        ? selectedMultiCodes
+        : selectedOptionCode
+        ? [selectedOptionCode]
+        : [];
+
+    const text = customText !== undefined ? customText : freeTextAnswer;
+
+    // Guard: Prevent empty submissions from failing and accidentally skipping to documents
+    if (
+      answerState === 'ANSWERED' &&
+      (!codes || codes.length === 0) &&
+      (!text || !text.trim())
+    ) {
+      setVoiceFeedback(
+        language === 'hi'
+          ? 'कृपया आगे बढ़ने के लिए स्क्रीन पर एक विकल्प चुनें।'
+          : 'Please select an option on screen before continuing.'
+      );
+      return;
+    }
+
     setLoading(true);
 
     try {
-      const activeSessionId = sessionId || await ensureBackendSession(language);
-      const codes =
-        valueCodes !== undefined
-          ? valueCodes
-          : activeQuestion.input_type === 'multi_select'
-          ? selectedMultiCodes
-          : selectedOptionCode
-          ? [selectedOptionCode]
-          : [];
-
-      const text = customText !== undefined ? customText : freeTextAnswer;
+      const activeSessionId = sessionId || (await ensureBackendSession(language));
 
       const result = await intakeService.submitAnswer(activeSessionId, {
         question_id: activeQuestion.question_id,
         selected_value_codes: codes || [],
-        free_text: text || null,
+        free_text: text ? text.trim() : null,
         answer_state: answerState,
       });
 
@@ -366,18 +513,30 @@ export default function SymptomsPage() {
         return;
       }
 
+      // Always clear previous voice transcript when transitioning question
+      useVoiceStore.getState().clearTranscript();
+
       if (result.next_question && !result.interview_complete) {
+        if (activeQuestion) {
+          pushQuestionHistory(activeQuestion);
+        }
         setActiveQuestion(result.next_question);
         setSelectedOptionCode(null);
         setSelectedMultiCodes([]);
         setFreeTextAnswer('');
         setVoiceFeedback(null);
+        setShowKeyboardInput(false);
       } else {
         finishSymptomIntake();
       }
     } catch (err) {
-      console.warn('Answer submission advance note:', err);
-      finishSymptomIntake();
+      console.warn('Answer submission error note:', err);
+      // NEVER prematurely advance to documents on submission error
+      setVoiceFeedback(
+        language === 'hi'
+          ? 'उत्तर दर्ज करने में समस्या हुई। कृपया पुनः प्रयास करें।'
+          : 'Could not record response. Please select an option to retry.'
+      );
     } finally {
       setLoading(false);
     }
@@ -385,6 +544,7 @@ export default function SymptomsPage() {
 
   const finishSymptomIntake = () => {
     stop();
+    useVoiceStore.getState().clearTranscript();
     if (intakeMode === 'AYUSH') {
       setCurrentScreen('ayush_assessment');
       router.push('/intake/ayush');
@@ -395,6 +555,7 @@ export default function SymptomsPage() {
   };
 
   const handleProceed = () => {
+    useVoiceStore.getState().clearTranscript();
     if (activeTab === 'COMPLAINT') {
       setActiveTab('BODY_MAP');
     } else if (activeTab === 'BODY_MAP') {
@@ -402,13 +563,48 @@ export default function SymptomsPage() {
     } else if (activeTab === 'PAIN_SCALE') {
       submitChiefComplaintToGraph();
     } else if (activeTab === 'ADAPTIVE_QUESTION') {
+      // Validate option selection before firing submit
+      if (
+        activeQuestion?.input_type === 'single_select' &&
+        !selectedOptionCode &&
+        !freeTextAnswer.trim()
+      ) {
+        setVoiceFeedback(
+          language === 'hi'
+            ? 'कृपया आगे बढ़ने के लिए स्क्रीन पर एक विकल्प चुनें।'
+            : 'Please select an option before continuing.'
+        );
+        return;
+      }
+      if (
+        activeQuestion?.input_type === 'multi_select' &&
+        selectedMultiCodes.length === 0 &&
+        !freeTextAnswer.trim()
+      ) {
+        setVoiceFeedback(
+          language === 'hi'
+            ? 'कृपया एक या अधिक विकल्प चुनें।'
+            : 'Please select one or more options before continuing.'
+        );
+        return;
+      }
       submitActiveAnswer();
     }
   };
 
   const handleBack = () => {
     stop();
+    useVoiceStore.getState().clearTranscript();
     if (activeTab === 'ADAPTIVE_QUESTION') {
+      const prevQ = popQuestionHistory();
+      if (prevQ) {
+        setActiveQuestion(prevQ);
+        setSelectedOptionCode(null);
+        setSelectedMultiCodes([]);
+        setFreeTextAnswer('');
+        setShowKeyboardInput(false);
+        return;
+      }
       setActiveTab('PAIN_SCALE');
     } else if (activeTab === 'PAIN_SCALE') {
       setActiveTab('BODY_MAP');
@@ -433,14 +629,14 @@ export default function SymptomsPage() {
             <span>
               {activeTab === 'ADAPTIVE_QUESTION'
                 ? activeQuestion?.phase || 'Adaptive SOCRATES Inquiry'
-                : 'Conversational Clinical History'}
+                : t('intake.header_badge', language)}
             </span>
           </div>
 
           <div className="flex items-center justify-center gap-3">
             <h1 className="text-2xl md:text-3xl font-black text-[#191c1d] tracking-tight">
               {activeTab === 'COMPLAINT' && t('intake.chief_complaint', language)}
-              {activeTab === 'BODY_MAP' && 'Where is your pain located?'}
+              {activeTab === 'BODY_MAP' && t('intake.body_map_title', language)}
               {activeTab === 'PAIN_SCALE' && t('pain.title', language)}
               {activeTab === 'ADAPTIVE_QUESTION' && (activeQuestion?.question_text || 'Clinical Follow-up')}
             </h1>
@@ -469,7 +665,7 @@ export default function SymptomsPage() {
                     title="Read options aloud"
                   >
                     <Volume2 className="w-3.5 h-3.5" />
-                    <span>Read Options</span>
+                    <span>{t('intake.read_options', language)}</span>
                   </button>
                 )}
               </div>
@@ -477,7 +673,7 @@ export default function SymptomsPage() {
           </div>
 
           <p className="text-xs md:text-sm text-[#3e4946] mt-1">
-            Tap an option on screen OR speak naturally into the microphone below.
+            {t('intake.interaction_hint', language)}
           </p>
 
           {/* Voice Feedback Banner */}
@@ -494,47 +690,51 @@ export default function SymptomsPage() {
           <button
             type="button"
             onClick={() => setActiveTab('COMPLAINT')}
-            className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
+            className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
               activeTab === 'COMPLAINT'
                 ? 'bg-[#005f53] text-white shadow-xs'
                 : 'bg-[#eceeee] text-[#3e4946]'
             }`}
           >
-            1. Chief Complaint {chiefComplaint && '✓'}
+            <HealthStethoscope className="w-3.5 h-3.5" />
+            <span>{t('intake.tab_complaint', language)} {chiefComplaint && '✓'}</span>
           </button>
           <button
             type="button"
             onClick={() => setActiveTab('BODY_MAP')}
-            className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
+            className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
               activeTab === 'BODY_MAP'
                 ? 'bg-[#005f53] text-white shadow-xs'
                 : 'bg-[#eceeee] text-[#3e4946]'
             }`}
           >
-            2. Body Map {bodyRegion && '✓'}
+            <HealthPerson className="w-3.5 h-3.5" />
+            <span>{t('intake.tab_body_map', language)} {bodyRegion && '✓'}</span>
           </button>
           <button
             type="button"
             onClick={() => setActiveTab('PAIN_SCALE')}
-            className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
+            className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
               activeTab === 'PAIN_SCALE'
                 ? 'bg-[#005f53] text-white shadow-xs'
                 : 'bg-[#eceeee] text-[#3e4946]'
             }`}
           >
-            3. Pain Scale {painSeverity > 0 && `(${painSeverity}/10)`}
+            <HealthPain className="w-3.5 h-3.5" />
+            <span>{t('intake.tab_pain_scale', language)} {painSeverity > 0 && `(${painSeverity}/10)`}</span>
           </button>
           {activeQuestion && (
             <button
               type="button"
               onClick={() => setActiveTab('ADAPTIVE_QUESTION')}
-              className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
+              className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
                 activeTab === 'ADAPTIVE_QUESTION'
                   ? 'bg-[#005f53] text-white shadow-xs'
                   : 'bg-[#eceeee] text-[#3e4946]'
               }`}
             >
-              4. Adaptive Inquiries
+              <HealthDoctor className="w-3.5 h-3.5" />
+              <span>{t('intake.tab_adaptive', language)}</span>
             </button>
           )}
         </div>
@@ -542,7 +742,7 @@ export default function SymptomsPage() {
         {/* Tab 1: Chief Complaint Quick Chips */}
         {activeTab === 'COMPLAINT' && (
           <div className="flex-1 flex flex-col items-center justify-center my-auto">
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full max-w-4xl mb-6">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full max-w-4xl mb-6">
               {COMMON_CHIEF_COMPLAINTS.map((item) => {
                 const isSelected = chiefComplaint === item.text;
                 return (
@@ -554,16 +754,19 @@ export default function SymptomsPage() {
                     data-voice-action={`select-${item.id}`}
                     data-testid={`complaint-${item.id}`}
                     onClick={() => handleSelectComplaint(item)}
-                    className={`h-24 p-4 rounded-2xl font-bold text-sm md:text-base flex flex-col items-center justify-center text-center transition-all cursor-pointer border ${
+                    className={`min-h-[120px] p-4 rounded-2xl font-bold text-sm md:text-base flex flex-col items-center justify-center text-center transition-all cursor-pointer border group ${
                       isSelected
                         ? 'bg-[#005f53] text-white border-transparent shadow-lg scale-102 ring-2 ring-[#005f53]/30'
                         : 'bg-white hover:bg-[#eceeee] text-[#191c1d] border-[#bdc9c5]/60 hover:border-[#005f53]'
                     }`}
                   >
-                    <span>{item.text}</span>
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-2 transition-transform group-hover:scale-110">
+                      <SymptomIcon id={item.id} className={`w-10 h-10 ${isSelected ? 'text-white' : ''}`} />
+                    </div>
+                    <span className="leading-tight">{t(`symptom.${item.id}`, language) || item.text}</span>
                     {item.redFlag && (
-                      <span className="text-[10px] mt-1 px-2 py-0.5 rounded-full bg-[#aa0a17]/10 text-[#aa0a17] font-bold flex items-center gap-1">
-                        <ShieldAlert className="w-3 h-3" /> Priority
+                      <span className="text-[10px] mt-1.5 px-2 py-0.5 rounded-full bg-[#aa0a17]/10 text-[#aa0a17] font-bold flex items-center gap-1">
+                        <ShieldAlert className="w-3 h-3" /> {t('intake.priority_badge', language)}
                       </span>
                     )}
                   </button>
@@ -616,7 +819,7 @@ export default function SymptomsPage() {
                   className="mt-6 px-8 py-3.5 rounded-full bg-[#005f53] hover:bg-[#0f7a6b] text-white font-bold text-base shadow-md cursor-pointer transition-all active:scale-95 flex items-center gap-2"
                 >
                   <CheckCircle2 className="w-5 h-5" />
-                  <span>Confirm Severity ({painSeverity}/10)</span>
+                  <span>{t('intake.confirm_severity', language)} ({painSeverity}/10)</span>
                 </button>
               </div>
             ) : activeQuestion.input_type === 'body_map' ? (
@@ -655,20 +858,88 @@ export default function SymptomsPage() {
                 )}
               </div>
             ) : (
-              /* 4. Spoken / Free-text Narrative Input */
-              <div className="w-full mb-6">
-                <input
-                  type="text"
-                  placeholder="Type or speak your answer..."
-                  value={freeTextAnswer}
-                  onChange={(e) => setFreeTextAnswer(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' && freeTextAnswer.trim()) {
-                      submitActiveAnswer([], freeTextAnswer.trim());
-                    }
-                  }}
-                  className="w-full h-16 px-6 rounded-2xl border-2 border-[#005f53] text-lg bg-white focus:outline-none shadow-sm"
-                />
+              /* 4. Spoken / Button Interactive Choice Fallback */
+              <div className="w-full mb-6 flex flex-col items-center gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+                  <button
+                    type="button"
+                    onClick={() => submitActiveAnswer(['NONE_REPORTED'], 'None / No symptoms')}
+                    className="min-h-[85px] p-4 sm:p-5 rounded-2xl bg-white hover:bg-[#f8fafa] text-[#191c1d] border border-[#bdc9c5]/60 hover:border-[#005f53] flex items-center justify-between cursor-pointer transition-all shadow-sm active:scale-98"
+                  >
+                    <div className="flex items-center gap-3.5">
+                      <div className="w-11 h-11 rounded-xl bg-[#eceeee] text-[#005f53] flex items-center justify-center shrink-0">
+                        <Negative className="w-6 h-6 text-[#aa0a17]" />
+                      </div>
+                      <div className="flex flex-col text-left">
+                        <span className="text-lg font-bold">
+                          {language === 'hi' ? 'कोई समस्या नहीं / कुछ नहीं' : 'None / No prior history'}
+                        </span>
+                        <span className="text-xs text-[#6e7976]">
+                          {language === 'hi' ? 'कोई लक्षण नहीं' : 'No relevant condition'}
+                        </span>
+                      </div>
+                    </div>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => submitActiveAnswer(['MILD_OCCASIONAL'], 'Mild or occasional symptoms')}
+                    className="min-h-[85px] p-4 sm:p-5 rounded-2xl bg-white hover:bg-[#f8fafa] text-[#191c1d] border border-[#bdc9c5]/60 hover:border-[#005f53] flex items-center justify-between cursor-pointer transition-all shadow-sm active:scale-98"
+                  >
+                    <div className="flex items-center gap-3.5">
+                      <div className="w-11 h-11 rounded-xl bg-[#eceeee] text-[#005f53] flex items-center justify-center shrink-0">
+                        <Positive className="w-6 h-6 text-[#005f53]" />
+                      </div>
+                      <div className="flex flex-col text-left">
+                        <span className="text-lg font-bold">
+                          {language === 'hi' ? 'हाँ / कभी-कभार' : 'Yes / Mild or occasional'}
+                        </span>
+                        <span className="text-xs text-[#6e7976]">
+                          {language === 'hi' ? 'हल्के लक्षण हैं' : 'Experiencing some symptoms'}
+                        </span>
+                      </div>
+                    </div>
+                  </button>
+                </div>
+
+                {/* Collapsible Keyboard Option if patient specifically desires to type */}
+                {showKeyboardInput ? (
+                  <div className="w-full flex flex-col gap-2">
+                    <div className="relative">
+                      <input
+                        type="text"
+                        autoFocus
+                        placeholder={t('intake.type_or_speak', language)}
+                        value={freeTextAnswer}
+                        onChange={(e) => setFreeTextAnswer(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' && freeTextAnswer.trim()) {
+                            submitActiveAnswer([], freeTextAnswer.trim());
+                          }
+                        }}
+                        className="w-full h-16 px-6 pr-28 rounded-2xl border-2 border-[#005f53] text-lg bg-white focus:outline-none shadow-sm"
+                      />
+                      {freeTextAnswer.trim() && (
+                        <button
+                          type="button"
+                          onClick={() => submitActiveAnswer([], freeTextAnswer.trim())}
+                          className="absolute right-3 top-3 h-10 px-4 rounded-xl bg-[#005f53] text-white font-bold text-sm flex items-center gap-1 cursor-pointer"
+                        >
+                          <span>{t('nav.next', language)}</span>
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setShowKeyboardInput(true)}
+                    className="text-xs text-[#005f53] hover:underline font-semibold flex items-center gap-1.5 py-1 px-3 rounded-lg hover:bg-[#eceeee]/50 cursor-pointer"
+                  >
+                    <Keyboard className="w-4 h-4" />
+                    <span>{language === 'hi' ? 'कीबोर्ड से विवरण लिखें' : 'Type custom note with keyboard'}</span>
+                  </button>
+                )}
               </div>
             )}
 
@@ -681,7 +952,7 @@ export default function SymptomsPage() {
                 onClick={() => submitActiveAnswer([], null, 'UNKNOWN')}
                 className="px-4 py-2 rounded-full bg-[#eceeee] hover:bg-[#e1e3e3] text-[#3e4946] text-xs font-bold transition-all cursor-pointer"
               >
-                Not sure / Don&apos;t know
+                {t('intake.not_sure', language)}
               </button>
               <button
                 type="button"
@@ -690,7 +961,7 @@ export default function SymptomsPage() {
                 onClick={() => submitActiveAnswer([], null, 'REFUSED')}
                 className="px-4 py-2 rounded-full bg-[#eceeee] hover:bg-[#e1e3e3] text-[#3e4946] text-xs font-bold transition-all cursor-pointer"
               >
-                Prefer not to say
+                {t('intake.prefer_not_say', language)}
               </button>
             </div>
 
@@ -707,14 +978,25 @@ export default function SymptomsPage() {
       <KioskFooter
         onNext={handleProceed}
         onBack={handleBack}
+        nextDisabled={
+          loading ||
+          (activeTab === 'ADAPTIVE_QUESTION' &&
+            activeQuestion?.input_type === 'single_select' &&
+            !selectedOptionCode &&
+            !freeTextAnswer.trim()) ||
+          (activeTab === 'ADAPTIVE_QUESTION' &&
+            activeQuestion?.input_type === 'multi_select' &&
+            selectedMultiCodes.length === 0 &&
+            !freeTextAnswer.trim())
+        }
         nextText={
           loading
-            ? 'Processing...'
+            ? t('intake.btn_processing', language)
             : activeTab === 'ADAPTIVE_QUESTION'
-            ? 'Next Question'
+            ? t('intake.btn_next_question', language)
             : activeTab === 'PAIN_SCALE'
-            ? 'Start Clinical Inquiry'
-            : 'Next Step'
+            ? t('intake.btn_start_inquiry', language)
+            : t('intake.btn_next_step', language)
         }
       />
     </div>

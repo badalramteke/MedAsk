@@ -17,6 +17,7 @@ import { useIntakeStore } from '@/stores/useIntakeStore';
 import { useTTS } from '@/hooks/useTTS';
 import { t } from '@/lib/i18n';
 import { Calendar, Pill, AlertTriangle, CheckCircle2, FileText } from 'lucide-react';
+import { Medicines, BloodBag } from '@/components/icons/ClinicalIcon';
 
 export default function DocumentTimelinePage() {
   const router = useRouter();
@@ -24,6 +25,10 @@ export default function DocumentTimelinePage() {
   const { setCurrentScreen } = useFlowStore();
   const { uploadedDocuments } = useIntakeStore();
   const { speak, stop } = useTTS();
+
+  useEffect(() => {
+    setCurrentScreen('document_timeline');
+  }, [setCurrentScreen]);
 
   // Auto-speak guidance prompt on screen load
   useEffect(() => {
@@ -42,7 +47,8 @@ export default function DocumentTimelinePage() {
 
   const handleBack = () => {
     stop();
-    router.back();
+    setCurrentScreen('document_scanner');
+    router.push('/documents/scan');
   };
 
   return (
@@ -64,65 +70,65 @@ export default function DocumentTimelinePage() {
         <div className="my-auto space-y-4 max-w-2xl mx-auto w-full">
           {/* Timeline Item 1: Extracted Prescription */}
           <div className="bg-white p-5 rounded-3xl border border-[#bdc9c5]/60 shadow-sm relative pl-12">
-            <div className="absolute left-4 top-6 w-5 h-5 rounded-full bg-[#005f53] flex items-center justify-center text-white">
-              <Pill className="w-3 h-3" />
+            <div className="absolute left-4 top-6 w-6 h-6 rounded-full bg-[#005f53] flex items-center justify-center text-white">
+              <Medicines className="w-4 h-4" />
             </div>
 
             <div className="flex justify-between items-center mb-2">
               <span className="text-xs font-bold uppercase tracking-wider text-[#005f53]">
-                Prescription (Cardiology OPD)
+                {t('timeline.rx_heading', language)}
               </span>
               <span className="text-xs text-[#3e4946] flex items-center gap-1">
                 <Calendar className="w-3.5 h-3.5" />
-                <span>12 June 2024</span>
+                <span>{t('timeline.date_rx', language)}</span>
               </span>
             </div>
 
             <h4 className="font-bold text-base text-[#191c1d] mb-2">
-              Extracted Active Medications:
+              {t('timeline.active_meds', language)}
             </h4>
             <div className="flex flex-wrap gap-2">
-              <span className="px-3 py-1 rounded-full bg-[#f2f4f4] text-xs font-bold text-[#191c1d] border border-[#bdc9c5]/50">
-                💊 Metformin 500mg (1-0-1)
+              <span className="px-3 py-1 rounded-full bg-[#f2f4f4] text-xs font-bold text-[#191c1d] border border-[#bdc9c5]/50 flex items-center gap-1">
+                <Medicines className="w-3.5 h-3.5 text-[#005f53]" /> Metformin 500mg (1-0-1)
               </span>
-              <span className="px-3 py-1 rounded-full bg-[#f2f4f4] text-xs font-bold text-[#191c1d] border border-[#bdc9c5]/50">
-                💊 Telmisartan 40mg (1-0-0)
+              <span className="px-3 py-1 rounded-full bg-[#f2f4f4] text-xs font-bold text-[#191c1d] border border-[#bdc9c5]/50 flex items-center gap-1">
+                <Medicines className="w-3.5 h-3.5 text-[#005f53]" /> Telmisartan 40mg (1-0-0)
               </span>
-              <span className="px-3 py-1 rounded-full bg-[#f2f4f4] text-xs font-bold text-[#191c1d] border border-[#bdc9c5]/50">
-                💊 Atorvastatin 10mg (0-0-1)
+              <span className="px-3 py-1 rounded-full bg-[#f2f4f4] text-xs font-bold text-[#191c1d] border border-[#bdc9c5]/50 flex items-center gap-1">
+                <Medicines className="w-3.5 h-3.5 text-[#005f53]" /> Atorvastatin 10mg (0-0-1)
               </span>
             </div>
           </div>
 
           {/* Timeline Item 2: Extracted Lab Report with Out-of-Range warning */}
           <div className="bg-white p-5 rounded-3xl border border-[#bdc9c5]/60 shadow-sm relative pl-12">
-            <div className="absolute left-4 top-6 w-5 h-5 rounded-full bg-[#aa0a17] flex items-center justify-center text-white">
-              <AlertTriangle className="w-3 h-3" />
+            <div className="absolute left-4 top-6 w-6 h-6 rounded-full bg-[#aa0a17] flex items-center justify-center text-white">
+              <BloodBag className="w-4 h-4" />
             </div>
 
             <div className="flex justify-between items-center mb-2">
               <span className="text-xs font-bold uppercase tracking-wider text-[#aa0a17]">
-                Diagnostic Lab Report
+                {t('timeline.lab_heading', language)}
               </span>
               <span className="text-xs text-[#3e4946] flex items-center gap-1">
                 <Calendar className="w-3.5 h-3.5" />
-                <span>18 July 2024</span>
+                <span>{t('timeline.date_lab', language)}</span>
               </span>
             </div>
 
             <h4 className="font-bold text-base text-[#191c1d] mb-2">
-              Extracted Diagnostic Biomarkers:
+              {t('timeline.biomarkers', language)}
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <div className="p-2.5 rounded-xl bg-[#006e1c]/5 border border-[#006e1c]/20 flex items-center justify-between text-xs">
                 <span className="font-semibold text-[#191c1d]">Hemoglobin (Hb)</span>
-                <span className="font-bold text-[#006e1c]">13.8 g/dL [Normal]</span>
+                <span className="font-bold text-[#006e1c]">13.8 g/dL [{t('timeline.normal', language)}]</span>
               </div>
               <div className="p-2.5 rounded-xl bg-[#aa0a17]/10 border border-[#aa0a17]/30 flex items-center justify-between text-xs">
                 <span className="font-semibold text-[#191c1d]">HbA1c (Glycated Hb)</span>
                 <span className="font-bold text-[#aa0a17] flex items-center gap-1">
                   <span>8.2%</span>
-                  <span className="text-[10px] uppercase">[HIGH]</span>
+                  <span className="text-[10px] uppercase">[{t('timeline.high', language)}]</span>
                 </span>
               </div>
             </div>
@@ -130,14 +136,14 @@ export default function DocumentTimelinePage() {
         </div>
 
         <div className="text-center text-xs text-[#3e4946]">
-          These records will be linked to your consultation history draft.
+          {t('timeline.disclaimer', language)}
         </div>
       </main>
 
       <KioskFooter
         onNext={handleProceed}
         onBack={handleBack}
-        nextText="Proceed to Summary Confirmation"
+        nextText={t('timeline.proceed_btn', language)}
       />
     </div>
   );

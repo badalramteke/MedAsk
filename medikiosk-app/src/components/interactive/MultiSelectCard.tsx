@@ -8,6 +8,9 @@
 import React from 'react';
 import type { QuestionOption } from '@/lib/types';
 import { CheckSquare, Square, ArrowRight } from 'lucide-react';
+import { QuestionChoiceIcon } from '@/components/icons/ClinicalIcon';
+import { useSessionStore } from '@/stores/useSessionStore';
+import { t } from '@/lib/i18n';
 
 interface MultiSelectCardProps {
   options?: QuestionOption[];
@@ -24,6 +27,7 @@ export default function MultiSelectCard({
   onConfirm,
   disabled = false,
 }: MultiSelectCardProps) {
+  const language = useSessionStore((s) => s.language);
   if (!options || options.length === 0) return null;
 
   return (
@@ -41,19 +45,32 @@ export default function MultiSelectCard({
               data-element={`multi-option-${option.value_code}`}
               data-voice-action="toggle"
               data-voice-param={option.value_code}
-              className={`min-h-[90px] p-5 rounded-2xl text-left flex items-center justify-between transition-all duration-200 cursor-pointer active:scale-98 ${
+              className={`min-h-[90px] p-4 sm:p-5 rounded-2xl text-left flex items-center justify-between transition-all duration-200 cursor-pointer active:scale-98 ${
                 isSelected
                   ? 'bg-[#0f7a6b] text-white shadow-lg ring-2 ring-[#005f53]'
                   : 'bg-white hover:bg-[#f8fafa] text-[#191c1d] border border-[#bdc9c5]/60 hover:border-[#005f53]/50 shadow-sm'
               } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
-              <div className="flex flex-col pr-3">
-                <span className="text-lg font-bold leading-tight">{option.text}</span>
-                {option.value_code && (
-                  <span className={`text-xs mt-1 ${isSelected ? 'text-white/80' : 'text-[#6e7976]'}`}>
-                    {option.value_code}
-                  </span>
-                )}
+              <div className="flex items-center gap-3.5 pr-3">
+                <div
+                  className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors ${
+                    isSelected ? 'bg-white/20 text-white' : 'bg-[#eceeee] text-[#005f53]'
+                  }`}
+                >
+                  <QuestionChoiceIcon
+                    code={option.value_code}
+                    text={option.text}
+                    className={`w-6 h-6 ${isSelected ? 'text-white' : ''}`}
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-lg font-bold leading-tight">{option.text}</span>
+                  {option.value_code && (
+                    <span className={`text-xs mt-0.5 ${isSelected ? 'text-white/80' : 'text-[#6e7976]'}`}>
+                      {option.value_code}
+                    </span>
+                  )}
+                </div>
               </div>
 
               <div className="shrink-0">
@@ -74,7 +91,9 @@ export default function MultiSelectCard({
         onClick={onConfirm}
         className="w-full h-16 rounded-2xl bg-[#005f53] hover:bg-[#0f7a6b] text-white font-bold text-lg flex items-center justify-center gap-3 shadow-md active:scale-98 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        <span>Confirm Choices ({selectedValues.length} selected)</span>
+        <span>
+          {t('intake.confirm_choices', language)} ({selectedValues.length} {t('intake.selected_count', language)})
+        </span>
         <ArrowRight className="w-6 h-6" />
       </button>
     </div>

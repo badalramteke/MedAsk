@@ -24,9 +24,10 @@ class SpeechService:
         self.gemini_adapter = GeminiAudioAdapter()
         self.mock_adapter = MockSpeechAdapter()
         
+        # Google's API (Gemini Multimodal Audio / Google Speech) configured as Tier-1 primary default
         self.asr_cascade: List[BaseSpeechAdapter] = [
-            self.bhashini_adapter,
             self.gemini_adapter,
+            self.bhashini_adapter,
             self.mock_adapter
         ]
         

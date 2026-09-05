@@ -6,6 +6,8 @@
 'use client';
 
 import { Delete, Check } from 'lucide-react';
+import { useSessionStore } from '@/stores/useSessionStore';
+import { t } from '@/lib/i18n';
 
 interface VirtualNumpadProps {
   onDigit: (digit: string) => void;
@@ -22,6 +24,7 @@ export default function VirtualNumpad({
   onSubmit,
   submitDisabled = false,
 }: VirtualNumpadProps) {
+  const language = useSessionStore((s) => s.language);
   const keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'C', '0', '⌫'];
 
   return (
@@ -41,9 +44,9 @@ export default function VirtualNumpad({
               data-element="numpad-clear-btn"
               data-testid="numpad-clear-btn"
               onClick={onClear}
-              className="h-16 rounded-2xl bg-[#eceeee] hover:bg-[#e1e3e3] text-[#aa0a17] font-bold text-lg flex items-center justify-center active:scale-95 transition-transform cursor-pointer"
+              className="h-16 rounded-2xl bg-[#eceeee] hover:bg-[#e1e3e3] text-[#aa0a17] font-bold text-base md:text-lg flex items-center justify-center active:scale-95 transition-transform cursor-pointer"
             >
-              CLEAR
+              {t('numpad.clear', language) || 'CLEAR'}
             </button>
           );
         }

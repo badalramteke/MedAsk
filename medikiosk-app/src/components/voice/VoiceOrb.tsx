@@ -6,9 +6,12 @@
 
 'use client';
 
+import React, { useEffect, useRef } from 'react';
 import { useVoiceStore } from '@/stores/useVoiceStore';
+import { useSessionStore } from '@/stores/useSessionStore';
 import { useVoiceCapture } from '@/hooks/useVoiceCapture';
 import { useTTS } from '@/hooks/useTTS';
+import { t } from '@/lib/i18n';
 import { Mic, MicOff, Volume2 } from 'lucide-react';
 
 interface VoiceOrbProps {
@@ -22,16 +25,36 @@ export default function VoiceOrb({
   onTranscriptReady,
   inline = false,
 }: VoiceOrbProps) {
-  const {
-    isListening,
-    isSpeaking,
-    audioLevel,
-    transcript,
-    interimTranscript,
-  } = useVoiceStore();
+  const language = useSessionStore((s) => s.language);
+  const isListening = useVoiceStore((s) => s.isListening);
+  const isSpeaking = useVoiceStore((s) => s.isSpeaking);
+  const audioLevel = useVoiceStore((s) => s.audioLevel);
+  const transcript = useVoiceStore((s) => s.transcript);
+  const interimTranscript = useVoiceStore((s) => s.interimTranscript);
+  const clearTranscript = useVoiceStore((s) => s.clearTranscript);
 
   const { startListening, stopListening } = useVoiceCapture();
   const { speak } = useTTS();
+  const clearTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Automatically clear transcript when a new question or promptText is mounted
+  useEffect(() => {
+    clearTranscript();
+    if (clearTimerRef.current) clearTimeout(clearTimerRef.current);
+  }, [promptText, clearTranscript]);
+
+  // Auto-clear lingering transcript bubble after 4 seconds of idle
+  useEffect(() => {
+    if (transcript && !isListening) {
+      if (clearTimerRef.current) clearTimeout(clearTimerRef.current);
+      clearTimerRef.current = setTimeout(() => {
+        clearTranscript();
+      }, 4000);
+    }
+    return () => {
+      if (clearTimerRef.current) clearTimeout(clearTimerRef.current);
+    };
+  }, [transcript, isListening, clearTranscript]);
 
   const handleToggleMic = async () => {
     if (isListening) {
@@ -46,7 +69,7 @@ export default function VoiceOrb({
 
   const handleReplayPrompt = () => {
     if (promptText) {
-      speak(promptText);
+      speak(promptText, language);
     }
   };
 
@@ -81,7 +104,7 @@ export default function VoiceOrb({
             className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#eceeee] hover:bg-[#e1e3e3] text-[#005f53] text-sm font-semibold transition-all cursor-pointer shadow-sm active:scale-95"
           >
             <Volume2 className={`w-4 h-4 ${isSpeaking ? 'animate-bounce text-[#0f7a6b]' : ''}`} />
-            <span>{isSpeaking ? 'Speaking...' : 'Listen Again'}</span>
+            <span>{isSpeaking ? t('voice.speaking', language) : t('voice.listen_again', language)}</span>
           </button>
         </div>
       ) : null}
@@ -137,7 +160,7 @@ export default function VoiceOrb({
       </div>
 
       <span className="text-xs font-semibold text-[#3e4946]">
-        {isListening ? 'Listening... Tap to finish' : 'Tap to speak your answer'}
+        {isListening ? t('voice.listening_tap', language) : t('voice.speak_answer', language)}
       </span>
     </div>
   );

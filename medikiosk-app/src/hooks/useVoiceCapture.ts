@@ -21,6 +21,7 @@ export function useVoiceCapture() {
     setInterimTranscript,
     setVoiceAction,
     setError,
+    clearTranscript,
   } = useVoiceStore();
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -28,55 +29,26 @@ export function useVoiceCapture() {
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
   const animFrameRef = useRef<number | null>(null);
+  const lastLevelRef = useRef<number>(0);
+  const lastUpdateRef = useRef<number>(0);
 
   // Web Speech API recognition fallback for real-time live interim feedback
   const recognitionRef = useRef<any>(null);
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
-      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-      const recognition = new SpeechRecognition();
-      recognition.continuous = true;
-      recognition.interimResults = true;
-
-      // Map language code to BCP 47
-      const langMap: Record<string, string> = {
-        en: 'en-IN',
-        hi: 'hi-IN',
-        mr: 'mr-IN',
-        bn: 'bn-IN',
-        ta: 'ta-IN',
-        te: 'te-IN',
-      };
-      recognition.lang = langMap[language] || 'en-IN';
-
-      recognition.onresult = (event: any) => {
-        let interim = '';
-        let final = '';
-        for (let i = event.resultIndex; i < event.results.length; ++i) {
-          if (event.results[i].isFinal) {
-            final += event.results[i][0].transcript;
-          } else {
-            interim += event.results[i][0].transcript;
-          }
-        }
-        if (interim) setInterimTranscript(interim);
-        if (final) setTranscript(final);
-      };
-
-      recognition.onerror = (event: any) => {
-        console.warn('Speech recognition warning:', event.error);
-      };
-
-      recognitionRef.current = recognition;
-    }
-
     return () => {
       if (recognitionRef.current) {
-        recognitionRef.current.abort();
+        try {
+          recognitionRef.current.onresult = null;
+          recognitionRef.current.onerror = null;
+          recognitionRef.current.abort();
+        } catch {
+          // Ignore
+        }
+        recognitionRef.current = null;
       }
     };
-  }, [language, setInterimTranscript, setTranscript]);
+  }, []);
 
   const updateAudioMeter = useCallback(() => {
     if (!analyserRef.current) return;
@@ -89,7 +61,14 @@ export function useVoiceCapture() {
     }
     const average = sum / dataArray.length;
     const normalized = Math.min(1, average / 128);
-    setAudioLevel(normalized);
+
+    // Throttle Zustand updates: max ~20 FPS (every 50ms) and only if change is notable (>0.03)
+    const now = performance.now();
+    if (now - lastUpdateRef.current > 50 && Math.abs(normalized - lastLevelRef.current) > 0.03) {
+      lastUpdateRef.current = now;
+      lastLevelRef.current = normalized;
+      setAudioLevel(normalized);
+    }
 
     animFrameRef.current = requestAnimationFrame(updateAudioMeter);
   }, [setAudioLevel]);
@@ -97,6 +76,7 @@ export function useVoiceCapture() {
   const startListening = useCallback(async () => {
     try {
       setError(null);
+      clearTranscript();
       audioChunksRef.current = [];
 
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -135,12 +115,43 @@ export function useVoiceCapture() {
       mediaRecorderRef.current = mediaRecorder;
       mediaRecorder.start(250); // 250ms chunks
 
-      // Start Web Speech recognition if supported
-      if (recognitionRef.current) {
+      // Start Web Speech recognition if supported for live interim transcripts
+      if (typeof window !== 'undefined' && ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
         try {
-          recognitionRef.current.start();
+          const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+          const recognition = new SpeechRecognition();
+          recognition.continuous = true;
+          recognition.interimResults = true;
+
+          const langMap: Record<string, string> = {
+            en: 'en-IN',
+            hi: 'hi-IN',
+            mr: 'mr-IN',
+            bn: 'bn-IN',
+            ta: 'ta-IN',
+            te: 'te-IN',
+          };
+          recognition.lang = langMap[language] || 'en-IN';
+
+          recognition.onresult = (event: any) => {
+            let interim = '';
+            let final = '';
+            for (let i = event.resultIndex; i < event.results.length; ++i) {
+              if (event.results[i].isFinal) {
+                final += event.results[i][0].transcript;
+              } else {
+                interim += event.results[i][0].transcript;
+              }
+            }
+            if (interim) setInterimTranscript(interim);
+            if (final) setTranscript(final);
+          };
+
+          recognition.onerror = () => {};
+          recognitionRef.current = recognition;
+          recognition.start();
         } catch {
-          // Ignore already started error
+          // Ignore
         }
       }
 
@@ -150,7 +161,7 @@ export function useVoiceCapture() {
       setError(err.message || 'Microphone access denied. Please use touch screen.');
       setListening(false);
     }
-  }, [setError, setListening, updateAudioMeter]);
+  }, [language, setError, setInterimTranscript, setListening, setTranscript, updateAudioMeter]);
 
   const stopListening = useCallback(async (): Promise<Blob | null> => {
     return new Promise((resolve) => {
@@ -162,10 +173,13 @@ export function useVoiceCapture() {
 
       if (recognitionRef.current) {
         try {
+          recognitionRef.current.onresult = null;
+          recognitionRef.current.onerror = null;
           recognitionRef.current.stop();
         } catch {
           // Ignore
         }
+        recognitionRef.current = null;
       }
 
       if (animFrameRef.current) {

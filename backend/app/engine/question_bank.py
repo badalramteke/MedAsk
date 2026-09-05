@@ -132,15 +132,42 @@ class QuestionBank:
 
         return localized
 
-    def get_next_question_id(self, question_id: str, selected_value_codes: List[str], gender: Optional[str] = None) -> Optional[str]:
+    def get_next_question_id(
+        self,
+        question_id: str,
+        selected_value_codes: List[str],
+        gender: Optional[str] = None,
+        free_text: Optional[str] = None,
+    ) -> Optional[str]:
         """
         Given the current question and the patient's answer, determine the next question
         by evaluating followup_triggers in order.
+        If selected_value_codes is empty but free_text is provided, uses semantic negative/affirmative resolution.
         If the next question has a gender restriction and patient doesn't match, skips appropriately.
         """
         q = self.get_question(question_id)
         if not q:
             return None
+
+        # If codes empty but free text provided, synthesize codes based on negative/affirmative intent
+        effective_codes = list(selected_value_codes) if selected_value_codes else []
+        if not effective_codes and free_text:
+            ft_lower = free_text.strip().lower()
+            words = ft_lower.replace(".", " ").replace(",", " ").split()
+            is_neg = any(w in {"no", "none", "never", "not", "dont", "nahi", "na", "nil"} for w in words) or \
+                     any(p in ft_lower for p in ["do not", "don't", "kuch nahi", "nahi leta", "nahi lete"])
+
+            is_pos = any(w in {"yes", "haan", "ha", "yep", "sure", "taking", "active", "present"} for w in words) or \
+                     any(p in ft_lower for p in ["i have", "i take", "hota hai", "leti hu", "leta hu"])
+
+            for opt in q.get("options", []):
+                val_code = opt["value_code"]
+                if is_neg and (val_code.endswith("_NO") or "NOT" in val_code or "NONE" in val_code):
+                    effective_codes.append(val_code)
+                    break
+                elif is_pos and (val_code.endswith("_YES") or "REGULAR" in val_code):
+                    effective_codes.append(val_code)
+                    break
 
         next_qid = None
         for trigger in q.get("followup_triggers", []):
@@ -152,7 +179,7 @@ class QuestionBank:
                 break
             elif condition == "VALUE_MATCH":
                 target_codes = trigger.get("target_value_codes", [])
-                if any(code in selected_value_codes for code in target_codes):
+                if any(code in effective_codes for code in target_codes):
                     next_qid = candidate_qid
                     break
 

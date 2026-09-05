@@ -6,7 +6,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import KioskHeader from '@/components/layout/KioskHeader';
 import KioskFooter from '@/components/layout/KioskFooter';
@@ -17,15 +17,33 @@ import { useFlowStore } from '@/stores/useFlowStore';
 import { sessionService } from '@/services/sessionService';
 import { t } from '@/lib/i18n';
 import { CreditCard, QrCode, KeyRound, UserCheck, CheckCircle2, RefreshCw } from 'lucide-react';
+import {
+  HealthCreditCard,
+  HealthQrCode,
+  HealthMobile,
+  Person as HealthPerson,
+  Man as HealthMan,
+  Woman as HealthWoman,
+  Transgender as HealthTransgender,
+} from '@/components/icons/ClinicalIcon';
 
 type AuthTab = 'ABHA' | 'QR' | 'AADHAAR' | 'GUEST';
 
 export default function AuthPage() {
   const router = useRouter();
-  const { language, sessionId, setIdentity, startSession, ensureBackendSession } = useSessionStore();
+  const { language, sessionId, setIdentity, startSession, ensureBackendSession, authMode, setAuthMode } = useSessionStore();
   const { setCurrentScreen } = useFlowStore();
 
-  const [activeTab, setActiveTab] = useState<AuthTab>('ABHA');
+  useEffect(() => {
+    setCurrentScreen('patient_identification');
+  }, [setCurrentScreen]);
+
+  const [activeTab, setActiveTabState] = useState<AuthTab>(authMode || 'ABHA');
+
+  const setActiveTab = (tab: AuthTab) => {
+    setActiveTabState(tab);
+    setAuthMode(tab);
+  };
   const [abhaInput, setAbhaInput] = useState('');
   const [otpInput, setOtpInput] = useState('');
   const [isOtpSent, setIsOtpSent] = useState(false);
@@ -163,6 +181,7 @@ export default function AuthPage() {
   };
 
   const handleProceed = () => {
+    setAuthMode(activeTab);
     if (!verifiedProfile) {
       // Auto-assign guest profile if user clicks continue without completing
       handleGuestSubmit();
@@ -188,7 +207,7 @@ export default function AuthPage() {
             {t('auth.title', language)}
           </h1>
           <p className="text-sm text-[#3e4946] mt-1">
-            Authenticate with ABHA or proceed as a walk-in guest.
+            {t('auth.subtitle', language)}
           </p>
         </div>
 
@@ -209,8 +228,8 @@ export default function AuthPage() {
                 : 'bg-white hover:bg-[#eceeee] text-[#191c1d] border-[#bdc9c5]/60'
             }`}
           >
-            <CreditCard className="w-5 h-5" />
-            <span>ABHA Number</span>
+            <HealthCreditCard className="w-5 h-5" />
+            <span>{t('auth.abha_tab', language)}</span>
           </button>
 
           <button
@@ -228,8 +247,8 @@ export default function AuthPage() {
                 : 'bg-white hover:bg-[#eceeee] text-[#191c1d] border-[#bdc9c5]/60'
             }`}
           >
-            <QrCode className="w-5 h-5" />
-            <span>Scan ABHA QR</span>
+            <HealthQrCode className="w-5 h-5" />
+            <span>{t('auth.qr_tab', language)}</span>
           </button>
 
           <button
@@ -247,8 +266,8 @@ export default function AuthPage() {
                 : 'bg-white hover:bg-[#eceeee] text-[#191c1d] border-[#bdc9c5]/60'
             }`}
           >
-            <KeyRound className="w-5 h-5" />
-            <span>Aadhaar OTP</span>
+            <HealthMobile className="w-5 h-5" />
+            <span>{t('auth.aadhaar_tab', language)}</span>
           </button>
 
           <button
@@ -266,8 +285,8 @@ export default function AuthPage() {
                 : 'bg-white hover:bg-[#eceeee] text-[#191c1d] border-[#bdc9c5]/60'
             }`}
           >
-            <UserCheck className="w-5 h-5" />
-            <span>Walk-in Guest</span>
+            <HealthPerson className="w-5 h-5" />
+            <span>{t('auth.guest_tab', language)}</span>
           </button>
         </div>
 
@@ -281,21 +300,21 @@ export default function AuthPage() {
                   <CheckCircle2 className="w-10 h-10" />
                 </div>
                 <h3 className="text-2xl font-black text-[#191c1d]">
-                  Identity Verified!
+                  {t('auth.verified_title', language)}
                 </h3>
                 <div className="w-full p-4 rounded-2xl bg-[#f2f4f4] text-left text-sm space-y-1 mt-2">
                   <div className="flex justify-between">
-                    <span className="text-[#3e4946]">Name:</span>
+                    <span className="text-[#3e4946]">{t('auth.name_label', language)}</span>
                     <span className="font-bold text-[#191c1d]">{verifiedProfile.name}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-[#3e4946]">Identifier:</span>
+                    <span className="text-[#3e4946]">{t('auth.id_label', language)}</span>
                     <span className="font-bold text-[#005f53]">{verifiedProfile.abha}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-[#3e4946]">Demographics:</span>
+                    <span className="text-[#3e4946]">{t('auth.demographics_label', language)}</span>
                     <span className="font-bold text-[#191c1d]">
-                      {verifiedProfile.age} Yrs • {verifiedProfile.gender}
+                      {verifiedProfile.age} • {verifiedProfile.gender === 'MALE' ? t('auth.gender_male', language) : verifiedProfile.gender === 'FEMALE' ? t('auth.gender_female', language) : t('auth.gender_other', language)}
                     </span>
                   </div>
                 </div>
@@ -305,10 +324,10 @@ export default function AuthPage() {
                 {!isOtpSent ? (
                   <>
                     <h3 className="text-lg font-bold text-[#191c1d] mb-1">
-                      {activeTab === 'ABHA' ? 'Enter 14-Digit ABHA' : 'Enter Aadhaar Number'}
+                      {activeTab === 'ABHA' ? t('auth.enter_abha_title', language) : t('auth.enter_aadhaar_title', language)}
                     </h3>
                     <p className="text-xs text-[#3e4946] mb-4">
-                      Tap the on-screen keypad to enter digits
+                      {t('auth.keypad_hint', language)}
                     </p>
                     <div className="w-full h-14 rounded-2xl bg-[#f2f4f4] border-2 border-[#005f53] flex items-center justify-center text-2xl font-black tracking-widest text-[#005f53] mb-4">
                       {abhaInput || '••-••••-••••-••••'}
@@ -322,16 +341,16 @@ export default function AuthPage() {
                       className="w-full h-12 rounded-full bg-[#005f53] hover:bg-[#0c6b5e] text-white font-bold flex items-center justify-center gap-2 cursor-pointer shadow-md disabled:opacity-50"
                     >
                       {loading && <RefreshCw className="w-4 h-4 animate-spin" />}
-                      <span>Send OTP to Linked Mobile</span>
+                      <span>{t('auth.send_otp', language)}</span>
                     </button>
                   </>
                 ) : (
                   <>
                     <h3 className="text-lg font-bold text-[#191c1d] mb-1">
-                      Enter 6-Digit OTP
+                      {t('auth.enter_otp_title', language)}
                     </h3>
                     <p className="text-xs text-[#3e4946] mb-4">
-                      Sandbox Default OTP: <strong>123456</strong>
+                      {t('auth.otp_sent_to', language)}
                     </p>
                     <div className="w-full h-14 rounded-2xl bg-[#f2f4f4] border-2 border-[#005f53] flex items-center justify-center text-3xl font-black tracking-widest text-[#005f53] mb-4">
                       {otpInput || '••••••'}
@@ -345,7 +364,7 @@ export default function AuthPage() {
                       className="w-full h-12 rounded-full bg-[#005f53] hover:bg-[#0c6b5e] text-white font-bold flex items-center justify-center gap-2 cursor-pointer shadow-md disabled:opacity-50"
                     >
                       {loading && <RefreshCw className="w-4 h-4 animate-spin" />}
-                      <span>Verify & Link Identity</span>
+                      <span>{t('auth.verify_otp', language)}</span>
                     </button>
                   </>
                 )}
@@ -357,7 +376,7 @@ export default function AuthPage() {
                   <div className="absolute inset-x-0 h-1 bg-[#00e676] shadow-sm animate-pulse-glow" style={{ top: '50%' }} />
                 </div>
                 <p className="text-xs text-[#3e4946]">
-                  Hold your ABHA card or mobile QR code up to the camera
+                  {t('auth.qr_desc', language)}
                 </p>
                 <button
                   type="button"
@@ -368,49 +387,64 @@ export default function AuthPage() {
                   className="w-full h-12 rounded-full bg-[#005f53] hover:bg-[#0c6b5e] text-white font-bold flex items-center justify-center gap-2 cursor-pointer shadow-md"
                 >
                   {loading && <RefreshCw className="w-4 h-4 animate-spin" />}
-                  <span>Simulate QR Code Scan</span>
+                  <span>{loading ? t('auth.qr_scanning', language) : t('auth.qr_sim_btn', language)}</span>
                 </button>
               </div>
             ) : (
               <div className="w-full flex flex-col items-start gap-3">
                 <h3 className="text-lg font-bold text-[#191c1d]">
-                  Walk-in Guest Check-in
+                  {t('auth.guest_title', language)}
                 </h3>
                 <div className="w-full text-left">
-                  <label className="text-xs font-bold text-[#3e4946]">Full Name</label>
+                  <label className="text-xs font-bold text-[#3e4946]">{t('auth.guest_name', language)}</label>
                   <input
                     type="text"
-                    placeholder="Enter your name"
+                    placeholder={t('auth.guest_name_placeholder', language)}
                     value={guestName}
                     onChange={(e) => setGuestName(e.target.value)}
                     className="w-full h-12 px-4 rounded-xl border border-[#bdc9c5] mt-1 text-base focus:outline-none focus:border-[#005f53]"
                   />
                 </div>
                 <div className="w-full text-left">
-                  <label className="text-xs font-bold text-[#3e4946]">Age</label>
+                  <label className="text-xs font-bold text-[#3e4946]">{t('auth.guest_age', language)}</label>
                   <input
                     type="text"
-                    placeholder="Age (use keypad)"
+                    placeholder={t('auth.keypad_hint', language)}
                     value={guestAge}
                     readOnly
                     className="w-full h-12 px-4 rounded-xl border border-[#bdc9c5] mt-1 text-base bg-[#f2f4f4]"
                   />
                 </div>
                 <div className="w-full text-left">
-                  <label className="text-xs font-bold text-[#3e4946]">Gender</label>
+                  <label className="text-xs font-bold text-[#3e4946]">{t('auth.guest_gender', language)}</label>
                   <div className="grid grid-cols-3 gap-2 mt-1">
                     {(['MALE', 'FEMALE', 'OTHER'] as const).map((g) => (
                       <button
                         key={g}
                         type="button"
                         onClick={() => setGuestGender(g)}
-                        className={`h-10 rounded-xl text-xs font-bold border transition-colors cursor-pointer ${
+                        className={`h-10 rounded-xl text-xs font-bold border transition-colors cursor-pointer flex items-center justify-center gap-1.5 ${
                           guestGender === g
                             ? 'bg-[#005f53] text-white border-transparent'
                             : 'bg-[#eceeee] text-[#191c1d] border-[#bdc9c5]'
                         }`}
                       >
-                        {g}
+                        {g === 'MALE' ? (
+                          <>
+                            <HealthMan className="w-4 h-4" />
+                            <span>{t('auth.gender_male', language)}</span>
+                          </>
+                        ) : g === 'FEMALE' ? (
+                          <>
+                            <HealthWoman className="w-4 h-4" />
+                            <span>{t('auth.gender_female', language)}</span>
+                          </>
+                        ) : (
+                          <>
+                            <HealthTransgender className="w-4 h-4" />
+                            <span>{t('auth.gender_other', language)}</span>
+                          </>
+                        )}
                       </button>
                     ))}
                   </div>
@@ -422,7 +456,7 @@ export default function AuthPage() {
                   onClick={handleGuestSubmit}
                   className="w-full h-12 rounded-full bg-[#005f53] hover:bg-[#0c6b5e] text-white font-bold mt-2 cursor-pointer shadow-md"
                 >
-                  Continue as Guest
+                  {t('auth.guest_register', language)}
                 </button>
               </div>
             )}
@@ -442,7 +476,7 @@ export default function AuthPage() {
       <KioskFooter
         onNext={handleProceed}
         onBack={handleBack}
-        nextText={verifiedProfile ? 'Confirm & Proceed' : t('nav.continue', language)}
+        nextText={verifiedProfile ? t('nav.confirm', language) : t('nav.continue', language)}
       />
     </div>
   );

@@ -40,25 +40,28 @@ class RedFlagScanner:
             elif isinstance(val, str):
                 all_value_codes.add(val)
 
-        # Combine all answers into a searchable text string
-        all_text = " ".join([str(v).lower() for v in answer_history.values()])
-
+        # 1. Check structured value codes across accumulated answers
         for rule in self._rules:
             trigger = rule.get("trigger", {})
             pattern = trigger.get("structured_fact_pattern", {})
             keywords_by_lang = rule.get("trigger_keywords_by_lang", {})
 
-            # 1. Check structured value codes
             matched = self._matches_pattern(pattern, all_value_codes, answer_history)
 
-            # 2. Check multilingual spoken keyword phrases
+            # 2. Check multilingual spoken keyword phrases within individual patient narratives
+            # (Strictly excludes family history, relative context, or past history)
             if not matched and keywords_by_lang:
-                for lang_code, kw_list in keywords_by_lang.items():
-                    for kw in kw_list:
-                        # If keyword terms appear in free-text narration
-                        kw_terms = [t.strip().lower() for t in kw.split() if len(t.strip()) > 1]
-                        if kw_terms and all(term in all_text for term in kw_terms[:2]):
-                            matched = True
+                for qid, val in answer_history.items():
+                    narrative = str(val).strip().lower() if isinstance(val, (str, int, float)) else ""
+                    if not narrative or self._is_family_or_relative_context(qid, narrative):
+                        continue
+
+                    for lang_code, kw_list in keywords_by_lang.items():
+                        for kw in kw_list:
+                            if self._matches_keyword(kw, narrative):
+                                matched = True
+                                break
+                        if matched:
                             break
                     if matched:
                         break
@@ -128,6 +131,49 @@ class RedFlagScanner:
             codes.update(pattern.get(key, []))
         return codes
 
+
+    def _is_family_or_relative_context(self, qid: str, text: str) -> bool:
+        """
+        Check if a question ID or answer narrative is about family/relative history.
+        Family illnesses must not trigger acute patient presenting red flags.
+        """
+        qid_lower = qid.lower()
+        if "fh" in qid_lower or "family" in qid_lower or "relative" in qid_lower:
+            return True
+
+        text_lower = text.lower()
+        relative_markers = [
+            "he ", "he's", "he was", "he has", "his ", "him ",
+            "she ", "she's", "she was", "she has", "her ",
+            "father", "mother", "dad", "mom", "brother", "sister",
+            "grandfather", "grandmother", "grandpa", "grandma",
+            "uncle", "aunt", "cousin", "family", "parent", "parents", "relative",
+            "पिता", "माता", "भाई", "बहन", "दादा", "दादी", "नाना", "नानी", "परिवार", "उनको", "उन्हें",
+            "वडील", "आई", "भाऊ", "बहीण", "बाबा", "মা", "পরিবার",
+            "தந்தை", "தாய்", "குடும்பம்", "తండ్రి", "తల్లి", "కుటుంబం"
+        ]
+        return any(marker in text_lower for marker in relative_markers)
+
+    def _matches_keyword(self, kw: str, narrative: str) -> bool:
+        """
+        Check if a clinical red-flag keyword phrase matches within a single patient narrative.
+        Requires the actual phrase or all key medical terms of the trigger to be present.
+        """
+        kw_clean = kw.strip().lower()
+        if not kw_clean:
+            return False
+
+        # 1. Direct phrase match (e.g. 'chest pain left arm')
+        if kw_clean in narrative:
+            return True
+
+        # 2. Term co-occurrence in the same narrative sentence/answer
+        terms = [t.strip().lower() for t in kw_clean.split() if len(t.strip()) > 1]
+        if len(terms) >= 2:
+            return all(term in narrative for term in terms)
+        elif len(terms) == 1:
+            return terms[0] in narrative
+        return False
 
 # Singleton
 red_flag_scanner = RedFlagScanner()

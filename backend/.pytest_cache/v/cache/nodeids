@@ -1,0 +1,15 @@
+[
+  "tests/test_e2e_scenarios.py::test_persona1_opd_walkin_full_lifecycle",
+  "tests/test_e2e_scenarios.py::test_persona2_acute_emergency_chest_pain",
+  "tests/test_e2e_scenarios.py::test_persona3_document_heavy_chronic_followup",
+  "tests/test_voice_suite.py::test_hybrid_tts_caching",
+  "tests/test_voice_suite.py::test_module_e_voice_action_matcher",
+  "tests/test_voice_suite.py::test_speech_synthesis_tts",
+  "tests/test_voice_suite.py::test_speech_transcribe_base64_json",
+  "tests/test_voice_suite.py::test_speech_transcribe_multipart_upload",
+  "tests/test_voice_suite.py::test_spoken_red_flag_alert_trigger",
+  "tests/test_voice_suite.py::test_unified_voice_answer_flow",
+  "tests/test_voice_suite.py::test_voice_actions_catalog_endpoint",
+  "tests/test_voice_suite.py::test_voice_answer_semantic_navigation_command",
+  "tests/test_voice_suite.py::test_voice_health_endpoint"
+]

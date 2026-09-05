@@ -47,8 +47,9 @@ class ColabMedGemmaAdapter(BaseModelAdapter):
             "max_tokens": 650,
         }
 
+        timeout = float(os.getenv("MEDGEMMA_TIMEOUT_SECONDS", "5.0"))
         try:
-            async with httpx.AsyncClient(timeout=75.0) as client:
+            async with httpx.AsyncClient(timeout=timeout) as client:
                 res = await client.post(endpoint, json=payload, headers=self.headers)
                 latency = round((time.time() - start_time) * 1000, 2)
 
@@ -96,8 +97,9 @@ class ColabMedGemmaAdapter(BaseModelAdapter):
             "max_tokens": 650,
         }
 
+        timeout = float(os.getenv("MEDGEMMA_TIMEOUT_SECONDS", "5.0"))
         try:
-            async with httpx.AsyncClient(timeout=75.0) as client:
+            async with httpx.AsyncClient(timeout=timeout) as client:
                 res = await client.post(endpoint, json=payload, headers=self.headers)
                 latency = round((time.time() - start_time) * 1000, 2)
 

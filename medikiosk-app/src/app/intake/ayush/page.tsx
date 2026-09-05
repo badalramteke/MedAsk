@@ -18,6 +18,7 @@ import { useSessionStore } from '@/stores/useSessionStore';
 import { useFlowStore } from '@/stores/useFlowStore';
 import { useIntakeStore } from '@/stores/useIntakeStore';
 import { useTTS } from '@/hooks/useTTS';
+import { t } from '@/lib/i18n';
 import { intakeService } from '@/services/intakeService';
 import type { QuestionResponse, QuestionOption } from '@/lib/types';
 import {
@@ -77,8 +78,9 @@ export default function AyushIntakePage() {
 
   // Initial load
   useEffect(() => {
+    setCurrentScreen('ayush_assessment');
     fetchNextAyushQuestion();
-  }, [fetchNextAyushQuestion]);
+  }, [setCurrentScreen, fetchNextAyushQuestion]);
 
   // Proactively speak question prompt when question loads
   useEffect(() => {
@@ -251,7 +253,7 @@ export default function AyushIntakePage() {
           </div>
 
           <p className="text-xs md:text-sm text-[#3e4946] mt-1">
-            Tap an option on screen OR speak naturally into the microphone below.
+            {t('intake.interaction_hint', language)}
           </p>
 
           {/* Voice Recognition Badge */}
@@ -320,7 +322,7 @@ export default function AyushIntakePage() {
                       onClick={() => submitAyushAnswer(selectedMultiCodes)}
                       className="px-8 py-3 rounded-full bg-[#005f53] hover:bg-[#0f7a6b] text-white font-bold text-base shadow-md cursor-pointer transition-all active:scale-95"
                     >
-                      Confirm Selected ({selectedMultiCodes.length})
+                      {t('intake.confirm_choices', language)} ({selectedMultiCodes.length})
                     </button>
                   </div>
                 )}
@@ -329,7 +331,7 @@ export default function AyushIntakePage() {
               <div className="w-full mb-6">
                 <input
                   type="text"
-                  placeholder="Type or speak your answer..."
+                  placeholder={t('intake.type_or_speak', language)}
                   value={freeTextAnswer}
                   onChange={(e) => setFreeTextAnswer(e.target.value)}
                   className="w-full h-16 px-6 rounded-2xl border-2 border-[#005f53] text-lg bg-white focus:outline-none shadow-sm"
@@ -344,14 +346,14 @@ export default function AyushIntakePage() {
                 onClick={() => submitAyushAnswer([], null, 'UNKNOWN')}
                 className="px-4 py-2 rounded-full bg-[#eceeee] hover:bg-[#e1e3e3] text-[#3e4946] text-xs font-bold transition-all cursor-pointer"
               >
-                Not sure / Don&apos;t know
+                {t('intake.not_sure', language)}
               </button>
               <button
                 type="button"
                 onClick={() => submitAyushAnswer([], null, 'REFUSED')}
                 className="px-4 py-2 rounded-full bg-[#eceeee] hover:bg-[#e1e3e3] text-[#3e4946] text-xs font-bold transition-all cursor-pointer"
               >
-                Prefer not to say
+                {t('intake.prefer_not_say', language)}
               </button>
             </div>
 
@@ -368,7 +370,7 @@ export default function AyushIntakePage() {
       <KioskFooter
         onNext={() => submitAyushAnswer()}
         onBack={handleBack}
-        nextText={loading ? 'Processing...' : 'Next Parameter'}
+        nextText={loading ? t('intake.btn_processing', language) : t('nav.next', language)}
       />
     </div>
   );

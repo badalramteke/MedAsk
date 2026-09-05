@@ -26,6 +26,7 @@ export interface FlowState {
   setCurrentScreen: (screenId: string) => void;
   getNextRoute: () => string;
   getPreviousRoute: () => string;
+  goBack: () => string;
   resetFlow: () => void;
 }
 
@@ -82,6 +83,30 @@ export const useFlowStore = create<FlowState>((set, get) => ({
       const allScreens = getAllScreensFlat();
       const prevScreen = allScreens.find((s) => s.id === prevId);
       if (prevScreen) return prevScreen.route;
+    }
+    return '/';
+  },
+
+  goBack: () => {
+    const { screenHistory } = get();
+    if (screenHistory.length > 1) {
+      const newHistory = [...screenHistory];
+      newHistory.pop();
+      const prevId = newHistory[newHistory.length - 1];
+      const allScreens = getAllScreensFlat();
+      const prevScreen = allScreens.find((s) => s.id === prevId);
+      const stage = getStageForScreen(prevId);
+      const stageIdx = stage
+        ? PATIENT_FLOW.findIndex((s) => s.key === stage.key)
+        : 0;
+
+      set({
+        screenHistory: newHistory,
+        currentScreenId: prevId,
+        currentStageIndex: stageIdx >= 0 ? stageIdx : 0,
+      });
+
+      return prevScreen?.route || '/';
     }
     return '/';
   },

@@ -22,6 +22,7 @@ export interface VoiceState {
   setInterimTranscript: (text: string) => void;
   setVoiceAction: (action: string | null) => void;
   setError: (msg: string | null) => void;
+  clearTranscript: () => void;
   resetVoice: () => void;
 }
 
@@ -41,6 +42,7 @@ export const useVoiceStore = create<VoiceState>((set) => ({
   setInterimTranscript: (interimTranscript) => set({ interimTranscript }),
   setVoiceAction: (lastVoiceAction) => set({ lastVoiceAction }),
   setError: (errorMessage) => set({ errorMessage }),
+  clearTranscript: () => set({ transcript: '', interimTranscript: '' }),
   resetVoice: () =>
     set({
       isListening: false,

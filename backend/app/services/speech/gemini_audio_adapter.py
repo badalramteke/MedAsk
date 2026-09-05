@@ -11,7 +11,7 @@ class GeminiAudioAdapter(BaseSpeechAdapter):
     """
     def __init__(self):
         super().__init__(name="GEMINI_AUDIO")
-        self.api_key = os.getenv("GEMINI_API_KEY", "")
+        self.api_key = os.getenv("GEMINI_API_KEY", "") or os.getenv("GOOGLE_API_KEY", "")
         self.model_name = os.getenv("GEMINI_AUDIO_MODEL", "gemini-1.5-flash")
         self.endpoint = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model_name}:generateContent"
         self.timeout = float(os.getenv("GEMINI_AUDIO_TIMEOUT", "12.0"))

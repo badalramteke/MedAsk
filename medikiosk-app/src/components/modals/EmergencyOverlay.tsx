@@ -8,6 +8,8 @@
 
 import { useSessionStore } from '@/stores/useSessionStore';
 import { AlertOctagon, PhoneCall, CheckCircle, ArrowRight } from 'lucide-react';
+import { EmergencyPost, Nurse } from '@/components/icons/ClinicalIcon';
+import { t } from '@/lib/i18n';
 
 interface EmergencyOverlayProps {
   reason?: string;
@@ -20,7 +22,7 @@ export default function EmergencyOverlay({
   onStaffCalled,
   onDismiss,
 }: EmergencyOverlayProps) {
-  const { isEmergency, emergencyReason, clearEmergency } = useSessionStore();
+  const { isEmergency, emergencyReason, clearEmergency, language } = useSessionStore();
 
   if (!isEmergency) return null;
 
@@ -44,22 +46,22 @@ export default function EmergencyOverlay({
       <div className="bg-white rounded-3xl max-w-2xl w-full p-8 md:p-12 shadow-2xl border-4 border-[#aa0a17] text-center flex flex-col items-center gap-6 animate-emergency-flash">
         {/* Pulsing Emergency Icon */}
         <div className="w-24 h-24 rounded-full bg-[#ce2b2c]/15 flex items-center justify-center">
-          <AlertOctagon className="w-14 h-14 text-[#aa0a17] animate-pulse" />
+          <EmergencyPost className="w-14 h-14 text-[#aa0a17] animate-pulse" />
         </div>
 
         <div>
           <h2 className="text-3xl md:text-4xl font-black text-[#aa0a17] tracking-tight">
-            EMERGENCY SYMPTOM DETECTED
+            {t('triage.emergency_priority', language)}
           </h2>
           <p className="text-xl md:text-2xl font-bold text-[#191c1d] mt-2">
-            आपातकालीन लक्षण पहचाने गए
+            {t('triage.symptoms_detected', language)}
           </p>
         </div>
 
         {/* Reason Card */}
         <div className="w-full p-4 rounded-2xl bg-[#ffdad6]/60 border border-[#ba1a1a]/30 text-left">
           <span className="text-xs font-bold uppercase tracking-wider text-[#93000a]">
-            Clinical Red-Flag Trigger:
+            {t('triage.detected_label', language)}
           </span>
           <p className="text-base font-semibold text-[#410003] mt-1">
             {displayReason}
@@ -73,7 +75,7 @@ export default function EmergencyOverlay({
               1
             </div>
             <p className="text-base font-medium text-[#191c1d]">
-              Please proceed immediately to the <strong>Emergency Room / Triage Desk</strong>.
+              {t('triage.do_not_wait', language)}
             </p>
           </div>
           <div className="flex items-start gap-3">
@@ -81,7 +83,7 @@ export default function EmergencyOverlay({
               2
             </div>
             <p className="text-base font-medium text-[#191c1d]">
-              An automated high-priority alert has been dispatched to the nursing triage station.
+              {t('triage.proceed_casualty', language)}
             </p>
           </div>
         </div>
@@ -97,8 +99,8 @@ export default function EmergencyOverlay({
             onClick={onStaffCalled}
             className="flex-1 h-16 rounded-full bg-[#aa0a17] hover:bg-[#8e0813] text-white font-bold text-lg flex items-center justify-center gap-3 shadow-lg active:scale-95 transition-all cursor-pointer"
           >
-            <PhoneCall className="w-6 h-6 animate-bounce" />
-            <span>Call Floor Nurse</span>
+            <Nurse className="w-6 h-6 animate-bounce" />
+            <span>{t('triage.call_staff', language)}</span>
           </button>
 
           <button
@@ -110,7 +112,7 @@ export default function EmergencyOverlay({
             onClick={handleDismiss}
             className="h-16 px-8 rounded-full border-2 border-[#bdc9c5] hover:bg-[#eceeee] text-[#3e4946] font-bold text-base flex items-center justify-center active:scale-95 transition-all cursor-pointer"
           >
-            <span>Acknowledge & Exit</span>
+            <span>{t('complete.exit', language)}</span>
           </button>
         </div>
       </div>

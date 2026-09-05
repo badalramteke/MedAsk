@@ -29,8 +29,8 @@ export default function KioskFooter({
   hideBack = false,
   hideNext = false,
 }: KioskFooterProps) {
-  const { language } = useSessionStore();
-  const { isListening } = useVoiceStore();
+  const language = useSessionStore((s) => s.language);
+  const isListening = useVoiceStore((s) => s.isListening);
 
   return (
     <footer
@@ -61,12 +61,12 @@ export default function KioskFooter({
       <div className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-[#f2f4f4] border border-[#bdc9c5]/40 text-xs font-semibold text-[#3e4946]">
         <div className="flex items-center gap-1.5">
           <Touchpad className="w-4 h-4 text-[#005f53]" />
-          <span>Touch</span>
+          <span>{t('footer.touch', language)}</span>
         </div>
         <span className="text-[#bdc9c5]">•</span>
         <div className="flex items-center gap-1.5">
           <Mic className={`w-4 h-4 ${isListening ? 'text-[#aa0a17] animate-pulse' : 'text-[#005f53]'}`} />
-          <span>{isListening ? 'Listening' : 'Voice Active'}</span>
+          <span>{isListening ? t('footer.listening', language) : t('footer.voice_active', language)}</span>
         </div>
       </div>
 

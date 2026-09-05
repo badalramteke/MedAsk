@@ -18,15 +18,20 @@ import { useTTS } from '@/hooks/useTTS';
 import { documentService } from '@/services/documentService';
 import { t } from '@/lib/i18n';
 import { Camera, Upload, FileText, CheckCircle2, Sparkles, RefreshCw, X } from 'lucide-react';
+import { DocTypeIcon } from '@/components/icons/ClinicalIcon';
 
 type DocType = 'PRESCRIPTION' | 'LAB_REPORT' | 'DISCHARGE_SUMMARY' | 'IMAGING';
 
 export default function DocumentScanPage() {
   const router = useRouter();
-  const { language, sessionId } = useSessionStore();
+  const { language, sessionId, intakeMode } = useSessionStore();
   const { setCurrentScreen } = useFlowStore();
   const { uploadedDocuments, addUploadedDocument } = useIntakeStore();
   const { speak, stop } = useTTS();
+
+  useEffect(() => {
+    setCurrentScreen('document_scanner');
+  }, [setCurrentScreen]);
 
   const [selectedType, setSelectedType] = useState<DocType>('PRESCRIPTION');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -106,7 +111,13 @@ export default function DocumentScanPage() {
 
   const handleBack = () => {
     stop();
-    router.back();
+    if (intakeMode === 'AYUSH') {
+      setCurrentScreen('ayush_assessment');
+      router.push('/intake/ayush');
+    } else {
+      setCurrentScreen('chief_complaint');
+      router.push('/intake/symptoms');
+    }
   };
 
   return (
@@ -119,7 +130,7 @@ export default function DocumentScanPage() {
         <div className="text-center mb-4">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#005f53]/10 text-[#005f53] font-bold text-xs uppercase tracking-wider mb-2">
             <Sparkles className="w-4 h-4" />
-            <span>MedGemma Multimodal Document OCR</span>
+            <span>{t('documents.badge', language)}</span>
           </div>
           <h1 className="text-2xl md:text-3xl font-black text-[#191c1d] tracking-tight">
             {t('documents.title', language)}
@@ -132,30 +143,37 @@ export default function DocumentScanPage() {
         {/* 4 Document Type Selector Chips */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
           {[
-            { id: 'PRESCRIPTION', label: 'Prescription (Rx)', icon: '💊' },
-            { id: 'LAB_REPORT', label: 'Lab Report (Blood/Urine)', icon: '🧪' },
-            { id: 'DISCHARGE_SUMMARY', label: 'Discharge Summary', icon: '📋' },
-            { id: 'IMAGING', label: 'X-Ray / Imaging', icon: '🩻' },
-          ].map((type) => (
-            <button
-              key={type.id}
-              type="button"
-              id={`doc-type-${type.id.toLowerCase()}`}
-              data-element={`doc-type-${type.id.toLowerCase()}-btn`}
-              data-voice-action="select-item"
-              data-voice-param={type.label.toLowerCase()}
-              data-voice-label={type.label}
-              onClick={() => setSelectedType(type.id as DocType)}
-              className={`h-14 rounded-2xl font-bold text-xs md:text-sm flex items-center justify-center gap-2 border transition-all cursor-pointer ${
-                selectedType === type.id
-                  ? 'bg-[#005f53] text-white border-transparent shadow-md'
-                  : 'bg-white hover:bg-[#eceeee] text-[#191c1d] border-[#bdc9c5]/60'
-              }`}
-            >
-              <span>{type.icon}</span>
-              <span>{type.label}</span>
-            </button>
-          ))}
+            { id: 'PRESCRIPTION', labelKey: 'documents.type_prescription', defaultLabel: 'Prescription (Rx)' },
+            { id: 'LAB_REPORT', labelKey: 'documents.type_lab', defaultLabel: 'Lab Report (Blood/Urine)' },
+            { id: 'DISCHARGE_SUMMARY', labelKey: 'documents.type_discharge', defaultLabel: 'Discharge Summary' },
+            { id: 'IMAGING', labelKey: 'documents.type_imaging', defaultLabel: 'X-Ray / Imaging' },
+          ].map((type) => {
+            const labelText = t(type.labelKey, language) || type.defaultLabel;
+            const isSelected = selectedType === type.id;
+            return (
+              <button
+                key={type.id}
+                type="button"
+                id={`doc-type-${type.id.toLowerCase()}`}
+                data-element={`doc-type-${type.id.toLowerCase()}-btn`}
+                data-voice-action="select-item"
+                data-voice-param={type.defaultLabel.toLowerCase()}
+                data-voice-label={labelText}
+                onClick={() => setSelectedType(type.id as DocType)}
+                className={`h-14 rounded-2xl font-bold text-xs md:text-sm flex items-center justify-center gap-2 border transition-all cursor-pointer ${
+                  isSelected
+                    ? 'bg-[#005f53] text-white border-transparent shadow-md'
+                    : 'bg-white hover:bg-[#eceeee] text-[#191c1d] border-[#bdc9c5]/60'
+                }`}
+              >
+                <DocTypeIcon
+                  type={type.id}
+                  className={`w-5 h-5 flex-shrink-0 ${isSelected ? 'text-white' : 'text-[#005f53]'}`}
+                />
+                <span>{labelText}</span>
+              </button>
+            );
+          })}
         </div>
 
         {/* Scanner Viewfinder / Upload Box */}
@@ -165,11 +183,8 @@ export default function DocumentScanPage() {
               <div className="flex flex-col items-center gap-3 animate-fade-in-up">
                 <RefreshCw className="w-12 h-12 text-[#005f53] animate-spin" />
                 <h3 className="text-lg font-bold text-[#191c1d]">
-                  Extracting Clinical Entities...
+                  {t('documents.processing', language)}
                 </h3>
-                <p className="text-xs text-[#3e4946]">
-                  Parsing handwriting, medications, dosages, and abnormal lab values.
-                </p>
               </div>
             ) : (
               <>
@@ -177,10 +192,10 @@ export default function DocumentScanPage() {
                   <Camera className="w-8 h-8" />
                 </div>
                 <h3 className="text-lg font-bold text-[#191c1d]">
-                  Place physical paper on the scanner bed
+                  {t('documents.title', language)}
                 </h3>
                 <p className="text-xs text-[#3e4946] max-w-md mt-1 mb-4">
-                  Or tap below to take a photo or select an existing document file.
+                  {t('documents.subtitle', language)}
                 </p>
 
                 <div className="flex gap-3">
@@ -193,7 +208,7 @@ export default function DocumentScanPage() {
                     className="h-12 px-6 rounded-full bg-[#005f53] hover:bg-[#0c6b5e] text-white font-bold text-sm flex items-center gap-2 shadow-md cursor-pointer active:scale-95 transition-transform"
                   >
                     <Camera className="w-4 h-4" />
-                    <span>Scan Document</span>
+                    <span>{t('documents.capture', language)}</span>
                   </button>
 
                   <input
@@ -213,7 +228,7 @@ export default function DocumentScanPage() {
                     className="h-12 px-6 rounded-full border border-[#bdc9c5] hover:bg-[#eceeee] text-[#191c1d] font-bold text-sm flex items-center gap-2 cursor-pointer active:scale-95 transition-transform"
                   >
                     <Upload className="w-4 h-4 text-[#3e4946]" />
-                    <span>Upload File</span>
+                    <span>{t('documents.upload', language)}</span>
                   </button>
                 </div>
               </>
@@ -230,7 +245,7 @@ export default function DocumentScanPage() {
                 >
                   <CheckCircle2 className="w-4 h-4" />
                   <span>
-                    {doc.type} #{idx + 1} Extracted
+                    {doc.type} #{idx + 1} — {t('documents.ready_review', language)}
                   </span>
                 </div>
               ))}
@@ -247,7 +262,7 @@ export default function DocumentScanPage() {
             onClick={handleSkip}
             className="text-xs text-[#3e4946] hover:text-[#005f53] font-semibold underline cursor-pointer"
           >
-            I don&apos;t have any previous documents to scan → Skip to Summary
+            {t('documents.skip', language)}
           </button>
         </div>
       </main>
@@ -255,7 +270,7 @@ export default function DocumentScanPage() {
       <KioskFooter
         onNext={uploadedDocuments.length > 0 ? handleProceed : handleSkip}
         onBack={handleBack}
-        nextText={uploadedDocuments.length > 0 ? 'Review Extracted Records' : 'Skip & Continue'}
+        nextText={uploadedDocuments.length > 0 ? t('nav.continue', language) : t('nav.skip', language)}
       />
     </div>
   );

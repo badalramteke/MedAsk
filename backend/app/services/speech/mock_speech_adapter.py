@@ -7,12 +7,8 @@ from app.services.speech.base_speech import BaseSpeechAdapter
 def generate_synthetic_wav_bytes(duration_seconds: float = 1.0, sample_rate: int = 16000) -> bytes:
     """Generate a standard valid binary 16-bit mono PCM WAV file in memory."""
     num_samples = int(sample_rate * duration_seconds)
-    audio_data = bytearray()
-    
-    # Generate a soft 440Hz sine wave beep
-    for i in range(num_samples):
-        sample = int(16000 * math.sin(2 * math.pi * 440 * i / sample_rate))
-        audio_data.extend(struct.pack("<h", sample))
+    # Generate silent PCM audio (zero amplitude, no beep sound)
+    audio_data = bytearray(num_samples * 2)
 
     data_size = len(audio_data)
     total_file_size = data_size + 36

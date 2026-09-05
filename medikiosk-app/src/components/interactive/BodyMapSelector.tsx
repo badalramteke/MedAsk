@@ -8,6 +8,9 @@
 
 import { useState } from 'react';
 import { MapPin } from 'lucide-react';
+import { BodyRegionIcon } from '@/components/icons/ClinicalIcon';
+import { useSessionStore } from '@/stores/useSessionStore';
+import { t } from '@/lib/i18n';
 
 interface BodyMapSelectorProps {
   selectedRegion: string | null;
@@ -30,6 +33,7 @@ export default function BodyMapSelector({
   selectedRegion,
   onSelectRegion,
 }: BodyMapSelectorProps) {
+  const language = useSessionStore((s) => s.language);
   const [clickPoint, setClickPoint] = useState<{ x: number; y: number } | null>(null);
 
   const handleDiagramClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -96,7 +100,7 @@ export default function BodyMapSelector({
         )}
 
         <div className="absolute bottom-3 text-center w-full text-[11px] font-semibold text-[#3e4946] bg-white/75 backdrop-blur-xs py-1">
-          Tap on body where pain occurs
+          {t('body.tap_hint', language)}
         </div>
       </div>
 
@@ -113,13 +117,19 @@ export default function BodyMapSelector({
               data-voice-action={`select-region-${reg.id}`}
               data-testid={`body-region-${reg.id}`}
               onClick={() => onSelectRegion(reg.id)}
-              className={`h-16 px-4 rounded-2xl font-bold text-sm flex items-center justify-center text-center transition-all cursor-pointer border ${
+              className={`h-16 px-4 rounded-2xl font-bold text-sm flex items-center justify-center gap-2 text-center transition-all cursor-pointer border group ${
                 isSelected
                   ? 'bg-[#005f53] text-white border-transparent shadow-md scale-102 ring-2 ring-[#005f53]/30'
                   : 'bg-white hover:bg-[#eceeee] text-[#191c1d] border-[#bdc9c5]/60 hover:border-[#005f53]'
               }`}
             >
-              {reg.name}
+              <BodyRegionIcon
+                region={reg.id}
+                className={`w-6 h-6 flex-shrink-0 transition-transform group-hover:scale-110 ${
+                  isSelected ? 'text-white' : 'text-[#005f53]'
+                }`}
+              />
+              <span className="leading-tight">{t(`body.${reg.id}`, language) || reg.name}</span>
             </button>
           );
         })}

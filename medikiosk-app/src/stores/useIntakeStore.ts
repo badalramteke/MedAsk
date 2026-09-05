@@ -10,8 +10,11 @@ import type {
   DocumentTimelineEntry,
 } from '@/lib/types';
 
+export type SymptomsTab = 'COMPLAINT' | 'BODY_MAP' | 'PAIN_SCALE' | 'ADAPTIVE_QUESTION';
+
 export interface IntakeState {
   // Chief Complaint & Symptoms
+  symptomsTab: SymptomsTab;
   chiefComplaint: string;
   bodyRegion: string | null;
   painSeverity: number; // 0 to 10
@@ -23,8 +26,12 @@ export interface IntakeState {
   // AYUSH Assessment
   ayushAnswers: Record<string, string | string[]>;
 
-  // Active Adaptive Question
+  // Active Adaptive Question & History Stack
   activeQuestion: QuestionResponse | null;
+  questionHistory: QuestionResponse[];
+  freeTextAnswer: string;
+  selectedOptionCode: string | null;
+  selectedMultiCodes: string[];
 
   // Medical Documents & OCR
   uploadedDocuments: Array<{
@@ -40,6 +47,7 @@ export interface IntakeState {
   clinicalSummary: ClinicalSummary | null;
 
   // Actions
+  setSymptomsTab: (tab: SymptomsTab) => void;
   setChiefComplaint: (complaint: string) => void;
   setBodyRegion: (region: string) => void;
   setPainSeverity: (severity: number) => void;
@@ -48,6 +56,11 @@ export interface IntakeState {
   setSocratesAnswer: (key: string, val: string) => void;
   setAyushAnswer: (key: string, val: string | string[]) => void;
   setActiveQuestion: (q: QuestionResponse | null) => void;
+  pushQuestionHistory: (q: QuestionResponse) => void;
+  popQuestionHistory: () => QuestionResponse | undefined;
+  setFreeTextAnswer: (text: string) => void;
+  setSelectedOptionCode: (code: string | null) => void;
+  setSelectedMultiCodes: (codes: string[]) => void;
   addUploadedDocument: (doc: {
     id: string;
     filename: string;
@@ -61,6 +74,7 @@ export interface IntakeState {
 }
 
 export const useIntakeStore = create<IntakeState>((set) => ({
+  symptomsTab: 'COMPLAINT',
   chiefComplaint: '',
   bodyRegion: null,
   painSeverity: 0,
@@ -68,10 +82,15 @@ export const useIntakeStore = create<IntakeState>((set) => ({
   socratesAnswers: {},
   ayushAnswers: {},
   activeQuestion: null,
+  questionHistory: [],
+  freeTextAnswer: '',
+  selectedOptionCode: null,
+  selectedMultiCodes: [],
   uploadedDocuments: [],
   recordsTimeline: [],
   clinicalSummary: null,
 
+  setSymptomsTab: (symptomsTab) => set({ symptomsTab }),
   setChiefComplaint: (chiefComplaint) => set({ chiefComplaint }),
   setBodyRegion: (bodyRegion) => set({ bodyRegion }),
   setPainSeverity: (painSeverity) => set({ painSeverity }),
@@ -94,6 +113,23 @@ export const useIntakeStore = create<IntakeState>((set) => ({
       ayushAnswers: { ...state.ayushAnswers, [key]: val },
     })),
   setActiveQuestion: (activeQuestion) => set({ activeQuestion }),
+  pushQuestionHistory: (q) =>
+    set((state) => ({
+      questionHistory: [...state.questionHistory, q],
+    })),
+  popQuestionHistory: () => {
+    let popped: QuestionResponse | undefined;
+    set((state) => {
+      if (state.questionHistory.length === 0) return state;
+      const historyCopy = [...state.questionHistory];
+      popped = historyCopy.pop();
+      return { questionHistory: historyCopy };
+    });
+    return popped;
+  },
+  setFreeTextAnswer: (freeTextAnswer) => set({ freeTextAnswer }),
+  setSelectedOptionCode: (selectedOptionCode) => set({ selectedOptionCode }),
+  setSelectedMultiCodes: (selectedMultiCodes) => set({ selectedMultiCodes }),
   addUploadedDocument: (doc) =>
     set((state) => ({
       uploadedDocuments: [...state.uploadedDocuments, doc],
@@ -102,6 +138,7 @@ export const useIntakeStore = create<IntakeState>((set) => ({
   setClinicalSummary: (clinicalSummary) => set({ clinicalSummary }),
   resetIntake: () =>
     set({
+      symptomsTab: 'COMPLAINT',
       chiefComplaint: '',
       bodyRegion: null,
       painSeverity: 0,
@@ -109,6 +146,10 @@ export const useIntakeStore = create<IntakeState>((set) => ({
       socratesAnswers: {},
       ayushAnswers: {},
       activeQuestion: null,
+      questionHistory: [],
+      freeTextAnswer: '',
+      selectedOptionCode: null,
+      selectedMultiCodes: [],
       uploadedDocuments: [],
       recordsTimeline: [],
       clinicalSummary: null,
